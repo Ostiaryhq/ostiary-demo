@@ -1,8 +1,10 @@
 import { adminNeedsTwoFactor } from "@ostiary/core/lib/admin/admin-two-factor";
 import { isPlatformAdmin } from "@ostiary/core/lib/admin/user-has-admin-role";
+import { isDemoAdmin } from "@ostiary/core/lib/demo";
 import { env } from "@ostiary/core/lib/env";
 
 type AdminCandidate = {
+  email?: string | null;
   role?: string | null;
   twoFactorEnabled?: boolean | null;
 };
@@ -25,6 +27,7 @@ export function adminAccess(
 ): AdminAccess {
   if (!user) return "signed_out";
   if (!isPlatformAdmin(user.role)) return "not_admin";
-  if (adminNeedsTwoFactor(user, requireTwoFactor)) return "needs_2fa";
+  // The read-only demo admin (DEMO_MODE) cannot turn two-factor on: its sign-in methods are locked.
+  if (adminNeedsTwoFactor(user, requireTwoFactor) && !isDemoAdmin(user)) return "needs_2fa";
   return "ok";
 }

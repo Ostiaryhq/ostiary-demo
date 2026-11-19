@@ -42,7 +42,15 @@
         "invalidEmail": "올바른 이메일 주소를 입력하세요.",
         "error": "이메일을 보낼 수 없습니다. 잠시 후 다시 시도하세요."
       },
-      "addAccountDescription": "이 브라우저에 이미 로그인된 계정은 로그인 상태로 유지됩니다."
+      "addAccountDescription": "이 브라우저에 이미 로그인된 계정은 로그인 상태로 유지됩니다.",
+      "demo": {
+        "title": "데모 체험하기",
+        "description": "업데이트할 때마다 초기화되는 공유 예시 계정입니다. 비밀번호, 이메일, 로그인 방법은 변경할 수 없습니다.",
+        "user": "계정 대시보드",
+        "admin": "관리자 콘솔(읽기 전용)",
+        "use": "사용",
+        "useLabel": "{email}(으)로 채우기"
+      }
     },
     "emailCode": {
       "title": "코드로 로그인",
@@ -1982,7 +1990,8 @@
         "next": "다음",
         "pageOf": "{page} / {pages} 페이지",
         "showing": "{total}명 중 {from}-{to}"
-      }
+      },
+      "demoReadOnly": "데모 관리자 콘솔은 읽기 전용입니다."
     },
     "urlCheck": {
       "tooLong": "URL이 너무 깁니다.",
@@ -2001,6 +2010,10 @@
       "userMenu": {
         "home": "홈",
         "logOut": "로그아웃"
+      },
+      "demo": {
+        "title": "읽기 전용 데모",
+        "body": "콘솔 전체를 둘러볼 수 있습니다. 변경은 거부됩니다."
       }
     }
   },
@@ -2381,6 +2394,12 @@
     "impersonation": {
       "viewingAs": "<strong>{email}</strong>(으)로 이 계정을 보고 있습니다.",
       "stop": "대리 로그인 중지"
+    },
+    "demo": {
+      "title": "데모 계정",
+      "userBody": "모두가 이 계정으로 로그인합니다. 비밀번호, 이메일, 로그인 방법은 변경할 수 없으며 업데이트할 때마다 초기화됩니다.",
+      "adminBody": "모두가 이 계정으로 로그인합니다. 관리자 콘솔을 열어 모든 것을 볼 수 있지만 아무것도 변경할 수 없습니다.",
+      "adminLink": "관리자 콘솔 열기"
     }
   },
   "acceptInvitation": {
@@ -2692,6 +2711,9 @@
     "impersonating": "관리자가 계정을 보고 있는 동안에는 이 작업을 할 수 없습니다.",
     "emailNotVerified": "먼저 이메일 주소를 인증하세요.",
     "invalidToken": "이 링크는 유효하지 않거나 만료되었습니다.",
-    "publicOrganization": "Public 조직의 멤버는 플랫폼 관리자만 관리합니다."
+    "publicOrganization": "Public 조직의 멤버는 플랫폼 관리자만 관리합니다.",
+    "demoLocked": "데모 계정의 비밀번호, 이메일, 로그인 방법은 그대로 유지됩니다.",
+    "demoReadOnly": "데모 관리자 콘솔은 읽기 전용입니다.",
+    "demoSignUpClosed": "이 데모에서는 가입이 닫혀 있습니다. 예시 계정 중 하나로 로그인하세요."
   }
 }

@@ -42,7 +42,15 @@
         "invalidEmail": "Geçerli bir e-posta adresi girin.",
         "error": "E-posta gönderilemedi. Bir dakika sonra tekrar deneyin."
       },
-      "addAccountDescription": "Bu tarayıcıda oturumu açık olan hesaplar açık kalır."
+      "addAccountDescription": "Bu tarayıcıda oturumu açık olan hesaplar açık kalır.",
+      "demo": {
+        "title": "Demoyu deneyin",
+        "description": "Her güncellemede sıfırlanan ortak örnek hesaplar. Parola, e-posta adresi ve oturum açma yöntemleri değiştirilemez.",
+        "user": "Hesap paneli",
+        "admin": "Yönetim konsolu (salt okunur)",
+        "use": "Kullan",
+        "useLabel": "{email} ile doldur"
+      }
     },
     "emailCode": {
       "title": "Kodla giriş yap",
@@ -1982,7 +1990,8 @@
         "next": "Sonraki",
         "pageOf": "Sayfa {page} / {pages}",
         "showing": "{total} kayıttan {from}-{to} arası gösteriliyor"
-      }
+      },
+      "demoReadOnly": "Demo yönetim konsolu salt okunurdur."
     },
     "urlCheck": {
       "tooLong": "URL çok uzun.",
@@ -2001,6 +2010,10 @@
       "userMenu": {
         "home": "Ana sayfa",
         "logOut": "Çıkış yap"
+      },
+      "demo": {
+        "title": "Salt okunur demo",
+        "body": "Konsolun tamamını gezebilirsiniz. Değişiklikler reddedilir."
       }
     }
   },
@@ -2381,6 +2394,12 @@
     "impersonation": {
       "viewingAs": "Bu hesabı <strong>{email}</strong> olarak görüntülüyorsunuz.",
       "stop": "Kimliğe bürünmeyi durdur"
+    },
+    "demo": {
+      "title": "Demo hesap",
+      "userBody": "Herkes bu hesapla oturum açar. Parolası, e-posta adresi ve oturum açma yöntemleri değiştirilemez ve her güncellemede sıfırlanır.",
+      "adminBody": "Herkes bu hesapla oturum açar. Yönetim konsolunu açıp her şeyi görebilir ama hiçbir şeyi değiştiremez.",
+      "adminLink": "Yönetim konsolunu aç"
     }
   },
   "acceptInvitation": {
@@ -2692,6 +2711,9 @@
     "impersonating": "Bir yönetici hesabı görüntülerken bu yapılamaz.",
     "emailNotVerified": "Önce e-posta adresinizi doğrulayın.",
     "invalidToken": "Bu bağlantı geçersiz veya süresi dolmuş.",
-    "publicOrganization": "Public kuruluşunun üyelerini yalnızca platform yöneticileri yönetir."
+    "publicOrganization": "Public kuruluşunun üyelerini yalnızca platform yöneticileri yönetir.",
+    "demoLocked": "Demo hesaplar parolalarını, e-posta adreslerini ve oturum açma yöntemlerini korur.",
+    "demoReadOnly": "Demo yönetim konsolu salt okunurdur.",
+    "demoSignUpClosed": "Bu demoda kayıt kapalı. Örnek hesaplardan biriyle oturum açın."
   }
 }

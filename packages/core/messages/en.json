@@ -42,7 +42,15 @@
         "invalidEmail": "Enter a valid email address.",
         "error": "Could not send the email. Try again in a minute."
       },
-      "addAccountDescription": "Accounts already signed in on this browser stay signed in."
+      "addAccountDescription": "Accounts already signed in on this browser stay signed in.",
+      "demo": {
+        "title": "Try the demo",
+        "description": "Shared example accounts, reset on every update. Their password, email and sign-in methods can't be changed.",
+        "user": "Account dashboard",
+        "admin": "Admin console (read-only)",
+        "use": "Use",
+        "useLabel": "Fill in {email}"
+      }
     },
     "emailCode": {
       "title": "Sign in with a code",
@@ -1982,7 +1990,8 @@
         "next": "Next",
         "pageOf": "Page {page} / {pages}",
         "showing": "Showing {from}-{to} of {total}"
-      }
+      },
+      "demoReadOnly": "The demo admin console is read-only."
     },
     "urlCheck": {
       "tooLong": "The URL is too long.",
@@ -2001,6 +2010,10 @@
       "userMenu": {
         "home": "Home",
         "logOut": "Log out"
+      },
+      "demo": {
+        "title": "Read-only demo",
+        "body": "You can look around the whole console. Changes are refused."
       }
     }
   },
@@ -2381,6 +2394,12 @@
     "impersonation": {
       "viewingAs": "You are viewing this account as <strong>{email}</strong>.",
       "stop": "Stop impersonating"
+    },
+    "demo": {
+      "title": "Demo account",
+      "userBody": "Everyone signs in to this account. Its password, email and sign-in methods can't be changed, and it is reset on every update.",
+      "adminBody": "Everyone signs in to this account. It can open the admin console and see everything there, but not change anything.",
+      "adminLink": "Open the admin console"
     }
   },
   "acceptInvitation": {
@@ -2692,6 +2711,9 @@
     "impersonating": "This can't be done while an administrator is viewing the account.",
     "emailNotVerified": "Verify your email address first.",
     "invalidToken": "This link is invalid or has expired.",
-    "publicOrganization": "The Public organization's members are managed by platform admins only."
+    "publicOrganization": "The Public organization's members are managed by platform admins only.",
+    "demoLocked": "The demo accounts keep their password, email and sign-in methods.",
+    "demoReadOnly": "The demo admin console is read-only.",
+    "demoSignUpClosed": "Sign-up is closed on this demo. Sign in with one of the example accounts."
   }
 }

@@ -42,7 +42,15 @@
         "invalidEmail": "Voer een geldig e-mailadres in.",
         "error": "De e-mail kon niet worden verstuurd. Probeer het over een minuut opnieuw."
       },
-      "addAccountDescription": "Accounts die al zijn aangemeld in deze browser blijven aangemeld."
+      "addAccountDescription": "Accounts die al zijn aangemeld in deze browser blijven aangemeld.",
+      "demo": {
+        "title": "Probeer de demo",
+        "description": "Gedeelde voorbeeldaccounts, teruggezet bij elke update. Wachtwoord, e-mailadres en aanmeldmethoden kunnen niet worden gewijzigd.",
+        "user": "Accountdashboard",
+        "admin": "Beheerconsole (alleen-lezen)",
+        "use": "Gebruiken",
+        "useLabel": "Invullen met {email}"
+      }
     },
     "emailCode": {
       "title": "Inloggen met een code",
@@ -1982,7 +1990,8 @@
         "next": "Volgende",
         "pageOf": "Pagina {page} / {pages}",
         "showing": "{from}-{to} van {total} weergegeven"
-      }
+      },
+      "demoReadOnly": "De demo-beheerconsole is alleen-lezen."
     },
     "urlCheck": {
       "tooLong": "De URL is te lang.",
@@ -2001,6 +2010,10 @@
       "userMenu": {
         "home": "Start",
         "logOut": "Uitloggen"
+      },
+      "demo": {
+        "title": "Alleen-lezen demo",
+        "body": "Je kunt de hele console bekijken. Wijzigingen worden geweigerd."
       }
     }
   },
@@ -2381,6 +2394,12 @@
     "impersonation": {
       "viewingAs": "Je bekijkt dit account als <strong>{email}</strong>.",
       "stop": "Stoppen met meekijken"
+    },
+    "demo": {
+      "title": "Demo-account",
+      "userBody": "Iedereen meldt zich aan bij dit account. Wachtwoord, e-mailadres en aanmeldmethoden kunnen niet worden gewijzigd, en het wordt bij elke update teruggezet.",
+      "adminBody": "Iedereen meldt zich aan bij dit account. Het kan de beheerconsole openen en alles zien, maar niets wijzigen.",
+      "adminLink": "Beheerconsole openen"
     }
   },
   "acceptInvitation": {
@@ -2692,6 +2711,9 @@
     "impersonating": "Dit kan niet terwijl een beheerder het account bekijkt.",
     "emailNotVerified": "Bevestig eerst je e-mailadres.",
     "invalidToken": "Deze link is ongeldig of verlopen.",
-    "publicOrganization": "De leden van de organisatie Public worden alleen door platformbeheerders beheerd."
+    "publicOrganization": "De leden van de organisatie Public worden alleen door platformbeheerders beheerd.",
+    "demoLocked": "De demo-accounts behouden hun wachtwoord, e-mailadres en aanmeldmethoden.",
+    "demoReadOnly": "De demo-beheerconsole is alleen-lezen.",
+    "demoSignUpClosed": "Registreren is gesloten in deze demo. Meld je aan met een van de voorbeeldaccounts."
   }
 }

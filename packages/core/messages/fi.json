@@ -42,7 +42,15 @@
         "invalidEmail": "Anna kelvollinen sähköpostiosoite.",
         "error": "Sähköpostia ei voitu lähettää. Yritä uudelleen hetken kuluttua."
       },
-      "addAccountDescription": "Tässä selaimessa jo kirjautuneet tilit pysyvät kirjautuneina."
+      "addAccountDescription": "Tässä selaimessa jo kirjautuneet tilit pysyvät kirjautuneina.",
+      "demo": {
+        "title": "Kokeile demoa",
+        "description": "Jaettuja esimerkkitilejä, jotka palautetaan jokaisen päivityksen yhteydessä. Salasanaa, sähköpostiosoitetta ja kirjautumistapoja ei voi muuttaa.",
+        "user": "Tilin hallintapaneeli",
+        "admin": "Hallintakonsoli (vain luku)",
+        "use": "Käytä",
+        "useLabel": "Täytä {email}"
+      }
     },
     "emailCode": {
       "title": "Kirjaudu koodilla",
@@ -1982,7 +1990,8 @@
         "next": "Seuraava",
         "pageOf": "Sivu {page} / {pages}",
         "showing": "Näytetään {from}–{to} / {total}"
-      }
+      },
+      "demoReadOnly": "Demon hallintakonsoli on vain luku -tilassa."
     },
     "urlCheck": {
       "tooLong": "URL-osoite on liian pitkä.",
@@ -2001,6 +2010,10 @@
       "userMenu": {
         "home": "Etusivu",
         "logOut": "Kirjaudu ulos"
+      },
+      "demo": {
+        "title": "Vain luku -demo",
+        "body": "Voit tutkia koko konsolia. Muutokset hylätään."
       }
     }
   },
@@ -2381,6 +2394,12 @@
     "impersonation": {
       "viewingAs": "Tarkastelet tätä tiliä käyttäjänä <strong>{email}</strong>.",
       "stop": "Lopeta käyttäjänä toimiminen"
+    },
+    "demo": {
+      "title": "Demotili",
+      "userBody": "Kaikki kirjautuvat tälle tilille. Salasanaa, sähköpostiosoitetta ja kirjautumistapoja ei voi muuttaa, ja tili palautetaan jokaisen päivityksen yhteydessä.",
+      "adminBody": "Kaikki kirjautuvat tälle tilille. Sillä voi avata hallintakonsolin ja nähdä kaiken, mutta ei muuttaa mitään.",
+      "adminLink": "Avaa hallintakonsoli"
     }
   },
   "acceptInvitation": {
@@ -2692,6 +2711,9 @@
     "impersonating": "Tätä ei voi tehdä, kun ylläpitäjä tarkastelee tiliä.",
     "emailNotVerified": "Vahvista ensin sähköpostiosoitteesi.",
     "invalidToken": "Linkki on virheellinen tai vanhentunut.",
-    "publicOrganization": "Public-organisaation jäseniä hallitsevat vain alustan ylläpitäjät."
+    "publicOrganization": "Public-organisaation jäseniä hallitsevat vain alustan ylläpitäjät.",
+    "demoLocked": "Demotilit säilyttävät salasanansa, sähköpostiosoitteensa ja kirjautumistapansa.",
+    "demoReadOnly": "Demon hallintakonsoli on vain luku -tilassa.",
+    "demoSignUpClosed": "Rekisteröityminen on suljettu tässä demossa. Kirjaudu jollakin esimerkkitileistä."
   }
 }

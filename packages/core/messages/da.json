@@ -42,7 +42,15 @@
         "invalidEmail": "Indtast en gyldig e-mailadresse.",
         "error": "E-mailen kunne ikke sendes. Prøv igen om et minut."
       },
-      "addAccountDescription": "Konti, der allerede er logget ind i denne browser, forbliver logget ind."
+      "addAccountDescription": "Konti, der allerede er logget ind i denne browser, forbliver logget ind.",
+      "demo": {
+        "title": "Prøv demoen",
+        "description": "Delte eksempelkonti, der nulstilles ved hver opdatering. Adgangskode, e-mail og loginmetoder kan ikke ændres.",
+        "user": "Kontooversigt",
+        "admin": "Administrationskonsol (skrivebeskyttet)",
+        "use": "Brug",
+        "useLabel": "Udfyld med {email}"
+      }
     },
     "emailCode": {
       "title": "Log ind med en kode",
@@ -1982,7 +1990,8 @@
         "next": "Næste",
         "pageOf": "Side {page} / {pages}",
         "showing": "Viser {from}-{to} af {total}"
-      }
+      },
+      "demoReadOnly": "Demoens administrationskonsol er skrivebeskyttet."
     },
     "urlCheck": {
       "tooLong": "URL'en er for lang.",
@@ -2001,6 +2010,10 @@
       "userMenu": {
         "home": "Hjem",
         "logOut": "Log ud"
+      },
+      "demo": {
+        "title": "Skrivebeskyttet demo",
+        "body": "Du kan se dig omkring i hele konsollen. Ændringer afvises."
       }
     }
   },
@@ -2381,6 +2394,12 @@
     "impersonation": {
       "viewingAs": "Du ser denne konto som <strong>{email}</strong>.",
       "stop": "Stop med at logge ind som bruger"
+    },
+    "demo": {
+      "title": "Demokonto",
+      "userBody": "Alle logger ind på denne konto. Adgangskode, e-mail og loginmetoder kan ikke ændres, og den nulstilles ved hver opdatering.",
+      "adminBody": "Alle logger ind på denne konto. Den kan åbne administrationskonsollen og se alt der, men ikke ændre noget.",
+      "adminLink": "Åbn administrationskonsollen"
     }
   },
   "acceptInvitation": {
@@ -2692,6 +2711,9 @@
     "impersonating": "Det kan ikke lade sig gøre, mens en administrator ser kontoen.",
     "emailNotVerified": "Bekræft din e-mailadresse først.",
     "invalidToken": "Linket er ugyldigt eller udløbet.",
-    "publicOrganization": "Medlemmerne af organisationen Public administreres kun af platformens administratorer."
+    "publicOrganization": "Medlemmerne af organisationen Public administreres kun af platformens administratorer.",
+    "demoLocked": "Demokontiene beholder deres adgangskode, e-mail og loginmetoder.",
+    "demoReadOnly": "Demoens administrationskonsol er skrivebeskyttet.",
+    "demoSignUpClosed": "Tilmelding er lukket i denne demo. Log ind med en af eksempelkontiene."
   }
 }

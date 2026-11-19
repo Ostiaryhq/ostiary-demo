@@ -42,7 +42,15 @@
         "invalidEmail": "Inserisci un indirizzo email valido.",
         "error": "Impossibile inviare l’email. Riprova tra un minuto."
       },
-      "addAccountDescription": "Gli account già connessi su questo browser restano connessi."
+      "addAccountDescription": "Gli account già connessi su questo browser restano connessi.",
+      "demo": {
+        "title": "Prova la demo",
+        "description": "Account di esempio condivisi, reimpostati a ogni aggiornamento. Password, email e metodi di accesso non si possono modificare.",
+        "user": "Dashboard dell'account",
+        "admin": "Console di amministrazione (sola lettura)",
+        "use": "Usa",
+        "useLabel": "Compila con {email}"
+      }
     },
     "emailCode": {
       "title": "Accedi con un codice",
@@ -1982,7 +1990,8 @@
         "next": "Successiva",
         "pageOf": "Pagina {page} / {pages}",
         "showing": "{from}-{to} di {total}"
-      }
+      },
+      "demoReadOnly": "La console di amministrazione demo è di sola lettura."
     },
     "urlCheck": {
       "tooLong": "L’URL è troppo lungo.",
@@ -2001,6 +2010,10 @@
       "userMenu": {
         "home": "Home",
         "logOut": "Esci"
+      },
+      "demo": {
+        "title": "Demo di sola lettura",
+        "body": "Puoi esplorare tutta la console. Le modifiche vengono rifiutate."
       }
     }
   },
@@ -2381,6 +2394,12 @@
     "impersonation": {
       "viewingAs": "Stai visualizzando questo account come <strong>{email}</strong>.",
       "stop": "Termina accesso come utente"
+    },
+    "demo": {
+      "title": "Account demo",
+      "userBody": "Tutti accedono a questo account. Password, email e metodi di accesso non si possono modificare, e viene reimpostato a ogni aggiornamento.",
+      "adminBody": "Tutti accedono a questo account. Può aprire la console di amministrazione e vedere tutto, ma non modificare nulla.",
+      "adminLink": "Apri la console di amministrazione"
     }
   },
   "acceptInvitation": {
@@ -2692,6 +2711,9 @@
     "impersonating": "Non è possibile mentre un amministratore sta visualizzando l'account.",
     "emailNotVerified": "Verifica prima il tuo indirizzo email.",
     "invalidToken": "Questo link non è valido o è scaduto.",
-    "publicOrganization": "I membri dell'organizzazione Public sono gestiti solo dagli amministratori della piattaforma."
+    "publicOrganization": "I membri dell'organizzazione Public sono gestiti solo dagli amministratori della piattaforma.",
+    "demoLocked": "Gli account demo mantengono password, email e metodi di accesso.",
+    "demoReadOnly": "La console di amministrazione demo è di sola lettura.",
+    "demoSignUpClosed": "La registrazione è chiusa in questa demo. Accedi con uno degli account di esempio."
   }
 }

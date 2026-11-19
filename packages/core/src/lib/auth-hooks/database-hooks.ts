@@ -13,6 +13,7 @@ import { revokeUserAccess } from "@ostiary/core/lib/security/user-access-revocat
 import { isExternalSignInPath } from "@ostiary/core/lib/security/external-sign-in";
 import { PUBLIC_ORGANIZATION_ID } from "@ostiary/core/lib/organization-public";
 import { env } from "@ostiary/core/lib/env";
+import { demoMode } from "@ostiary/core/lib/demo";
 import { completeUserErasure, prepareUserErasure, type ErasurePlan } from "@ostiary/core/lib/account-data/erasure";
 import { emitWebhookEvents } from "@ostiary/core/lib/webhooks/outbox";
 import { makeEvent, memberSnapshot } from "@ostiary/core/lib/webhooks/events";
@@ -67,12 +68,26 @@ async function refuseEmailAlias(email: string, path: string | undefined) {
     throw new APIError("FORBIDDEN", { message: "An account already uses this email address.", code: "EMAIL_ALIAS_TAKEN" });
 }
 
+/**
+ * DEMO_MODE: sign-up is closed whatever the method (password, social, SSO, sign-in code), so
+ * the public demo admin console shows only the example accounts. An admin's own endpoints
+ * (`/admin/create-user`) still create accounts; the demo admin is refused those upstream.
+ */
+function refuseDemoSignUp(path: string | undefined) {
+    if (!demoMode() || !path || path.startsWith("/admin/")) return;
+    throw new APIError("FORBIDDEN", {
+        message: "Sign-up is closed on this demo. Sign in with one of the example accounts.",
+        code: "DEMO_SIGN_UP_CLOSED",
+    });
+}
+
 /** Better Auth's database hooks: admin promotion, the Public organization, bans, deletions and sign-in events. */
 export function databaseHooks() {
     return {
         user: {
             create: {
                 before: async (newUser, context) => {
+                    refuseDemoSignUp(context?.path);
                     await refuseEmailAlias(newUser.email, context?.path);
                     // Only with an address the provider verified, never through SSO or SCIM. A
                     // password sign-up is promoted when its address is verified (update hook).
@@ -136,11 +151,14 @@ export function databaseHooks() {
         session: {
             create: {
                 before: async (sess) => {
-                    if (sess.activeOrganizationId) return;
+                    // A demo instance stores no IP address (lib/demo.ts): visitors share its accounts.
+                    const ip = demoMode() ? { ipAddress: null } : {};
+                    if (sess.activeOrganizationId && !demoMode()) return;
                     return {
                         data: {
                             ...sess,
-                            activeOrganizationId: PUBLIC_ORGANIZATION_ID,
+                            ...ip,
+                            activeOrganizationId: sess.activeOrganizationId || PUBLIC_ORGANIZATION_ID,
                         },
                     };
                 },

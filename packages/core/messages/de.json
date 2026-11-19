@@ -42,7 +42,15 @@
         "invalidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
         "error": "Die E-Mail konnte nicht gesendet werden. Versuchen Sie es in einer Minute erneut."
       },
-      "addAccountDescription": "Bereits in diesem Browser angemeldete Konten bleiben angemeldet."
+      "addAccountDescription": "Bereits in diesem Browser angemeldete Konten bleiben angemeldet.",
+      "demo": {
+        "title": "Demo ausprobieren",
+        "description": "Gemeinsame Beispielkonten, die bei jedem Update zurückgesetzt werden. Passwort, E-Mail-Adresse und Anmeldemethoden lassen sich nicht ändern.",
+        "user": "Konto-Dashboard",
+        "admin": "Admin-Konsole (schreibgeschützt)",
+        "use": "Verwenden",
+        "useLabel": "Mit {email} ausfüllen"
+      }
     },
     "emailCode": {
       "title": "Mit einem Code anmelden",
@@ -1982,7 +1990,8 @@
         "next": "Weiter",
         "pageOf": "Seite {page} / {pages}",
         "showing": "{from}–{to} von {total}"
-      }
+      },
+      "demoReadOnly": "Die Demo-Admin-Konsole ist schreibgeschützt."
     },
     "urlCheck": {
       "tooLong": "Die URL ist zu lang.",
@@ -2001,6 +2010,10 @@
       "userMenu": {
         "home": "Startseite",
         "logOut": "Abmelden"
+      },
+      "demo": {
+        "title": "Schreibgeschützte Demo",
+        "body": "Du kannst dich in der ganzen Konsole umsehen. Änderungen werden abgelehnt."
       }
     }
   },
@@ -2381,6 +2394,12 @@
     "impersonation": {
       "viewingAs": "Sie sehen dieses Konto als <strong>{email}</strong>.",
       "stop": "Ansicht beenden"
+    },
+    "demo": {
+      "title": "Demokonto",
+      "userBody": "Alle melden sich bei diesem Konto an. Passwort, E-Mail-Adresse und Anmeldemethoden lassen sich nicht ändern, und es wird bei jedem Update zurückgesetzt.",
+      "adminBody": "Alle melden sich bei diesem Konto an. Es kann die Admin-Konsole öffnen und dort alles sehen, aber nichts ändern.",
+      "adminLink": "Admin-Konsole öffnen"
     }
   },
   "acceptInvitation": {
@@ -2692,6 +2711,9 @@
     "impersonating": "Das ist nicht möglich, während ein Administrator das Konto ansieht.",
     "emailNotVerified": "Bestätige zuerst deine E-Mail-Adresse.",
     "invalidToken": "Dieser Link ist ungültig oder abgelaufen.",
-    "publicOrganization": "Die Mitglieder der Organisation Public werden nur von Plattform-Administratoren verwaltet."
+    "publicOrganization": "Die Mitglieder der Organisation Public werden nur von Plattform-Administratoren verwaltet.",
+    "demoLocked": "Die Demokonten behalten ihr Passwort, ihre E-Mail-Adresse und ihre Anmeldemethoden.",
+    "demoReadOnly": "Die Demo-Admin-Konsole ist schreibgeschützt.",
+    "demoSignUpClosed": "Die Registrierung ist in dieser Demo geschlossen. Melde dich mit einem der Beispielkonten an."
   }
 }

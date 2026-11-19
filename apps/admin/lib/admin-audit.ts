@@ -3,14 +3,25 @@ import { getTranslations } from "next-intl/server";
 
 import { recordAudit, type AuditEntry } from "@ostiary/core/lib/audit";
 import { clientIp } from "@ostiary/core/lib/auth-events";
+import { isDemoAdmin } from "@ostiary/core/lib/demo";
 import { requireAdminSession } from "@/lib/require-admin-session";
 
+/** Thrown by adminActor for the read-only demo admin (DEMO_MODE, lib/demo.ts). */
+export class DemoReadOnlyError extends Error {
+  constructor() {
+    super("The demo admin console is read-only.");
+    this.name = "DemoReadOnlyError";
+  }
+}
+
 /**
- * For admin server actions: checks the caller is an admin and returns a function that
- * records an audit entry in their name, with their IP.
+ * For admin server actions: checks the caller is an admin who may make changes (not the
+ * read-only demo admin) and returns a function that records an audit entry in their name,
+ * with their IP.
  */
 export async function adminActor() {
   const session = await requireAdminSession();
+  if (isDemoAdmin(session.user)) throw new DemoReadOnlyError();
   const ip = clientIp(await headers());
   const actor = { id: session.user.id, email: session.user.email };
   return {

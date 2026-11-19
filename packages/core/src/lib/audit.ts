@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 
 import { db } from "@ostiary/core/db/index";
 import { auditLog } from "@ostiary/core/db/schema";
+import { storedIp } from "@ostiary/core/lib/demo";
 
 export type AuditEntry = {
   actor: { id: string; email: string } | null;
@@ -23,7 +24,7 @@ export async function recordAudit(entry: AuditEntry): Promise<void> {
       targetId: entry.target?.id ?? null,
       targetLabel: entry.target?.label ?? null,
       metadata: entry.metadata ?? null,
-      ipAddress: entry.ipAddress ?? null,
+      ipAddress: storedIp(entry.ipAddress),
     });
   } catch (error) {
     console.error("audit_log insert failed", error);

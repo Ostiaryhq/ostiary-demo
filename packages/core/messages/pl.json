@@ -42,7 +42,15 @@
         "invalidEmail": "Wpisz prawidłowy adres e-mail.",
         "error": "Nie udało się wysłać wiadomości. Spróbuj ponownie za minutę."
       },
-      "addAccountDescription": "Konta zalogowane już w tej przeglądarce pozostaną zalogowane."
+      "addAccountDescription": "Konta zalogowane już w tej przeglądarce pozostaną zalogowane.",
+      "demo": {
+        "title": "Wypróbuj demo",
+        "description": "Wspólne przykładowe konta, resetowane przy każdej aktualizacji. Hasła, adresu e-mail i metod logowania nie można zmienić.",
+        "user": "Panel konta",
+        "admin": "Konsola administratora (tylko do odczytu)",
+        "use": "Użyj",
+        "useLabel": "Wypełnij danymi {email}"
+      }
     },
     "emailCode": {
       "title": "Zaloguj się kodem",
@@ -1982,7 +1990,8 @@
         "next": "Następna",
         "pageOf": "Strona {page} / {pages}",
         "showing": "Wyświetlono {from}-{to} z {total}"
-      }
+      },
+      "demoReadOnly": "Demonstracyjna konsola administratora jest tylko do odczytu."
     },
     "urlCheck": {
       "tooLong": "URL jest za długi.",
@@ -2001,6 +2010,10 @@
       "userMenu": {
         "home": "Strona główna",
         "logOut": "Wyloguj się"
+      },
+      "demo": {
+        "title": "Demo tylko do odczytu",
+        "body": "Możesz przeglądać całą konsolę. Zmiany są odrzucane."
       }
     }
   },
@@ -2381,6 +2394,12 @@
     "impersonation": {
       "viewingAs": "Przeglądasz to konto jako <strong>{email}</strong>.",
       "stop": "Zakończ podszywanie się"
+    },
+    "demo": {
+      "title": "Konto demonstracyjne",
+      "userBody": "Wszyscy logują się na to konto. Hasła, adresu e-mail i metod logowania nie można zmienić, a konto jest resetowane przy każdej aktualizacji.",
+      "adminBody": "Wszyscy logują się na to konto. Może otworzyć konsolę administratora i zobaczyć wszystko, ale niczego nie zmieni.",
+      "adminLink": "Otwórz konsolę administratora"
     }
   },
   "acceptInvitation": {
@@ -2692,6 +2711,9 @@
     "impersonating": "Nie można tego zrobić, gdy administrator przegląda konto.",
     "emailNotVerified": "Najpierw zweryfikuj swój adres e-mail.",
     "invalidToken": "Ten link jest nieprawidłowy lub wygasł.",
-    "publicOrganization": "Członkami organizacji Public zarządzają wyłącznie administratorzy platformy."
+    "publicOrganization": "Członkami organizacji Public zarządzają wyłącznie administratorzy platformy.",
+    "demoLocked": "Konta demonstracyjne zachowują hasło, adres e-mail i metody logowania.",
+    "demoReadOnly": "Demonstracyjna konsola administratora jest tylko do odczytu.",
+    "demoSignUpClosed": "Rejestracja w tym demo jest zamknięta. Zaloguj się na jedno z przykładowych kont."
   }
 }

@@ -42,7 +42,15 @@
         "invalidEmail": "Introduce una dirección de correo electrónico válida.",
         "error": "No se pudo enviar el correo. Inténtalo de nuevo dentro de un minuto."
       },
-      "addAccountDescription": "Las cuentas que ya tienen sesión en este navegador la mantienen."
+      "addAccountDescription": "Las cuentas que ya tienen sesión en este navegador la mantienen.",
+      "demo": {
+        "title": "Probar la demo",
+        "description": "Cuentas de ejemplo compartidas, que se restablecen en cada actualización. No se puede cambiar su contraseña, su correo ni sus métodos de inicio de sesión.",
+        "user": "Panel de la cuenta",
+        "admin": "Consola de administración (solo lectura)",
+        "use": "Usar",
+        "useLabel": "Rellenar con {email}"
+      }
     },
     "emailCode": {
       "title": "Iniciar sesión con un código",
@@ -1982,7 +1990,8 @@
         "next": "Siguiente",
         "pageOf": "Página {page} / {pages}",
         "showing": "Mostrando {from}-{to} de {total}"
-      }
+      },
+      "demoReadOnly": "La consola de administración de demostración es de solo lectura."
     },
     "urlCheck": {
       "tooLong": "La URL es demasiado larga.",
@@ -2001,6 +2010,10 @@
       "userMenu": {
         "home": "Inicio",
         "logOut": "Cerrar sesión"
+      },
+      "demo": {
+        "title": "Demo de solo lectura",
+        "body": "Puedes recorrer toda la consola. Los cambios se rechazan."
       }
     }
   },
@@ -2381,6 +2394,12 @@
     "impersonation": {
       "viewingAs": "Estás viendo esta cuenta como <strong>{email}</strong>.",
       "stop": "Dejar de suplantar"
+    },
+    "demo": {
+      "title": "Cuenta de demostración",
+      "userBody": "Todo el mundo inicia sesión en esta cuenta. No se puede cambiar su contraseña, su correo ni sus métodos de inicio de sesión, y se restablece en cada actualización.",
+      "adminBody": "Todo el mundo inicia sesión en esta cuenta. Puede abrir la consola de administración y verlo todo, pero no cambiar nada.",
+      "adminLink": "Abrir la consola de administración"
     }
   },
   "acceptInvitation": {
@@ -2692,6 +2711,9 @@
     "impersonating": "No se puede hacer mientras un administrador está viendo la cuenta.",
     "emailNotVerified": "Verifica primero tu dirección de correo.",
     "invalidToken": "Este enlace no es válido o ha caducado.",
-    "publicOrganization": "Los miembros de la organización Public solo los gestionan los administradores de la plataforma."
+    "publicOrganization": "Los miembros de la organización Public solo los gestionan los administradores de la plataforma.",
+    "demoLocked": "Las cuentas de demostración conservan su contraseña, su correo y sus métodos de inicio de sesión.",
+    "demoReadOnly": "La consola de administración de demostración es de solo lectura.",
+    "demoSignUpClosed": "El registro está cerrado en esta demostración. Inicia sesión con una de las cuentas de ejemplo."
   }
 }

@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { z } from "zod";
 
-import { adminActor } from "@/lib/admin-audit";
+import { adminActor, DemoReadOnlyError } from "@/lib/admin-audit";
 
 export type AdminActor = Awaited<ReturnType<typeof adminActor>>;
 
@@ -11,6 +11,8 @@ export type AdminActor = Awaited<ReturnType<typeof adminActor>>;
  * is an admin (adminActor), then checks the arguments against `schema`, and only then runs the
  * action with the parsed input. Arguments of the wrong shape return an error result, never a
  * 500 from calling `.trim()` on a number.
+ *
+ * The read-only demo admin (DEMO_MODE) gets admin.common.demoReadOnly, or `invalid()`.
  *
  * Without `invalid`, the error is admin.common.invalidInput; actions whose errors are keys pass
  * their own.
@@ -32,7 +34,14 @@ export async function adminAction<S extends z.ZodTypeAny, R>(
   run: (input: z.output<S>, actor: AdminActor) => Promise<R>,
   invalid?: () => R,
 ): Promise<R | { ok: false; error: string }> {
-  const actor = await adminActor();
+  let actor: AdminActor;
+  try {
+    actor = await adminActor();
+  } catch (error) {
+    if (!(error instanceof DemoReadOnlyError)) throw error;
+    if (invalid) return invalid();
+    return { ok: false, error: (await getTranslations("admin.common"))("demoReadOnly") };
+  }
   const parsed = schema.safeParse(args);
   if (!parsed.success) {
     if (invalid) return invalid();

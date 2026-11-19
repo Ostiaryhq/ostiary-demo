@@ -42,7 +42,15 @@
         "invalidEmail": "Saisissez une adresse email valide.",
         "error": "Impossible d'envoyer l'email. Réessayez dans une minute."
       },
-      "addAccountDescription": "Les comptes déjà connectés sur ce navigateur restent connectés."
+      "addAccountDescription": "Les comptes déjà connectés sur ce navigateur restent connectés.",
+      "demo": {
+        "title": "Essayer la démo",
+        "description": "Comptes d'exemple partagés, réinitialisés à chaque mise à jour. Leur mot de passe, leur e-mail et leurs méthodes de connexion ne peuvent pas être modifiés.",
+        "user": "Tableau de bord du compte",
+        "admin": "Console d'administration (lecture seule)",
+        "use": "Utiliser",
+        "useLabel": "Remplir avec {email}"
+      }
     },
     "emailCode": {
       "title": "Se connecter avec un code",
@@ -1982,7 +1990,8 @@
         "next": "Suivant",
         "pageOf": "Page {page} / {pages}",
         "showing": "{from}-{to} sur {total}"
-      }
+      },
+      "demoReadOnly": "La console d'administration de démo est en lecture seule."
     },
     "urlCheck": {
       "tooLong": "L’URL est trop longue.",
@@ -2001,6 +2010,10 @@
       "userMenu": {
         "home": "Accueil",
         "logOut": "Se déconnecter"
+      },
+      "demo": {
+        "title": "Démo en lecture seule",
+        "body": "Vous pouvez parcourir toute la console. Les modifications sont refusées."
       }
     }
   },
@@ -2381,6 +2394,12 @@
     "impersonation": {
       "viewingAs": "Vous consultez ce compte en tant que <strong>{email}</strong>.",
       "stop": "Arrêter l’emprunt d’identité"
+    },
+    "demo": {
+      "title": "Compte de démo",
+      "userBody": "Tout le monde se connecte à ce compte. Son mot de passe, son e-mail et ses méthodes de connexion ne peuvent pas être modifiés, et il est réinitialisé à chaque mise à jour.",
+      "adminBody": "Tout le monde se connecte à ce compte. Il peut ouvrir la console d'administration et tout y voir, mais rien modifier.",
+      "adminLink": "Ouvrir la console d'administration"
     }
   },
   "acceptInvitation": {
@@ -2692,6 +2711,9 @@
     "impersonating": "Impossible pendant qu'un administrateur consulte le compte.",
     "emailNotVerified": "Vérifiez d'abord votre adresse e-mail.",
     "invalidToken": "Ce lien est invalide ou a expiré.",
-    "publicOrganization": "Les membres de l'organisation Public sont gérés uniquement par les administrateurs de la plateforme."
+    "publicOrganization": "Les membres de l'organisation Public sont gérés uniquement par les administrateurs de la plateforme.",
+    "demoLocked": "Les comptes de démo gardent leur mot de passe, leur e-mail et leurs méthodes de connexion.",
+    "demoReadOnly": "La console d'administration de démo est en lecture seule.",
+    "demoSignUpClosed": "L'inscription est fermée sur cette démo. Connectez-vous avec l'un des comptes d'exemple."
   }
 }

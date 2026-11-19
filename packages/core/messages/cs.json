@@ -42,7 +42,15 @@
         "invalidEmail": "Zadejte platnou e-mailovou adresu.",
         "error": "E-mail se nepodařilo odeslat. Zkuste to znovu za minutu."
       },
-      "addAccountDescription": "Účty, které jsou v tomto prohlížeči už přihlášené, zůstanou přihlášené."
+      "addAccountDescription": "Účty, které jsou v tomto prohlížeči už přihlášené, zůstanou přihlášené.",
+      "demo": {
+        "title": "Vyzkoušejte ukázku",
+        "description": "Sdílené ukázkové účty, obnovené při každé aktualizaci. Heslo, e-mail ani způsoby přihlášení nelze změnit.",
+        "user": "Přehled účtu",
+        "admin": "Administrátorská konzole (jen pro čtení)",
+        "use": "Použít",
+        "useLabel": "Vyplnit {email}"
+      }
     },
     "emailCode": {
       "title": "Přihlášení kódem",
@@ -1982,7 +1990,8 @@
         "next": "Další",
         "pageOf": "Stránka {page} / {pages}",
         "showing": "Zobrazeno {from}–{to} z {total}"
-      }
+      },
+      "demoReadOnly": "Ukázková administrátorská konzole je jen pro čtení."
     },
     "urlCheck": {
       "tooLong": "URL je příliš dlouhá.",
@@ -2001,6 +2010,10 @@
       "userMenu": {
         "home": "Domů",
         "logOut": "Odhlásit se"
+      },
+      "demo": {
+        "title": "Ukázka jen pro čtení",
+        "body": "Můžete si prohlédnout celou konzoli. Změny jsou odmítnuty."
       }
     }
   },
@@ -2381,6 +2394,12 @@
     "impersonation": {
       "viewingAs": "Prohlížíte tento účet jako <strong>{email}</strong>.",
       "stop": "Ukončit přihlášení za uživatele"
+    },
+    "demo": {
+      "title": "Ukázkový účet",
+      "userBody": "K tomuto účtu se přihlašují všichni. Heslo, e-mail ani způsoby přihlášení nelze změnit a účet se obnovuje při každé aktualizaci.",
+      "adminBody": "K tomuto účtu se přihlašují všichni. Může otevřít administrátorskou konzoli a vidět v ní vše, ale nic nezmění.",
+      "adminLink": "Otevřít administrátorskou konzoli"
     }
   },
   "acceptInvitation": {
@@ -2692,6 +2711,9 @@
     "impersonating": "Toto nelze provést, když si účet prohlíží administrátor.",
     "emailNotVerified": "Nejprve ověřte svou e-mailovou adresu.",
     "invalidToken": "Tento odkaz je neplatný nebo vypršel.",
-    "publicOrganization": "Členy organizace Public spravují pouze správci platformy."
+    "publicOrganization": "Členy organizace Public spravují pouze správci platformy.",
+    "demoLocked": "Ukázkové účty si ponechávají heslo, e-mail i způsoby přihlášení.",
+    "demoReadOnly": "Ukázková administrátorská konzole je jen pro čtení.",
+    "demoSignUpClosed": "Registrace je v této ukázce uzavřená. Přihlaste se jedním z ukázkových účtů."
   }
 }

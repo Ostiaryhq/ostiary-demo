@@ -35,6 +35,8 @@ import { safeCallbackURL } from "@/lib/safe-callback-url"
 import { useAuthErrorMessage } from "@/lib/auth-error-message"
 import { useLastUsedMethod } from "@/lib/last-used-method"
 import { withAppContext, type AppLink } from "@/lib/app-links"
+import { DemoAccounts } from "@/components/auth/demo-accounts"
+import type { DemoCredential } from "@ostiary/core/lib/demo"
 
 /** Sign-in responses for accounts with two-factor authentication: no session yet. */
 function needsTwoFactor(data: unknown): boolean {
@@ -80,6 +82,7 @@ export function LoginForm({
   captcha: captchaConfig = null,
   oneTap = null,
   appLink = null,
+  demoAccounts = [],
   ...props
 }: React.ComponentProps<"div"> & {
   socialProviders?: SocialProviderOption[]
@@ -87,6 +90,8 @@ export function LoginForm({
   oneTap?: GoogleOneTapConfig | null
   /** Set during an app's sign-in: sign-up and password reset keep the app (see lib/app-links). */
   appLink?: AppLink
+  /** DEMO_MODE: example accounts to fill in, and no sign-up link (sign-up is closed). */
+  demoAccounts?: DemoCredential[]
 }) {
   const t = useTranslations("auth.login")
   const errorMessage = useAuthErrorMessage()
@@ -225,6 +230,15 @@ export function LoginForm({
           callbackURL={callbackURL}
         />
       ) : null}
+      <DemoAccounts
+        accounts={demoAccounts}
+        disabled={isSubmitting}
+        onUse={(account) => {
+          setMode("password")
+          setLoginIdentifier(account.email)
+          setPassword(account.password)
+        }}
+      />
       <Card>
         <CardHeader>
           <CardTitle>{t("title")}</CardTitle>
@@ -320,12 +334,14 @@ export function LoginForm({
                     {tSocial(socialErrorKey(socialError), { name: brand.name })}
                   </FieldDescription>
                 ) : null}
-                <FieldDescription className="text-center">
-                  {t("noAccount")}{" "}
-                  <Link href={withAppContext("/signup", appLink)} className="underline-offset-4 hover:underline">
-                    {t("signUpLink")}
-                  </Link>
-                </FieldDescription>
+                {demoAccounts.length === 0 ? (
+                  <FieldDescription className="text-center">
+                    {t("noAccount")}{" "}
+                    <Link href={withAppContext("/signup", appLink)} className="underline-offset-4 hover:underline">
+                      {t("signUpLink")}
+                    </Link>
+                  </FieldDescription>
+                ) : null}
               </Field>
             </FieldGroup>
           </form>

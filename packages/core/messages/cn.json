@@ -42,7 +42,15 @@
         "invalidEmail": "请输入有效的邮箱地址。",
         "error": "无法发送邮件。请稍后再试。"
       },
-      "addAccountDescription": "此浏览器上已登录的账户将保持登录。"
+      "addAccountDescription": "此浏览器上已登录的账户将保持登录。",
+      "demo": {
+        "title": "试用演示",
+        "description": "共享的示例账户，每次更新时重置。其密码、邮箱和登录方式无法更改。",
+        "user": "账户面板",
+        "admin": "管理控制台（只读）",
+        "use": "使用",
+        "useLabel": "填入 {email}"
+      }
     },
     "emailCode": {
       "title": "使用验证码登录",
@@ -1982,7 +1990,8 @@
         "next": "下一页",
         "pageOf": "第 {page} / {pages} 页",
         "showing": "第 {from}-{to} 条，共 {total} 条"
-      }
+      },
+      "demoReadOnly": "演示管理控制台为只读。"
     },
     "urlCheck": {
       "tooLong": "URL 过长。",
@@ -2001,6 +2010,10 @@
       "userMenu": {
         "home": "首页",
         "logOut": "退出登录"
+      },
+      "demo": {
+        "title": "只读演示",
+        "body": "你可以浏览整个控制台。更改会被拒绝。"
       }
     }
   },
@@ -2381,6 +2394,12 @@
     "impersonation": {
       "viewingAs": "你正在以 <strong>{email}</strong> 的身份查看此账户。",
       "stop": "停止模拟"
+    },
+    "demo": {
+      "title": "演示账户",
+      "userBody": "所有人都登录此账户。其密码、邮箱和登录方式无法更改，并会在每次更新时重置。",
+      "adminBody": "所有人都登录此账户。它可以打开管理控制台并查看所有内容，但无法更改任何内容。",
+      "adminLink": "打开管理控制台"
     }
   },
   "acceptInvitation": {
@@ -2692,6 +2711,9 @@
     "impersonating": "管理员查看此账户期间无法执行此操作。",
     "emailNotVerified": "请先验证您的邮箱地址。",
     "invalidToken": "此链接无效或已过期。",
-    "publicOrganization": "Public 组织的成员仅由平台管理员管理。"
+    "publicOrganization": "Public 组织的成员仅由平台管理员管理。",
+    "demoLocked": "演示账户会保留其密码、邮箱和登录方式。",
+    "demoReadOnly": "演示管理控制台为只读。",
+    "demoSignUpClosed": "此演示已关闭注册。请使用其中一个示例账户登录。"
   }
 }

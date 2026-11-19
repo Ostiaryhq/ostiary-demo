@@ -3,6 +3,7 @@ import { and, eq, isNotNull, lt, or } from "drizzle-orm";
 
 import { db } from "@ostiary/core/db/index";
 import { authEvent } from "@ostiary/core/db/schema";
+import { storedIp } from "@ostiary/core/lib/demo";
 import { env } from "@ostiary/core/lib/env";
 import { ipAddressOptions, resolveClientIp } from "@ostiary/core/lib/rate-limit";
 
@@ -20,7 +21,7 @@ export async function recordAuthEvent(
       type,
       userId,
       identifier: extra.identifier?.slice(0, 320) ?? null,
-      ipAddress: extra.ipAddress ?? null,
+      ipAddress: storedIp(extra.ipAddress),
     });
   } catch (error) {
     console.error("auth_event insert failed", error);

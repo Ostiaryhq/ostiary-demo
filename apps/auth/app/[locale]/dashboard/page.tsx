@@ -1,4 +1,4 @@
-import { ShieldAlert } from "lucide-react";
+import { FlaskConical, ShieldAlert } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { DashboardAccountSummary } from "@/components/dashboard/dashboard-account-summary";
@@ -14,6 +14,7 @@ import { getMyApiKeys } from "@/lib/api-keys-actions";
 import { getMyConnectedApps } from "@/lib/connected-apps-actions";
 import { Alert, AlertDescription, AlertTitle } from "@ostiary/core/components/ui/alert";
 import { adminNeedsTwoFactor } from "@ostiary/core/lib/admin/admin-two-factor";
+import { demoAccount } from "@ostiary/core/lib/demo";
 import { env } from "@ostiary/core/lib/env";
 import { enabledSocialProviders } from "@ostiary/core/lib/social-providers";
 
@@ -26,7 +27,9 @@ export default async function DashboardPage({
   const t = await getTranslations({ locale, namespace: "dashboard" });
   const { session, hasOrganizations, showApiKeys } = await getDashboardContext();
   // The admin console sends admins here until they turn on two-factor authentication.
-  const twoFactorRequired = adminNeedsTwoFactor(session?.user, env.REQUIRE_ADMIN_2FA === "true");
+  // DEMO_MODE: a shared example account, whose sign-in methods are locked (lib/demo.ts).
+  const demo = demoAccount(session?.user.email);
+  const twoFactorRequired = !demo && adminNeedsTwoFactor(session?.user, env.REQUIRE_ADMIN_2FA === "true");
   // Read here rather than by each section after it renders: the sections show at once. A read
   // that fails leaves null, and the section tries again in the browser (or says it could not).
   const orNull = <T,>(promise: Promise<T>) => promise.catch(() => null);
@@ -46,6 +49,26 @@ export default async function DashboardPage({
             {t("description")}
           </p>
         </div>
+        {demo ? (
+          <Alert>
+            <FlaskConical aria-hidden />
+            <AlertTitle>{t("demo.title")}</AlertTitle>
+            <AlertDescription>
+              {t(demo.kind === "admin" ? "demo.adminBody" : "demo.userBody")}
+              {demo.kind === "admin" && env.ADMIN_APP_URL ? (
+                <>
+                  {" "}
+                  <a
+                    href={`${env.ADMIN_APP_URL}/${locale}`}
+                    className="font-medium text-foreground underline underline-offset-4"
+                  >
+                    {t("demo.adminLink")}
+                  </a>
+                </>
+              ) : null}
+            </AlertDescription>
+          </Alert>
+        ) : null}
         {twoFactorRequired ? (
           <Alert>
             <ShieldAlert aria-hidden />

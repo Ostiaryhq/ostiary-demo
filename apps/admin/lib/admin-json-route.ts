@@ -5,6 +5,7 @@ import { isAllowedOrigin, isJsonContentType, isSafeMethod, originOf } from "@ost
 import { assertRequestBodyWithinLimit } from "@ostiary/core/lib/api/request-body-limit";
 import { recordAudit, type AuditEntry } from "@ostiary/core/lib/audit";
 import { clientIp } from "@ostiary/core/lib/auth-events";
+import { isDemoAdmin } from "@ostiary/core/lib/demo";
 import { env } from "@ostiary/core/lib/env";
 import { handleError, ValidationError } from "@ostiary/core/lib/errors";
 import { requireAdminApiRequest } from "@/lib/require-admin-api-request";
@@ -56,6 +57,9 @@ export function adminJsonRoute<P = Record<string, never>>(
 
       const authz = await requireAdminApiRequest();
       if (!authz.ok) return json({ error: authz.message }, authz.status);
+      if (!isSafeMethod(request.method) && isDemoAdmin(authz.actor)) {
+        return json({ error: "The demo admin console is read-only." }, 403);
+      }
 
       const ip = clientIp(authz.requestHeaders);
       if (!isSafeMethod(request.method)) await assertAdminWriteRateLimit(authz.actor.id, ip);

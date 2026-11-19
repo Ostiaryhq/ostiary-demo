@@ -24,6 +24,14 @@ import {
 import { findReusablePublicClient, registrationResponse } from "@ostiary/core/lib/client-dedupe";
 import { ACCOUNT_DELETION_BLOCKED, accountDeletionBlockers } from "@ostiary/core/lib/account-data/blockers";
 import type { Bag } from "@ostiary/core/lib/auth-hooks/values";
+import {
+    DEMO_SILENT_EMAIL_PATHS,
+    demoAccount,
+    isDemoAdmin,
+    demoAdminRefused,
+    demoLockedPath,
+    demoMode,
+} from "@ostiary/core/lib/demo";
 
 type Ctx = Parameters<Parameters<typeof createAuthMiddleware>[0]>[0];
 
@@ -63,6 +71,8 @@ export async function assertAccountDeletable(userId: string) {
 
 async function requireAdminTwoFactor(ctx: Ctx) {
     const current = await getSessionFromCtx(ctx);
+    // The demo admin is read-only and cannot turn two-factor on (its sign-in methods are locked).
+    if (current && isDemoAdmin(current.user)) return;
     if (current && adminNeedsTwoFactor(current.user as { role?: string | null; twoFactorEnabled?: boolean | null }, true)) {
         throw new APIError("FORBIDDEN", {
             message: "Turn on two-factor authentication to use admin features.",
@@ -230,6 +240,42 @@ async function guardEmailChange(ctx: Ctx) {
     }
 }
 
+/**
+ * DEMO_MODE (lib/demo.ts): sign-up is closed, nothing is emailed to a demo address, a demo
+ * account keeps its credentials and the demo admin only reads. Returns a response that ends
+ * the request, or nothing to go on.
+ */
+async function guardDemo(ctx: Ctx) {
+    if (ctx.path === "/sign-up/email") {
+        throw new APIError("FORBIDDEN", {
+            message: "Sign-up is closed on this demo. Sign in with one of the example accounts.",
+            code: "DEMO_SIGN_UP_CLOSED",
+        });
+    }
+    const silent = DEMO_SILENT_EMAIL_PATHS[ctx.path];
+    if (silent && demoAccount((ctx.body as { email?: unknown } | undefined)?.email as string | undefined)) {
+        return ctx.json(silent);
+    }
+    const current = await getSessionFromCtx(ctx);
+    const account = demoAccount(current?.user.email);
+    if (!account) return;
+    if (demoLockedPath(ctx.path)) {
+        throw new APIError("FORBIDDEN", {
+            message: "The demo accounts keep their password, email and sign-in methods.",
+            code: "DEMO_ACCOUNT_LOCKED",
+        });
+    }
+    // Only requests from a browser: the console's own server-side reads carry no method, and
+    // its writes are refused before they get here (adminActor, adminJsonRoute).
+    const method = ctx.request?.method;
+    if (account.kind === "admin" && method && demoAdminRefused(ctx.path, method)) {
+        throw new APIError("FORBIDDEN", {
+            message: "The demo admin console is read-only.",
+            code: "DEMO_READ_ONLY",
+        });
+    }
+}
+
 /** Signing out of one of several accounts (account switcher) deletes that session only. */
 async function recordAccountSignOut(ctx: Ctx) {
     const token = (ctx.body as { sessionToken?: unknown } | undefined)?.sessionToken;
@@ -269,6 +315,10 @@ export function guardRequests({
         // Google One Tap answers only while the admin console has it on (and Google too).
         if (ctx.path === "/one-tap/callback" && !(await googleOneTap())) {
             throw new APIError("NOT_FOUND", { message: "Google One Tap is not enabled." });
+        }
+        if (demoMode()) {
+            const ended = await guardDemo(ctx);
+            if (ended) return ended;
         }
         if (env.REQUIRE_ADMIN_2FA === "true" && isAdminPath(ctx.path)) await requireAdminTwoFactor(ctx);
         const registration = await syncClientRegistration(provider.options, metadataDocuments);

@@ -3,7 +3,11 @@ import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 
 import { AdminShell } from "@/components/admin/admin-shell";
+import { FlaskConical } from "lucide-react";
+
+import { Alert, AlertDescription, AlertTitle } from "@ostiary/core/components/ui/alert";
 import { adminAccess } from "@ostiary/core/lib/admin/admin-access";
+import { isDemoAdmin } from "@ostiary/core/lib/demo";
 import { env } from "@ostiary/core/lib/env";
 import { auth } from "@/lib/auth";
 
@@ -49,6 +53,14 @@ export default async function AdminLayout({
         avatar: sessionUser.image ?? undefined,
       }}
     >
+      {isDemoAdmin(sessionUser) ? (
+        // DEMO_MODE: every change is refused on the server (adminActor, adminJsonRoute, auth hooks).
+        <Alert className="mb-6">
+          <FlaskConical aria-hidden />
+          <AlertTitle>{t("demo.title")}</AlertTitle>
+          <AlertDescription>{t("demo.body")}</AlertDescription>
+        </Alert>
+      ) : null}
       {children}
     </AdminShell>
   );

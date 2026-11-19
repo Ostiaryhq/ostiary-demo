@@ -42,7 +42,15 @@
         "invalidEmail": "Ange en giltig e-postadress.",
         "error": "Det gick inte att skicka mejlet. Försök igen om en minut."
       },
-      "addAccountDescription": "Konton som redan är inloggade i den här webbläsaren förblir inloggade."
+      "addAccountDescription": "Konton som redan är inloggade i den här webbläsaren förblir inloggade.",
+      "demo": {
+        "title": "Prova demon",
+        "description": "Delade exempelkonton som återställs vid varje uppdatering. Lösenord, e-postadress och inloggningsmetoder kan inte ändras.",
+        "user": "Kontoöversikt",
+        "admin": "Administratörskonsol (skrivskyddad)",
+        "use": "Använd",
+        "useLabel": "Fyll i {email}"
+      }
     },
     "emailCode": {
       "title": "Logga in med en kod",
@@ -1982,7 +1990,8 @@
         "next": "Nästa",
         "pageOf": "Sida {page} / {pages}",
         "showing": "Visar {from}–{to} av {total}"
-      }
+      },
+      "demoReadOnly": "Demons administratörskonsol är skrivskyddad."
     },
     "urlCheck": {
       "tooLong": "URL:en är för lång.",
@@ -2001,6 +2010,10 @@
       "userMenu": {
         "home": "Start",
         "logOut": "Logga ut"
+      },
+      "demo": {
+        "title": "Skrivskyddad demo",
+        "body": "Du kan titta runt i hela konsolen. Ändringar avvisas."
       }
     }
   },
@@ -2381,6 +2394,12 @@
     "impersonation": {
       "viewingAs": "Du visar det här kontot som <strong>{email}</strong>.",
       "stop": "Sluta agera som användaren"
+    },
+    "demo": {
+      "title": "Demokonto",
+      "userBody": "Alla loggar in på det här kontot. Lösenord, e-postadress och inloggningsmetoder kan inte ändras, och det återställs vid varje uppdatering.",
+      "adminBody": "Alla loggar in på det här kontot. Det kan öppna administratörskonsolen och se allt där, men inte ändra något.",
+      "adminLink": "Öppna administratörskonsolen"
     }
   },
   "acceptInvitation": {
@@ -2692,6 +2711,9 @@
     "impersonating": "Det går inte medan en administratör visar kontot.",
     "emailNotVerified": "Verifiera din e-postadress först.",
     "invalidToken": "Länken är ogiltig eller har gått ut.",
-    "publicOrganization": "Medlemmarna i organisationen Public hanteras bara av plattformens administratörer."
+    "publicOrganization": "Medlemmarna i organisationen Public hanteras bara av plattformens administratörer.",
+    "demoLocked": "Demokontona behåller sitt lösenord, sin e-postadress och sina inloggningsmetoder.",
+    "demoReadOnly": "Demons administratörskonsol är skrivskyddad.",
+    "demoSignUpClosed": "Registreringen är stängd i den här demon. Logga in med ett av exempelkontona."
   }
 }
