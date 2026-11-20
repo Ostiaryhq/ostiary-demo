@@ -54,6 +54,36 @@ All notable changes are documented here. The format follows
   database responds within 3 seconds and 503 otherwise, for load balancers and uptime
   monitors. The Docker images' `HEALTHCHECK` uses it (it used `/api/auth/ok` and `/icon`).
 
+- **CSV export of users and the audit log.** An **Export CSV** button on the Users and Audit
+  pages downloads what the page shows, with its search and filters, every page of it
+  (`GET /api/admin/users/export`, `GET /api/admin/audit/export`; platform admins only, from the
+  console itself). UTF-8 with a BOM so Excel opens it right, RFC 4180 quoting, timestamps in
+  ISO 8601 UTC, and a leading `'` on cells that a spreadsheet would run as a formula. Users
+  carry their profile, role, ban and two-factor status and last sign-in (while sign-in events
+  are kept), never a password hash, secret or token; audit entries carry their metadata as
+  JSON. Rows are streamed 1,000 at a time and capped at 100,000, past which the file ends with
+  a `# truncated` line. Audited as `user.export_csv` and `audit_log.export_csv`, with the
+  filters and the row count.
+- **Custom claims per application.** **Applications > Token claims** adds claims to an app's
+  ID token, access token and UserInfo, the declarative equivalent of an Auth0 Action that sets
+  claims: each one is fixed text or JSON, or a user attribute from a fixed list (platform role,
+  email verified, username, two-factor, the active organization's id, slug and role, the
+  user's organizations). No scripts. Reserved claims (`iss`, `sub`, `aud`, `email`, `role`…)
+  are refused, at most 20 claims and 4 KB per app, with a preview for an example user. They
+  follow refresh token rotation; client credentials tokens get the fixed values only. Stored
+  in `oauth_client_claims` (migration `0015`), audited as `oauth_client.claims_update`. See
+  `docs/connect-an-app.md`.
+- **Import users.** **Users > Import users** in the admin console brings accounts over from an
+  Auth0 user export (with the password hash export Auth0 support provides) or a CSV file. A
+  dry run first counts the users to create, the addresses that already have an account or
+  reach the same inbox (`EMAIL_DEDUP`) and the invalid rows, with their reasons; the import
+  then writes what it showed, 500 users per transaction, each in the Public organization.
+  Existing accounts are never changed, no email is sent, and no one becomes an admin unless
+  the CSV says so and the admin allowed it (`ADMIN_EMAILS` does not promote at import).
+  Imported bcrypt hashes (`$2a$`, `$2b$`, `$2y$`) keep working and are replaced by scrypt at
+  the next successful sign-in; other hash formats are refused per row. Social identities,
+  MFA enrolments and passkeys are not imported. Audited as `user.import`. See
+  `docs/import-users.md`.
 - **One client per MCP app.** Claude and other MCP clients register again on every connection,
   which filled the Applications page with identical "Claude" clients. An anonymous registration
   identical to an existing public client (same name, redirect URIs, grants, response types,
