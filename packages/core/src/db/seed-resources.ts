@@ -11,8 +11,8 @@
  * Existing rows are left untouched, like the library's default `insertOnly` seed mode, so
  * edits made from the admin console survive redeploys.
  *
- * With DEMO_MODE, it also creates the example accounts (lib/demo.ts), or resets them to their
- * demo state: their password, verified address and role, and nothing else to sign in with.
+ * With DEMO_MODE, it also puts the demo back in its starting state (lib/demo-reset.ts): the
+ * example accounts reset, and what visitors created deleted.
  */
 import { randomBytes } from "node:crypto";
 import net from "node:net";
@@ -51,60 +51,6 @@ async function connect(connectionString: string): Promise<pg.Client> {
   }
 }
 
-/**
- * Creates or resets the DEMO_MODE example accounts. Written as SQL like the rest of this
- * script, so Better Auth's hooks do not run: the account joins the Public organization here.
- */
-async function resetDemoAccounts(client: pg.Client) {
-  const { DEMO_ACCOUNTS } = await import("@ostiary/core/lib/demo");
-  const { PUBLIC_ORGANIZATION_ID } = await import("@ostiary/core/lib/organization-public");
-  const { hashPassword } = await import("better-auth/crypto");
-  for (const account of DEMO_ACCOUNTS) {
-    const password = await hashPassword(account.password);
-    await client.query("begin");
-    try {
-      const { rows } = await client.query<{ id: string }>(
-        `insert into "user" (id, name, email, email_verified, role, banned, two_factor_enabled, created_at, updated_at)
-         values ($1, $2, $3, true, $4, false, false, now(), now())
-         on conflict (email) do update set
-           name = excluded.name, email_verified = true, role = excluded.role, image = null,
-           username = null, display_username = null, banned = false, ban_reason = null,
-           ban_expires = null, two_factor_enabled = false, updated_at = now()
-         returning id`,
-        [generateId(), account.name, account.email, account.role],
-      );
-      const userId = rows[0].id;
-      // Only the demo password signs in: no other method, and no session from before.
-      await client.query(`delete from account where user_id = $1 and provider_id <> 'credential'`, [userId]);
-      await client.query(`delete from two_factor where user_id = $1`, [userId]);
-      await client.query(`delete from passkey where user_id = $1`, [userId]);
-      await client.query(`delete from session where user_id = $1`, [userId]);
-      const updated = await client.query(
-        `update account set password = $2, updated_at = now() where user_id = $1 and provider_id = 'credential'`,
-        [userId, password],
-      );
-      if (updated.rowCount === 0) {
-        await client.query(
-          `insert into account (id, account_id, provider_id, user_id, password, created_at, updated_at)
-           values ($1, $2, 'credential', $2, $3, now(), now())`,
-          [generateId(), userId, password],
-        );
-      }
-      await client.query(
-        `insert into member (id, organization_id, user_id, role, created_at)
-         values ($1, $2, $3, 'member', now())
-         on conflict (user_id, organization_id) do nothing`,
-        [generateId(), PUBLIC_ORGANIZATION_ID, userId],
-      );
-      await client.query("commit");
-      console.log(`demo account ${account.email}: ready`);
-    } catch (error) {
-      await client.query("rollback");
-      throw error;
-    }
-  }
-}
-
 async function main() {
   // Imported after dotenv so the env schema sees the loaded variables.
   const { env } = await import("@ostiary/core/lib/env");
@@ -131,7 +77,11 @@ async function main() {
       );
       console.log(`oauth_resource ${identifier}: ${rowCount ? "registered" : "already registered"}`);
     }
-    if (env.DEMO_MODE === "true") await resetDemoAccounts(client);
+    if (env.DEMO_MODE === "true") {
+      // Imported here: lib/demo reads the env, loaded above.
+      const { resetDemo } = await import("@ostiary/core/lib/demo-reset");
+      console.log("demo reset:", JSON.stringify(await resetDemo(client)));
+    }
   } finally {
     await client.end();
   }
