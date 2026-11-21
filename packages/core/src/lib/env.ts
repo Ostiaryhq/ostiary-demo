@@ -40,8 +40,6 @@ export const envSchema = z
      * Page views are sent without query strings or fragments, which can carry tokens.
      */
     VERCEL_ANALYTICS: z.enum(["true", "false"]).optional(),
-    /** Optional Sentry DSN for error tracking (server). */
-    SENTRY_DSN: z.string().optional(),
     /** Origin of the auth app (canonical Better Auth URL for every app in the monorepo). */
     AUTH_APP_URL: optional(z.string().url()),
     /** Origin of the admin app. Trusted so the admin UI can call its own /api/auth route. */
@@ -125,8 +123,6 @@ export const envSchema = z
      * their credentials locked, the admin one read-only, sign-up closed and no IP addresses stored.
      */
     DEMO_MODE: optional(z.enum(["true", "false"])),
-    /** Enable verbose request logging when "true". */
-    LOG_REQUESTS: z.enum(["true", "false"]).optional(),
   })
   .superRefine((data, ctx) => {
     const captcha = ["CAPTCHA_PROVIDER", "CAPTCHA_SITE_KEY", "CAPTCHA_SECRET_KEY"] as const;
