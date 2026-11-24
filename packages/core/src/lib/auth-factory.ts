@@ -20,6 +20,7 @@ import {
     lastLoginMethod,
     multiSession,
     oneTap,
+    openAPI,
     organization,
     username,
 } from "better-auth/plugins";
@@ -45,6 +46,8 @@ import { MAX_DEVICE_SESSIONS } from "@ostiary/core/lib/device-accounts";
 import { isPlatformAdmin } from "@ostiary/core/lib/admin/user-has-admin-role";
 import { implicitLinkRefusal } from "@ostiary/core/lib/security/account-linking-policy";
 import { isStrictSsoDomain, SSO_DOMAIN_TOKEN_PREFIX } from "@ostiary/core/lib/security/sso-domain";
+import { OAUTH_TOKEN_PREFIXES } from "@ostiary/core/lib/oauth-token-prefixes";
+import { OPENAPI_SCHEMA_PATH, openApiSchemaEnabled } from "@ostiary/core/lib/openapi";
 import { brand } from "@ostiary/core/lib/brand";
 import { getPasskeyWebAuthnOptions } from "@ostiary/core/lib/passkey-options";
 import { env } from "@ostiary/core/lib/env";
@@ -55,7 +58,11 @@ import { oauthResourceIdentifiers } from "@ostiary/core/lib/oauth-resources";
 import { withApiScopeBinding, withOpenApiLinks } from "@ostiary/core/lib/oauth-resource-access";
 import { CLIENT_MANAGEMENT_HTTP_PATHS, oauthClientGuard } from "@ostiary/core/lib/oauth-client-guard";
 import { withWebhookEvents } from "@ostiary/core/lib/webhooks/adapter";
-import { ACCESS_TOKEN_EXPIRES_IN, REFRESH_TOKEN_EXPIRES_IN } from "@ostiary/core/lib/oauth-resource-policy";
+import {
+    ACCESS_TOKEN_EXPIRES_IN,
+    ID_TOKEN_EXPIRES_IN,
+    REFRESH_TOKEN_EXPIRES_IN,
+} from "@ostiary/core/lib/oauth-resource-policy";
 import { clientClaimsExtension } from "@ostiary/core/lib/client-claims/extension";
 import { SAML_CLOCK_SKEW_MS, samlResponseRejection } from "@ostiary/core/lib/saml";
 import {
@@ -366,6 +373,14 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
         accessTokenExpiresIn: ACCESS_TOKEN_EXPIRES_IN,
         // Better Auth's default, explicit because per-API lifetimes can only be shorter.
         refreshTokenExpiresIn: REFRESH_TOKEN_EXPIRES_IN,
+        // A client that retries a refresh within 30 seconds (its first answer was lost, as MCP
+        // clients do on a dropped connection) gets that same answer back instead of a replay
+        // refusal that revokes its tokens. The value @better-auth/mcp uses.
+        refreshTokenReuseInterval: 30,
+        idTokenExpiresIn: ID_TOKEN_EXPIRES_IN,
+        // Better Auth refuses a value without its prefix: the auth app's route handler adds it to
+        // values issued before (withTokenPrefixFallback).
+        prefix: OAUTH_TOKEN_PREFIXES,
         // Resource servers authorize on the admin plugin's role (e.g. "admin" or "admin,user").
         customAccessTokenClaims: ({ user }) =>
             typeof user?.role === "string" ? { role: user.role } : {},
@@ -420,6 +435,9 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
             ...CLIENT_MANAGEMENT_HTTP_PATHS,
             // The jwt plugin's session JWT, see jwtOptions.
             "/token",
+            // openAPI's Scalar page loads an unpinned script from a CDN: only the JSON schema is served.
+            "/reference",
+            ...(openApiSchemaEnabled(env) ? [] : [OPENAPI_SCHEMA_PATH]),
         ],
         // Per-IP limits counted in the database, shared by every serverless instance. Rules in
         // lib/rate-limit.ts; off in development unless RATE_LIMIT_ENABLED=true.
@@ -682,6 +700,8 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
                 // Entra ID sends this legacy group schema; accepting it avoids failed group pushes.
                 compatibility: { microsoftEntra: { acceptLegacyGroupSchema: true } },
             }),
+            // OpenAPI schema of every endpoint above, without the disabled ones. See OPENAPI_SCHEMA_ENABLED.
+            openAPI({ disableDefaultReference: true }),
         ],
     });
 }
