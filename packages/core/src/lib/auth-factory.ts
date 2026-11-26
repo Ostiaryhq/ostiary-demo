@@ -1,12 +1,12 @@
 import { betterAuth, type BetterAuthOptions, type BetterAuthPlugin } from "better-auth";
-import { APIError, createAuthMiddleware, getOAuthState } from "better-auth/api";
+import { APIError, createAuthMiddleware, getOAuthState, getSessionFromCtx } from "better-auth/api";
 import { tryGetCurrentAuthEndpointContext } from "@better-auth/core/context";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { apiKey } from "@better-auth/api-key";
 import { createCimdClientDiscovery } from "@better-auth/cimd";
 import { fetchClientMetadataResource } from "@better-auth/cimd/node";
 import { oauthDeviceAuthorization, oauthProvider } from "@better-auth/oauth-provider";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { passkey } from "@better-auth/passkey";
 import { scim } from "@better-auth/scim";
 import { sso } from "@better-auth/sso";
@@ -21,13 +21,13 @@ import {
     multiSession,
     oneTap,
     openAPI,
+    phoneNumber,
     organization,
     username,
 } from "better-auth/plugins";
 import { twoFactor } from "better-auth/plugins/two-factor";
-import { createAccessControl } from "better-auth/plugins/access";
 import { defaultRoles as platformRoles } from "better-auth/plugins/admin/access";
-import { adminAc, defaultStatements, memberAc, ownerAc } from "better-auth/plugins/organization/access";
+import { organizationAc, organizationRoles } from "@ostiary/core/lib/organization-access";
 
 import { db } from "@ostiary/core/db/index";
 import * as schema from "@ostiary/core/db/schema";
@@ -48,6 +48,10 @@ import { implicitLinkRefusal } from "@ostiary/core/lib/security/account-linking-
 import { isStrictSsoDomain, SSO_DOMAIN_TOKEN_PREFIX } from "@ostiary/core/lib/security/sso-domain";
 import { OAUTH_TOKEN_PREFIXES } from "@ostiary/core/lib/oauth-token-prefixes";
 import { OPENAPI_SCHEMA_PATH, openApiSchemaEnabled } from "@ostiary/core/lib/openapi";
+import { generateClientId } from "@ostiary/core/lib/admin/oauth-clients/requested-client-id";
+import { clientSecretStorage } from "@ostiary/core/lib/client-secret-grace";
+import { shouldPromptForTwoFactor } from "@ostiary/core/lib/two-factor-policy";
+import { PHONE_NUMBER_PATTERN, queueSms, smsConfigured } from "@ostiary/core/lib/sms";
 import { brand } from "@ostiary/core/lib/brand";
 import { getPasskeyWebAuthnOptions } from "@ostiary/core/lib/passkey-options";
 import { env } from "@ostiary/core/lib/env";
@@ -169,20 +173,6 @@ const UNUSED_EMAIL_OTP_PATHS = [
     "/email-otp/change-email",
 ];
 
-/**
- * Better Auth's default organization roles, unchanged, plus the API key plugin's `apiKey`
- * resource: owners and admins manage the organization's keys, members do not.
- */
-const API_KEY_ACTIONS = ["create", "read", "update", "delete"] as const;
-const organizationAc = createAccessControl({
-    ...defaultStatements,
-    apiKey: API_KEY_ACTIONS,
-});
-const organizationRoles = {
-    owner: organizationAc.newRole({ ...ownerAc.statements, apiKey: API_KEY_ACTIONS }),
-    admin: organizationAc.newRole({ ...adminAc.statements, apiKey: API_KEY_ACTIONS }),
-    member: organizationAc.newRole({ ...memberAc.statements }),
-};
 
 /**
  * The API key plugin's HTTP endpoints. Keys are created, listed and revoked only through the
@@ -292,6 +282,16 @@ const validateUserInfo: NonNullable<NonNullable<BetterAuthOptions["user"]>["vali
     if (refusal) return { error: "account_not_linked", errorDescription: refusal };
 };
 
+/** Whether an account has verified this number (texted sign-in codes go only there). */
+async function verifiedPhoneExists(phone: string): Promise<boolean> {
+    const [row] = await db
+        .select({ id: schema.user.id })
+        .from(schema.user)
+        .where(and(eq(schema.user.phoneNumber, phone), eq(schema.user.phoneNumberVerified, true)))
+        .limit(1);
+    return Boolean(row);
+}
+
 export type AuthFactoryOptions = {
     /**
      * Canonical URL of the auth app. Every instance uses it, even when served from another
@@ -329,6 +329,16 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
     const provider = oauthProvider({
         loginPage: "/login",
         consentPage: "/consent",
+        // Better Auth's default, or the ID an admin chose for an app moved from another provider.
+        generateClientId,
+        // An app that authenticates with private_key_jwt and inline keys may replace them itself
+        // at /oauth2/client/rotate-keys, with a client assertion signed by a current key.
+        allowClientKeyRotation: true,
+        // Better Auth's hash, plus the previous secret during a rotation's grace period.
+        storeClientSecret: clientSecretStorage,
+        // Per-app `sub` for apps registered with subject_type "pairwise" (PAIRWISE_SECRET).
+        // Discovery then lists "pairwise" in subject_types_supported.
+        ...(env.PAIRWISE_SECRET ? { pairwiseSecret: env.PAIRWISE_SECRET } : {}),
         // Self-registration (Dynamic Client Registration / MCP, metadata documents) is off here and
         // set from the admin console's settings before each request, see syncClientRegistration.
         // The discovery documents are served (from these options) before that first per-request
@@ -345,6 +355,13 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
         // Only for clients that ask with prompt=select_account (e.g. a native app signing in
         // through the system browser, whose session may belong to someone else).
         selectAccount: { page: "/select-account", shouldRedirect: () => false },
+        // After sign-in, before consent: two-factor authentication required by the policy or an
+        // organization (two-factor-policy.ts). The page resumes with /oauth2/continue.
+        postLogin: {
+            page: "/two-factor/required",
+            consentReferenceId: () => undefined,
+            shouldRedirect: ({ user, isContinuation }) => shouldPromptForTwoFactor(user, isContinuation),
+        },
         // Replaced from the database before each request, see syncProviderScopes.
         scopes: [...OIDC_SCOPES, ...ENV_API_SCOPES],
         // Protected resources (1.7 replaces `validAudiences`): the auth server, then the APIs in
@@ -431,6 +448,11 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
             ...UNUSED_EMAIL_OTP_PATHS,
             ...API_KEY_PLUGIN_PATHS,
             DELETE_USER_LINK_PATH,
+            // The phone-number plugin's password sign-in and texted password reset: a phone only
+            // signs in with a code, and passwords are reset by email.
+            "/sign-in/phone-number",
+            "/phone-number/request-password-reset",
+            "/phone-number/reset-password",
             ...SSO_MANAGEMENT_PATHS,
             ...CLIENT_MANAGEMENT_HTTP_PATHS,
             // The jwt plugin's session JWT, see jwtOptions.
@@ -566,6 +588,9 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
                     if (ctx.path.includes("sign-in/username")) return "username";
                     // A One Tap sign-in is a Google sign-in (the "last used" hint and button).
                     if (ctx.path === "/one-tap/callback") return "google";
+                    if (ctx.path === "/phone-number/verify" && (ctx.body as { updatePhoneNumber?: unknown } | undefined)?.updatePhoneNumber !== true) {
+                        return "phone-number";
+                    }
                     return null;
                 },
             }),
@@ -603,6 +628,25 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
                     queueSignInCodeEmail({ to: email, code: otp, locale });
                 },
             }),
+            // Sign-in with a texted code, for accounts that verified a number (sms.ts, Twilio). Off
+            // unless the TWILIO_* variables are set. No sign-up by phone: accounts start with an
+            // email. A code goes only to a number already verified on an account (unless the
+            // signed-in person is adding one), so the endpoint cannot be used to text anyone.
+            ...(smsConfigured()
+                ? [
+                      phoneNumber({
+                          otpLength: SIGN_IN_CODE_LENGTH,
+                          expiresIn: SIGN_IN_CODE_MINUTES * 60,
+                          allowedAttempts: 3,
+                          phoneNumberValidator: (value) => PHONE_NUMBER_PATTERN.test(value),
+                          sendOTP: async ({ phoneNumber: to, code }, ctx) => {
+                              const adding = ctx ? Boolean(await getSessionFromCtx(ctx).catch(() => null)) : false;
+                              if (!adding && !(await verifiedPhoneExists(to))) return;
+                              queueSms("sign-in-code", to, `${code} is your ${brand.name} code. It expires in ${SIGN_IN_CODE_MINUTES} minutes.`, code);
+                          },
+                      }),
+                  ]
+                : []),
             // Optional: off unless CAPTCHA_PROVIDER, CAPTCHA_SITE_KEY and CAPTCHA_SECRET_KEY are set.
             ...(captchaOptions ? [captcha(captchaOptions)] : []),
             // Google One Tap on the sign-in and sign-up pages, off unless turned on for Google in the
@@ -626,6 +670,13 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
                 // Only platform admins can create organizations. The check runs on the
                 // server, so the UI is not the only gate.
                 allowUserToCreateOrganization: (user) => isPlatformAdmin(user.role),
+                // An organization's own roles (organization_role), on top of owner, admin and
+                // member, managed by those whose role has the `ac` permissions (owners and admins)
+                // or from the admin console. Their names are what `member.role` holds.
+                dynamicAccessControl: { enabled: true, maximumRolesPerOrganization: 50 },
+                // Teams inside an organization (team, team_member), with an active team per
+                // session. No default team: an organization starts with none.
+                teams: { enabled: true, defaultTeam: { enabled: false }, maximumTeams: 100 },
                 sendInvitationEmail: async (data) => {
                     const inviteUrl = `${baseURL}/${routing.defaultLocale}/accept-invitation/${data.id}`;
                     queueOrganizationInviteEmail({

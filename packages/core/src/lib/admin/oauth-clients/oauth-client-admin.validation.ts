@@ -5,6 +5,7 @@ import { ENV_API_SCOPES, OIDC_SCOPES } from "@ostiary/core/lib/oauth-scopes";
 import {
   DEVICE_CODE_GRANT_TYPE,
   isMachineClient,
+  type ClientJwks,
   type CreateOAuthClientAdminInput,
   type UpdateOAuthClientAdminInput,
 } from "@ostiary/core/lib/admin/oauth-clients/oauth-client-admin.types";
@@ -17,7 +18,63 @@ const tokenEndpointAuthMethodSchema = z.enum([
   "none",
   "client_secret_basic",
   "client_secret_post",
+  "private_key_jwt",
 ]);
+
+/** Private members of a JWK: a JWKS registered for an app holds its public keys only. */
+const PRIVATE_JWK_MEMBERS = ["d", "p", "q", "dp", "dq", "qi", "oth", "k"];
+/** Members each key type needs. Symmetric keys (`oct`) are refused: they would be secrets. */
+const REQUIRED_JWK_MEMBERS: Record<string, string[]> = { RSA: ["n", "e"], EC: ["crv", "x", "y"], OKP: ["crv", "x"] };
+export const MAX_CLIENT_JWKS_KEYS = 10;
+
+/**
+ * Why `value` is not a JWKS of public keys an app can sign client assertions with
+ * (`private_key_jwt`), or null. Better Auth checks the signature with them at the token endpoint.
+ */
+export function clientJwksError(value: unknown): string | null {
+  const keys = (value as { keys?: unknown } | null)?.keys;
+  if (!value || typeof value !== "object" || !Array.isArray(keys) || keys.length === 0) {
+    return 'The JWKS must be a JSON object with a "keys" list.';
+  }
+  if (keys.length > MAX_CLIENT_JWKS_KEYS) return `The JWKS may hold at most ${MAX_CLIENT_JWKS_KEYS} keys.`;
+  for (const key of keys as unknown[]) {
+    if (!key || typeof key !== "object" || Array.isArray(key)) return "Each key in the JWKS must be a JSON object.";
+    const jwk = key as Record<string, unknown>;
+    const required = typeof jwk.kty === "string" ? REQUIRED_JWK_MEMBERS[jwk.kty] : undefined;
+    if (!required) return "Each key must be an RSA, EC or OKP public key (kty).";
+    if (PRIVATE_JWK_MEMBERS.some((member) => member in jwk)) {
+      return "The JWKS holds a private key: register the public keys only.";
+    }
+    if (required.some((member) => typeof jwk[member] !== "string" || !jwk[member])) {
+      return `An ${jwk.kty} key needs ${required.join(", ")}.`;
+    }
+  }
+  return null;
+}
+
+const clientJwksSchema = z.record(z.string(), z.unknown()).superRefine((value, ctx) => {
+  const error = clientJwksError(value);
+  if (error) ctx.addIssue({ code: z.ZodIssueCode.custom, message: error });
+});
+
+export const BACKCHANNEL_LOGOUT_URI_MESSAGE = "The back-channel logout URI must be an https URL.";
+/** https only, no fragment: Better Auth also refuses private and reserved addresses. */
+const backchannelLogoutUriSchema = z
+  .string()
+  .trim()
+  .refine((value) => {
+    try {
+      const url = new URL(value);
+      return url.protocol === "https:" && !url.hash && !url.username && !url.password;
+    } catch {
+      return false;
+    }
+  }, BACKCHANNEL_LOGOUT_URI_MESSAGE);
+
+export const BACKCHANNEL_WITHOUT_USERS_MESSAGE =
+  "Back-channel logout is for apps that sign users in (authorization_code).";
+export const JWKS_WITHOUT_PRIVATE_KEY_JWT_MESSAGE =
+  "A JWKS is for apps that authenticate with private_key_jwt, and private_key_jwt needs one.";
 
 const oauthClientApplicationTypeSchema = z.enum([
   "web",
@@ -93,6 +150,18 @@ const DEFAULT_GRANT_TYPES = [
   "refresh_token",
 ] as const;
 
+export const PAIRWISE_WITHOUT_USERS_MESSAGE =
+  "Pairwise user IDs are for apps that sign users in (authorization_code).";
+
+/**
+ * A client ID chosen by an admin: 3 to 128 letters, digits, `.`, `_` or `-`, enough for the IDs
+ * of Auth0, Keycloak, Cognito, Okta or Entra. No `:` or `/`, which a client ID that is a URL
+ * (a Client ID Metadata Document) has.
+ */
+export const CUSTOM_CLIENT_ID_PATTERN = /^[A-Za-z0-9._-]{3,128}$/;
+export const INVALID_CLIENT_ID_MESSAGE =
+  "A client ID has 3 to 128 letters, digits, dots, underscores or hyphens.";
+
 /**
  * Body schema for creating a client. `apiScopes` are the API scopes currently registered
  * (`currentApiScopes()`); they change at runtime, so the schema is built per request.
@@ -104,6 +173,13 @@ export const createOAuthClientBodySchema = (apiScopes: readonly string[] = ENV_A
       // Only the authorization_code grant redirects (checked below): a machine client has none.
       redirect_uris: z.array(z.string().min(1)).optional().default([]),
       client_name: z.string().optional(),
+      // Empty or left out: Better Auth generates one.
+      client_id: z
+        .string()
+        .trim()
+        .transform((id) => id || undefined)
+        .pipe(z.string().regex(CUSTOM_CLIENT_ID_PATTERN, INVALID_CLIENT_ID_MESSAGE).optional())
+        .optional(),
       token_endpoint_auth_method: tokenEndpointAuthMethodSchema.default(
         "client_secret_basic",
       ),
@@ -116,6 +192,15 @@ export const createOAuthClientBodySchema = (apiScopes: readonly string[] = ENV_A
       response_types: z.array(z.literal("code")).optional(),
       type: oauthClientApplicationTypeSchema.optional(),
       skip_consent: z.boolean().optional().default(false),
+      // OpenID Connect Back-Channel Logout: Ostiary posts a logout token there when the user's
+      // session ends. Needs sessions, so the authorization_code grant (checked below).
+      backchannel_logout_uri: backchannelLogoutUriSchema.optional(),
+      backchannel_logout_session_required: z.boolean().optional(),
+      // The app's public keys, with token_endpoint_auth_method "private_key_jwt". No jwks_uri:
+      // Better Auth only fetches one from Ostiary's own (trusted) origins.
+      jwks: clientJwksSchema.optional(),
+      // "pairwise": the app gets a `sub` of its own (PAIRWISE_SECRET). Set on create only.
+      subject_type: z.enum(["public", "pairwise"]).optional(),
       // Off unless asked for, as in Better Auth: the console's dialog asks for it explicitly.
       enable_end_session: z.boolean().optional().default(false),
       post_logout_redirect_uris: postLogoutRedirectUrisSchema,
@@ -135,6 +220,26 @@ export const createOAuthClientBodySchema = (apiScopes: readonly string[] = ENV_A
           message: POST_LOGOUT_WITHOUT_END_SESSION_MESSAGE,
         });
       }
+      if ((v.token_endpoint_auth_method === "private_key_jwt") !== Boolean(v.jwks)) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["jwks"], message: JWKS_WITHOUT_PRIVATE_KEY_JWT_MESSAGE });
+      }
+      if (
+        (v.backchannel_logout_uri || v.backchannel_logout_session_required !== undefined) &&
+        !v.grant_types.includes("authorization_code")
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["backchannel_logout_uri"],
+          message: BACKCHANNEL_WITHOUT_USERS_MESSAGE,
+        });
+      }
+      if (v.subject_type === "pairwise" && !v.grant_types.includes("authorization_code")) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["subject_type"],
+          message: PAIRWISE_WITHOUT_USERS_MESSAGE,
+        });
+      }
       if (v.grant_types.includes("authorization_code") && v.redirect_uris.length === 0) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -148,7 +253,7 @@ export const createOAuthClientBodySchema = (apiScopes: readonly string[] = ENV_A
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           path: ["token_endpoint_auth_method"],
-          message: "client_credentials clients must be confidential (client_secret_basic or client_secret_post)",
+          message: "client_credentials clients must be confidential (client secret or private_key_jwt)",
         });
       }
       // A client without scopes may request every server scope, so machine
@@ -187,6 +292,11 @@ const updateOAuthClientBodySchema = (apiScopes: readonly string[] = ENV_API_SCOP
     // Empty or null clears them.
     policy_uri: linkUriSchema,
     tos_uri: linkUriSchema,
+    // Empty or null turns back-channel logout off.
+    backchannel_logout_uri: z.union([z.literal(""), backchannelLogoutUriSchema]).nullable().optional(),
+    backchannel_logout_session_required: z.boolean().optional(),
+    // Replaces the keys of a private_key_jwt app (checked against the stored method).
+    jwks: clientJwksSchema.optional(),
   })
   .strict()
   .refine(
@@ -231,6 +341,15 @@ const updateOAuthClientBodySchema = (apiScopes: readonly string[] = ENV_API_SCOP
     }
     if (data.tos_uri !== undefined) {
       out.tos_uri = data.tos_uri || null;
+    }
+    if (data.backchannel_logout_uri !== undefined) {
+      out.backchannel_logout_uri = data.backchannel_logout_uri || null;
+    }
+    if (data.backchannel_logout_session_required !== undefined) {
+      out.backchannel_logout_session_required = data.backchannel_logout_session_required;
+    }
+    if (data.jwks !== undefined) {
+      out.jwks = data.jwks as ClientJwks;
     }
     return out;
   });
@@ -282,11 +401,18 @@ export function parseCreateOAuthClientBody(
     value: {
       redirect_uris: v.redirect_uris,
       client_name: v.client_name,
+      ...(v.client_id ? { client_id: v.client_id } : {}),
       token_endpoint_auth_method: v.token_endpoint_auth_method,
       grant_types: v.grant_types,
       response_types: v.grant_types.includes("authorization_code") ? ["code"] : [],
       type: v.type,
       skip_consent: v.skip_consent,
+      ...(v.subject_type === "pairwise" ? { subject_type: "pairwise" as const } : {}),
+      ...(v.backchannel_logout_uri ? { backchannel_logout_uri: v.backchannel_logout_uri } : {}),
+      ...(v.backchannel_logout_session_required !== undefined
+        ? { backchannel_logout_session_required: v.backchannel_logout_session_required }
+        : {}),
+      ...(v.jwks ? { jwks: v.jwks as ClientJwks } : {}),
       enable_end_session: v.enable_end_session,
       ...(v.post_logout_redirect_uris?.length
         ? { post_logout_redirect_uris: v.post_logout_redirect_uris }

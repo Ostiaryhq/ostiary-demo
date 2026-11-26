@@ -6,6 +6,7 @@ import { appLinkOf, appShowsProvider, appSocialProviders } from "@/lib/app-links
 import { enabledSocialProviders, googleOneTap } from "@ostiary/core/lib/social-providers";
 import { demoMode } from "@ostiary/core/lib/demo";
 import { redirect } from "@/i18n/navigation";
+import { currentAuthPolicy } from "@ostiary/core/lib/auth-policy";
 
 // Providers enabled from the admin console are read at request time.
 export const dynamic = "force-dynamic";
@@ -29,7 +30,7 @@ export default async function Page({
     const qs = search.toString();
     redirect({ href: `/login${qs ? `?${qs}` : ""}`, locale });
   }
-  const [app, providers] = await Promise.all([authScreenApp(query), enabledSocialProviders()]);
+  const [app, providers, policy] = await Promise.all([authScreenApp(query), enabledSocialProviders(), currentAuthPolicy()]);
   // An app whose branding hides Google also gets no One Tap prompt.
   const oneTap = appShowsProvider(app, "google") ? await googleOneTap() : null;
 
@@ -40,6 +41,8 @@ export default async function Page({
         captcha={captchaConfig()}
         oneTap={oneTap}
         appLink={appLinkOf(app)}
+        passwordSignUp={policy.passwordSignUp}
+        minPasswordLength={policy.minPasswordLength}
       />
     </AuthScreen>
   );

@@ -43,6 +43,7 @@
         "error": "Die E-Mail konnte nicht gesendet werden. Versuchen Sie es in einer Minute erneut."
       },
       "addAccountDescription": "Bereits in diesem Browser angemeldete Konten bleiben angemeldet.",
+      "phoneCode": "Anmeldecode per SMS senden",
       "demo": {
         "title": "Demo ausprobieren",
         "description": "Gemeinsame Beispielkonten, die bei jedem Update zurückgesetzt werden. Passwort, E-Mail-Adresse und Anmeldemethoden lassen sich nicht ändern.",
@@ -128,7 +129,7 @@
       "backToLogin": "Zurück zur Anmeldung",
       "newPasswordLabel": "Neues Passwort",
       "confirmPasswordLabel": "Passwort bestätigen",
-      "passwordHint": "Mindestens 8 Zeichen lang.",
+      "passwordHint": "Mindestens {min} Zeichen lang.",
       "passwordMismatch": "Die Passwörter stimmen nicht überein",
       "submit": "Passwort ändern",
       "submitting": "Wird geändert…",
@@ -154,7 +155,7 @@
       "emailDescription": "Wir verwenden sie, um Sie zu kontaktieren. Wir geben Ihre E-Mail-Adresse nicht an Dritte weiter.",
       "passwordLabel": "Passwort",
       "confirmPasswordLabel": "Passwort bestätigen",
-      "passwordHint": "Mindestens 8 Zeichen lang.",
+      "passwordHint": "Mindestens {min} Zeichen lang.",
       "confirmPasswordHint": "Bitte bestätigen Sie Ihr Passwort.",
       "passwordMismatch": "Die Passwörter stimmen nicht überein",
       "submit": "Konto erstellen",
@@ -169,7 +170,9 @@
         "usernameTooShort": "Der Benutzername muss mindestens 3 Zeichen lang sein.",
         "usernameInvalid": "Dieser Benutzername ist ungültig.",
         "usernameTaken": "Dieser Benutzername ist bereits vergeben. Versuchen Sie einen anderen."
-      }
+      },
+      "passwordSignUpOff": "Die Registrierung mit Passwort ist deaktiviert. Erstelle dein Konto mit einem dieser Anbieter:",
+      "signUpClosed": "Hier können keine neuen Konten erstellt werden. Bitte einen Administrator um ein Konto."
     },
     "screen": {
       "headline": "Ein Konto für <accent>alle Ihre Apps</accent>.",
@@ -194,6 +197,42 @@
       "continue": "Weiter zu <app>{name}</app>",
       "unverified": "Nicht verifizierte App.",
       "unverifiedHint": "{name} hat sie nicht geprüft: Fahren Sie nur fort, wenn Sie ihr vertrauen."
+    },
+    "twoFactorRequired": {
+      "metaTitle": "Zwei-Faktor-Authentifizierung erforderlich",
+      "title": "Zwei-Faktor-Authentifizierung einschalten",
+      "byOrganization": "Die Administratoren deiner Organisation verlangen Zwei-Faktor-Authentifizierung für die Anmeldung bei Apps.",
+      "byPlatform": "Für die Anmeldung bei Apps ist Zwei-Faktor-Authentifizierung erforderlich.",
+      "until": "Schalte sie vor dem {date} ein.",
+      "now": "Schalte sie ein, um fortzufahren.",
+      "how": "Nutze eine Authenticator-App (etwa Google Authenticator oder 1Password) oder füge auf deiner Kontoseite einen Passkey hinzu.",
+      "setUp": "Zwei-Faktor-Authentifizierung einrichten",
+      "later": "Später erinnern",
+      "continue": "Weiter"
+    },
+    "phoneCode": {
+      "title": "Per SMS anmelden",
+      "description": "Wir senden einen 6-stelligen Code per SMS an die Telefonnummer deines Kontos.",
+      "phoneLabel": "Telefonnummer",
+      "phoneHint": "Internationales Format, mit + und Ländervorwahl.",
+      "send": "Code senden",
+      "sending": "Wird gesendet…",
+      "sentTitle": "Sieh auf dein Telefon",
+      "sent": "Wenn ein Konto {phone} verwendet, ist ein 6-stelliger Code unterwegs. Er läuft in {minutes} Minuten ab.",
+      "codeLabel": "Anmeldecode",
+      "verify": "Anmelden",
+      "verifying": "Anmeldung…",
+      "newCode": "Nichts erhalten? Neuen Code senden",
+      "usePassword": "Stattdessen Passwort verwenden",
+      "errors": {
+        "invalidPhone": "Gib die Nummer im internationalen Format ein, etwa +4915112345678.",
+        "invalidCode": "Der Code stimmt nicht. Prüfe ihn und versuche es erneut.",
+        "expired": "Der Code ist abgelaufen. Fordere einen neuen an.",
+        "tooManyAttempts": "Zu viele falsche Codes. Fordere einen neuen an.",
+        "rateLimited": "Zu viele Versuche. Warte ein paar Minuten und versuche es erneut.",
+        "sendFailed": "Der Code konnte nicht gesendet werden. Versuche es in ein paar Minuten erneut.",
+        "signInFailed": "Anmeldung fehlgeschlagen. Versuche es erneut."
+      }
     }
   },
   "consent": {
@@ -380,7 +419,8 @@
           "duplicates": "×{count}",
           "duplicatesHint": "{count} identische selbst registrierte Clients",
           "showDuplicates": "Alle {count} anzeigen",
-          "hideDuplicates": "Identische ausblenden"
+          "hideDuplicates": "Identische ausblenden",
+          "previousSecretUntil": "Vorheriges Secret gültig bis {date}"
         },
         "registration": {
           "title": "Selbstregistrierung",
@@ -524,6 +564,8 @@
             "organization_id": "ID der aktiven Organisation",
             "organization_slug": "Slug der aktiven Organisation",
             "organization_role": "Rolle in der aktiven Organisation",
+            "organization_permissions": "Berechtigungen in der aktiven Organisation",
+            "organization_teams": "Teams in der aktiven Organisation",
             "organizations": "Organisationsmitgliedschaften"
           }
         },
@@ -584,6 +626,8 @@
           "allowedScopesHint": "Für die Anmeldung openid einschließen, für Refresh-Tokens offline_access.",
           "iconUrlLabel": "Symbol-URL",
           "iconUrlHint": "Wird für die App in der Konsole, auf dem Zustimmungsbildschirm und in den Konten der Nutzer angezeigt. Nützlich für Apps, die nur auf localhost weiterleiten. https, PNG/JPEG/WebP/AVIF/GIF/ICO/SVG.",
+          "clientIdLabel": "Client-ID (optional)",
+          "clientIdHint": "Leer lassen, um eine zu erzeugen. Für eine App von einem anderen Anbieter ihre bisherige Client-ID eingeben, damit sie unverändert weiterläuft: 3 bis 128 Buchstaben, Ziffern, Punkte, Unterstriche oder Bindestriche.",
           "deviceCodeLabel": "Geräteanmeldung (CLIs, TVs)",
           "deviceCodeHint": "Fügt den Device-Code-Grant hinzu (RFC 8628): Die App zeigt einen Code an, und der Benutzer bestätigt ihn unter <code>{path}</code> auf einem anderen Bildschirm. Meist ein öffentlicher Client.",
           "endSessionLabel": "Abmeldung aus der App (RP-initiated Logout)",
@@ -592,6 +636,8 @@
           "postLogoutUrisHint": "Wohin die App Benutzer nach der Abmeldung zurückschicken darf (post_logout_redirect_uri, exakte Übereinstimmung). Eine pro Zeile oder durch Kommas getrennt. Ohne URI sehen Benutzer eine Abmeldeseite.",
           "skipConsentLabel": "Einwilligung überspringen (vertrauenswürdiger Client)",
           "skipConsentHint": "Benutzer sehen für diese Anwendung keinen Einwilligungsbildschirm. Nur für eigene oder vollständig vertrauenswürdige Integrationen verwenden.",
+          "pairwiseLabel": "Paarweise Benutzer-IDs",
+          "pairwiseHint": "Benutzer erhalten hier eine andere ID (sub) als in Apps auf anderen Hosts, die ihre Benutzer daher nicht mit dieser App abgleichen können. Alle Weiterleitungs-URIs müssen auf demselben Host liegen. Kann später nicht geändert werden.",
           "registerFailed": "Anwendung konnte nicht registriert werden",
           "missingClientId": "Der Server hat keine {field} zurückgegeben.",
           "registered": "OAuth-Anwendung registriert",
@@ -604,7 +650,18 @@
           "clientId": "Client-ID",
           "clientSecret": "Client-Secret",
           "copyClientId": "Client-ID kopieren",
-          "copyClientSecret": "Client-Secret kopieren"
+          "copyClientSecret": "Client-Secret kopieren",
+          "authMethodLabel": "Client-Authentifizierung",
+          "authMethodSecret": "Client-Secret",
+          "authMethodPrivateKey": "Private-Key-JWT (öffentliche Schlüssel)",
+          "jwksLabel": "Öffentliche Schlüssel (JWKS)",
+          "jwksHint": "Die öffentlichen Schlüssel der App als JSON Web Key Set. Die App signiert am Token-Endpunkt eine Client-Assertion mit ihrem privaten Schlüssel (private_key_jwt). Zum Ändern die App bearbeiten oder die App /api/auth/oauth2/client/rotate-keys aufrufen lassen.",
+          "jwksInvalidJson": "Das JWKS ist kein gültiges JSON.",
+          "backchannelUriLabel": "Back-Channel-Logout-URI (optional)",
+          "backchannelUriHint": "Endet die Sitzung eines Benutzers, sendet Ostiary ein signiertes Logout-Token an diese https-URL, damit die App ihn ebenfalls abmeldet.",
+          "backchannelSessionLabel": "Die App braucht die Sitzungs-ID (sid)",
+          "backchannelSessionHint": "Ostiary nimmt sid in das Logout-Token auf: Die App findet damit die zu beendende Sitzung.",
+          "successPrivateKey": "Es wird kein Secret ausgestellt: Die App authentifiziert sich mit einer Client-Assertion, die mit einem ihrer registrierten Schlüssel signiert ist."
         },
         "rowActions": {
           "menuLabel": "Aktionen für {name}",
@@ -662,15 +719,25 @@
           },
           "rotateDialog": {
             "title": "Client-Secret rotieren?",
-            "description": "Das bisherige Secret funktioniert sofort nicht mehr. Bewahren Sie das neue Secret sicher auf, es wird möglicherweise nur einmal angezeigt.",
+            "description": "Speichere das neue Secret sicher, es wird eventuell nur einmal angezeigt. Das aktuelle Secret funktioniert sofort nicht mehr oder erst am Ende der gewählten Übergangsfrist, damit die App vorher umstellen kann.",
             "newSecretLabel": "Neues Client-Secret",
             "copySecret": "Secret kopieren",
             "secretCopied": "Secret kopiert",
             "rotating": "Wird rotiert…",
             "rotateFailed": "Secret konnte nicht rotiert werden",
             "newSecretIssued": "Neues Client-Secret ausgestellt, kopieren Sie es jetzt",
-            "rotated": "Secret rotiert"
-          }
+            "rotated": "Secret rotiert",
+            "graceLabel": "Aktuelles Secret funktioniert weiter",
+            "graceNone": "Nein, es funktioniert sofort nicht mehr",
+            "grace1h": "1 Stunde",
+            "grace24h": "24 Stunden",
+            "grace7d": "7 Tage",
+            "graceReplaces": "Das bei der vorherigen Rotation behaltene Secret funktioniert ab sofort nicht mehr."
+          },
+          "rotateHintPrivateKey": "Diese App authentifiziert sich mit ihren Schlüsseln, nicht mit einem Secret",
+          "revokePreviousSecret": "Vorheriges Secret jetzt widerrufen",
+          "revokePreviousFailed": "Das vorherige Secret konnte nicht widerrufen werden",
+          "previousSecretRevoked": "Vorheriges Secret widerrufen"
         },
         "selfRegistered": {
           "menuLabel": "Aktionen für {name}",
@@ -1317,6 +1384,47 @@
               }
             }
           }
+        },
+        "custom": {
+          "title": "Eigene OpenID-Connect-Anbieter",
+          "description": "Jeder OpenID-Connect-Anbieter (Keycloak, Okta, Authentik, der Ihres Unternehmens) als Anmeldeschaltfläche, neben den Anbietern oben.",
+          "add": "Anbieter hinzufügen",
+          "empty": "Noch kein eigener Anbieter.",
+          "on": "An",
+          "off": "Aus",
+          "linkedAccounts": "{count, plural, one {# verknüpftes Konto} other {# verknüpfte Konten}}",
+          "edit": "Bearbeiten",
+          "editProvider": "{name} bearbeiten",
+          "remove": "Entfernen",
+          "removeProvider": "{name} entfernen",
+          "removeTitle": "{name} entfernen?",
+          "removeDescription": "Die Schaltfläche verschwindet von den Anmeldeseiten. Konten, die sie genutzt haben, bleiben bestehen, können sich aber nicht mehr mit diesem Anbieter anmelden.",
+          "removed": "Anbieter entfernt.",
+          "cancel": "Abbrechen",
+          "save": "Speichern",
+          "saved": "Anbieter gespeichert.",
+          "addTitle": "OpenID-Connect-Anbieter hinzufügen",
+          "editTitle": "{name} bearbeiten",
+          "dialogDescription": "Registriere Ostiary beim Anbieter als Webanwendung mit der Weiterleitungs-URI unten und trage dann ein, was der Anbieter dir gibt. Beim Speichern wird das Discovery-Dokument des Anbieters geprüft.",
+          "name": "Name der Schaltfläche",
+          "nameHint": "Wird auf den Anmelde- und Registrierungsseiten als „Weiter mit …“ angezeigt.",
+          "slug": "Anbieter-ID",
+          "slugHint": "Kleinbuchstaben, Ziffern und Bindestriche. Teil der Weiterleitungs-URI, später nicht änderbar.",
+          "callbackUrl": "Weiterleitungs-URI",
+          "callbackUrlHint": "Registriere genau diese URI beim Anbieter.",
+          "discoveryUrl": "Discovery-URL",
+          "discoveryUrlHint": "Die /.well-known/openid-configuration-URL des Anbieters (https, öffentliche Adresse).",
+          "clientId": "Client-ID",
+          "clientSecret": "Client-Secret",
+          "clientSecretHint": "Leer lassen für einen öffentlichen Client (nur PKCE).",
+          "secretKept": "Leer lassen, um das gespeicherte Secret zu behalten",
+          "secretUnreadable": "Das gespeicherte Secret ist nicht lesbar (BETTER_AUTH_SECRET geändert): bitte erneut eingeben.",
+          "scopes": "Scopes",
+          "scopesHint": "Durch Leerzeichen getrennt. Muss openid enthalten.",
+          "enabled": "Auf den Anmeldeseiten anzeigen",
+          "enabledHint": "Aus: Der Anbieter ist gespeichert, wird aber nicht angeboten.",
+          "allowSignUp": "Konten für neue Benutzer erstellen",
+          "allowSignUpHint": "Aus: Nur Personen mit bestehendem Konto können sich damit anmelden."
         }
       },
       "apiKeys": {
@@ -1829,7 +1937,8 @@
             "export_data": "Kontodaten exportiert",
             "self_delete": "Eigenes Konto gelöscht",
             "export_csv": "Benutzer als CSV exportiert",
-            "import": "Benutzer importiert"
+            "import": "Benutzer importiert",
+            "remove_phone_number": "Hat die Telefonnummer entfernt"
           },
           "oauth_client": {
             "create": "OAuth-Client registriert",
@@ -1842,7 +1951,8 @@
             "branding_update": "Anmelde-Branding geändert",
             "branding_reset": "Anmelde-Branding zurückgesetzt",
             "claims_update": "Token-Claims geändert",
-            "remove_duplicates": "Doppelte OAuth-Clients entfernt"
+            "remove_duplicates": "Doppelte OAuth-Clients entfernt",
+            "revoke_previous_secret": "Vorheriges Client-Secret widerrufen"
           },
           "client_registration": {
             "update": "Client-Selbstregistrierung geändert"
@@ -1878,7 +1988,15 @@
             "invite": "Mitglied eingeladen",
             "cancel_invitation": "Einladung zurückgezogen",
             "update_member_role": "Mitgliedsrolle geändert",
-            "remove_member": "Mitglied entfernt"
+            "remove_member": "Mitglied entfernt",
+            "create_role": "Organisationsrolle erstellt",
+            "update_role": "Organisationsrolle geändert",
+            "delete_role": "Organisationsrolle gelöscht",
+            "create_team": "Team erstellt",
+            "update_team": "Team umbenannt",
+            "delete_team": "Team gelöscht",
+            "add_team_member": "Mitglied zu einem Team hinzugefügt",
+            "remove_team_member": "Mitglied aus einem Team entfernt"
           },
           "sso_provider": {
             "create": "SSO-Anbieter registriert",
@@ -1913,6 +2031,9 @@
           },
           "audit_log": {
             "export_csv": "Audit-Log als CSV exportiert"
+          },
+          "security": {
+            "update_policy": "Sitzungs- und Passwortrichtlinie geändert"
           }
         },
         "actorPlaceholder": "Nach Ausführendem suchen (E-Mail)…",
@@ -1958,6 +2079,38 @@
           "noReason": "Kein Grund angegeben",
           "until": "bis {date}",
           "permanent": "dauerhaft"
+        },
+        "policy": {
+          "title": "Sitzungen und Passwörter",
+          "description": "Wie lange man in der Auth-App angemeldet bleibt und wie Passwörter gewählt werden. Apps behalten ihre eigenen Tokens und Refresh-Tokens.",
+          "edit": "Bearbeiten",
+          "on": "An",
+          "off": "Aus",
+          "days": "{count, plural, one {# Tag} other {# Tage}}",
+          "characters": "{count, plural, one {# Zeichen} other {# Zeichen}}",
+          "sessionDays": "Sitzungsdauer",
+          "sessionDaysHint": "Wie lange eine Anmeldung gilt. Vor einer Änderung erstellte Sitzungen behalten ihr Ablaufdatum; bei der nächsten Verlängerung gilt die neue Dauer.",
+          "extendSessions": "Sitzungen bei Nutzung verlängern",
+          "extendSessionsHint": "An: Eine Sitzung gilt {count, plural, one {# Tag} other {# Tage}} nach der letzten Nutzung. Aus: Sie endet {count, plural, one {# Tag} other {# Tage}} nach der Anmeldung, ob genutzt oder nicht.",
+          "signOutOnPasswordChange": "Bei Passwortänderung überall abmelden",
+          "signOutOnPasswordChangeHint": "Eine Passwortänderung beendet die anderen Sitzungen des Kontos und widerruft die Tokens seiner Apps, wie ein Zurücksetzen. Aus: Jede Person entscheidet selbst.",
+          "minPasswordLength": "Mindestlänge des Passworts",
+          "minPasswordLengthHint": "Gilt für neue Passwörter (Registrierung, Zurücksetzen, Änderung). Bestehende Passwörter funktionieren weiter.",
+          "passwordSignUp": "Registrierung mit Passwort",
+          "passwordSignUpHint": "Aus: Konten können nicht mehr mit E-Mail und Passwort erstellt werden, nur mit einem Social-Anbieter oder dem SSO der Organisation. Admins können weiterhin Konten anlegen, und bestehende Passwörter funktionieren weiter.",
+          "dialogDescription": "Die Auth-App übernimmt sie innerhalb einer Minute.",
+          "save": "Speichern",
+          "cancel": "Abbrechen",
+          "saved": "Richtlinie gespeichert. Die Auth-App übernimmt sie innerhalb einer Minute.",
+          "errors": {
+            "invalid": "Wähle einen der angebotenen Werte.",
+            "save": "Die Richtlinie konnte nicht gespeichert werden."
+          },
+          "twoFactorEveryone": "Zwei Faktoren für alle",
+          "twoFactorEveryoneHint": "Alle müssen sich mit einer Authenticator-App oder einem Passkey bei Apps anmelden. Admins: REQUIRE_ADMIN_2FA. Organisationen können es auf ihrer Seite für ihre Mitglieder verlangen.",
+          "twoFactorGraceDays": "Frist zum Einschalten",
+          "twoFactorGraceDaysHint": "Wer keine zwei Faktoren hat, wird bei jeder App-Anmeldung gefragt und kann bis dahin weitermachen. Die Frist beginnt mit dem Einschalten oder mit der Kontoerstellung.",
+          "noGrace": "Keine: sofort erforderlich"
         }
       },
       "signingKeys": {
@@ -1982,7 +2135,10 @@
           "graceHint": "Wie lange ein ausgemusterter Schlüssel veröffentlicht bleibt. Wähle mehr als die längste Token-Lebensdauer (Access-Tokens: 1 Stunde, ID-Tokens: 1 Stunde).",
           "save": "Speichern",
           "cancel": "Abbrechen",
-          "saved": "Einstellungen gespeichert. Der Auth-Server übernimmt sie innerhalb einer Minute."
+          "saved": "Einstellungen gespeichert. Der Auth-Server übernimmt sie innerhalb einer Minute.",
+          "algorithm": "Signaturalgorithmus",
+          "algorithmHint": "Standard ist EdDSA (Ed25519). Wähle ES256 oder RS256 für APIs und Gateways, die nur diese prüfen, etwa AWS API Gateway oder Azure API Management. Eine Änderung erzeugt sofort einen Schlüssel mit dem neuen Algorithmus; der aktuelle Schlüssel bleibt während der Übergangsfrist veröffentlicht.",
+          "savedAlgorithm": "Einstellungen gespeichert. Neue Tokens werden mit {alg} signiert (Schlüssel {kid})."
         },
         "keys": {
           "title": "Schlüssel",
@@ -2014,7 +2170,8 @@
           "interval": "Wähle eines der angebotenen Rotationsintervalle.",
           "grace": "Wähle eine der angebotenen Übergangsfristen.",
           "save": "Einstellungen konnten nicht gespeichert werden.",
-          "rotate": "Schlüssel konnte nicht rotiert werden."
+          "rotate": "Schlüssel konnte nicht rotiert werden.",
+          "algorithm": "Wähle einen der angebotenen Algorithmen."
         }
       },
       "organizations": {
@@ -2100,7 +2257,14 @@
           "scimCounts": "{active} bereitgestellt, {inactive} deaktiviert.",
           "recentActions": "Letzte Admin-Aktionen",
           "noActions": "Noch keine.",
-          "system": "System"
+          "system": "System",
+          "twoFactor": {
+            "title": "Zwei-Faktor-Authentifizierung",
+            "label": "Zwei-Faktor-Authentifizierung für Mitglieder verlangen",
+            "hint": "Mitglieder müssen sich nach der auf der Sicherheitsseite festgelegten Frist mit einer Authenticator-App oder einem Passkey bei Apps anmelden.",
+            "on": "Zwei-Faktor-Authentifizierung ist jetzt für die Mitglieder dieser Organisation erforderlich.",
+            "off": "Zwei-Faktor-Authentifizierung ist für die Mitglieder dieser Organisation nicht mehr erforderlich."
+          }
         },
         "errors": {
           "invalidNameSlug": "Geben Sie einen Namen und einen Slug aus Buchstaben, Ziffern und Bindestrichen ein.",
@@ -2119,6 +2283,61 @@
           "lastOwner": "Eine Organisation braucht mindestens einen Inhaber. Machen Sie zuerst ein anderes Mitglied zum Inhaber.",
           "publicDelete": "Der Public-Arbeitsbereich kann nicht gelöscht werden.",
           "organizationNotFound": "Organisation nicht gefunden."
+        },
+        "rolesTeams": {
+          "rolesTitle": "Eigene Rollen",
+          "teamsTitle": "Teams",
+          "rolesDescription": "Rollen dieser Organisation zusätzlich zu Owner, Admin und Mitglied, jede mit eigenen Berechtigungen. Sie werden Mitgliedern wie die eingebauten zugewiesen, und Tokens enthalten den Rollennamen (organization.role) und die Berechtigungen (organization.permissions).",
+          "noRoles": "Keine eigene Rolle.",
+          "memberCount": "{count, plural, one {# Mitglied} other {# Mitglieder}}",
+          "noPermissions": "Keine Berechtigungen",
+          "edit": "Bearbeiten",
+          "delete": "Löschen",
+          "editRole": "{role} bearbeiten",
+          "deleteRole": "{role} löschen",
+          "addRole": "Rolle hinzufügen",
+          "deleteRoleTitle": "{role} löschen?",
+          "deleteRoleDescription": "Die Rolle verschwindet aus dieser Organisation. Sie kann erst gelöscht werden, wenn kein Mitglied sie hat.",
+          "cancel": "Abbrechen",
+          "roleDeleted": "Rolle gelöscht.",
+          "roleSaved": "Rolle gespeichert.",
+          "roleDialogDescription": "Wähle aus, was die Rolle in der Organisation darf. Owner und Admins der Organisation können Rollen auch selbst verwalten.",
+          "roleName": "Rollenname",
+          "roleNameHint": "2 bis 32 Kleinbuchstaben, Ziffern, Binde- oder Unterstriche, beginnend mit einem Buchstaben. Später nicht änderbar.",
+          "permissions": "Berechtigungen",
+          "save": "Speichern",
+          "teamsDescription": "Gruppen von Mitgliedern innerhalb der Organisation. Tokens enthalten die Teams des Mitglieds (organization.teams).",
+          "noTeams": "Kein Team.",
+          "teamCreated": "Team erstellt.",
+          "newTeam": "Neues Team",
+          "createTeam": "Team erstellen",
+          "teamRenamed": "Team umbenannt.",
+          "teamName": "Teamname",
+          "renameTeam": "{team} umbenennen",
+          "rename": "Umbenennen",
+          "deleteTeam": "{team} löschen",
+          "noTeamMembers": "Kein Mitglied in diesem Team.",
+          "removeFromTeam": "{email} aus {team} entfernen",
+          "remove": "Entfernen",
+          "teamMemberRemoved": "Mitglied aus dem Team entfernt.",
+          "teamMemberAdded": "Mitglied zum Team hinzugefügt.",
+          "addToTeam": "Mitglied zu {team} hinzufügen",
+          "memberEmail": "E-Mail des Mitglieds",
+          "add": "Hinzufügen",
+          "deleteTeamTitle": "{team} löschen?",
+          "deleteTeamDescription": "Das Team und seine Mitgliederliste werden gelöscht. Die Mitglieder bleiben in der Organisation.",
+          "teamDeleted": "Team gelöscht.",
+          "errors": {
+            "invalidName": "Ein Rollenname hat 2 bis 32 Kleinbuchstaben, Ziffern, Binde- oder Unterstriche und beginnt mit einem Buchstaben.",
+            "reservedName": "owner, admin und member sind eingebaute Rollen.",
+            "nameTaken": "Diese Organisation hat bereits eine Rolle mit diesem Namen.",
+            "invalidPermissions": "Eine der Berechtigungen ist unbekannt.",
+            "roleInUse": "Mitglieder haben diese Rolle: Gib ihnen zuerst eine andere.",
+            "notFound": "In dieser Organisation nicht gefunden.",
+            "notMember": "Diese Person ist kein Mitglied der Organisation.",
+            "alreadyInTeam": "Dieses Mitglied ist bereits im Team.",
+            "invalidTeamName": "Ein Teamname hat 1 bis 64 Zeichen."
+          }
         }
       }
     },
@@ -2314,7 +2533,8 @@
         "invalidCode": "Dieser Code ist ungültig. Prüfen Sie, ob die Uhrzeit Ihres Geräts stimmt, und versuchen Sie es erneut.",
         "rateLimited": "Zu viele Versuche. Warten Sie einige Sekunden und versuchen Sie es erneut.",
         "generic": "Etwas ist schiefgelaufen. Versuchen Sie es erneut."
-      }
+      },
+      "doneContinue": "Weiter zur App"
     },
     "organizations": {
       "title": "Organisationen",
@@ -2566,6 +2786,27 @@
     "impersonation": {
       "viewingAs": "Sie sehen dieses Konto als <strong>{email}</strong>.",
       "stop": "Ansicht beenden"
+    },
+    "phone": {
+      "title": "Telefonnummer",
+      "description": "Melde dich mit einem per SMS an diese Nummer gesendeten Code an.",
+      "none": "Keine Telefonnummer",
+      "add": "Nummer hinzufügen",
+      "change": "Ändern",
+      "remove": "Entfernen",
+      "phoneLabel": "Telefonnummer",
+      "phoneHint": "Internationales Format, mit + und Ländervorwahl. Wir senden zur Prüfung einen Code per SMS.",
+      "send": "Code senden",
+      "cancel": "Abbrechen",
+      "codeLabel": "An {phone} gesendeter Code",
+      "verify": "Nummer speichern",
+      "invalidPhone": "Gib die Nummer im internationalen Format ein, etwa +4915112345678.",
+      "sendFailed": "Der Code konnte nicht gesendet werden. Versuche es in ein paar Minuten erneut.",
+      "verifyFailed": "Der Code stimmt nicht oder ist abgelaufen.",
+      "taken": "Ein anderes Konto verwendet diese Nummer bereits.",
+      "saved": "Nummer gespeichert.",
+      "removeFailed": "Die Nummer konnte nicht entfernt werden.",
+      "removed": "Nummer entfernt."
     },
     "demo": {
       "title": "Demokonto",

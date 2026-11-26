@@ -29,6 +29,7 @@ import type { GoogleOneTapConfig } from "@ostiary/core/lib/social-provider-meta"
 import { authClient } from "@/lib/auth-client"
 import { ResendVerification } from "@/components/auth/resend-verification"
 import { EmailCodeSignIn } from "@/components/auth/email-code-sign-in"
+import { PhoneCodeSignIn } from "@/components/auth/phone-code-sign-in"
 import { useCaptcha } from "@/components/auth/captcha"
 import type { CaptchaConfig } from "@ostiary/core/lib/captcha-providers"
 import { safeCallbackURL } from "@/lib/safe-callback-url"
@@ -83,8 +84,11 @@ export function LoginForm({
   oneTap = null,
   appLink = null,
   demoAccounts = [],
+  sms = false,
   ...props
 }: React.ComponentProps<"div"> & {
+  /** Sign-in with a texted code is available (sms.ts). */
+  sms?: boolean
   socialProviders?: SocialProviderOption[]
   captcha?: CaptchaConfig | null
   oneTap?: GoogleOneTapConfig | null
@@ -98,7 +102,12 @@ export function LoginForm({
   const tSso = useTranslations("sso");
   const locale = useLocale()
   const searchParams = useSearchParams()
-  const callbackURL = safeCallbackURL(searchParams.get("callbackURL"), `/${locale}`)
+  // An app's signed OAuth request carries no callbackURL: after sign-in the flow resumes
+  // through the path that restarts it, like sign-up and social sign-in already do.
+  const callbackURL = safeCallbackURL(
+    searchParams.get("callbackURL"),
+    appLink?.resumePath ?? `/${locale}`,
+  )
   const showPostRegisterHint = searchParams.get("registered") === "1"
   // Signing in one more account (account menu, select-account page): the others stay signed in.
   const addingAccount = searchParams.get("addAccount") === "1"
@@ -112,7 +121,7 @@ export function LoginForm({
   const { lastUsedMethod, lastUsedHint } = useLastUsedMethod(socialProviders);
   const [needsVerification, setNeedsVerification] = useState(false);
   // "Email me a sign-in code" replaces the card until the user goes back to their password.
-  const [mode, setMode] = useState<"password" | "code">("password");
+  const [mode, setMode] = useState<"password" | "code" | "phone">("password");
   const captcha = useCaptcha(captchaConfig);
 
   useEffect(() => {
@@ -199,6 +208,19 @@ export function LoginForm({
   }
 
   const typedEmail = loginIdentifier.includes("@") ? loginIdentifier.trim() : undefined;
+
+  if (mode === "phone") {
+    return (
+      <div className={cn("flex flex-col gap-6", className)} {...props}>
+        <PhoneCodeSignIn
+          callbackURL={callbackURL}
+          captcha={captchaConfig}
+          onUsePassword={() => setMode("password")}
+          onTwoFactor={() => continueToTwoFactor(locale)}
+        />
+      </div>
+    );
+  }
 
   if (mode === "code") {
     return (
@@ -320,6 +342,18 @@ export function LoginForm({
                   {t("emailCode")}
                   {lastUsedMethod === "email-otp" ? <LastUsedBadge spaced /> : null}
                 </Button>
+                {sms ? (
+                  <Button
+                    type="button"
+                    variant={lastUsedMethod === "phone-number" ? "default" : "outline"}
+                    className="mt-2 w-full sm:w-auto"
+                    disabled={isSubmitting || passkeySubmitting}
+                    onClick={() => setMode("phone")}
+                  >
+                    {t("phoneCode")}
+                    {lastUsedMethod === "phone-number" ? <LastUsedBadge spaced /> : null}
+                  </Button>
+                ) : null}
                 <SocialSignInButtons
                   providers={socialProviders}
                   callbackURL={callbackURL}

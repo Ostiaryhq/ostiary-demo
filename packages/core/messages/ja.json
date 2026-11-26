@@ -43,6 +43,7 @@
         "error": "メールを送信できませんでした。しばらくしてからもう一度お試しください。"
       },
       "addAccountDescription": "このブラウザでサインイン済みのアカウントはそのまま維持されます。",
+      "phoneCode": "SMS でサインインコードを送る",
       "demo": {
         "title": "デモを試す",
         "description": "共有のサンプルアカウントで、更新のたびにリセットされます。パスワード、メールアドレス、サインイン方法は変更できません。",
@@ -128,7 +129,7 @@
       "backToLogin": "ログインに戻る",
       "newPasswordLabel": "新しいパスワード",
       "confirmPasswordLabel": "パスワードの確認",
-      "passwordHint": "8 文字以上で入力してください。",
+      "passwordHint": "{min} 文字以上で入力してください。",
       "passwordMismatch": "パスワードが一致しません",
       "submit": "パスワードを更新",
       "submitting": "更新中…",
@@ -154,7 +155,7 @@
       "emailDescription": "ご連絡のために使用します。メールアドレスを第三者と共有することはありません。",
       "passwordLabel": "パスワード",
       "confirmPasswordLabel": "パスワードの確認",
-      "passwordHint": "8 文字以上で入力してください。",
+      "passwordHint": "{min} 文字以上で入力してください。",
       "confirmPasswordHint": "確認のためパスワードをもう一度入力してください。",
       "passwordMismatch": "パスワードが一致しません",
       "submit": "アカウントを作成",
@@ -169,7 +170,9 @@
         "usernameTooShort": "ユーザー名は 3 文字以上で入力してください。",
         "usernameInvalid": "このユーザー名は無効です。",
         "usernameTaken": "このユーザー名はすでに使用されています。別のユーザー名をお試しください。"
-      }
+      },
+      "passwordSignUpOff": "パスワードでの登録はオフです。次のいずれかでアカウントを作成してください：",
+      "signUpClosed": "ここでは新しいアカウントを作成できません。管理者にアカウントを依頼してください。"
     },
     "screen": {
       "headline": "<accent>すべてのアプリ</accent>をひとつのアカウントで。",
@@ -194,6 +197,42 @@
       "continue": "<app>{name}</app> に進む",
       "unverified": "未確認のアプリです。",
       "unverifiedHint": "{name} はこのアプリを審査していません。信頼できる場合のみ続行してください。"
+    },
+    "twoFactorRequired": {
+      "metaTitle": "2 段階認証が必要です",
+      "title": "2 段階認証をオンにしてください",
+      "byOrganization": "組織の管理者が、アプリへのサインインに 2 段階認証を求めています。",
+      "byPlatform": "アプリへのサインインには 2 段階認証が必要です。",
+      "until": "{date} までにオンにしてください。",
+      "now": "続けるにはオンにしてください。",
+      "how": "認証アプリ（Google Authenticator や 1Password など）を使うか、アカウントページでパスキーを追加してください。",
+      "setUp": "2 段階認証を設定",
+      "later": "後で通知",
+      "continue": "続行"
+    },
+    "phoneCode": {
+      "title": "SMS でサインイン",
+      "description": "アカウントの電話番号に 6 桁のコードを SMS で送ります。",
+      "phoneLabel": "電話番号",
+      "phoneHint": "国際形式（+ と国番号から）。",
+      "send": "コードを送信",
+      "sending": "送信中…",
+      "sentTitle": "電話を確認してください",
+      "sent": "{phone} を使うアカウントがあれば、6 桁のコードを送信しました。有効期限は {minutes} 分です。",
+      "codeLabel": "サインインコード",
+      "verify": "サインイン",
+      "verifying": "サインイン中…",
+      "newCode": "届きませんか？新しいコードを送る",
+      "usePassword": "パスワードでサインイン",
+      "errors": {
+        "invalidPhone": "+819012345678 のように国際形式で入力してください。",
+        "invalidCode": "コードが正しくありません。確認してもう一度お試しください。",
+        "expired": "コードの有効期限が切れました。新しいコードを請求してください。",
+        "tooManyAttempts": "誤ったコードが多すぎます。新しいコードを請求してください。",
+        "rateLimited": "試行回数が多すぎます。数分待ってからもう一度お試しください。",
+        "sendFailed": "コードを送信できませんでした。数分後にもう一度お試しください。",
+        "signInFailed": "サインインできませんでした。もう一度お試しください。"
+      }
     }
   },
   "consent": {
@@ -380,7 +419,8 @@
           "duplicates": "×{count}",
           "duplicatesHint": "同一の自己登録クライアント {count} 件",
           "showDuplicates": "{count} 件すべて表示",
-          "hideDuplicates": "同一のものを非表示"
+          "hideDuplicates": "同一のものを非表示",
+          "previousSecretUntil": "以前のシークレットの有効期限：{date}"
         },
         "registration": {
           "title": "自己登録",
@@ -524,6 +564,8 @@
             "organization_id": "アクティブな組織の ID",
             "organization_slug": "アクティブな組織のスラッグ",
             "organization_role": "アクティブな組織でのロール",
+            "organization_permissions": "アクティブな組織での権限",
+            "organization_teams": "アクティブな組織でのチーム",
             "organizations": "組織のメンバーシップ"
           }
         },
@@ -584,6 +626,8 @@
           "allowedScopesHint": "サインインには openid、リフレッシュトークンには offline_access を含めてください。",
           "iconUrlLabel": "アイコンの URL",
           "iconUrlHint": "コンソール、同意画面、ユーザーのアカウントでこのアプリに表示されます。localhost にのみリダイレクトするアプリに便利です。https、PNG/JPEG/WebP/AVIF/GIF/ICO/SVG。",
+          "clientIdLabel": "クライアント ID（任意）",
+          "clientIdHint": "空欄にすると自動で生成されます。別のプロバイダーから移行するアプリでは、現在のクライアント ID を入力すると変更なしで動作し続けます。英数字、ドット、アンダースコア、ハイフンで 3〜128 文字。",
           "deviceCodeLabel": "デバイスサインイン（CLI、テレビ）",
           "deviceCodeHint": "デバイスコードグラント（RFC 8628）を追加します。アプリがコードを表示し、ユーザーが別の画面の <code>{path}</code> で承認します。通常はパブリッククライアントです。",
           "endSessionLabel": "アプリからのサインアウト（RP-initiated logout）",
@@ -592,6 +636,8 @@
           "postLogoutUrisHint": "サインアウト後にアプリがユーザーを戻せる URI（post_logout_redirect_uri、完全一致）。1 行に 1 つ、またはカンマ区切り。指定がない場合、ユーザーにはサインアウト完了ページが表示されます。",
           "skipConsentLabel": "同意をスキップ（信頼済みクライアント）",
           "skipConsentHint": "ユーザーにはこのアプリケーションの同意画面が表示されません。自社製または完全に信頼できる連携にのみ使用してください。",
+          "pairwiseLabel": "アプリ別のユーザー ID",
+          "pairwiseHint": "ユーザーには他のホストのアプリとは異なる ID（sub）が割り当てられるため、それらのアプリはこのアプリとユーザーを照合できません。すべてのリダイレクト URI は同じホストにある必要があります。後から変更できません。",
           "registerFailed": "アプリケーションを登録できませんでした",
           "missingClientId": "サーバーが {field} を返しませんでした。",
           "registered": "OAuth アプリケーションを登録しました",
@@ -604,7 +650,18 @@
           "clientId": "クライアント ID",
           "clientSecret": "クライアントシークレット",
           "copyClientId": "クライアント ID をコピー",
-          "copyClientSecret": "クライアントシークレットをコピー"
+          "copyClientSecret": "クライアントシークレットをコピー",
+          "authMethodLabel": "クライアント認証",
+          "authMethodSecret": "クライアントシークレット",
+          "authMethodPrivateKey": "秘密鍵 JWT（公開鍵）",
+          "jwksLabel": "公開鍵（JWKS）",
+          "jwksHint": "アプリの公開鍵（JSON Web Key Set）。アプリはトークンエンドポイントで秘密鍵を使ってクライアントアサーションに署名します（private_key_jwt）。変更するにはアプリを編集するか、アプリから /api/auth/oauth2/client/rotate-keys を呼び出します。",
+          "jwksInvalidJson": "JWKS が有効な JSON ではありません。",
+          "backchannelUriLabel": "バックチャネルログアウト URI（任意）",
+          "backchannelUriHint": "ユーザーのセッションが終了すると、Ostiary はこの https URL に署名付きログアウトトークンを送信し、アプリ側でもサインアウトできるようにします。",
+          "backchannelSessionLabel": "アプリにセッション ID（sid）が必要",
+          "backchannelSessionHint": "ログアウトトークンに sid を含めます。アプリはこれで終了するセッションを特定します。",
+          "successPrivateKey": "シークレットは発行されません。アプリは登録済みの鍵で署名したクライアントアサーションで認証します。"
         },
         "rowActions": {
           "menuLabel": "{name} の操作",
@@ -662,15 +719,25 @@
           },
           "rotateDialog": {
             "title": "クライアントシークレットをローテーションしますか？",
-            "description": "以前のシークレットはすぐに使えなくなります。新しいシークレットは一度しか表示されない場合があるため、安全な場所に保存してください。",
+            "description": "新しいシークレットは安全な場所に保存してください。表示されるのは一度だけの場合があります。現在のシークレットはすぐに、または選んだ猶予期間の終わりに使えなくなるので、その前にアプリを切り替えられます。",
             "newSecretLabel": "新しいクライアントシークレット",
             "copySecret": "シークレットをコピー",
             "secretCopied": "シークレットをコピーしました",
             "rotating": "ローテーション中…",
             "rotateFailed": "シークレットをローテーションできませんでした",
             "newSecretIssued": "新しいクライアントシークレットを発行しました。今すぐコピーしてください",
-            "rotated": "シークレットをローテーションしました"
-          }
+            "rotated": "シークレットをローテーションしました",
+            "graceLabel": "現在のシークレットを引き続き有効にする",
+            "graceNone": "いいえ、すぐに使えなくする",
+            "grace1h": "1 時間",
+            "grace24h": "24 時間",
+            "grace7d": "7 日間",
+            "graceReplaces": "前回のローテーションで残したシークレットはすぐに使えなくなります。"
+          },
+          "rotateHintPrivateKey": "このアプリはシークレットではなく鍵で認証します",
+          "revokePreviousSecret": "以前のシークレットを今すぐ失効",
+          "revokePreviousFailed": "以前のシークレットを失効できませんでした",
+          "previousSecretRevoked": "以前のシークレットを失効しました"
         },
         "selfRegistered": {
           "menuLabel": "{name} の操作",
@@ -1317,6 +1384,47 @@
               }
             }
           }
+        },
+        "custom": {
+          "title": "カスタム OpenID Connect プロバイダー",
+          "description": "任意の OpenID Connect プロバイダー（Keycloak、Okta、Authentik、自社のものなど）を、上のプロバイダーと並ぶサインインボタンとして追加します。",
+          "add": "プロバイダーを追加",
+          "empty": "カスタムプロバイダーはまだありません。",
+          "on": "オン",
+          "off": "オフ",
+          "linkedAccounts": "連携アカウント {count} 件",
+          "edit": "編集",
+          "editProvider": "{name} を編集",
+          "remove": "削除",
+          "removeProvider": "{name} を削除",
+          "removeTitle": "{name} を削除しますか？",
+          "removeDescription": "サインインページからボタンが消えます。このプロバイダーを使ったアカウントは残りますが、このプロバイダーではサインインできなくなります。",
+          "removed": "プロバイダーを削除しました。",
+          "cancel": "キャンセル",
+          "save": "保存",
+          "saved": "プロバイダーを保存しました。",
+          "addTitle": "OpenID Connect プロバイダーを追加",
+          "editTitle": "{name} を編集",
+          "dialogDescription": "下のリダイレクト URI で Ostiary をプロバイダーに Web アプリケーションとして登録し、プロバイダーから発行された値を入力してください。保存時にプロバイダーのディスカバリードキュメントを確認します。",
+          "name": "ボタン名",
+          "nameHint": "サインイン・登録ページに「… で続行」と表示されます。",
+          "slug": "プロバイダー ID",
+          "slugHint": "英小文字、数字、ハイフン。リダイレクト URI の一部で、後から変更できません。",
+          "callbackUrl": "リダイレクト URI",
+          "callbackUrlHint": "この URI をそのままプロバイダーに登録してください。",
+          "discoveryUrl": "ディスカバリー URL",
+          "discoveryUrlHint": "プロバイダーの /.well-known/openid-configuration の URL（https、公開アドレス）。",
+          "clientId": "クライアント ID",
+          "clientSecret": "クライアントシークレット",
+          "clientSecretHint": "パブリッククライアントの場合は空欄（PKCE のみ）。",
+          "secretKept": "保存済みのシークレットを使う場合は空欄のまま",
+          "secretUnreadable": "保存済みのシークレットを読み取れません（BETTER_AUTH_SECRET が変更されました）。再入力してください。",
+          "scopes": "スコープ",
+          "scopesHint": "スペース区切り。openid を含める必要があります。",
+          "enabled": "サインインページに表示",
+          "enabledHint": "オフ：プロバイダーは保存されますが表示されません。",
+          "allowSignUp": "新規ユーザーのアカウントを作成",
+          "allowSignUpHint": "オフ：既にアカウントを持つ人だけがサインインできます。"
         }
       },
       "apiKeys": {
@@ -1829,7 +1937,8 @@
             "export_data": "アカウントデータをエクスポート",
             "self_delete": "自分のアカウントを削除",
             "export_csv": "ユーザーを CSV にエクスポート",
-            "import": "ユーザーをインポート"
+            "import": "ユーザーをインポート",
+            "remove_phone_number": "電話番号を削除"
           },
           "oauth_client": {
             "create": "OAuth クライアントを登録",
@@ -1842,7 +1951,8 @@
             "branding_update": "サインインのブランディングを変更",
             "branding_reset": "サインインのブランディングをリセット",
             "claims_update": "トークンのクレームを変更",
-            "remove_duplicates": "重複した OAuth クライアントを削除"
+            "remove_duplicates": "重複した OAuth クライアントを削除",
+            "revoke_previous_secret": "以前のクライアントシークレットを失効"
           },
           "client_registration": {
             "update": "クライアントの自己登録設定を変更"
@@ -1878,7 +1988,15 @@
             "invite": "メンバーを招待",
             "cancel_invitation": "招待をキャンセル",
             "update_member_role": "メンバーのロールを変更",
-            "remove_member": "メンバーを削除"
+            "remove_member": "メンバーを削除",
+            "create_role": "組織ロールを作成",
+            "update_role": "組織ロールを変更",
+            "delete_role": "組織ロールを削除",
+            "create_team": "チームを作成",
+            "update_team": "チーム名を変更",
+            "delete_team": "チームを削除",
+            "add_team_member": "チームにメンバーを追加",
+            "remove_team_member": "チームからメンバーを削除"
           },
           "sso_provider": {
             "create": "SSO プロバイダーを登録",
@@ -1913,6 +2031,9 @@
           },
           "audit_log": {
             "export_csv": "監査ログを CSV にエクスポート"
+          },
+          "security": {
+            "update_policy": "セッションとパスワードのポリシーを変更"
           }
         },
         "actorPlaceholder": "実行者（メール）で検索…",
@@ -1958,6 +2079,38 @@
           "noReason": "理由なし",
           "until": "{date} まで",
           "permanent": "無期限"
+        },
+        "policy": {
+          "title": "セッションとパスワード",
+          "description": "認証アプリにサインインしたままでいられる期間と、パスワードの決め方。アプリは独自のトークンとリフレッシュトークンを保持します。",
+          "edit": "編集",
+          "on": "オン",
+          "off": "オフ",
+          "days": "{count} 日",
+          "characters": "{count} 文字",
+          "sessionDays": "セッションの有効期間",
+          "sessionDaysHint": "サインインが続く期間。変更前に作成されたセッションは有効期限を保持し、次回の延長時に新しい期間に従います。",
+          "extendSessions": "使用中のセッションを延長",
+          "extendSessionsHint": "オン：最後に使用してから {count} 日間有効です。オフ：使用の有無にかかわらず、サインインから {count} 日で終了します。",
+          "signOutOnPasswordChange": "パスワード変更時にすべてサインアウト",
+          "signOutOnPasswordChangeHint": "パスワードを変更すると、リセット時と同様に、アカウントの他のセッションを終了し、アプリのトークンを失効させます。オフ：各自が選びます。",
+          "minPasswordLength": "パスワードの最小文字数",
+          "minPasswordLengthHint": "新しいパスワード（登録・リセット・変更）に適用されます。既存のパスワードは引き続き使えます。",
+          "passwordSignUp": "パスワードでの登録",
+          "passwordSignUpHint": "オフ：メールアドレスとパスワードではアカウントを作成できなくなり、ソーシャルプロバイダーか組織の SSO のみになります。管理者は引き続きアカウントを作成でき、既存のパスワードも使えます。",
+          "dialogDescription": "認証アプリは 1 分以内に適用します。",
+          "save": "保存",
+          "cancel": "キャンセル",
+          "saved": "ポリシーを保存しました。認証アプリは 1 分以内に適用します。",
+          "errors": {
+            "invalid": "表示されている値から選んでください。",
+            "save": "ポリシーを保存できませんでした。"
+          },
+          "twoFactorEveryone": "全員に 2 段階認証",
+          "twoFactorEveryoneHint": "全員がアプリへのサインインに認証アプリかパスキーを使う必要があります。管理者は REQUIRE_ADMIN_2FA。組織は自身のページでメンバーに必須化できます。",
+          "twoFactorGraceDays": "オンにするまでの猶予",
+          "twoFactorGraceDaysHint": "2 段階認証を使っていない人には、アプリへのサインインのたびに案内され、期限までは続行できます。猶予はこの設定をオンにした時点、またはアカウント作成時から始まります。",
+          "noGrace": "なし：すぐに必須"
         }
       },
       "signingKeys": {
@@ -1982,7 +2135,10 @@
           "graceHint": "退役した鍵を公開し続ける期間です。トークンの最長有効期間より長くしてください（アクセストークン: 1 時間、ID トークン: 1 時間）。",
           "save": "保存",
           "cancel": "キャンセル",
-          "saved": "設定を保存しました。認証サーバーが 1 分以内に反映します。"
+          "saved": "設定を保存しました。認証サーバーが 1 分以内に反映します。",
+          "algorithm": "署名アルゴリズム",
+          "algorithmHint": "既定は EdDSA（Ed25519）です。AWS API Gateway や Azure API Management など、ES256 や RS256 しか検証できない API やゲートウェイ向けにはそれらを選びます。変更すると新しいアルゴリズムの鍵がすぐに作成され、現在の鍵は猶予期間のあいだ公開されたままになります。",
+          "savedAlgorithm": "設定を保存しました。新しいトークンは {alg}（鍵 {kid}）で署名されます。"
         },
         "keys": {
           "title": "鍵",
@@ -2014,7 +2170,8 @@
           "interval": "用意されたローテーション間隔から選んでください。",
           "grace": "用意された猶予期間から選んでください。",
           "save": "設定を保存できませんでした。",
-          "rotate": "鍵をローテーションできませんでした。"
+          "rotate": "鍵をローテーションできませんでした。",
+          "algorithm": "表示されているアルゴリズムから選んでください。"
         }
       },
       "organizations": {
@@ -2100,7 +2257,14 @@
           "scimCounts": "プロビジョニング済み {active} 件、無効化済み {inactive} 件。",
           "recentActions": "最近の管理操作",
           "noActions": "まだありません。",
-          "system": "システム"
+          "system": "システム",
+          "twoFactor": {
+            "title": "2 段階認証",
+            "label": "メンバーに 2 段階認証を必須にする",
+            "hint": "メンバーは、セキュリティページで設定した猶予の後、アプリへのサインインに認証アプリかパスキーを使う必要があります。",
+            "on": "この組織のメンバーに 2 段階認証が必須になりました。",
+            "off": "この組織のメンバーに 2 段階認証は必須ではなくなりました。"
+          }
         },
         "errors": {
           "invalidNameSlug": "名前と、英字・数字・ハイフンからなるスラッグを入力してください。",
@@ -2119,6 +2283,61 @@
           "lastOwner": "組織には少なくとも 1 人のオーナーが必要です。先に別のメンバーをオーナーにしてください。",
           "publicDelete": "Public ワークスペースは削除できません。",
           "organizationNotFound": "組織が見つかりません。"
+        },
+        "rolesTeams": {
+          "rolesTitle": "カスタムロール",
+          "teamsTitle": "チーム",
+          "rolesDescription": "オーナー、管理者、メンバーに加えたこの組織独自のロールで、それぞれ独自の権限を持ちます。組み込みロールと同様にメンバーに付与でき、トークンにはロール名（organization.role）と権限（organization.permissions）が含まれます。",
+          "noRoles": "カスタムロールはありません。",
+          "memberCount": "メンバー {count} 人",
+          "noPermissions": "権限なし",
+          "edit": "編集",
+          "delete": "削除",
+          "editRole": "{role} を編集",
+          "deleteRole": "{role} を削除",
+          "addRole": "ロールを追加",
+          "deleteRoleTitle": "{role} を削除しますか？",
+          "deleteRoleDescription": "この組織からロールがなくなります。どのメンバーも持っていない場合にのみ削除できます。",
+          "cancel": "キャンセル",
+          "roleDeleted": "ロールを削除しました。",
+          "roleSaved": "ロールを保存しました。",
+          "roleDialogDescription": "このロールが組織で行えることにチェックを入れてください。組織のオーナーと管理者もロールを管理できます。",
+          "roleName": "ロール名",
+          "roleNameHint": "英小文字、数字、ハイフン、アンダースコアで 2〜32 文字、先頭は英字。後から変更できません。",
+          "permissions": "権限",
+          "save": "保存",
+          "teamsDescription": "組織内のメンバーのグループ。トークンにはメンバーのチーム（organization.teams）が含まれます。",
+          "noTeams": "チームはありません。",
+          "teamCreated": "チームを作成しました。",
+          "newTeam": "新しいチーム",
+          "createTeam": "チームを作成",
+          "teamRenamed": "チーム名を変更しました。",
+          "teamName": "チーム名",
+          "renameTeam": "{team} の名前を変更",
+          "rename": "名前を変更",
+          "deleteTeam": "{team} を削除",
+          "noTeamMembers": "このチームにメンバーはいません。",
+          "removeFromTeam": "{email} を {team} から外す",
+          "remove": "外す",
+          "teamMemberRemoved": "チームからメンバーを外しました。",
+          "teamMemberAdded": "チームにメンバーを追加しました。",
+          "addToTeam": "{team} にメンバーを追加",
+          "memberEmail": "メンバーのメールアドレス",
+          "add": "追加",
+          "deleteTeamTitle": "{team} を削除しますか？",
+          "deleteTeamDescription": "チームとそのメンバー一覧が削除されます。メンバーは組織に残ります。",
+          "teamDeleted": "チームを削除しました。",
+          "errors": {
+            "invalidName": "ロール名は英小文字、数字、ハイフン、アンダースコアの 2〜32 文字で、先頭は英字です。",
+            "reservedName": "owner、admin、member は組み込みロールです。",
+            "nameTaken": "この組織には同じ名前のロールがすでにあります。",
+            "invalidPermissions": "不明な権限が含まれています。",
+            "roleInUse": "このロールを持つメンバーがいます。先に別のロールを付与してください。",
+            "notFound": "この組織に見つかりません。",
+            "notMember": "この人は組織のメンバーではありません。",
+            "alreadyInTeam": "このメンバーはすでにチームにいます。",
+            "invalidTeamName": "チーム名は 1〜64 文字です。"
+          }
         }
       }
     },
@@ -2314,7 +2533,8 @@
         "invalidCode": "コードが正しくありません。デバイスの時刻が正しいか確認して、もう一度お試しください。",
         "rateLimited": "試行回数が多すぎます。数秒待ってからもう一度お試しください。",
         "generic": "問題が発生しました。もう一度お試しください。"
-      }
+      },
+      "doneContinue": "アプリに進む"
     },
     "organizations": {
       "title": "組織",
@@ -2566,6 +2786,27 @@
     "impersonation": {
       "viewingAs": "<strong>{email}</strong> としてこのアカウントを表示しています。",
       "stop": "代理サインインを終了"
+    },
+    "phone": {
+      "title": "電話番号",
+      "description": "この番号に SMS で届くコードでサインインします。",
+      "none": "電話番号は未登録です",
+      "add": "番号を追加",
+      "change": "変更",
+      "remove": "削除",
+      "phoneLabel": "電話番号",
+      "phoneHint": "国際形式（+ と国番号から）。確認のためコードを SMS で送ります。",
+      "send": "コードを送信",
+      "cancel": "キャンセル",
+      "codeLabel": "{phone} に送信したコード",
+      "verify": "番号を保存",
+      "invalidPhone": "+819012345678 のように国際形式で入力してください。",
+      "sendFailed": "コードを送信できませんでした。数分後にもう一度お試しください。",
+      "verifyFailed": "コードが正しくないか、有効期限が切れています。",
+      "taken": "この番号は別のアカウントで使われています。",
+      "saved": "番号を保存しました。",
+      "removeFailed": "番号を削除できませんでした。",
+      "removed": "番号を削除しました。"
     },
     "demo": {
       "title": "デモアカウント",

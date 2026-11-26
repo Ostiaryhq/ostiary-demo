@@ -55,6 +55,13 @@ export type OAuthApplicationRow = {
   /** Privacy policy and terms of service links shown on the consent screen. */
   policyUri?: string | null;
   tosUri?: string | null;
+  /** OpenID Connect Back-Channel Logout URI, and whether the logout token must carry `sid`. */
+  backchannelLogoutUri?: string | null;
+  backchannelLogoutSessionRequired?: boolean;
+  /** The public keys of a private_key_jwt app, as formatted JSON. */
+  jwks?: string | null;
+  /** After a rotation with a grace period: when the previous secret stops working (ISO date). */
+  previousSecretExpiresAt?: string | null;
   /** The registered icon (`logo_uri`), or null when the app uses its site's icon or a monogram. */
   logoUri: string | null;
   createdAt: string;
@@ -84,7 +91,8 @@ export function AdminApplicationRowActions({
   // A new key per opening, so the edit form starts from the current row.
   const [editKey, setEditKey] = React.useState(0);
 
-  const canRotateSecret = !row.public && !row.disabled;
+  const keyAuth = row.tokenEndpointAuthMethod === "private_key_jwt";
+  const canRotateSecret = !row.public && !keyAuth && !row.disabled;
 
   function openEdit() {
     setEditKey((key) => key + 1);
@@ -93,6 +101,23 @@ export function AdminApplicationRowActions({
 
   const remove = useAdminAction(() => setRemoveOpen(false), { refresh: onChanged });
   const toggle = useAdminAction(() => setDisableOpen(false), { refresh: onChanged });
+  const revokeAction = useAdminAction(undefined, { refresh: onChanged });
+  const revokePrevious = {
+    busy: revokeAction.busy,
+    run: () =>
+      revokeAction.run(
+        async () => {
+          const res = await fetch(`/api/admin/oauth-clients/${encodeURIComponent(row.clientId)}/previous-secret`, {
+            method: "DELETE",
+            credentials: "include",
+          });
+          if (res.ok) return { ok: true };
+          const json: unknown = await res.json().catch(() => null);
+          return { ok: false, error: routeError(json) ?? t("revokePreviousFailed") };
+        },
+        t("previousSecretRevoked"),
+      ),
+  };
 
   function removeClient() {
     void remove.run(
@@ -160,6 +185,8 @@ export function AdminApplicationRowActions({
             title={
               row.public
                 ? t("rotateHintPublic")
+                : keyAuth
+                ? t("rotateHintPrivateKey")
                 : row.disabled
                   ? t("rotateHintDisabled")
                   : t("rotateHint")
@@ -169,6 +196,12 @@ export function AdminApplicationRowActions({
             <KeyRoundIcon />
             {t("rotateSecret")}
           </DropdownMenuItem>
+          {row.previousSecretExpiresAt ? (
+            <DropdownMenuItem disabled={revokePrevious.busy} onClick={() => void revokePrevious.run()}>
+              <KeyRoundIcon />
+              {t("revokePreviousSecret")}
+            </DropdownMenuItem>
+          ) : null}
           <DropdownMenuSeparator />
           {row.disabled ? (
             <DropdownMenuItem

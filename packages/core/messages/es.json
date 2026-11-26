@@ -43,6 +43,7 @@
         "error": "No se pudo enviar el correo. Inténtalo de nuevo dentro de un minuto."
       },
       "addAccountDescription": "Las cuentas que ya tienen sesión en este navegador la mantienen.",
+      "phoneCode": "Enviarme un código por SMS",
       "demo": {
         "title": "Probar la demo",
         "description": "Cuentas de ejemplo compartidas, que se restablecen en cada actualización. No se puede cambiar su contraseña, su correo ni sus métodos de inicio de sesión.",
@@ -128,7 +129,7 @@
       "backToLogin": "Volver a iniciar sesión",
       "newPasswordLabel": "Nueva contraseña",
       "confirmPasswordLabel": "Confirmar contraseña",
-      "passwordHint": "Debe tener al menos 8 caracteres.",
+      "passwordHint": "Debe tener al menos {min} caracteres.",
       "passwordMismatch": "Las contraseñas no coinciden",
       "submit": "Actualizar contraseña",
       "submitting": "Actualizando…",
@@ -154,7 +155,7 @@
       "emailDescription": "Lo usaremos para contactarte. No compartiremos tu correo electrónico con nadie.",
       "passwordLabel": "Contraseña",
       "confirmPasswordLabel": "Confirmar contraseña",
-      "passwordHint": "Debe tener al menos 8 caracteres.",
+      "passwordHint": "Debe tener al menos {min} caracteres.",
       "confirmPasswordHint": "Confirma tu contraseña.",
       "passwordMismatch": "Las contraseñas no coinciden",
       "submit": "Crear cuenta",
@@ -169,7 +170,9 @@
         "usernameTooShort": "El nombre de usuario debe tener al menos 3 caracteres.",
         "usernameInvalid": "Ese nombre de usuario no es válido.",
         "usernameTaken": "Ese nombre de usuario ya está en uso. Prueba con otro."
-      }
+      },
+      "passwordSignUpOff": "El registro con contraseña está desactivado. Crea tu cuenta con una de estas:",
+      "signUpClosed": "Aquí no se pueden crear cuentas nuevas. Pide una cuenta a un administrador."
     },
     "screen": {
       "headline": "Una cuenta para <accent>todas tus aplicaciones</accent>.",
@@ -194,6 +197,42 @@
       "continue": "Continuar en <app>{name}</app>",
       "unverified": "Aplicación no verificada.",
       "unverifiedHint": "{name} no la ha revisado: continúa solo si confías en ella."
+    },
+    "twoFactorRequired": {
+      "metaTitle": "Autenticación en dos pasos obligatoria",
+      "title": "Activa la autenticación en dos pasos",
+      "byOrganization": "Los administradores de tu organización exigen la autenticación en dos pasos para iniciar sesión en las aplicaciones.",
+      "byPlatform": "La autenticación en dos pasos es obligatoria para iniciar sesión en las aplicaciones.",
+      "until": "Actívala antes del {date}.",
+      "now": "Actívala para continuar.",
+      "how": "Usa una aplicación de autenticación (como Google Authenticator o 1Password) o añade una llave de acceso en la página de tu cuenta.",
+      "setUp": "Configurar la autenticación en dos pasos",
+      "later": "Recordármelo más tarde",
+      "continue": "Continuar"
+    },
+    "phoneCode": {
+      "title": "Iniciar sesión por SMS",
+      "description": "Enviaremos un código de 6 dígitos por SMS al número de tu cuenta.",
+      "phoneLabel": "Número de teléfono",
+      "phoneHint": "Formato internacional, con + y el prefijo del país.",
+      "send": "Enviar código",
+      "sending": "Enviando…",
+      "sentTitle": "Revisa tu teléfono",
+      "sent": "Si una cuenta usa {phone}, va en camino un código de 6 dígitos. Caduca en {minutes} minutos.",
+      "codeLabel": "Código de inicio de sesión",
+      "verify": "Iniciar sesión",
+      "verifying": "Iniciando sesión…",
+      "newCode": "¿No te llegó? Enviar un código nuevo",
+      "usePassword": "Usar tu contraseña",
+      "errors": {
+        "invalidPhone": "Introduce el número en formato internacional, por ejemplo +34612345678.",
+        "invalidCode": "Ese código no es correcto. Revísalo e inténtalo de nuevo.",
+        "expired": "Este código ha caducado. Pide uno nuevo.",
+        "tooManyAttempts": "Demasiados códigos incorrectos. Pide uno nuevo.",
+        "rateLimited": "Demasiados intentos. Espera unos minutos y vuelve a intentarlo.",
+        "sendFailed": "No se pudo enviar el código. Inténtalo en unos minutos.",
+        "signInFailed": "No se pudo iniciar sesión. Inténtalo de nuevo."
+      }
     }
   },
   "consent": {
@@ -380,7 +419,8 @@
           "duplicates": "×{count}",
           "duplicatesHint": "{count} clientes autorregistrados idénticos",
           "showDuplicates": "Mostrar los {count}",
-          "hideDuplicates": "Ocultar idénticos"
+          "hideDuplicates": "Ocultar idénticos",
+          "previousSecretUntil": "Secreto anterior válido hasta el {date}"
         },
         "registration": {
           "title": "Autorregistro",
@@ -524,6 +564,8 @@
             "organization_id": "ID de la organización activa",
             "organization_slug": "Slug de la organización activa",
             "organization_role": "Rol en la organización activa",
+            "organization_permissions": "Permisos en la organización activa",
+            "organization_teams": "Equipos en la organización activa",
             "organizations": "Pertenencia a organizaciones"
           }
         },
@@ -584,6 +626,8 @@
           "allowedScopesHint": "Incluye openid para el inicio de sesión y offline_access para los tokens de actualización.",
           "iconUrlLabel": "URL del icono",
           "iconUrlHint": "Se muestra para la aplicación en la consola, en la pantalla de consentimiento y en las cuentas de los usuarios. Útil para aplicaciones que solo redirigen a localhost. https, PNG/JPEG/WebP/AVIF/GIF/ICO/SVG.",
+          "clientIdLabel": "ID de cliente (opcional)",
+          "clientIdHint": "Déjalo vacío para generar uno. Para una aplicación que viene de otro proveedor, introduce su ID de cliente actual para que siga funcionando sin cambios: de 3 a 128 letras, dígitos, puntos, guiones bajos o guiones.",
           "deviceCodeLabel": "Inicio de sesión en dispositivos (CLI, televisores)",
           "deviceCodeHint": "Añade la concesión de código de dispositivo (RFC 8628): la aplicación muestra un código y el usuario lo aprueba en <code>{path}</code> desde otra pantalla. Normalmente es un cliente público.",
           "endSessionLabel": "Cierre de sesión desde la aplicación (RP-initiated logout)",
@@ -592,6 +636,8 @@
           "postLogoutUrisHint": "Adónde puede devolver la aplicación al usuario tras cerrar sesión (post_logout_redirect_uri, coincidencia exacta). Una por línea o separadas por comas. Sin ninguna, el usuario ve una página de sesión cerrada.",
           "skipConsentLabel": "Omitir consentimiento (cliente de confianza)",
           "skipConsentHint": "Los usuarios no verán la pantalla de consentimiento de esta aplicación. Úsalo solo para integraciones propias o de total confianza.",
+          "pairwiseLabel": "ID de usuario por aplicación",
+          "pairwiseHint": "Los usuarios tienen aquí un ID (sub) distinto del de las aplicaciones en otros hosts, que por tanto no pueden cruzar sus usuarios con esta. Todas las URI de redirección deben estar en el mismo host. No se puede cambiar después.",
           "registerFailed": "No se pudo registrar la aplicación",
           "missingClientId": "El servidor no devolvió ningún {field}.",
           "registered": "Aplicación OAuth registrada",
@@ -604,7 +650,18 @@
           "clientId": "ID de cliente",
           "clientSecret": "Secreto de cliente",
           "copyClientId": "Copiar ID de cliente",
-          "copyClientSecret": "Copiar secreto de cliente"
+          "copyClientSecret": "Copiar secreto de cliente",
+          "authMethodLabel": "Autenticación del cliente",
+          "authMethodSecret": "Secreto de cliente",
+          "authMethodPrivateKey": "JWT con clave privada (claves públicas)",
+          "jwksLabel": "Claves públicas (JWKS)",
+          "jwksHint": "Las claves públicas de la aplicación como JSON Web Key Set. La aplicación firma una aserción de cliente con su clave privada en el endpoint de tokens (private_key_jwt). Para cambiarlas, edita la aplicación o deja que llame a /api/auth/oauth2/client/rotate-keys.",
+          "jwksInvalidJson": "El JWKS no es un JSON válido.",
+          "backchannelUriLabel": "URI de cierre de sesión back-channel (opcional)",
+          "backchannelUriHint": "Cuando termina la sesión de un usuario, Ostiary envía un token de cierre de sesión firmado a esta URL https para que la aplicación también cierre su sesión.",
+          "backchannelSessionLabel": "La aplicación necesita el ID de sesión (sid)",
+          "backchannelSessionHint": "Pide a Ostiary que incluya sid en el token de cierre de sesión: la aplicación lo usa para encontrar la sesión que debe cerrar.",
+          "successPrivateKey": "No se emite ningún secreto: la aplicación se autentica con una aserción de cliente firmada con una de sus claves registradas."
         },
         "rowActions": {
           "menuLabel": "Acciones de {name}",
@@ -662,15 +719,25 @@
           },
           "rotateDialog": {
             "title": "¿Rotar el secreto de cliente?",
-            "description": "El secreto anterior deja de funcionar de inmediato. Guarda el nuevo secreto en un lugar seguro: puede que solo se muestre una vez.",
+            "description": "Guarda el nuevo secreto en un lugar seguro, puede que solo se muestre una vez. El secreto actual deja de funcionar ahora, o al final del periodo de gracia que elijas, para que la aplicación pueda cambiar antes.",
             "newSecretLabel": "Nuevo secreto de cliente",
             "copySecret": "Copiar secreto",
             "secretCopied": "Secreto copiado",
             "rotating": "Rotando…",
             "rotateFailed": "No se pudo rotar el secreto",
             "newSecretIssued": "Nuevo secreto de cliente emitido: cópialo ahora",
-            "rotated": "Secreto rotado"
-          }
+            "rotated": "Secreto rotado",
+            "graceLabel": "El secreto actual sigue funcionando",
+            "graceNone": "No, deja de funcionar ahora",
+            "grace1h": "Durante 1 hora",
+            "grace24h": "Durante 24 horas",
+            "grace7d": "Durante 7 días",
+            "graceReplaces": "El secreto conservado en la rotación anterior deja de funcionar ahora."
+          },
+          "rotateHintPrivateKey": "Esta aplicación se autentica con sus claves, no con un secreto",
+          "revokePreviousSecret": "Revocar el secreto anterior ahora",
+          "revokePreviousFailed": "No se pudo revocar el secreto anterior",
+          "previousSecretRevoked": "Secreto anterior revocado"
         },
         "selfRegistered": {
           "menuLabel": "Acciones de {name}",
@@ -1317,6 +1384,47 @@
               }
             }
           }
+        },
+        "custom": {
+          "title": "Proveedores OpenID Connect personalizados",
+          "description": "Cualquier proveedor OpenID Connect (Keycloak, Okta, Authentik, el de tu empresa) como botón de inicio de sesión, junto a los proveedores de arriba.",
+          "add": "Añadir proveedor",
+          "empty": "Aún no hay proveedores personalizados.",
+          "on": "Activado",
+          "off": "Desactivado",
+          "linkedAccounts": "{count, plural, one {# cuenta vinculada} other {# cuentas vinculadas}}",
+          "edit": "Editar",
+          "editProvider": "Editar {name}",
+          "remove": "Eliminar",
+          "removeProvider": "Eliminar {name}",
+          "removeTitle": "¿Eliminar {name}?",
+          "removeDescription": "El botón desaparece de las páginas de inicio de sesión. Las cuentas que lo usaron se mantienen, pero ya no pueden iniciar sesión con este proveedor.",
+          "removed": "Proveedor eliminado.",
+          "cancel": "Cancelar",
+          "save": "Guardar",
+          "saved": "Proveedor guardado.",
+          "addTitle": "Añadir un proveedor OpenID Connect",
+          "editTitle": "Editar {name}",
+          "dialogDescription": "Registra Ostiary en el proveedor como aplicación web con la URI de redirección de abajo y luego introduce lo que te dé el proveedor. Al guardar se comprueba el documento de descubrimiento del proveedor.",
+          "name": "Nombre del botón",
+          "nameHint": "Se muestra como «Continuar con …» en las páginas de inicio de sesión y registro.",
+          "slug": "ID del proveedor",
+          "slugHint": "Minúsculas, dígitos y guiones. Forma parte de la URI de redirección y no se puede cambiar después.",
+          "callbackUrl": "URI de redirección",
+          "callbackUrlHint": "Registra exactamente esta URI en el proveedor.",
+          "discoveryUrl": "URL de descubrimiento",
+          "discoveryUrlHint": "La URL /.well-known/openid-configuration del proveedor (https, dirección pública).",
+          "clientId": "ID de cliente",
+          "clientSecret": "Secreto de cliente",
+          "clientSecretHint": "Déjalo vacío para un cliente público (solo PKCE).",
+          "secretKept": "Déjalo vacío para conservar el secreto guardado",
+          "secretUnreadable": "El secreto guardado no se puede leer (cambió BETTER_AUTH_SECRET): vuelve a introducirlo.",
+          "scopes": "Scopes",
+          "scopesHint": "Separados por espacios. Deben incluir openid.",
+          "enabled": "Mostrar en las páginas de inicio de sesión",
+          "enabledHint": "Desactivado: el proveedor se guarda pero no se ofrece.",
+          "allowSignUp": "Crear cuentas para usuarios nuevos",
+          "allowSignUpHint": "Desactivado: solo pueden iniciar sesión con él las personas que ya tienen cuenta."
         }
       },
       "apiKeys": {
@@ -1829,7 +1937,8 @@
             "export_data": "Exportó los datos de la cuenta",
             "self_delete": "Eliminó su propia cuenta",
             "export_csv": "Exportó los usuarios a CSV",
-            "import": "Importó usuarios"
+            "import": "Importó usuarios",
+            "remove_phone_number": "Quitó su número de teléfono"
           },
           "oauth_client": {
             "create": "Registró un cliente OAuth",
@@ -1842,7 +1951,8 @@
             "branding_update": "Cambió la personalización del inicio de sesión",
             "branding_reset": "Restableció la personalización del inicio de sesión",
             "claims_update": "Cambió los claims de los tokens",
-            "remove_duplicates": "Eliminó clientes OAuth duplicados"
+            "remove_duplicates": "Eliminó clientes OAuth duplicados",
+            "revoke_previous_secret": "Secreto de cliente anterior revocado"
           },
           "client_registration": {
             "update": "Cambió el autorregistro de clientes"
@@ -1878,7 +1988,15 @@
             "invite": "Invitó a un miembro",
             "cancel_invitation": "Canceló una invitación",
             "update_member_role": "Cambió el rol de un miembro",
-            "remove_member": "Quitó a un miembro"
+            "remove_member": "Quitó a un miembro",
+            "create_role": "Creó un rol de organización",
+            "update_role": "Cambió un rol de organización",
+            "delete_role": "Eliminó un rol de organización",
+            "create_team": "Creó un equipo",
+            "update_team": "Renombró un equipo",
+            "delete_team": "Eliminó un equipo",
+            "add_team_member": "Añadió un miembro a un equipo",
+            "remove_team_member": "Quitó un miembro de un equipo"
           },
           "sso_provider": {
             "create": "Registró un proveedor de SSO",
@@ -1913,6 +2031,9 @@
           },
           "audit_log": {
             "export_csv": "Exportó el registro de auditoría a CSV"
+          },
+          "security": {
+            "update_policy": "Cambió la política de sesiones y contraseñas"
           }
         },
         "actorPlaceholder": "Buscar por quién actuó (correo)…",
@@ -1958,6 +2079,38 @@
           "noReason": "Sin motivo indicado",
           "until": "hasta el {date}",
           "permanent": "permanente"
+        },
+        "policy": {
+          "title": "Sesiones y contraseñas",
+          "description": "Cuánto tiempo sigue iniciada la sesión en la aplicación de autenticación y cómo se eligen las contraseñas. Las aplicaciones conservan sus propios tokens y tokens de actualización.",
+          "edit": "Editar",
+          "on": "Activado",
+          "off": "Desactivado",
+          "days": "{count, plural, one {# día} other {# días}}",
+          "characters": "{count, plural, one {# carácter} other {# caracteres}}",
+          "sessionDays": "Duración de la sesión",
+          "sessionDaysHint": "Cuánto dura un inicio de sesión. Las sesiones creadas antes de un cambio conservan su caducidad; siguen la nueva duración cuando se prolongan.",
+          "extendSessions": "Prolongar las sesiones en uso",
+          "extendSessionsHint": "Activado: una sesión dura {count, plural, one {# día} other {# días}} desde su último uso. Desactivado: termina {count, plural, one {# día} other {# días}} después del inicio de sesión, se use o no.",
+          "signOutOnPasswordChange": "Cerrar sesión en todas partes al cambiar la contraseña",
+          "signOutOnPasswordChangeHint": "Un cambio de contraseña cierra las demás sesiones de la cuenta y revoca los tokens de sus aplicaciones, como un restablecimiento. Desactivado: cada persona elige.",
+          "minPasswordLength": "Longitud mínima de la contraseña",
+          "minPasswordLengthHint": "Se aplica a las contraseñas nuevas (registro, restablecimiento, cambio). Las contraseñas existentes siguen funcionando.",
+          "passwordSignUp": "Registro con contraseña",
+          "passwordSignUpHint": "Desactivado: ya no se puede crear una cuenta con un correo y una contraseña, solo con un proveedor social o el SSO de la organización. Los administradores pueden seguir creando cuentas y las contraseñas existentes siguen funcionando.",
+          "dialogDescription": "La aplicación de autenticación los aplica en menos de un minuto.",
+          "save": "Guardar",
+          "cancel": "Cancelar",
+          "saved": "Política guardada. La aplicación de autenticación la aplica en menos de un minuto.",
+          "errors": {
+            "invalid": "Elige uno de los valores ofrecidos.",
+            "save": "No se pudo guardar la política."
+          },
+          "twoFactorEveryone": "Dos pasos para todos",
+          "twoFactorEveryoneHint": "Todos deben usar una aplicación de autenticación o una llave de acceso para iniciar sesión en las aplicaciones. Administradores: REQUIRE_ADMIN_2FA. Las organizaciones pueden exigirla a sus miembros desde su página.",
+          "twoFactorGraceDays": "Plazo para activarla",
+          "twoFactorGraceDaysHint": "A quien no la tenga se le pide en cada inicio de sesión en una aplicación y puede continuar hasta entonces. Empieza cuando activas esto, o al crear la cuenta.",
+          "noGrace": "Ninguno: obligatoria de inmediato"
         }
       },
       "signingKeys": {
@@ -1982,7 +2135,10 @@
           "graceHint": "Cuánto tiempo sigue publicada una clave retirada. Debe ser mayor que la vida útil más larga de tus tokens (tokens de acceso: 1 hora, tokens de ID: 1 hora).",
           "save": "Guardar",
           "cancel": "Cancelar",
-          "saved": "Ajustes guardados. El servidor de autenticación los aplica en menos de un minuto."
+          "saved": "Ajustes guardados. El servidor de autenticación los aplica en menos de un minuto.",
+          "algorithm": "Algoritmo de firma",
+          "algorithmHint": "EdDSA (Ed25519) es el predeterminado. Elige ES256 o RS256 para las API y pasarelas que solo verifican esos, como AWS API Gateway o Azure API Management. Al cambiarlo se crea ya una clave con el nuevo algoritmo; la clave actual sigue publicada durante el periodo de gracia.",
+          "savedAlgorithm": "Ajustes guardados. Los nuevos tokens se firman con {alg} (clave {kid})."
         },
         "keys": {
           "title": "Claves",
@@ -2014,7 +2170,8 @@
           "interval": "Elige uno de los intervalos de rotación disponibles.",
           "grace": "Elige uno de los periodos de gracia disponibles.",
           "save": "No se pudieron guardar los ajustes.",
-          "rotate": "No se pudo rotar la clave."
+          "rotate": "No se pudo rotar la clave.",
+          "algorithm": "Elige uno de los algoritmos ofrecidos."
         }
       },
       "organizations": {
@@ -2100,7 +2257,14 @@
           "scimCounts": "{active} aprovisionadas, {inactive} desactivadas.",
           "recentActions": "Acciones de administración recientes",
           "noActions": "Ninguna todavía.",
-          "system": "sistema"
+          "system": "sistema",
+          "twoFactor": {
+            "title": "Autenticación en dos pasos",
+            "label": "Exigir la autenticación en dos pasos a los miembros",
+            "hint": "Los miembros deben usar una aplicación de autenticación o una llave de acceso para iniciar sesión en las aplicaciones, tras el plazo fijado en la página Seguridad.",
+            "on": "La autenticación en dos pasos ahora es obligatoria para los miembros de esta organización.",
+            "off": "La autenticación en dos pasos ya no es obligatoria para los miembros de esta organización."
+          }
         },
         "errors": {
           "invalidNameSlug": "Introduce un nombre y un slug formado por letras, números y guiones.",
@@ -2119,6 +2283,61 @@
           "lastOwner": "Una organización necesita al menos un propietario. Haz primero propietario a otro miembro.",
           "publicDelete": "El espacio de trabajo Public no se puede eliminar.",
           "organizationNotFound": "No se encontró la organización."
+        },
+        "rolesTeams": {
+          "rolesTitle": "Roles personalizados",
+          "teamsTitle": "Equipos",
+          "rolesDescription": "Roles propios de esta organización, además de propietario, administrador y miembro, cada uno con sus permisos. Se asignan a los miembros como los integrados, y los tokens llevan el nombre del rol (organization.role) y sus permisos (organization.permissions).",
+          "noRoles": "Ningún rol personalizado.",
+          "memberCount": "{count, plural, one {# miembro} other {# miembros}}",
+          "noPermissions": "Sin permisos",
+          "edit": "Editar",
+          "delete": "Eliminar",
+          "editRole": "Editar {role}",
+          "deleteRole": "Eliminar {role}",
+          "addRole": "Añadir rol",
+          "deleteRoleTitle": "¿Eliminar {role}?",
+          "deleteRoleDescription": "El rol desaparece de esta organización. Solo se puede eliminar cuando ningún miembro lo tiene.",
+          "cancel": "Cancelar",
+          "roleDeleted": "Rol eliminado.",
+          "roleSaved": "Rol guardado.",
+          "roleDialogDescription": "Marca lo que el rol puede hacer en la organización. Los propietarios y administradores de la organización también pueden gestionar roles.",
+          "roleName": "Nombre del rol",
+          "roleNameHint": "De 2 a 32 minúsculas, dígitos, guiones o guiones bajos, empezando por una letra. No se puede cambiar después.",
+          "permissions": "Permisos",
+          "save": "Guardar",
+          "teamsDescription": "Grupos de miembros dentro de la organización. Los tokens llevan los equipos del miembro (organization.teams).",
+          "noTeams": "Ningún equipo.",
+          "teamCreated": "Equipo creado.",
+          "newTeam": "Nuevo equipo",
+          "createTeam": "Crear equipo",
+          "teamRenamed": "Equipo renombrado.",
+          "teamName": "Nombre del equipo",
+          "renameTeam": "Renombrar {team}",
+          "rename": "Renombrar",
+          "deleteTeam": "Eliminar {team}",
+          "noTeamMembers": "Ningún miembro en este equipo.",
+          "removeFromTeam": "Quitar a {email} de {team}",
+          "remove": "Quitar",
+          "teamMemberRemoved": "Miembro quitado del equipo.",
+          "teamMemberAdded": "Miembro añadido al equipo.",
+          "addToTeam": "Añadir un miembro a {team}",
+          "memberEmail": "Correo del miembro",
+          "add": "Añadir",
+          "deleteTeamTitle": "¿Eliminar {team}?",
+          "deleteTeamDescription": "Se eliminan el equipo y su lista de miembros. Los miembros siguen en la organización.",
+          "teamDeleted": "Equipo eliminado.",
+          "errors": {
+            "invalidName": "Un nombre de rol tiene de 2 a 32 minúsculas, dígitos, guiones o guiones bajos, y empieza por una letra.",
+            "reservedName": "owner, admin y member son roles integrados.",
+            "nameTaken": "Esta organización ya tiene un rol con este nombre.",
+            "invalidPermissions": "Uno de los permisos no es conocido.",
+            "roleInUse": "Hay miembros con este rol: dales otro rol primero.",
+            "notFound": "No se encuentra en esta organización.",
+            "notMember": "Esta persona no es miembro de la organización.",
+            "alreadyInTeam": "Este miembro ya está en el equipo.",
+            "invalidTeamName": "Un nombre de equipo tiene de 1 a 64 caracteres."
+          }
         }
       }
     },
@@ -2314,7 +2533,8 @@
         "invalidCode": "El código no es válido. Comprueba que la hora de tu dispositivo sea correcta e inténtalo de nuevo.",
         "rateLimited": "Demasiados intentos. Espera unos segundos y vuelve a intentarlo.",
         "generic": "Algo salió mal. Inténtalo de nuevo."
-      }
+      },
+      "doneContinue": "Continuar a la aplicación"
     },
     "organizations": {
       "title": "Organizaciones",
@@ -2566,6 +2786,27 @@
     "impersonation": {
       "viewingAs": "Estás viendo esta cuenta como <strong>{email}</strong>.",
       "stop": "Dejar de suplantar"
+    },
+    "phone": {
+      "title": "Número de teléfono",
+      "description": "Inicia sesión con un código enviado por SMS a este número.",
+      "none": "Sin número de teléfono",
+      "add": "Añadir un número",
+      "change": "Cambiar",
+      "remove": "Quitar",
+      "phoneLabel": "Número de teléfono",
+      "phoneHint": "Formato internacional, con + y el prefijo del país. Te enviaremos un código por SMS para comprobarlo.",
+      "send": "Enviar código",
+      "cancel": "Cancelar",
+      "codeLabel": "Código enviado a {phone}",
+      "verify": "Guardar número",
+      "invalidPhone": "Introduce el número en formato internacional, por ejemplo +34612345678.",
+      "sendFailed": "No se pudo enviar el código. Inténtalo en unos minutos.",
+      "verifyFailed": "Ese código no es correcto o ha caducado.",
+      "taken": "Otra cuenta ya usa este número.",
+      "saved": "Número guardado.",
+      "removeFailed": "No se pudo quitar el número.",
+      "removed": "Número quitado."
     },
     "demo": {
       "title": "Cuenta de demostración",

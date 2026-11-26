@@ -43,6 +43,7 @@
         "error": "无法发送邮件。请稍后再试。"
       },
       "addAccountDescription": "此浏览器上已登录的账户将保持登录。",
+      "phoneCode": "用短信发送登录码",
       "demo": {
         "title": "试用演示",
         "description": "共享的示例账户，每次更新时重置。其密码、邮箱和登录方式无法更改。",
@@ -128,7 +129,7 @@
       "backToLogin": "返回登录",
       "newPasswordLabel": "新密码",
       "confirmPasswordLabel": "确认密码",
-      "passwordHint": "至少 8 个字符。",
+      "passwordHint": "至少 {min} 个字符。",
       "passwordMismatch": "两次密码不一致",
       "submit": "更新密码",
       "submitting": "正在更新…",
@@ -154,7 +155,7 @@
       "emailDescription": "我们将用此邮箱联系您，不会与他人共享。",
       "passwordLabel": "密码",
       "confirmPasswordLabel": "确认密码",
-      "passwordHint": "至少 8 个字符。",
+      "passwordHint": "至少 {min} 个字符。",
       "confirmPasswordHint": "请再次输入密码。",
       "passwordMismatch": "两次密码不一致",
       "submit": "创建账户",
@@ -169,7 +170,9 @@
         "usernameTooShort": "用户名至少需要 3 个字符。",
         "usernameInvalid": "用户名无效。",
         "usernameTaken": "该用户名已被占用，请换一个。"
-      }
+      },
+      "passwordSignUpOff": "已关闭使用密码注册。请使用以下方式之一创建账户：",
+      "signUpClosed": "此处无法创建新账户。请向管理员申请账户。"
     },
     "screen": {
       "headline": "一个账户，<accent>畅通所有应用</accent>。",
@@ -194,6 +197,42 @@
       "continue": "继续前往 <app>{name}</app>",
       "unverified": "未经验证的应用。",
       "unverifiedHint": "{name} 未审核此应用：仅在您信任它时继续。"
+    },
+    "twoFactorRequired": {
+      "metaTitle": "需要双重验证",
+      "title": "请开启双重验证",
+      "byOrganization": "你所在组织的管理员要求登录应用时使用双重验证。",
+      "byPlatform": "登录应用需要双重验证。",
+      "until": "请在 {date} 之前开启。",
+      "now": "请开启后继续。",
+      "how": "使用身份验证器应用（如 Google Authenticator 或 1Password），或在账户页面添加通行密钥。",
+      "setUp": "设置双重验证",
+      "later": "稍后提醒我",
+      "continue": "继续"
+    },
+    "phoneCode": {
+      "title": "通过短信登录",
+      "description": "我们会通过短信向你账户的手机号发送 6 位验证码。",
+      "phoneLabel": "手机号",
+      "phoneHint": "国际格式，以 + 和国家代码开头。",
+      "send": "发送验证码",
+      "sending": "正在发送…",
+      "sentTitle": "请查看手机",
+      "sent": "如果有账户使用 {phone}，6 位验证码已发出，{minutes} 分钟后过期。",
+      "codeLabel": "登录码",
+      "verify": "登录",
+      "verifying": "正在登录…",
+      "newCode": "没收到？重新发送",
+      "usePassword": "改用密码登录",
+      "errors": {
+        "invalidPhone": "请按国际格式输入号码，例如 +8613812345678。",
+        "invalidCode": "验证码不正确，请检查后重试。",
+        "expired": "验证码已过期，请重新获取。",
+        "tooManyAttempts": "错误次数过多，请重新获取验证码。",
+        "rateLimited": "尝试次数过多，请等几分钟再试。",
+        "sendFailed": "无法发送验证码，请几分钟后再试。",
+        "signInFailed": "无法登录，请重试。"
+      }
     }
   },
   "consent": {
@@ -380,7 +419,8 @@
           "duplicates": "×{count}",
           "duplicatesHint": "{count} 个相同的自行注册客户端",
           "showDuplicates": "显示全部 {count} 个",
-          "hideDuplicates": "隐藏相同项"
+          "hideDuplicates": "隐藏相同项",
+          "previousSecretUntil": "旧密钥有效期至 {date}"
         },
         "registration": {
           "title": "自行注册",
@@ -524,6 +564,8 @@
             "organization_id": "当前组织 ID",
             "organization_slug": "当前组织标识（slug）",
             "organization_role": "在当前组织中的角色",
+            "organization_permissions": "当前组织中的权限",
+            "organization_teams": "当前组织中的团队",
             "organizations": "所属组织"
           }
         },
@@ -584,6 +626,8 @@
           "allowedScopesHint": "登录需包含 openid，刷新令牌需包含 offline_access。",
           "iconUrlLabel": "图标 URL",
           "iconUrlHint": "在控制台、授权同意页面和用户账户中为该应用显示。适用于只重定向到 localhost 的应用。https，PNG/JPEG/WebP/AVIF/GIF/ICO/SVG。",
+          "clientIdLabel": "客户端 ID（可选）",
+          "clientIdHint": "留空则自动生成。对于从其他提供商迁移过来的应用，请输入其当前的客户端 ID，使其无需修改即可继续使用：3 到 128 个字母、数字、点、下划线或连字符。",
           "deviceCodeLabel": "设备登录（CLI、电视）",
           "deviceCodeHint": "添加设备码授权（RFC 8628）：应用显示一个代码，用户在另一块屏幕上的 <code>{path}</code> 处批准。通常为公开客户端。",
           "endSessionLabel": "从应用退出登录（RP-initiated logout）",
@@ -592,6 +636,8 @@
           "postLogoutUrisHint": "退出登录后应用可将用户送回的地址（post_logout_redirect_uri，精确匹配）。每行一个或用逗号分隔。未设置时，用户会看到已退出页面。",
           "skipConsentLabel": "跳过同意（受信任的客户端）",
           "skipConsentHint": "用户将不会看到此应用的同意页面。仅用于自有或完全受信任的集成。",
+          "pairwiseLabel": "按应用区分的用户 ID",
+          "pairwiseHint": "用户在此获得的 ID（sub）与其他主机上的应用不同，因此那些应用无法将其用户与此应用关联。所有重定向 URI 必须位于同一主机。创建后无法更改。",
           "registerFailed": "无法注册应用",
           "missingClientId": "服务器未返回 {field}。",
           "registered": "OAuth 应用已注册",
@@ -604,7 +650,18 @@
           "clientId": "客户端 ID",
           "clientSecret": "客户端密钥",
           "copyClientId": "复制客户端 ID",
-          "copyClientSecret": "复制客户端密钥"
+          "copyClientSecret": "复制客户端密钥",
+          "authMethodLabel": "客户端认证",
+          "authMethodSecret": "客户端密钥",
+          "authMethodPrivateKey": "私钥 JWT（公钥）",
+          "jwksLabel": "公钥（JWKS）",
+          "jwksHint": "应用的公钥，格式为 JSON Web Key Set。应用在令牌端点用其私钥签署客户端断言（private_key_jwt）。如需更换，请编辑应用，或让应用调用 /api/auth/oauth2/client/rotate-keys。",
+          "jwksInvalidJson": "JWKS 不是有效的 JSON。",
+          "backchannelUriLabel": "后端通道注销 URI（可选）",
+          "backchannelUriHint": "用户的会话结束时，Ostiary 会向此 https 地址发送已签名的注销令牌，以便应用也让该用户退出登录。",
+          "backchannelSessionLabel": "应用需要会话 ID（sid）",
+          "backchannelSessionHint": "让 Ostiary 在注销令牌中加入 sid：应用据此找到要结束的会话。",
+          "successPrivateKey": "不会签发密钥：应用使用由其已注册密钥之一签名的客户端断言进行认证。"
         },
         "rowActions": {
           "menuLabel": "{name} 的操作",
@@ -662,15 +719,25 @@
           },
           "rotateDialog": {
             "title": "轮换客户端密钥？",
-            "description": "旧密钥会立即失效。请将新密钥保存在安全的地方，它可能只显示这一次。",
+            "description": "请将新密钥保存在安全的地方，它可能只显示一次。当前密钥会立即失效，或在你选择的宽限期结束时失效，以便应用先完成切换。",
             "newSecretLabel": "新的客户端密钥",
             "copySecret": "复制密钥",
             "secretCopied": "密钥已复制",
             "rotating": "正在轮换…",
             "rotateFailed": "无法轮换密钥",
             "newSecretIssued": "已签发新的客户端密钥，请立即复制",
-            "rotated": "密钥已轮换"
-          }
+            "rotated": "密钥已轮换",
+            "graceLabel": "当前密钥继续有效",
+            "graceNone": "否，立即失效",
+            "grace1h": "1 小时",
+            "grace24h": "24 小时",
+            "grace7d": "7 天",
+            "graceReplaces": "上次轮换时保留的密钥将立即失效。"
+          },
+          "rotateHintPrivateKey": "此应用使用自己的密钥对认证，而不是客户端密钥",
+          "revokePreviousSecret": "立即吊销旧密钥",
+          "revokePreviousFailed": "无法吊销旧密钥",
+          "previousSecretRevoked": "已吊销旧密钥"
         },
         "selfRegistered": {
           "menuLabel": "{name} 的操作",
@@ -1317,6 +1384,47 @@
               }
             }
           }
+        },
+        "custom": {
+          "title": "自定义 OpenID Connect 提供商",
+          "description": "将任意 OpenID Connect 提供商（Keycloak、Okta、Authentik 或你公司自己的）作为登录按钮，与上面的提供商并列。",
+          "add": "添加提供商",
+          "empty": "尚无自定义提供商。",
+          "on": "开启",
+          "off": "关闭",
+          "linkedAccounts": "{count} 个关联账户",
+          "edit": "编辑",
+          "editProvider": "编辑 {name}",
+          "remove": "移除",
+          "removeProvider": "移除 {name}",
+          "removeTitle": "移除 {name}？",
+          "removeDescription": "该按钮会从登录页面消失。用它登录过的账户会保留，但无法再通过此提供商登录。",
+          "removed": "已移除提供商。",
+          "cancel": "取消",
+          "save": "保存",
+          "saved": "已保存提供商。",
+          "addTitle": "添加 OpenID Connect 提供商",
+          "editTitle": "编辑 {name}",
+          "dialogDescription": "请在提供商处将 Ostiary 注册为 Web 应用，使用下方的重定向 URI，然后填写提供商给出的信息。保存时会检查提供商的发现文档。",
+          "name": "按钮名称",
+          "nameHint": "在登录和注册页面显示为“使用 … 继续”。",
+          "slug": "提供商 ID",
+          "slugHint": "小写字母、数字和连字符。是重定向 URI 的一部分，之后无法更改。",
+          "callbackUrl": "重定向 URI",
+          "callbackUrlHint": "请在提供商处准确注册此 URI。",
+          "discoveryUrl": "发现 URL",
+          "discoveryUrlHint": "提供商的 /.well-known/openid-configuration 地址（https，公网地址）。",
+          "clientId": "客户端 ID",
+          "clientSecret": "客户端密钥",
+          "clientSecretHint": "公共客户端请留空（仅 PKCE）。",
+          "secretKept": "留空以保留已保存的密钥",
+          "secretUnreadable": "无法读取已保存的密钥（BETTER_AUTH_SECRET 已更改）：请重新输入。",
+          "scopes": "范围",
+          "scopesHint": "以空格分隔，必须包含 openid。",
+          "enabled": "在登录页面显示",
+          "enabledHint": "关闭：保存提供商但不展示。",
+          "allowSignUp": "为新用户创建账户",
+          "allowSignUpHint": "关闭：只有已有账户的人才能通过它登录。"
         }
       },
       "apiKeys": {
@@ -1829,7 +1937,8 @@
             "export_data": "导出了账户数据",
             "self_delete": "删除了自己的账户",
             "export_csv": "将用户导出为 CSV",
-            "import": "导入了用户"
+            "import": "导入了用户",
+            "remove_phone_number": "移除了自己的手机号"
           },
           "oauth_client": {
             "create": "注册了 OAuth 客户端",
@@ -1842,7 +1951,8 @@
             "branding_update": "更改了登录品牌",
             "branding_reset": "重置了登录品牌",
             "claims_update": "更改了令牌声明",
-            "remove_duplicates": "移除了重复的 OAuth 客户端"
+            "remove_duplicates": "移除了重复的 OAuth 客户端",
+            "revoke_previous_secret": "已吊销旧客户端密钥"
           },
           "client_registration": {
             "update": "更改了客户端自行注册设置"
@@ -1878,7 +1988,15 @@
             "invite": "邀请了成员",
             "cancel_invitation": "取消了邀请",
             "update_member_role": "更改了成员角色",
-            "remove_member": "移除了成员"
+            "remove_member": "移除了成员",
+            "create_role": "创建了组织角色",
+            "update_role": "更改了组织角色",
+            "delete_role": "删除了组织角色",
+            "create_team": "创建了团队",
+            "update_team": "重命名了团队",
+            "delete_team": "删除了团队",
+            "add_team_member": "向团队添加了成员",
+            "remove_team_member": "从团队移出了成员"
           },
           "sso_provider": {
             "create": "注册了 SSO 提供方",
@@ -1913,6 +2031,9 @@
           },
           "audit_log": {
             "export_csv": "将审计日志导出为 CSV"
+          },
+          "security": {
+            "update_policy": "更改了会话与密码策略"
           }
         },
         "actorPlaceholder": "按操作者（邮箱）搜索…",
@@ -1958,6 +2079,38 @@
           "noReason": "未提供原因",
           "until": "至 {date}",
           "permanent": "永久"
+        },
+        "policy": {
+          "title": "会话与密码",
+          "description": "用户在认证应用中保持登录的时长，以及密码的设置规则。各应用保留自己的令牌和刷新令牌。",
+          "edit": "编辑",
+          "on": "开启",
+          "off": "关闭",
+          "days": "{count} 天",
+          "characters": "{count} 个字符",
+          "sessionDays": "会话有效期",
+          "sessionDaysHint": "一次登录持续多久。更改前创建的会话保留其到期时间；下次续期时按新的有效期计算。",
+          "extendSessions": "使用中的会话自动续期",
+          "extendSessionsHint": "开启：会话在最后一次使用后持续 {count} 天。关闭：无论是否使用，会话在登录 {count} 天后结束。",
+          "signOutOnPasswordChange": "更改密码时在所有设备上退出",
+          "signOutOnPasswordChangeHint": "更改密码会结束该账户的其他会话并吊销其应用的令牌，与重置密码相同。关闭：由用户自行选择。",
+          "minPasswordLength": "最短密码长度",
+          "minPasswordLengthHint": "适用于新密码（注册、重置、更改）。现有密码继续有效。",
+          "passwordSignUp": "使用密码注册",
+          "passwordSignUpHint": "关闭：不能再用邮箱和密码创建账户，只能通过社交登录或组织的 SSO。管理员仍可创建账户，现有密码继续有效。",
+          "dialogDescription": "认证应用会在一分钟内应用这些设置。",
+          "save": "保存",
+          "cancel": "取消",
+          "saved": "策略已保存。认证应用会在一分钟内应用。",
+          "errors": {
+            "invalid": "请选择提供的值之一。",
+            "save": "无法保存策略。"
+          },
+          "twoFactorEveryone": "所有人启用双重验证",
+          "twoFactorEveryoneHint": "所有人登录应用时都必须使用身份验证器应用或通行密钥。管理员：REQUIRE_ADMIN_2FA。组织可以在其页面上要求成员启用。",
+          "twoFactorGraceDays": "开启期限",
+          "twoFactorGraceDaysHint": "未开启双重验证的人在每次登录应用时都会收到提示，并可在期限前继续。期限从开启此项或创建账户时开始计算。",
+          "noGrace": "无：立即要求"
         }
       },
       "signingKeys": {
@@ -1982,7 +2135,10 @@
           "graceHint": "已退役的密钥继续公开的时间。请设置得比最长的令牌有效期更长（访问令牌：1 小时，ID 令牌：1 小时）。",
           "save": "保存",
           "cancel": "取消",
-          "saved": "设置已保存。认证服务器会在一分钟内生效。"
+          "saved": "设置已保存。认证服务器会在一分钟内生效。",
+          "algorithm": "签名算法",
+          "algorithmHint": "默认为 EdDSA（Ed25519）。对于只验证 ES256 或 RS256 的 API 和网关（如 AWS API Gateway 或 Azure API Management），请选择相应算法。更改后会立即创建使用新算法的密钥；当前密钥会在宽限期内继续发布。",
+          "savedAlgorithm": "设置已保存。新令牌使用 {alg} 签名（密钥 {kid}）。"
         },
         "keys": {
           "title": "密钥",
@@ -2014,7 +2170,8 @@
           "interval": "请选择提供的轮换间隔之一。",
           "grace": "请选择提供的宽限期之一。",
           "save": "无法保存设置。",
-          "rotate": "无法轮换密钥。"
+          "rotate": "无法轮换密钥。",
+          "algorithm": "请选择提供的算法之一。"
         }
       },
       "organizations": {
@@ -2100,7 +2257,14 @@
           "scimCounts": "已预配 {active} 个，已停用 {inactive} 个。",
           "recentActions": "最近的管理员操作",
           "noActions": "暂无。",
-          "system": "系统"
+          "system": "系统",
+          "twoFactor": {
+            "title": "双重验证",
+            "label": "要求成员开启双重验证",
+            "hint": "在安全页面设定的期限过后，成员登录应用必须使用身份验证器应用或通行密钥。",
+            "on": "现在要求此组织的成员开启双重验证。",
+            "off": "不再要求此组织的成员开启双重验证。"
+          }
         },
         "errors": {
           "invalidNameSlug": "请输入名称，以及由字母、数字和连字符组成的 slug。",
@@ -2119,6 +2283,61 @@
           "lastOwner": "组织至少需要一位所有者。请先将另一位成员设为所有者。",
           "publicDelete": "无法删除 Public 工作区。",
           "organizationNotFound": "未找到该组织。"
+        },
+        "rolesTeams": {
+          "rolesTitle": "自定义角色",
+          "teamsTitle": "团队",
+          "rolesDescription": "在所有者、管理员和成员之外，本组织自己的角色，各有其权限。可像内置角色一样分配给成员，令牌中包含角色名称（organization.role）及其权限（organization.permissions）。",
+          "noRoles": "暂无自定义角色。",
+          "memberCount": "{count} 名成员",
+          "noPermissions": "无权限",
+          "edit": "编辑",
+          "delete": "删除",
+          "editRole": "编辑 {role}",
+          "deleteRole": "删除 {role}",
+          "addRole": "添加角色",
+          "deleteRoleTitle": "删除 {role}？",
+          "deleteRoleDescription": "该角色将从本组织中移除。只有在没有成员拥有它时才能删除。",
+          "cancel": "取消",
+          "roleDeleted": "已删除角色。",
+          "roleSaved": "已保存角色。",
+          "roleDialogDescription": "勾选该角色在组织中可以做的事。组织的所有者和管理员也可以自行管理角色。",
+          "roleName": "角色名称",
+          "roleNameHint": "2 到 32 个小写字母、数字、连字符或下划线，以字母开头。之后无法更改。",
+          "permissions": "权限",
+          "save": "保存",
+          "teamsDescription": "组织内的成员分组。令牌中包含成员所属的团队（organization.teams）。",
+          "noTeams": "暂无团队。",
+          "teamCreated": "已创建团队。",
+          "newTeam": "新团队",
+          "createTeam": "创建团队",
+          "teamRenamed": "已重命名团队。",
+          "teamName": "团队名称",
+          "renameTeam": "重命名 {team}",
+          "rename": "重命名",
+          "deleteTeam": "删除 {team}",
+          "noTeamMembers": "该团队暂无成员。",
+          "removeFromTeam": "将 {email} 移出 {team}",
+          "remove": "移出",
+          "teamMemberRemoved": "已将成员移出团队。",
+          "teamMemberAdded": "已将成员加入团队。",
+          "addToTeam": "向 {team} 添加成员",
+          "memberEmail": "成员邮箱",
+          "add": "添加",
+          "deleteTeamTitle": "删除 {team}？",
+          "deleteTeamDescription": "团队及其成员列表将被删除，成员仍留在组织中。",
+          "teamDeleted": "已删除团队。",
+          "errors": {
+            "invalidName": "角色名称为 2 到 32 个小写字母、数字、连字符或下划线，以字母开头。",
+            "reservedName": "owner、admin 和 member 是内置角色。",
+            "nameTaken": "本组织已有同名角色。",
+            "invalidPermissions": "有一项权限无法识别。",
+            "roleInUse": "有成员拥有此角色：请先为他们分配其他角色。",
+            "notFound": "在本组织中未找到。",
+            "notMember": "此人不是本组织的成员。",
+            "alreadyInTeam": "该成员已在团队中。",
+            "invalidTeamName": "团队名称为 1 到 64 个字符。"
+          }
         }
       }
     },
@@ -2314,7 +2533,8 @@
         "invalidCode": "验证码无效。请检查设备时间是否正确，然后重试。",
         "rateLimited": "尝试次数过多。请稍等几秒后重试。",
         "generic": "出错了，请重试。"
-      }
+      },
+      "doneContinue": "继续前往应用"
     },
     "organizations": {
       "title": "组织",
@@ -2566,6 +2786,27 @@
     "impersonation": {
       "viewingAs": "你正在以 <strong>{email}</strong> 的身份查看此账户。",
       "stop": "停止模拟"
+    },
+    "phone": {
+      "title": "手机号",
+      "description": "使用发送到此号码的短信验证码登录。",
+      "none": "未设置手机号",
+      "add": "添加号码",
+      "change": "更改",
+      "remove": "移除",
+      "phoneLabel": "手机号",
+      "phoneHint": "国际格式，以 + 和国家代码开头。我们会发送短信验证码进行确认。",
+      "send": "发送验证码",
+      "cancel": "取消",
+      "codeLabel": "发送到 {phone} 的验证码",
+      "verify": "保存号码",
+      "invalidPhone": "请按国际格式输入号码，例如 +8613812345678。",
+      "sendFailed": "无法发送验证码，请几分钟后再试。",
+      "verifyFailed": "验证码不正确或已过期。",
+      "taken": "其他账户已在使用此号码。",
+      "saved": "号码已保存。",
+      "removeFailed": "无法移除号码。",
+      "removed": "号码已移除。"
     },
     "demo": {
       "title": "演示账户",

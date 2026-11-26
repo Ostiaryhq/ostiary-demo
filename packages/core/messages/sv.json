@@ -43,6 +43,7 @@
         "error": "Det gick inte att skicka mejlet. Försök igen om en minut."
       },
       "addAccountDescription": "Konton som redan är inloggade i den här webbläsaren förblir inloggade.",
+      "phoneCode": "Sms:a mig en inloggningskod",
       "demo": {
         "title": "Prova demon",
         "description": "Delade exempelkonton som återställs vid varje uppdatering. Lösenord, e-postadress och inloggningsmetoder kan inte ändras.",
@@ -128,7 +129,7 @@
       "backToLogin": "Tillbaka till inloggningen",
       "newPasswordLabel": "Nytt lösenord",
       "confirmPasswordLabel": "Bekräfta lösenord",
-      "passwordHint": "Måste vara minst 8 tecken långt.",
+      "passwordHint": "Måste vara minst {min} tecken långt.",
       "passwordMismatch": "Lösenorden matchar inte",
       "submit": "Uppdatera lösenord",
       "submitting": "Uppdaterar…",
@@ -154,7 +155,7 @@
       "emailDescription": "Vi använder den för att kontakta dig. Vi delar inte din e-postadress med någon annan.",
       "passwordLabel": "Lösenord",
       "confirmPasswordLabel": "Bekräfta lösenord",
-      "passwordHint": "Måste vara minst 8 tecken långt.",
+      "passwordHint": "Måste vara minst {min} tecken långt.",
       "confirmPasswordHint": "Bekräfta ditt lösenord.",
       "passwordMismatch": "Lösenorden matchar inte",
       "submit": "Skapa konto",
@@ -169,7 +170,9 @@
         "usernameTooShort": "Användarnamnet måste vara minst 3 tecken.",
         "usernameInvalid": "Användarnamnet är inte giltigt.",
         "usernameTaken": "Användarnamnet är redan upptaget. Prova ett annat."
-      }
+      },
+      "passwordSignUpOff": "Registrering med lösenord är avstängd. Skapa ditt konto med något av dessa:",
+      "signUpClosed": "Nya konton kan inte skapas här. Be en administratör om ett konto."
     },
     "screen": {
       "headline": "Ett konto för <accent>alla dina appar</accent>.",
@@ -194,6 +197,42 @@
       "continue": "Fortsätt till <app>{name}</app>",
       "unverified": "Overifierad app.",
       "unverifiedHint": "{name} har inte granskat den: fortsätt bara om du litar på den."
+    },
+    "twoFactorRequired": {
+      "metaTitle": "Tvåfaktorsautentisering krävs",
+      "title": "Aktivera tvåfaktorsautentisering",
+      "byOrganization": "Din organisations administratörer kräver tvåfaktorsautentisering för att logga in i appar.",
+      "byPlatform": "Tvåfaktorsautentisering krävs för att logga in i appar.",
+      "until": "Aktivera den före {date}.",
+      "now": "Aktivera den för att fortsätta.",
+      "how": "Använd en autentiseringsapp (till exempel Google Authenticator eller 1Password) eller lägg till en nyckel på din kontosida.",
+      "setUp": "Konfigurera tvåfaktorsautentisering",
+      "later": "Påminn mig senare",
+      "continue": "Fortsätt"
+    },
+    "phoneCode": {
+      "title": "Logga in med sms",
+      "description": "Vi sms:ar en 6-siffrig kod till telefonnumret på ditt konto.",
+      "phoneLabel": "Telefonnummer",
+      "phoneHint": "Internationellt format, med + och landsnummer.",
+      "send": "Skicka kod",
+      "sending": "Skickar…",
+      "sentTitle": "Titta i telefonen",
+      "sent": "Om ett konto använder {phone} är en 6-siffrig kod på väg. Den gäller i {minutes} minuter.",
+      "codeLabel": "Inloggningskod",
+      "verify": "Logga in",
+      "verifying": "Loggar in…",
+      "newCode": "Fick du ingen? Skicka en ny kod",
+      "usePassword": "Använd ditt lösenord i stället",
+      "errors": {
+        "invalidPhone": "Ange numret i internationellt format, till exempel +46701234567.",
+        "invalidCode": "Koden stämmer inte. Kontrollera den och försök igen.",
+        "expired": "Koden har gått ut. Be om en ny.",
+        "tooManyAttempts": "För många felaktiga koder. Be om en ny.",
+        "rateLimited": "För många försök. Vänta några minuter och försök igen.",
+        "sendFailed": "Det gick inte att skicka koden. Försök igen om några minuter.",
+        "signInFailed": "Det gick inte att logga in. Försök igen."
+      }
     }
   },
   "consent": {
@@ -380,7 +419,8 @@
           "duplicates": "×{count}",
           "duplicatesHint": "{count} identiska självregistrerade klienter",
           "showDuplicates": "Visa alla {count}",
-          "hideDuplicates": "Dölj identiska"
+          "hideDuplicates": "Dölj identiska",
+          "previousSecretUntil": "Föregående hemlighet giltig till {date}"
         },
         "registration": {
           "title": "Självregistrering",
@@ -524,6 +564,8 @@
             "organization_id": "ID för aktiv organisation",
             "organization_slug": "Slug för aktiv organisation",
             "organization_role": "Roll i aktiv organisation",
+            "organization_permissions": "Behörigheter i den aktiva organisationen",
+            "organization_teams": "Team i den aktiva organisationen",
             "organizations": "Medlemskap i organisationer"
           }
         },
@@ -584,6 +626,8 @@
           "allowedScopesHint": "Ta med openid för inloggning och offline_access för uppdateringstoken.",
           "iconUrlLabel": "Ikon-URL",
           "iconUrlHint": "Visas för appen i konsolen, på samtyckesskärmen och i användarnas konton. Användbart för appar som bara omdirigerar till localhost. https, PNG/JPEG/WebP/AVIF/GIF/ICO/SVG.",
+          "clientIdLabel": "Klient-ID (valfritt)",
+          "clientIdHint": "Lämna tomt för att generera ett. För en app som flyttas från en annan leverantör anger du dess nuvarande klient-ID så att den fungerar oförändrad: 3 till 128 bokstäver, siffror, punkter, understreck eller bindestreck.",
           "deviceCodeLabel": "Enhetsinloggning (CLI:er, tv-apparater)",
           "deviceCodeHint": "Lägger till device code-grant (RFC 8628): appen visar en kod och användaren godkänner den på <code>{path}</code> på en annan skärm. Oftast en publik klient.",
           "endSessionLabel": "Utloggning från appen (RP-initiated logout)",
@@ -592,6 +636,8 @@
           "postLogoutUrisHint": "Vart appen får skicka tillbaka användare efter utloggning (post_logout_redirect_uri, exakt matchning). En per rad eller kommaseparerade. Utan någon ser användarna en utloggningssida.",
           "skipConsentLabel": "Hoppa över samtycke (betrodd klient)",
           "skipConsentHint": "Användarna ser inte samtyckesskärmen för den här applikationen. Använd bara för egna eller helt betrodda integrationer.",
+          "pairwiseLabel": "Användar-ID per app",
+          "pairwiseHint": "Användare får här ett annat ID (sub) än i appar på andra värdar, som därför inte kan matcha sina användare mot den här appen. Alla omdirigerings-URI:er måste ligga på samma värd. Kan inte ändras senare.",
           "registerFailed": "Det gick inte att registrera applikationen",
           "missingClientId": "Servern returnerade inget {field}.",
           "registered": "OAuth-applikationen har registrerats",
@@ -604,7 +650,18 @@
           "clientId": "Klient-id",
           "clientSecret": "Klienthemlighet",
           "copyClientId": "Kopiera klient-id",
-          "copyClientSecret": "Kopiera klienthemlighet"
+          "copyClientSecret": "Kopiera klienthemlighet",
+          "authMethodLabel": "Klientautentisering",
+          "authMethodSecret": "Klienthemlighet",
+          "authMethodPrivateKey": "Private key-JWT (publika nycklar)",
+          "jwksLabel": "Publika nycklar (JWKS)",
+          "jwksHint": "Appens publika nycklar som en JSON Web Key Set. Appen signerar ett klientpåstående med sin privata nyckel vid tokenslutpunkten (private_key_jwt). Ändra dem genom att redigera appen, eller låt appen anropa /api/auth/oauth2/client/rotate-keys.",
+          "jwksInvalidJson": "JWKS är inte giltig JSON.",
+          "backchannelUriLabel": "URI för back-channel-utloggning (valfritt)",
+          "backchannelUriHint": "När en användares session tar slut skickar Ostiary en signerad utloggningstoken till denna https-URL så att appen också kan logga ut användaren.",
+          "backchannelSessionLabel": "Appen behöver sessions-ID (sid)",
+          "backchannelSessionHint": "Ber Ostiary att ta med sid i utloggningstoken: appen använder det för att hitta sessionen som ska avslutas.",
+          "successPrivateKey": "Ingen hemlighet utfärdas: appen autentiserar sig med ett klientpåstående signerat med en av dess registrerade nycklar."
         },
         "rowActions": {
           "menuLabel": "Åtgärder för {name}",
@@ -662,15 +719,25 @@
           },
           "rotateDialog": {
             "title": "Rotera klienthemligheten?",
-            "description": "Den tidigare hemligheten slutar fungera direkt. Spara den nya hemligheten på ett säkert ställe, den kanske bara visas en gång.",
+            "description": "Spara den nya hemligheten säkert, den kanske bara visas en gång. Den nuvarande hemligheten slutar fungera nu, eller när den valda övergångsperioden är slut, så att appen hinner byta först.",
             "newSecretLabel": "Ny klienthemlighet",
             "copySecret": "Kopiera hemlighet",
             "secretCopied": "Hemligheten har kopierats",
             "rotating": "Roterar…",
             "rotateFailed": "Det gick inte att rotera hemligheten",
             "newSecretIssued": "Ny klienthemlighet utfärdad, kopiera den nu",
-            "rotated": "Hemligheten har roterats"
-          }
+            "rotated": "Hemligheten har roterats",
+            "graceLabel": "Nuvarande hemlighet fortsätter att fungera",
+            "graceNone": "Nej, den slutar fungera nu",
+            "grace1h": "I 1 timme",
+            "grace24h": "I 24 timmar",
+            "grace7d": "I 7 dagar",
+            "graceReplaces": "Hemligheten som sparades vid föregående rotation slutar fungera nu."
+          },
+          "rotateHintPrivateKey": "Den här appen autentiserar sig med sina nycklar, inte med en hemlighet",
+          "revokePreviousSecret": "Återkalla föregående hemlighet nu",
+          "revokePreviousFailed": "Det gick inte att återkalla föregående hemlighet",
+          "previousSecretRevoked": "Föregående hemlighet återkallad"
         },
         "selfRegistered": {
           "menuLabel": "Åtgärder för {name}",
@@ -1317,6 +1384,47 @@
               }
             }
           }
+        },
+        "custom": {
+          "title": "Egna OpenID Connect-leverantörer",
+          "description": "Valfri OpenID Connect-leverantör (Keycloak, Okta, Authentik, ditt företags egen) som inloggningsknapp, bredvid leverantörerna ovan.",
+          "add": "Lägg till leverantör",
+          "empty": "Ingen egen leverantör än.",
+          "on": "På",
+          "off": "Av",
+          "linkedAccounts": "{count, plural, one {# länkat konto} other {# länkade konton}}",
+          "edit": "Redigera",
+          "editProvider": "Redigera {name}",
+          "remove": "Ta bort",
+          "removeProvider": "Ta bort {name}",
+          "removeTitle": "Ta bort {name}?",
+          "removeDescription": "Knappen försvinner från inloggningssidorna. Konton som använt den finns kvar men kan inte längre logga in med den här leverantören.",
+          "removed": "Leverantören togs bort.",
+          "cancel": "Avbryt",
+          "save": "Spara",
+          "saved": "Leverantören sparades.",
+          "addTitle": "Lägg till en OpenID Connect-leverantör",
+          "editTitle": "Redigera {name}",
+          "dialogDescription": "Registrera Ostiary hos leverantören som webbapplikation med omdirigerings-URI:n nedan och fyll sedan i det leverantören ger dig. När du sparar kontrolleras leverantörens discovery-dokument.",
+          "name": "Knappens namn",
+          "nameHint": "Visas som ”Fortsätt med …” på inloggnings- och registreringssidorna.",
+          "slug": "Leverantörs-ID",
+          "slugHint": "Små bokstäver, siffror och bindestreck. Ingår i omdirigerings-URI:n och kan inte ändras senare.",
+          "callbackUrl": "Omdirigerings-URI",
+          "callbackUrlHint": "Registrera exakt denna URI hos leverantören.",
+          "discoveryUrl": "Discovery-URL",
+          "discoveryUrlHint": "Leverantörens /.well-known/openid-configuration-URL (https, offentlig adress).",
+          "clientId": "Klient-ID",
+          "clientSecret": "Klienthemlighet",
+          "clientSecretHint": "Lämna tomt för en publik klient (endast PKCE).",
+          "secretKept": "Lämna tomt för att behålla den sparade hemligheten",
+          "secretUnreadable": "Den sparade hemligheten kan inte läsas (BETTER_AUTH_SECRET har ändrats): ange den igen.",
+          "scopes": "Scopes",
+          "scopesHint": "Separerade med mellanslag. Måste innehålla openid.",
+          "enabled": "Visa på inloggningssidorna",
+          "enabledHint": "Av: leverantören sparas men erbjuds inte.",
+          "allowSignUp": "Skapa konton för nya användare",
+          "allowSignUpHint": "Av: bara personer som redan har ett konto kan logga in med den."
         }
       },
       "apiKeys": {
@@ -1829,7 +1937,8 @@
             "export_data": "Exporterade kontodata",
             "self_delete": "Raderade sitt eget konto",
             "export_csv": "Exporterade användare till CSV",
-            "import": "Importerade användare"
+            "import": "Importerade användare",
+            "remove_phone_number": "Tog bort sitt telefonnummer"
           },
           "oauth_client": {
             "create": "Registrerade OAuth-klient",
@@ -1842,7 +1951,8 @@
             "branding_update": "Ändrade inloggningsutseende",
             "branding_reset": "Återställde inloggningsutseende",
             "claims_update": "Ändrade token-claims",
-            "remove_duplicates": "Tog bort duplicerade OAuth-klienter"
+            "remove_duplicates": "Tog bort duplicerade OAuth-klienter",
+            "revoke_previous_secret": "Återkallade föregående klienthemlighet"
           },
           "client_registration": {
             "update": "Ändrade självregistrering av klienter"
@@ -1878,7 +1988,15 @@
             "invite": "Bjöd in medlem",
             "cancel_invitation": "Avbröt inbjudan",
             "update_member_role": "Ändrade medlemsroll",
-            "remove_member": "Tog bort medlem"
+            "remove_member": "Tog bort medlem",
+            "create_role": "Skapade en organisationsroll",
+            "update_role": "Ändrade en organisationsroll",
+            "delete_role": "Tog bort en organisationsroll",
+            "create_team": "Skapade ett team",
+            "update_team": "Bytte namn på ett team",
+            "delete_team": "Tog bort ett team",
+            "add_team_member": "Lade till en medlem i ett team",
+            "remove_team_member": "Tog bort en medlem från ett team"
           },
           "sso_provider": {
             "create": "Registrerade SSO-leverantör",
@@ -1913,6 +2031,9 @@
           },
           "audit_log": {
             "export_csv": "Exporterade granskningsloggen till CSV"
+          },
+          "security": {
+            "update_policy": "Ändrade policyn för sessioner och lösenord"
           }
         },
         "actorPlaceholder": "Sök på vem som agerade (e-post)…",
@@ -1958,6 +2079,38 @@
           "noReason": "Ingen anledning angiven",
           "until": "till {date}",
           "permanent": "permanent"
+        },
+        "policy": {
+          "title": "Sessioner och lösenord",
+          "description": "Hur länge man förblir inloggad i autentiseringsappen och hur lösenord väljs. Appar behåller sina egna token och uppdateringstoken.",
+          "edit": "Redigera",
+          "on": "På",
+          "off": "Av",
+          "days": "{count, plural, one {# dag} other {# dagar}}",
+          "characters": "{count, plural, one {# tecken} other {# tecken}}",
+          "sessionDays": "Sessionens livslängd",
+          "sessionDaysHint": "Hur länge en inloggning varar. Sessioner som skapats före en ändring behåller sitt utgångsdatum; de följer den nya livslängden när de förlängs nästa gång.",
+          "extendSessions": "Förläng sessioner som används",
+          "extendSessionsHint": "På: en session varar {count, plural, one {# dag} other {# dagar}} efter senaste användning. Av: den upphör {count, plural, one {# dag} other {# dagar}} efter inloggningen, använd eller inte.",
+          "signOutOnPasswordChange": "Logga ut överallt vid lösenordsbyte",
+          "signOutOnPasswordChangeHint": "Ett lösenordsbyte avslutar kontots andra sessioner och återkallar dess appars token, precis som en återställning. Av: var och en väljer.",
+          "minPasswordLength": "Minsta lösenordslängd",
+          "minPasswordLengthHint": "Gäller nya lösenord (registrering, återställning, byte). Befintliga lösenord fortsätter att fungera.",
+          "passwordSignUp": "Registrering med lösenord",
+          "passwordSignUpHint": "Av: det går inte längre att skapa ett konto med e-post och lösenord, bara med en social leverantör eller organisationens SSO. Administratörer kan fortfarande skapa konton och befintliga lösenord fortsätter att fungera.",
+          "dialogDescription": "Autentiseringsappen tillämpar dem inom en minut.",
+          "save": "Spara",
+          "cancel": "Avbryt",
+          "saved": "Policyn sparades. Autentiseringsappen tillämpar den inom en minut.",
+          "errors": {
+            "invalid": "Välj ett av de värden som erbjuds.",
+            "save": "Det gick inte att spara policyn."
+          },
+          "twoFactorEveryone": "Tvåfaktor för alla",
+          "twoFactorEveryoneHint": "Alla måste använda en autentiseringsapp eller en nyckel för att logga in i appar. Administratörer: REQUIRE_ADMIN_2FA. Organisationer kan kräva det av sina medlemmar på sin sida.",
+          "twoFactorGraceDays": "Tid att aktivera den",
+          "twoFactorGraceDaysHint": "Den som saknar tvåfaktor tillfrågas vid varje appinloggning och kan fortsätta tills dess. Tiden börjar när du aktiverar detta, eller när kontot skapas.",
+          "noGrace": "Ingen: krävs direkt"
         }
       },
       "signingKeys": {
@@ -1982,7 +2135,10 @@
           "graceHint": "Hur länge en tillbakadragen nyckel förblir publicerad. Välj längre än din längsta token-livslängd (åtkomsttoken: 1 timme, ID-token: 1 timme).",
           "save": "Spara",
           "cancel": "Avbryt",
-          "saved": "Inställningarna sparades. Autentiseringsservern tillämpar dem inom en minut."
+          "saved": "Inställningarna sparades. Autentiseringsservern tillämpar dem inom en minut.",
+          "algorithm": "Signeringsalgoritm",
+          "algorithmHint": "Standard är EdDSA (Ed25519). Välj ES256 eller RS256 för API:er och gateways som bara verifierar dem, till exempel AWS API Gateway eller Azure API Management. En ändring skapar direkt en nyckel med den nya algoritmen; den nuvarande nyckeln förblir publicerad under övergångsperioden.",
+          "savedAlgorithm": "Inställningarna sparades. Nya token signeras med {alg} (nyckel {kid})."
         },
         "keys": {
           "title": "Nycklar",
@@ -2014,7 +2170,8 @@
           "interval": "Välj ett av de erbjudna rotationsintervallen.",
           "grace": "Välj en av de erbjudna respitperioderna.",
           "save": "Det gick inte att spara inställningarna.",
-          "rotate": "Det gick inte att rotera nyckeln."
+          "rotate": "Det gick inte att rotera nyckeln.",
+          "algorithm": "Välj en av de algoritmer som erbjuds."
         }
       },
       "organizations": {
@@ -2100,7 +2257,14 @@
           "scimCounts": "{active} etablerade, {inactive} inaktiverade.",
           "recentActions": "Senaste administratörsåtgärder",
           "noActions": "Inga än.",
-          "system": "systemet"
+          "system": "systemet",
+          "twoFactor": {
+            "title": "Tvåfaktorsautentisering",
+            "label": "Kräv tvåfaktorsautentisering av medlemmar",
+            "hint": "Medlemmar måste använda en autentiseringsapp eller en nyckel för att logga in i appar, efter tiden som anges på sidan Säkerhet.",
+            "on": "Tvåfaktorsautentisering krävs nu för den här organisationens medlemmar.",
+            "off": "Tvåfaktorsautentisering krävs inte längre för den här organisationens medlemmar."
+          }
         },
         "errors": {
           "invalidNameSlug": "Ange ett namn och en slug som består av bokstäver, siffror och bindestreck.",
@@ -2119,6 +2283,61 @@
           "lastOwner": "En organisation behöver minst en ägare. Gör först en annan medlem till ägare.",
           "publicDelete": "Arbetsytan Public kan inte tas bort.",
           "organizationNotFound": "Organisationen hittades inte."
+        },
+        "rolesTeams": {
+          "rolesTitle": "Egna roller",
+          "teamsTitle": "Team",
+          "rolesDescription": "Roller för den här organisationen utöver ägare, admin och medlem, var och en med egna behörigheter. De tilldelas medlemmar som de inbyggda, och token innehåller rollens namn (organization.role) och behörigheter (organization.permissions).",
+          "noRoles": "Ingen egen roll.",
+          "memberCount": "{count, plural, one {# medlem} other {# medlemmar}}",
+          "noPermissions": "Inga behörigheter",
+          "edit": "Redigera",
+          "delete": "Ta bort",
+          "editRole": "Redigera {role}",
+          "deleteRole": "Ta bort {role}",
+          "addRole": "Lägg till roll",
+          "deleteRoleTitle": "Ta bort {role}?",
+          "deleteRoleDescription": "Rollen försvinner från organisationen. Den kan bara tas bort när ingen medlem har den.",
+          "cancel": "Avbryt",
+          "roleDeleted": "Rollen togs bort.",
+          "roleSaved": "Rollen sparades.",
+          "roleDialogDescription": "Markera vad rollen får göra i organisationen. Organisationens ägare och administratörer kan också hantera roller själva.",
+          "roleName": "Rollnamn",
+          "roleNameHint": "2 till 32 små bokstäver, siffror, bindestreck eller understreck, och börjar med en bokstav. Kan inte ändras senare.",
+          "permissions": "Behörigheter",
+          "save": "Spara",
+          "teamsDescription": "Grupper av medlemmar inom organisationen. Token innehåller medlemmens team (organization.teams).",
+          "noTeams": "Inget team.",
+          "teamCreated": "Teamet skapades.",
+          "newTeam": "Nytt team",
+          "createTeam": "Skapa team",
+          "teamRenamed": "Teamet bytte namn.",
+          "teamName": "Teamnamn",
+          "renameTeam": "Byt namn på {team}",
+          "rename": "Byt namn",
+          "deleteTeam": "Ta bort {team}",
+          "noTeamMembers": "Inga medlemmar i teamet.",
+          "removeFromTeam": "Ta bort {email} från {team}",
+          "remove": "Ta bort",
+          "teamMemberRemoved": "Medlemmen togs bort från teamet.",
+          "teamMemberAdded": "Medlemmen lades till i teamet.",
+          "addToTeam": "Lägg till en medlem i {team}",
+          "memberEmail": "Medlemmens e-post",
+          "add": "Lägg till",
+          "deleteTeamTitle": "Ta bort {team}?",
+          "deleteTeamDescription": "Teamet och dess medlemslista tas bort. Medlemmarna finns kvar i organisationen.",
+          "teamDeleted": "Teamet togs bort.",
+          "errors": {
+            "invalidName": "Ett rollnamn har 2 till 32 små bokstäver, siffror, bindestreck eller understreck och börjar med en bokstav.",
+            "reservedName": "owner, admin och member är inbyggda roller.",
+            "nameTaken": "Organisationen har redan en roll med det namnet.",
+            "invalidPermissions": "En av behörigheterna är okänd.",
+            "roleInUse": "Medlemmar har den här rollen: ge dem en annan roll först.",
+            "notFound": "Hittades inte i organisationen.",
+            "notMember": "Personen är inte medlem i organisationen.",
+            "alreadyInTeam": "Medlemmen är redan i teamet.",
+            "invalidTeamName": "Ett teamnamn har 1 till 64 tecken."
+          }
         }
       }
     },
@@ -2314,7 +2533,8 @@
         "invalidCode": "Koden är ogiltig. Kontrollera att enhetens klocka går rätt och försök igen.",
         "rateLimited": "För många försök. Vänta några sekunder och försök igen.",
         "generic": "Något gick fel. Försök igen."
-      }
+      },
+      "doneContinue": "Fortsätt till appen"
     },
     "organizations": {
       "title": "Organisationer",
@@ -2566,6 +2786,27 @@
     "impersonation": {
       "viewingAs": "Du visar det här kontot som <strong>{email}</strong>.",
       "stop": "Sluta agera som användaren"
+    },
+    "phone": {
+      "title": "Telefonnummer",
+      "description": "Logga in med en kod som sms:as till det här numret.",
+      "none": "Inget telefonnummer",
+      "add": "Lägg till ett nummer",
+      "change": "Ändra",
+      "remove": "Ta bort",
+      "phoneLabel": "Telefonnummer",
+      "phoneHint": "Internationellt format, med + och landsnummer. Vi sms:ar en kod för att kontrollera det.",
+      "send": "Skicka kod",
+      "cancel": "Avbryt",
+      "codeLabel": "Kod skickad till {phone}",
+      "verify": "Spara nummer",
+      "invalidPhone": "Ange numret i internationellt format, till exempel +46701234567.",
+      "sendFailed": "Det gick inte att skicka koden. Försök igen om några minuter.",
+      "verifyFailed": "Koden stämmer inte eller har gått ut.",
+      "taken": "Ett annat konto använder redan det här numret.",
+      "saved": "Numret sparades.",
+      "removeFailed": "Det gick inte att ta bort numret.",
+      "removed": "Numret togs bort."
     },
     "demo": {
       "title": "Demokonto",

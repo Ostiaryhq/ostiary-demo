@@ -43,6 +43,7 @@
         "error": "Sähköpostia ei voitu lähettää. Yritä uudelleen hetken kuluttua."
       },
       "addAccountDescription": "Tässä selaimessa jo kirjautuneet tilit pysyvät kirjautuneina.",
+      "phoneCode": "Lähetä kirjautumiskoodi tekstiviestillä",
       "demo": {
         "title": "Kokeile demoa",
         "description": "Jaettuja esimerkkitilejä, jotka palautetaan jokaisen päivityksen yhteydessä. Salasanaa, sähköpostiosoitetta ja kirjautumistapoja ei voi muuttaa.",
@@ -128,7 +129,7 @@
       "backToLogin": "Takaisin kirjautumiseen",
       "newPasswordLabel": "Uusi salasana",
       "confirmPasswordLabel": "Vahvista salasana",
-      "passwordHint": "Vähintään 8 merkkiä.",
+      "passwordHint": "Vähintään {min} merkkiä.",
       "passwordMismatch": "Salasanat eivät täsmää",
       "submit": "Päivitä salasana",
       "submitting": "Päivitetään…",
@@ -154,7 +155,7 @@
       "emailDescription": "Käytämme tätä ottaaksemme sinuun yhteyttä. Emme jaa sähköpostiosoitettasi kenellekään muulle.",
       "passwordLabel": "Salasana",
       "confirmPasswordLabel": "Vahvista salasana",
-      "passwordHint": "Vähintään 8 merkkiä.",
+      "passwordHint": "Vähintään {min} merkkiä.",
       "confirmPasswordHint": "Vahvista salasanasi.",
       "passwordMismatch": "Salasanat eivät täsmää",
       "submit": "Luo tili",
@@ -169,7 +170,9 @@
         "usernameTooShort": "Käyttäjänimen on oltava vähintään 3 merkkiä.",
         "usernameInvalid": "Käyttäjänimi ei kelpaa.",
         "usernameTaken": "Käyttäjänimi on jo varattu. Kokeile toista."
-      }
+      },
+      "passwordSignUpOff": "Rekisteröinti salasanalla on poistettu käytöstä. Luo tilisi jollakin näistä:",
+      "signUpClosed": "Uusia tilejä ei voi luoda täällä. Pyydä tiliä ylläpitäjältä."
     },
     "screen": {
       "headline": "Yksi tili <accent>kaikkiin sovelluksiisi</accent>.",
@@ -194,6 +197,42 @@
       "continue": "Jatka palveluun <app>{name}</app>",
       "unverified": "Vahvistamaton sovellus.",
       "unverifiedHint": "{name} ei ole tarkistanut sitä: jatka vain, jos luotat siihen."
+    },
+    "twoFactorRequired": {
+      "metaTitle": "Kaksivaiheinen tunnistautuminen vaaditaan",
+      "title": "Ota kaksivaiheinen tunnistautuminen käyttöön",
+      "byOrganization": "Organisaatiosi ylläpitäjät vaativat kaksivaiheisen tunnistautumisen sovelluksiin kirjautumiseen.",
+      "byPlatform": "Sovelluksiin kirjautuminen vaatii kaksivaiheisen tunnistautumisen.",
+      "until": "Ota se käyttöön ennen {date}.",
+      "now": "Ota se käyttöön jatkaaksesi.",
+      "how": "Käytä todennussovellusta (kuten Google Authenticator tai 1Password) tai lisää pääsyavain tilisivullasi.",
+      "setUp": "Määritä kaksivaiheinen tunnistautuminen",
+      "later": "Muistuta myöhemmin",
+      "continue": "Jatka"
+    },
+    "phoneCode": {
+      "title": "Kirjaudu tekstiviestillä",
+      "description": "Lähetämme 6-numeroisen koodin tekstiviestillä tilisi puhelinnumeroon.",
+      "phoneLabel": "Puhelinnumero",
+      "phoneHint": "Kansainvälisessä muodossa, alussa + ja maatunnus.",
+      "send": "Lähetä koodi",
+      "sending": "Lähetetään…",
+      "sentTitle": "Katso puhelimesi",
+      "sent": "Jos jokin tili käyttää numeroa {phone}, 6-numeroinen koodi on tulossa. Se vanhenee {minutes} minuutissa.",
+      "codeLabel": "Kirjautumiskoodi",
+      "verify": "Kirjaudu",
+      "verifying": "Kirjaudutaan…",
+      "newCode": "Etkö saanut sitä? Lähetä uusi koodi",
+      "usePassword": "Käytä mieluummin salasanaa",
+      "errors": {
+        "invalidPhone": "Anna numero kansainvälisessä muodossa, esimerkiksi +358401234567.",
+        "invalidCode": "Koodi ei ole oikein. Tarkista se ja yritä uudelleen.",
+        "expired": "Koodi on vanhentunut. Pyydä uusi.",
+        "tooManyAttempts": "Liian monta väärää koodia. Pyydä uusi.",
+        "rateLimited": "Liian monta yritystä. Odota muutama minuutti ja yritä uudelleen.",
+        "sendFailed": "Koodia ei voitu lähettää. Yritä muutaman minuutin päästä uudelleen.",
+        "signInFailed": "Kirjautuminen epäonnistui. Yritä uudelleen."
+      }
     }
   },
   "consent": {
@@ -380,7 +419,8 @@
           "duplicates": "×{count}",
           "duplicatesHint": "{count} identtistä itse rekisteröitynyttä asiakasta",
           "showDuplicates": "Näytä kaikki {count}",
-          "hideDuplicates": "Piilota identtiset"
+          "hideDuplicates": "Piilota identtiset",
+          "previousSecretUntil": "Edellinen salaisuus voimassa {date} asti"
         },
         "registration": {
           "title": "Itserekisteröinti",
@@ -524,6 +564,8 @@
             "organization_id": "Aktiivisen organisaation tunnus",
             "organization_slug": "Aktiivisen organisaation slug",
             "organization_role": "Rooli aktiivisessa organisaatiossa",
+            "organization_permissions": "Oikeudet aktiivisessa organisaatiossa",
+            "organization_teams": "Tiimit aktiivisessa organisaatiossa",
             "organizations": "Organisaatiojäsenyydet"
           }
         },
@@ -584,6 +626,8 @@
           "allowedScopesHint": "Lisää openid kirjautumista varten ja offline_access päivitystokeneita varten.",
           "iconUrlLabel": "Kuvakkeen URL",
           "iconUrlHint": "Näytetään sovellukselle konsolissa, suostumusnäkymässä ja käyttäjien tileillä. Hyödyllinen sovelluksille, jotka ohjaavat vain localhostiin. https, PNG/JPEG/WebP/AVIF/GIF/ICO/SVG.",
+          "clientIdLabel": "Asiakastunnus (valinnainen)",
+          "clientIdHint": "Jätä tyhjäksi, niin tunnus luodaan. Jos sovellus siirretään toiselta palveluntarjoajalta, anna sen nykyinen asiakastunnus, jotta se toimii ennallaan: 3–128 kirjainta, numeroa, pistettä, alaviivaa tai yhdysmerkkiä.",
           "deviceCodeLabel": "Laitekirjautuminen (CLI:t, televisiot)",
           "deviceCodeHint": "Lisää device code -grantin (RFC 8628): sovellus näyttää koodin, ja käyttäjä hyväksyy sen osoitteessa <code>{path}</code> toisella näytöllä. Yleensä julkinen asiakas.",
           "endSessionLabel": "Uloskirjautuminen sovelluksesta (RP-initiated logout)",
@@ -592,6 +636,8 @@
           "postLogoutUrisHint": "Minne sovellus voi palauttaa käyttäjän uloskirjautumisen jälkeen (post_logout_redirect_uri, tarkka vastaavuus). Yksi riviä kohden tai pilkuilla erotettuina. Ilman osoitetta käyttäjä näkee uloskirjautumissivun.",
           "skipConsentLabel": "Ohita suostumus (luotettu asiakas)",
           "skipConsentHint": "Käyttäjät eivät näe suostumusnäkymää tälle sovellukselle. Käytä vain omille tai täysin luotetuille integraatioille.",
+          "pairwiseLabel": "Sovelluskohtaiset käyttäjätunnukset",
+          "pairwiseHint": "Käyttäjät saavat tässä eri tunnuksen (sub) kuin muiden palvelinten sovelluksissa, joten ne eivät voi yhdistää käyttäjiään tähän sovellukseen. Kaikkien uudelleenohjaus-URI:en on oltava samassa palvelimessa. Ei voi muuttaa myöhemmin.",
           "registerFailed": "Sovellusta ei voitu rekisteröidä",
           "missingClientId": "Palvelin ei palauttanut kenttää {field}.",
           "registered": "OAuth-sovellus rekisteröity",
@@ -604,7 +650,18 @@
           "clientId": "Asiakastunnus (Client ID)",
           "clientSecret": "Asiakkaan salaisuus",
           "copyClientId": "Kopioi asiakastunnus",
-          "copyClientSecret": "Kopioi asiakkaan salaisuus"
+          "copyClientSecret": "Kopioi asiakkaan salaisuus",
+          "authMethodLabel": "Asiakkaan todennus",
+          "authMethodSecret": "Asiakassalaisuus",
+          "authMethodPrivateKey": "Yksityisen avaimen JWT (julkiset avaimet)",
+          "jwksLabel": "Julkiset avaimet (JWKS)",
+          "jwksHint": "Sovelluksen julkiset avaimet JSON Web Key Set -muodossa. Sovellus allekirjoittaa asiakasväitteen yksityisellä avaimellaan tunnuspisteessä (private_key_jwt). Vaihda ne muokkaamalla sovellusta tai anna sovelluksen kutsua osoitetta /api/auth/oauth2/client/rotate-keys.",
+          "jwksInvalidJson": "JWKS ei ole kelvollista JSONia.",
+          "backchannelUriLabel": "Back-channel-uloskirjautumisen URI (valinnainen)",
+          "backchannelUriHint": "Kun käyttäjän istunto päättyy, Ostiary lähettää allekirjoitetun uloskirjautumistunnuksen tähän https-osoitteeseen, jotta sovellus voi kirjata käyttäjän myös ulos.",
+          "backchannelSessionLabel": "Sovellus tarvitsee istuntotunnuksen (sid)",
+          "backchannelSessionHint": "Pyytää Ostiarya lisäämään sid-arvon uloskirjautumistunnukseen: sovellus löytää sen avulla päätettävän istunnon.",
+          "successPrivateKey": "Salaisuutta ei anneta: sovellus todentaa itsensä asiakasväitteellä, joka on allekirjoitettu jollakin sen rekisteröidyistä avaimista."
         },
         "rowActions": {
           "menuLabel": "Toiminnot: {name}",
@@ -662,15 +719,25 @@
           },
           "rotateDialog": {
             "title": "Vaihdetaanko asiakkaan salaisuus?",
-            "description": "Edellinen salaisuus lakkaa toimimasta heti. Tallenna uusi salaisuus turvalliseen paikkaan, se voidaan näyttää vain kerran.",
+            "description": "Tallenna uusi salaisuus turvaan, se näytetään ehkä vain kerran. Nykyinen salaisuus lakkaa toimimasta heti tai valitsemasi siirtymäajan lopussa, jotta sovellus ehtii vaihtaa ensin.",
             "newSecretLabel": "Uusi asiakkaan salaisuus",
             "copySecret": "Kopioi salaisuus",
             "secretCopied": "Salaisuus kopioitu",
             "rotating": "Vaihdetaan…",
             "rotateFailed": "Salaisuutta ei voitu vaihtaa",
             "newSecretIssued": "Uusi asiakkaan salaisuus myönnetty, kopioi se nyt",
-            "rotated": "Salaisuus vaihdettu"
-          }
+            "rotated": "Salaisuus vaihdettu",
+            "graceLabel": "Nykyinen salaisuus toimii edelleen",
+            "graceNone": "Ei, se lakkaa toimimasta heti",
+            "grace1h": "1 tunnin",
+            "grace24h": "24 tuntia",
+            "grace7d": "7 päivää",
+            "graceReplaces": "Edellisessä vaihdossa säilytetty salaisuus lakkaa toimimasta heti."
+          },
+          "rotateHintPrivateKey": "Tämä sovellus todentaa itsensä avaimillaan, ei salaisuudella",
+          "revokePreviousSecret": "Peru edellinen salaisuus nyt",
+          "revokePreviousFailed": "Edellistä salaisuutta ei voitu perua",
+          "previousSecretRevoked": "Edellinen salaisuus peruttu"
         },
         "selfRegistered": {
           "menuLabel": "Toiminnot: {name}",
@@ -1317,6 +1384,47 @@
               }
             }
           }
+        },
+        "custom": {
+          "title": "Omat OpenID Connect -palveluntarjoajat",
+          "description": "Mikä tahansa OpenID Connect -palveluntarjoaja (Keycloak, Okta, Authentik, yrityksesi oma) kirjautumispainikkeena yllä olevien rinnalla.",
+          "add": "Lisää palveluntarjoaja",
+          "empty": "Ei vielä omia palveluntarjoajia.",
+          "on": "Päällä",
+          "off": "Pois",
+          "linkedAccounts": "{count, plural, one {# linkitetty tili} other {# linkitettyä tiliä}}",
+          "edit": "Muokkaa",
+          "editProvider": "Muokkaa: {name}",
+          "remove": "Poista",
+          "removeProvider": "Poista: {name}",
+          "removeTitle": "Poistetaanko {name}?",
+          "removeDescription": "Painike katoaa kirjautumissivuilta. Sillä kirjautuneet tilit säilyvät, mutta niillä ei voi enää kirjautua tämän palveluntarjoajan kautta.",
+          "removed": "Palveluntarjoaja poistettu.",
+          "cancel": "Peruuta",
+          "save": "Tallenna",
+          "saved": "Palveluntarjoaja tallennettu.",
+          "addTitle": "Lisää OpenID Connect -palveluntarjoaja",
+          "editTitle": "Muokkaa: {name}",
+          "dialogDescription": "Rekisteröi Ostiary palveluntarjoajalle verkkosovelluksena alla olevalla uudelleenohjaus-URI:lla ja syötä sitten palveluntarjoajan antamat tiedot. Tallennus tarkistaa palveluntarjoajan discovery-asiakirjan.",
+          "name": "Painikkeen nimi",
+          "nameHint": "Näytetään muodossa ”Jatka palvelulla …” kirjautumis- ja rekisteröitymissivuilla.",
+          "slug": "Palveluntarjoajan tunnus",
+          "slugHint": "Pienet kirjaimet, numerot ja yhdysmerkit. Osa uudelleenohjaus-URI:a, eikä sitä voi muuttaa myöhemmin.",
+          "callbackUrl": "Uudelleenohjaus-URI",
+          "callbackUrlHint": "Rekisteröi täsmälleen tämä URI palveluntarjoajalle.",
+          "discoveryUrl": "Discovery-URL",
+          "discoveryUrlHint": "Palveluntarjoajan /.well-known/openid-configuration-osoite (https, julkinen osoite).",
+          "clientId": "Asiakastunnus",
+          "clientSecret": "Asiakassalaisuus",
+          "clientSecretHint": "Jätä tyhjäksi julkiselle asiakkaalle (vain PKCE).",
+          "secretKept": "Jätä tyhjäksi säilyttääksesi tallennetun salaisuuden",
+          "secretUnreadable": "Tallennettua salaisuutta ei voi lukea (BETTER_AUTH_SECRET muuttui): syötä se uudelleen.",
+          "scopes": "Scopet",
+          "scopesHint": "Välilyönnein eroteltuina. Mukana oltava openid.",
+          "enabled": "Näytä kirjautumissivuilla",
+          "enabledHint": "Pois: palveluntarjoaja tallennetaan, mutta sitä ei tarjota.",
+          "allowSignUp": "Luo tilit uusille käyttäjille",
+          "allowSignUpHint": "Pois: vain henkilöt, joilla on jo tili, voivat kirjautua sillä."
         }
       },
       "apiKeys": {
@@ -1829,7 +1937,8 @@
             "export_data": "Vei tilin tiedot",
             "self_delete": "Poisti oman tilinsä",
             "export_csv": "Vei käyttäjät CSV-muodossa",
-            "import": "Toi käyttäjiä"
+            "import": "Toi käyttäjiä",
+            "remove_phone_number": "Poisti puhelinnumeronsa"
           },
           "oauth_client": {
             "create": "Rekisteröi OAuth-asiakkaan",
@@ -1842,7 +1951,8 @@
             "branding_update": "Muutti kirjautumisen brändäystä",
             "branding_reset": "Palautti kirjautumisen brändäyksen",
             "claims_update": "Muutti tokenien claimeja",
-            "remove_duplicates": "Poisti OAuth-asiakkaiden kaksoiskappaleet"
+            "remove_duplicates": "Poisti OAuth-asiakkaiden kaksoiskappaleet",
+            "revoke_previous_secret": "Peruttiin edellinen asiakassalaisuus"
           },
           "client_registration": {
             "update": "Muutti asiakkaiden itserekisteröintiä"
@@ -1878,7 +1988,15 @@
             "invite": "Kutsui jäsenen",
             "cancel_invitation": "Peruutti kutsun",
             "update_member_role": "Muutti jäsenen roolia",
-            "remove_member": "Poisti jäsenen"
+            "remove_member": "Poisti jäsenen",
+            "create_role": "Loi organisaation roolin",
+            "update_role": "Muutti organisaation roolia",
+            "delete_role": "Poisti organisaation roolin",
+            "create_team": "Loi tiimin",
+            "update_team": "Nimesi tiimin uudelleen",
+            "delete_team": "Poisti tiimin",
+            "add_team_member": "Lisäsi jäsenen tiimiin",
+            "remove_team_member": "Poisti jäsenen tiimistä"
           },
           "sso_provider": {
             "create": "Rekisteröi SSO-palveluntarjoajan",
@@ -1913,6 +2031,9 @@
           },
           "audit_log": {
             "export_csv": "Vei tarkastuslokin CSV-muodossa"
+          },
+          "security": {
+            "update_policy": "Muutti istunto- ja salasanakäytäntöä"
           }
         },
         "actorPlaceholder": "Hae tekijän mukaan (sähköposti)…",
@@ -1958,6 +2079,38 @@
           "noReason": "Syytä ei annettu",
           "until": "{date} asti",
           "permanent": "pysyvä"
+        },
+        "policy": {
+          "title": "Istunnot ja salasanat",
+          "description": "Kuinka kauan todennussovellukseen pysytään kirjautuneena ja miten salasanat valitaan. Sovellukset säilyttävät omat tunnisteensa ja päivitystunnisteensa.",
+          "edit": "Muokkaa",
+          "on": "Päällä",
+          "off": "Pois",
+          "days": "{count, plural, one {# päivä} other {# päivää}}",
+          "characters": "{count, plural, one {# merkki} other {# merkkiä}}",
+          "sessionDays": "Istunnon kesto",
+          "sessionDaysHint": "Kuinka kauan kirjautuminen kestää. Ennen muutosta luodut istunnot säilyttävät vanhenemisaikansa; ne noudattavat uutta kestoa seuraavalla jatkokerralla.",
+          "extendSessions": "Jatka käytössä olevia istuntoja",
+          "extendSessionsHint": "Päällä: istunto kestää {count, plural, one {# päivän} other {# päivää}} viimeisestä käytöstä. Pois: se päättyy {count, plural, one {# päivän} other {# päivää}} kirjautumisesta, käytettiin sitä tai ei.",
+          "signOutOnPasswordChange": "Kirjaa ulos kaikkialta salasanan vaihtuessa",
+          "signOutOnPasswordChangeHint": "Salasanan vaihto päättää tilin muut istunnot ja peruu sen sovellusten tunnisteet, kuten palautus. Pois: kukin valitsee itse.",
+          "minPasswordLength": "Salasanan vähimmäispituus",
+          "minPasswordLengthHint": "Koskee uusia salasanoja (rekisteröinti, palautus, vaihto). Nykyiset salasanat toimivat edelleen.",
+          "passwordSignUp": "Rekisteröinti salasanalla",
+          "passwordSignUpHint": "Pois: tiliä ei voi enää luoda sähköpostilla ja salasanalla, vain sosiaalisen palvelun tai organisaation SSO:n kautta. Ylläpitäjät voivat yhä luoda tilejä, ja nykyiset salasanat toimivat edelleen.",
+          "dialogDescription": "Todennussovellus ottaa ne käyttöön minuutin kuluessa.",
+          "save": "Tallenna",
+          "cancel": "Peruuta",
+          "saved": "Käytäntö tallennettu. Todennussovellus ottaa sen käyttöön minuutin kuluessa.",
+          "errors": {
+            "invalid": "Valitse jokin tarjotuista arvoista.",
+            "save": "Käytäntöä ei voitu tallentaa."
+          },
+          "twoFactorEveryone": "Kaksivaiheinen kaikille",
+          "twoFactorEveryoneHint": "Kaikkien on käytettävä todennussovellusta tai pääsyavainta kirjautuessaan sovelluksiin. Ylläpitäjät: REQUIRE_ADMIN_2FA. Organisaatiot voivat vaatia sitä jäseniltään omalla sivullaan.",
+          "twoFactorGraceDays": "Aikaa ottaa käyttöön",
+          "twoFactorGraceDaysHint": "Ilman kaksivaiheista tunnistautumista olevilta kysytään jokaisella sovelluskirjautumisella, ja he voivat jatkaa siihen asti. Aika alkaa, kun otat tämän käyttöön, tai tilin luonnista.",
+          "noGrace": "Ei aikaa: vaaditaan heti"
         }
       },
       "signingKeys": {
@@ -1982,7 +2135,10 @@
           "graceHint": "Kuinka kauan poistettu avain pysyy julkaistuna. Valitse pidempi kuin pisin tokenin elinaika (käyttötokenit: 1 tunti, ID-tokenit: 1 tunti).",
           "save": "Tallenna",
           "cancel": "Peruuta",
-          "saved": "Asetukset tallennettu. Todennuspalvelin ottaa ne käyttöön minuutissa."
+          "saved": "Asetukset tallennettu. Todennuspalvelin ottaa ne käyttöön minuutissa.",
+          "algorithm": "Allekirjoitusalgoritmi",
+          "algorithmHint": "Oletus on EdDSA (Ed25519). Valitse ES256 tai RS256 rajapinnoille ja yhdyskäytäville, jotka tarkistavat vain ne, kuten AWS API Gateway tai Azure API Management. Muutos luo heti avaimen uudella algoritmilla; nykyinen avain pysyy julkaistuna siirtymäajan.",
+          "savedAlgorithm": "Asetukset tallennettu. Uudet tunnisteet allekirjoitetaan algoritmilla {alg} (avain {kid})."
         },
         "keys": {
           "title": "Avaimet",
@@ -2014,7 +2170,8 @@
           "interval": "Valitse jokin tarjotuista kierrätysväleistä.",
           "grace": "Valitse jokin tarjotuista siirtymäajoista.",
           "save": "Asetusten tallennus epäonnistui.",
-          "rotate": "Avaimen kierrätys epäonnistui."
+          "rotate": "Avaimen kierrätys epäonnistui.",
+          "algorithm": "Valitse jokin tarjotuista algoritmeista."
         }
       },
       "organizations": {
@@ -2100,7 +2257,14 @@
           "scimCounts": "{active} provisioitu, {inactive} poistettu käytöstä.",
           "recentActions": "Viimeaikaiset ylläpitotoimet",
           "noActions": "Ei vielä yhtään.",
-          "system": "järjestelmä"
+          "system": "järjestelmä",
+          "twoFactor": {
+            "title": "Kaksivaiheinen tunnistautuminen",
+            "label": "Vaadi jäseniltä kaksivaiheinen tunnistautuminen",
+            "hint": "Jäsenten on käytettävä todennussovellusta tai pääsyavainta kirjautuessaan sovelluksiin Suojaus-sivulla asetetun ajan jälkeen.",
+            "on": "Kaksivaiheinen tunnistautuminen vaaditaan nyt tämän organisaation jäseniltä.",
+            "off": "Kaksivaiheista tunnistautumista ei enää vaadita tämän organisaation jäseniltä."
+          }
         },
         "errors": {
           "invalidNameSlug": "Anna nimi ja URL-tunniste, joka koostuu kirjaimista, numeroista ja yhdysmerkeistä.",
@@ -2119,6 +2283,61 @@
           "lastOwner": "Organisaatiolla on oltava vähintään yksi omistaja. Tee ensin toisesta jäsenestä omistaja.",
           "publicDelete": "Public-työtilaa ei voi poistaa.",
           "organizationNotFound": "Organisaatiota ei löytynyt."
+        },
+        "rolesTeams": {
+          "rolesTitle": "Omat roolit",
+          "teamsTitle": "Tiimit",
+          "rolesDescription": "Organisaation omat roolit omistajan, ylläpitäjän ja jäsenen lisäksi, kullakin omat oikeutensa. Niitä annetaan jäsenille kuten valmiita rooleja, ja tunnisteissa on roolin nimi (organization.role) ja oikeudet (organization.permissions).",
+          "noRoles": "Ei omia rooleja.",
+          "memberCount": "{count, plural, one {# jäsen} other {# jäsentä}}",
+          "noPermissions": "Ei oikeuksia",
+          "edit": "Muokkaa",
+          "delete": "Poista",
+          "editRole": "Muokkaa: {role}",
+          "deleteRole": "Poista: {role}",
+          "addRole": "Lisää rooli",
+          "deleteRoleTitle": "Poistetaanko {role}?",
+          "deleteRoleDescription": "Rooli poistuu organisaatiosta. Sen voi poistaa vasta, kun yhdelläkään jäsenellä ei ole sitä.",
+          "cancel": "Peruuta",
+          "roleDeleted": "Rooli poistettu.",
+          "roleSaved": "Rooli tallennettu.",
+          "roleDialogDescription": "Valitse, mitä rooli saa tehdä organisaatiossa. Organisaation omistajat ja ylläpitäjät voivat myös itse hallita rooleja.",
+          "roleName": "Roolin nimi",
+          "roleNameHint": "2–32 pientä kirjainta, numeroa, yhdysmerkkiä tai alaviivaa, alkaen kirjaimella. Ei voi muuttaa myöhemmin.",
+          "permissions": "Oikeudet",
+          "save": "Tallenna",
+          "teamsDescription": "Jäsenryhmiä organisaation sisällä. Tunnisteissa on jäsenen tiimit (organization.teams).",
+          "noTeams": "Ei tiimejä.",
+          "teamCreated": "Tiimi luotu.",
+          "newTeam": "Uusi tiimi",
+          "createTeam": "Luo tiimi",
+          "teamRenamed": "Tiimi nimetty uudelleen.",
+          "teamName": "Tiimin nimi",
+          "renameTeam": "Nimeä {team} uudelleen",
+          "rename": "Nimeä uudelleen",
+          "deleteTeam": "Poista {team}",
+          "noTeamMembers": "Tiimissä ei ole jäseniä.",
+          "removeFromTeam": "Poista {email} tiimistä {team}",
+          "remove": "Poista",
+          "teamMemberRemoved": "Jäsen poistettu tiimistä.",
+          "teamMemberAdded": "Jäsen lisätty tiimiin.",
+          "addToTeam": "Lisää jäsen tiimiin {team}",
+          "memberEmail": "Jäsenen sähköposti",
+          "add": "Lisää",
+          "deleteTeamTitle": "Poistetaanko {team}?",
+          "deleteTeamDescription": "Tiimi ja sen jäsenluettelo poistetaan. Jäsenet pysyvät organisaatiossa.",
+          "teamDeleted": "Tiimi poistettu.",
+          "errors": {
+            "invalidName": "Roolin nimessä on 2–32 pientä kirjainta, numeroa, yhdysmerkkiä tai alaviivaa, ja se alkaa kirjaimella.",
+            "reservedName": "owner, admin ja member ovat valmiita rooleja.",
+            "nameTaken": "Organisaatiolla on jo samanniminen rooli.",
+            "invalidPermissions": "Jokin oikeuksista on tuntematon.",
+            "roleInUse": "Jäsenillä on tämä rooli: anna heille ensin toinen rooli.",
+            "notFound": "Ei löytynyt tästä organisaatiosta.",
+            "notMember": "Henkilö ei ole organisaation jäsen.",
+            "alreadyInTeam": "Jäsen on jo tiimissä.",
+            "invalidTeamName": "Tiimin nimessä on 1–64 merkkiä."
+          }
         }
       }
     },
@@ -2314,7 +2533,8 @@
         "invalidCode": "Koodi ei kelpaa. Tarkista, että laitteesi kello on oikeassa ajassa, ja yritä uudelleen.",
         "rateLimited": "Liian monta yritystä. Odota hetki ja yritä uudelleen.",
         "generic": "Jokin meni vikaan. Yritä uudelleen."
-      }
+      },
+      "doneContinue": "Jatka sovellukseen"
     },
     "organizations": {
       "title": "Organisaatiot",
@@ -2566,6 +2786,27 @@
     "impersonation": {
       "viewingAs": "Tarkastelet tätä tiliä käyttäjänä <strong>{email}</strong>.",
       "stop": "Lopeta käyttäjänä toimiminen"
+    },
+    "phone": {
+      "title": "Puhelinnumero",
+      "description": "Kirjaudu koodilla, joka lähetetään tekstiviestillä tähän numeroon.",
+      "none": "Ei puhelinnumeroa",
+      "add": "Lisää numero",
+      "change": "Vaihda",
+      "remove": "Poista",
+      "phoneLabel": "Puhelinnumero",
+      "phoneHint": "Kansainvälisessä muodossa, alussa + ja maatunnus. Lähetämme tarkistuskoodin tekstiviestillä.",
+      "send": "Lähetä koodi",
+      "cancel": "Peruuta",
+      "codeLabel": "Koodi lähetetty numeroon {phone}",
+      "verify": "Tallenna numero",
+      "invalidPhone": "Anna numero kansainvälisessä muodossa, esimerkiksi +358401234567.",
+      "sendFailed": "Koodia ei voitu lähettää. Yritä muutaman minuutin päästä uudelleen.",
+      "verifyFailed": "Koodi ei ole oikein tai se on vanhentunut.",
+      "taken": "Toinen tili käyttää jo tätä numeroa.",
+      "saved": "Numero tallennettu.",
+      "removeFailed": "Numeroa ei voitu poistaa.",
+      "removed": "Numero poistettu."
     },
     "demo": {
       "title": "Demotili",

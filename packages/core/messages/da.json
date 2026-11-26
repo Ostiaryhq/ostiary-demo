@@ -43,6 +43,7 @@
         "error": "E-mailen kunne ikke sendes. Prøv igen om et minut."
       },
       "addAccountDescription": "Konti, der allerede er logget ind i denne browser, forbliver logget ind.",
+      "phoneCode": "Send mig en loginkode på sms",
       "demo": {
         "title": "Prøv demoen",
         "description": "Delte eksempelkonti, der nulstilles ved hver opdatering. Adgangskode, e-mail og loginmetoder kan ikke ændres.",
@@ -128,7 +129,7 @@
       "backToLogin": "Tilbage til login",
       "newPasswordLabel": "Ny adgangskode",
       "confirmPasswordLabel": "Bekræft adgangskode",
-      "passwordHint": "Skal være på mindst 8 tegn.",
+      "passwordHint": "Skal være på mindst {min} tegn.",
       "passwordMismatch": "Adgangskoderne er ikke ens",
       "submit": "Opdater adgangskode",
       "submitting": "Opdaterer…",
@@ -154,7 +155,7 @@
       "emailDescription": "Vi bruger den til at kontakte dig. Vi deler ikke din e-mail med andre.",
       "passwordLabel": "Adgangskode",
       "confirmPasswordLabel": "Bekræft adgangskode",
-      "passwordHint": "Skal være på mindst 8 tegn.",
+      "passwordHint": "Skal være på mindst {min} tegn.",
       "confirmPasswordHint": "Bekræft din adgangskode.",
       "passwordMismatch": "Adgangskoderne er ikke ens",
       "submit": "Opret konto",
@@ -169,7 +170,9 @@
         "usernameTooShort": "Brugernavnet skal være på mindst 3 tegn.",
         "usernameInvalid": "Brugernavnet er ikke gyldigt.",
         "usernameTaken": "Brugernavnet er allerede taget. Prøv et andet."
-      }
+      },
+      "passwordSignUpOff": "Oprettelse med adgangskode er slået fra. Opret din konto med en af disse:",
+      "signUpClosed": "Der kan ikke oprettes nye konti her. Bed en administrator om en konto."
     },
     "screen": {
       "headline": "Én konto til <accent>alle dine apps</accent>.",
@@ -194,6 +197,42 @@
       "continue": "Fortsæt til <app>{name}</app>",
       "unverified": "Ikke-verificeret app.",
       "unverifiedHint": "{name} har ikke gennemgået den: fortsæt kun, hvis du stoler på den."
+    },
+    "twoFactorRequired": {
+      "metaTitle": "Totrinsgodkendelse påkrævet",
+      "title": "Slå totrinsgodkendelse til",
+      "byOrganization": "Din organisations administratorer kræver totrinsgodkendelse for at logge ind i apps.",
+      "byPlatform": "Totrinsgodkendelse er påkrævet for at logge ind i apps.",
+      "until": "Slå den til før {date}.",
+      "now": "Slå den til for at fortsætte.",
+      "how": "Brug en godkendelsesapp (som Google Authenticator eller 1Password), eller tilføj en adgangsnøgle på din kontoside.",
+      "setUp": "Konfigurer totrinsgodkendelse",
+      "later": "Påmind mig senere",
+      "continue": "Fortsæt"
+    },
+    "phoneCode": {
+      "title": "Log ind med sms",
+      "description": "Vi sender en 6-cifret kode på sms til telefonnummeret på din konto.",
+      "phoneLabel": "Telefonnummer",
+      "phoneHint": "Internationalt format, med + og landekode.",
+      "send": "Send kode",
+      "sending": "Sender…",
+      "sentTitle": "Tjek din telefon",
+      "sent": "Hvis en konto bruger {phone}, er en 6-cifret kode på vej. Den udløber om {minutes} minutter.",
+      "codeLabel": "Loginkode",
+      "verify": "Log ind",
+      "verifying": "Logger ind…",
+      "newCode": "Fik du den ikke? Send en ny kode",
+      "usePassword": "Brug din adgangskode i stedet",
+      "errors": {
+        "invalidPhone": "Indtast nummeret i internationalt format, fx +4512345678.",
+        "invalidCode": "Koden er forkert. Tjek den, og prøv igen.",
+        "expired": "Koden er udløbet. Bed om en ny.",
+        "tooManyAttempts": "For mange forkerte koder. Bed om en ny.",
+        "rateLimited": "For mange forsøg. Vent et par minutter, og prøv igen.",
+        "sendFailed": "Koden kunne ikke sendes. Prøv igen om et par minutter.",
+        "signInFailed": "Kunne ikke logge ind. Prøv igen."
+      }
     }
   },
   "consent": {
@@ -380,7 +419,8 @@
           "duplicates": "×{count}",
           "duplicatesHint": "{count} identiske selvregistrerede klienter",
           "showDuplicates": "Vis alle {count}",
-          "hideDuplicates": "Skjul identiske"
+          "hideDuplicates": "Skjul identiske",
+          "previousSecretUntil": "Forrige hemmelighed gyldig til {date}"
         },
         "registration": {
           "title": "Selvregistrering",
@@ -524,6 +564,8 @@
             "organization_id": "ID på den aktive organisation",
             "organization_slug": "Slug på den aktive organisation",
             "organization_role": "Rolle i den aktive organisation",
+            "organization_permissions": "Tilladelser i den aktive organisation",
+            "organization_teams": "Teams i den aktive organisation",
             "organizations": "Medlemskaber af organisationer"
           }
         },
@@ -584,6 +626,8 @@
           "allowedScopesHint": "Medtag openid til login og offline_access til refresh-tokens.",
           "iconUrlLabel": "Ikon-URL",
           "iconUrlHint": "Vises for appen i konsollen, på samtykkeskærmen og i brugernes konti. Nyttigt til apps, der kun omdirigerer til localhost. https, PNG/JPEG/WebP/AVIF/GIF/ICO/SVG.",
+          "clientIdLabel": "Klient-id (valgfrit)",
+          "clientIdHint": "Lad feltet være tomt for at generere et. For en app, der flyttes fra en anden udbyder, skal du angive dens nuværende klient-id, så den virker uændret: 3 til 128 bogstaver, cifre, punktummer, understregninger eller bindestreger.",
           "deviceCodeLabel": "Enhedslogin (CLI'er, tv)",
           "deviceCodeHint": "Tilføjer device code-grant (RFC 8628): Appen viser en kode, og brugeren godkender den på <code>{path}</code> på en anden skærm. Normalt en offentlig klient.",
           "endSessionLabel": "Log ud fra appen (RP-initiated logout)",
@@ -592,6 +636,8 @@
           "postLogoutUrisHint": "Hvor appen må sende brugere tilbage til efter log ud (post_logout_redirect_uri, eksakt match). Én pr. linje eller kommasepareret. Uden en ser brugerne en log ud-side.",
           "skipConsentLabel": "Spring samtykke over (betroet klient)",
           "skipConsentHint": "Brugere ser ikke samtykkeskærmen for denne applikation. Brug kun til egne eller fuldt betroede integrationer.",
+          "pairwiseLabel": "Bruger-id'er pr. app",
+          "pairwiseHint": "Brugere får her et andet id (sub) end i apps på andre værter, som derfor ikke kan matche deres brugere med denne app. Alle omdirigerings-URI'er skal ligge på samme vært. Kan ikke ændres senere.",
           "registerFailed": "Applikationen kunne ikke registreres",
           "missingClientId": "Serveren returnerede ikke et {field}.",
           "registered": "OAuth-applikation registreret",
@@ -604,7 +650,18 @@
           "clientId": "Klient-id",
           "clientSecret": "Klienthemmelighed",
           "copyClientId": "Kopiér klient-id",
-          "copyClientSecret": "Kopiér klienthemmelighed"
+          "copyClientSecret": "Kopiér klienthemmelighed",
+          "authMethodLabel": "Klientgodkendelse",
+          "authMethodSecret": "Klienthemmelighed",
+          "authMethodPrivateKey": "Private key-JWT (offentlige nøgler)",
+          "jwksLabel": "Offentlige nøgler (JWKS)",
+          "jwksHint": "Appens offentlige nøgler som et JSON Web Key Set. Appen signerer en klientpåstand med sin private nøgle ved tokenendpointet (private_key_jwt). Ret dem ved at redigere appen, eller lad appen kalde /api/auth/oauth2/client/rotate-keys.",
+          "jwksInvalidJson": "JWKS er ikke gyldig JSON.",
+          "backchannelUriLabel": "URI til back-channel-logout (valgfrit)",
+          "backchannelUriHint": "Når en brugers session slutter, sender Ostiary et signeret logout-token til denne https-URL, så appen også kan logge brugeren ud.",
+          "backchannelSessionLabel": "Appen har brug for sessions-id (sid)",
+          "backchannelSessionHint": "Beder Ostiary om at tage sid med i logout-tokenet: appen bruger det til at finde den session, der skal afsluttes.",
+          "successPrivateKey": "Der udstedes ingen hemmelighed: appen godkender sig med en klientpåstand signeret med en af dens registrerede nøgler."
         },
         "rowActions": {
           "menuLabel": "Handlinger for {name}",
@@ -662,15 +719,25 @@
           },
           "rotateDialog": {
             "title": "Rotér klienthemmelighed?",
-            "description": "Den tidligere hemmelighed holder op med at virke med det samme. Gem den nye hemmelighed et sikkert sted, den vises muligvis kun én gang.",
+            "description": "Gem den nye hemmelighed et sikkert sted, den vises måske kun én gang. Den nuværende hemmelighed holder op med at virke nu, eller når den valgte overgangsperiode slutter, så appen kan skifte først.",
             "newSecretLabel": "Ny klienthemmelighed",
             "copySecret": "Kopiér hemmelighed",
             "secretCopied": "Hemmelighed kopieret",
             "rotating": "Roterer…",
             "rotateFailed": "Hemmeligheden kunne ikke roteres",
             "newSecretIssued": "Ny klienthemmelighed udstedt, kopiér den nu",
-            "rotated": "Hemmelighed roteret"
-          }
+            "rotated": "Hemmelighed roteret",
+            "graceLabel": "Nuværende hemmelighed virker fortsat",
+            "graceNone": "Nej, den holder op med at virke nu",
+            "grace1h": "I 1 time",
+            "grace24h": "I 24 timer",
+            "grace7d": "I 7 dage",
+            "graceReplaces": "Hemmeligheden, der blev beholdt ved forrige rotation, holder op med at virke nu."
+          },
+          "rotateHintPrivateKey": "Denne app godkender sig med sine nøgler, ikke med en hemmelighed",
+          "revokePreviousSecret": "Tilbagekald forrige hemmelighed nu",
+          "revokePreviousFailed": "Den forrige hemmelighed kunne ikke tilbagekaldes",
+          "previousSecretRevoked": "Forrige hemmelighed tilbagekaldt"
         },
         "selfRegistered": {
           "menuLabel": "Handlinger for {name}",
@@ -1317,6 +1384,47 @@
               }
             }
           }
+        },
+        "custom": {
+          "title": "Egne OpenID Connect-udbydere",
+          "description": "Enhver OpenID Connect-udbyder (Keycloak, Okta, Authentik, din virksomheds egen) som login-knap ved siden af udbyderne ovenfor.",
+          "add": "Tilføj udbyder",
+          "empty": "Ingen egen udbyder endnu.",
+          "on": "Til",
+          "off": "Fra",
+          "linkedAccounts": "{count, plural, one {# tilknyttet konto} other {# tilknyttede konti}}",
+          "edit": "Rediger",
+          "editProvider": "Rediger {name}",
+          "remove": "Fjern",
+          "removeProvider": "Fjern {name}",
+          "removeTitle": "Fjern {name}?",
+          "removeDescription": "Knappen forsvinder fra login-siderne. Konti, der har brugt den, bevares, men kan ikke længere logge ind med denne udbyder.",
+          "removed": "Udbyderen er fjernet.",
+          "cancel": "Annuller",
+          "save": "Gem",
+          "saved": "Udbyderen er gemt.",
+          "addTitle": "Tilføj en OpenID Connect-udbyder",
+          "editTitle": "Rediger {name}",
+          "dialogDescription": "Registrer Ostiary hos udbyderen som webapplikation med omdirigerings-URI'en nedenfor, og angiv derefter det, udbyderen giver dig. Når du gemmer, kontrolleres udbyderens discovery-dokument.",
+          "name": "Knappens navn",
+          "nameHint": "Vises som \"Fortsæt med …\" på login- og tilmeldingssiderne.",
+          "slug": "Udbyder-id",
+          "slugHint": "Små bogstaver, cifre og bindestreger. Indgår i omdirigerings-URI'en og kan ikke ændres senere.",
+          "callbackUrl": "Omdirigerings-URI",
+          "callbackUrlHint": "Registrer præcis denne URI hos udbyderen.",
+          "discoveryUrl": "Discovery-URL",
+          "discoveryUrlHint": "Udbyderens /.well-known/openid-configuration-URL (https, offentlig adresse).",
+          "clientId": "Klient-id",
+          "clientSecret": "Klienthemmelighed",
+          "clientSecretHint": "Lad stå tomt for en offentlig klient (kun PKCE).",
+          "secretKept": "Lad stå tomt for at beholde den gemte hemmelighed",
+          "secretUnreadable": "Den gemte hemmelighed kan ikke læses (BETTER_AUTH_SECRET er ændret): angiv den igen.",
+          "scopes": "Scopes",
+          "scopesHint": "Adskilt med mellemrum. Skal indeholde openid.",
+          "enabled": "Vis på login-siderne",
+          "enabledHint": "Fra: udbyderen er gemt, men tilbydes ikke.",
+          "allowSignUp": "Opret konti for nye brugere",
+          "allowSignUpHint": "Fra: kun personer, der allerede har en konto, kan logge ind med den."
         }
       },
       "apiKeys": {
@@ -1829,7 +1937,8 @@
             "export_data": "Eksporterede kontodata",
             "self_delete": "Slettede sin egen konto",
             "export_csv": "Eksporterede brugere til CSV",
-            "import": "Importerede brugere"
+            "import": "Importerede brugere",
+            "remove_phone_number": "Fjernede sit telefonnummer"
           },
           "oauth_client": {
             "create": "Registrerede OAuth-klient",
@@ -1842,7 +1951,8 @@
             "branding_update": "Ændrede login-branding",
             "branding_reset": "Nulstillede login-branding",
             "claims_update": "Ændrede token-claims",
-            "remove_duplicates": "Fjernede duplikerede OAuth-klienter"
+            "remove_duplicates": "Fjernede duplikerede OAuth-klienter",
+            "revoke_previous_secret": "Tilbagekaldte forrige klienthemmelighed"
           },
           "client_registration": {
             "update": "Ændrede selvregistrering af klienter"
@@ -1878,7 +1988,15 @@
             "invite": "Inviterede medlem",
             "cancel_invitation": "Annullerede invitation",
             "update_member_role": "Ændrede medlemsrolle",
-            "remove_member": "Fjernede medlem"
+            "remove_member": "Fjernede medlem",
+            "create_role": "Oprettede en organisationsrolle",
+            "update_role": "Ændrede en organisationsrolle",
+            "delete_role": "Slettede en organisationsrolle",
+            "create_team": "Oprettede et team",
+            "update_team": "Omdøbte et team",
+            "delete_team": "Slettede et team",
+            "add_team_member": "Føjede et medlem til et team",
+            "remove_team_member": "Fjernede et medlem fra et team"
           },
           "sso_provider": {
             "create": "Registrerede SSO-udbyder",
@@ -1913,6 +2031,9 @@
           },
           "audit_log": {
             "export_csv": "Eksporterede revisionsloggen til CSV"
+          },
+          "security": {
+            "update_policy": "Ændrede politikken for sessioner og adgangskoder"
           }
         },
         "actorPlaceholder": "Søg efter hvem der handlede (e-mail)…",
@@ -1958,6 +2079,38 @@
           "noReason": "Ingen begrundelse angivet",
           "until": "indtil {date}",
           "permanent": "permanent"
+        },
+        "policy": {
+          "title": "Sessioner og adgangskoder",
+          "description": "Hvor længe man forbliver logget ind i godkendelsesappen, og hvordan adgangskoder vælges. Apps beholder deres egne tokens og opdateringstokens.",
+          "edit": "Rediger",
+          "on": "Til",
+          "off": "Fra",
+          "days": "{count, plural, one {# dag} other {# dage}}",
+          "characters": "{count, plural, one {# tegn} other {# tegn}}",
+          "sessionDays": "Sessionens levetid",
+          "sessionDaysHint": "Hvor længe et login varer. Sessioner oprettet før en ændring beholder deres udløb; de følger den nye levetid, næste gang de forlænges.",
+          "extendSessions": "Forlæng sessioner i brug",
+          "extendSessionsHint": "Til: en session varer {count, plural, one {# dag} other {# dage}} efter sidste brug. Fra: den slutter {count, plural, one {# dag} other {# dage}} efter login, brugt eller ej.",
+          "signOutOnPasswordChange": "Log ud overalt ved skift af adgangskode",
+          "signOutOnPasswordChangeHint": "Et skift af adgangskode afslutter kontoens andre sessioner og tilbagekalder dens apps' tokens, som en nulstilling. Fra: den enkelte vælger.",
+          "minPasswordLength": "Mindste længde på adgangskode",
+          "minPasswordLengthHint": "Gælder nye adgangskoder (oprettelse, nulstilling, skift). Eksisterende adgangskoder virker fortsat.",
+          "passwordSignUp": "Oprettelse med adgangskode",
+          "passwordSignUpHint": "Fra: man kan ikke længere oprette en konto med e-mail og adgangskode, kun med en social udbyder eller organisationens SSO. Administratorer kan stadig oprette konti, og eksisterende adgangskoder virker fortsat.",
+          "dialogDescription": "Godkendelsesappen anvender dem inden for et minut.",
+          "save": "Gem",
+          "cancel": "Annuller",
+          "saved": "Politikken er gemt. Godkendelsesappen anvender den inden for et minut.",
+          "errors": {
+            "invalid": "Vælg en af de tilbudte værdier.",
+            "save": "Politikken kunne ikke gemmes."
+          },
+          "twoFactorEveryone": "Totrinsgodkendelse for alle",
+          "twoFactorEveryoneHint": "Alle skal bruge en godkendelsesapp eller en adgangsnøgle for at logge ind i apps. Administratorer: REQUIRE_ADMIN_2FA. Organisationer kan kræve det af deres medlemmer på deres side.",
+          "twoFactorGraceDays": "Frist til at slå den til",
+          "twoFactorGraceDaysHint": "Personer uden totrinsgodkendelse bliver spurgt ved hvert app-login og kan fortsætte indtil da. Fristen starter, når du slår dette til, eller når kontoen oprettes.",
+          "noGrace": "Ingen: påkrævet straks"
         }
       },
       "signingKeys": {
@@ -1982,7 +2135,10 @@
           "graceHint": "Hvor længe en udgået nøgle forbliver publiceret. Vælg længere end din længste token-levetid (adgangstokens: 1 time, ID-tokens: 1 time).",
           "save": "Gem",
           "cancel": "Annuller",
-          "saved": "Indstillinger gemt. Godkendelsesserveren anvender dem inden for et minut."
+          "saved": "Indstillinger gemt. Godkendelsesserveren anvender dem inden for et minut.",
+          "algorithm": "Signeringsalgoritme",
+          "algorithmHint": "Standard er EdDSA (Ed25519). Vælg ES256 eller RS256 til API'er og gateways, der kun verificerer dem, som AWS API Gateway eller Azure API Management. En ændring opretter straks en nøgle med den nye algoritme; den nuværende nøgle forbliver offentliggjort i overgangsperioden.",
+          "savedAlgorithm": "Indstillingerne er gemt. Nye tokens signeres med {alg} (nøgle {kid})."
         },
         "keys": {
           "title": "Nøgler",
@@ -2014,7 +2170,8 @@
           "interval": "Vælg et af de tilbudte rotationsintervaller.",
           "grace": "Vælg en af de tilbudte udsættelsesperioder.",
           "save": "Indstillingerne kunne ikke gemmes.",
-          "rotate": "Nøglen kunne ikke roteres."
+          "rotate": "Nøglen kunne ikke roteres.",
+          "algorithm": "Vælg en af de tilbudte algoritmer."
         }
       },
       "organizations": {
@@ -2100,7 +2257,14 @@
           "scimCounts": "{active} klargjort, {inactive} deaktiveret.",
           "recentActions": "Seneste administratorhandlinger",
           "noActions": "Ingen endnu.",
-          "system": "system"
+          "system": "system",
+          "twoFactor": {
+            "title": "Totrinsgodkendelse",
+            "label": "Kræv totrinsgodkendelse af medlemmer",
+            "hint": "Medlemmer skal bruge en godkendelsesapp eller en adgangsnøgle for at logge ind i apps efter fristen på siden Sikkerhed.",
+            "on": "Totrinsgodkendelse er nu påkrævet for denne organisations medlemmer.",
+            "off": "Totrinsgodkendelse er ikke længere påkrævet for denne organisations medlemmer."
+          }
         },
         "errors": {
           "invalidNameSlug": "Indtast et navn og en slug bestående af bogstaver, tal og bindestreger.",
@@ -2119,6 +2283,61 @@
           "lastOwner": "En organisation skal have mindst én ejer. Gør først et andet medlem til ejer.",
           "publicDelete": "Arbejdsområdet Public kan ikke slettes.",
           "organizationNotFound": "Organisationen blev ikke fundet."
+        },
+        "rolesTeams": {
+          "rolesTitle": "Egne roller",
+          "teamsTitle": "Teams",
+          "rolesDescription": "Roller for denne organisation ud over ejer, admin og medlem, hver med egne tilladelser. De gives til medlemmer som de indbyggede, og tokens indeholder rollens navn (organization.role) og tilladelser (organization.permissions).",
+          "noRoles": "Ingen egen rolle.",
+          "memberCount": "{count, plural, one {# medlem} other {# medlemmer}}",
+          "noPermissions": "Ingen tilladelser",
+          "edit": "Rediger",
+          "delete": "Slet",
+          "editRole": "Rediger {role}",
+          "deleteRole": "Slet {role}",
+          "addRole": "Tilføj rolle",
+          "deleteRoleTitle": "Slet {role}?",
+          "deleteRoleDescription": "Rollen forsvinder fra organisationen. Den kan kun slettes, når intet medlem har den.",
+          "cancel": "Annuller",
+          "roleDeleted": "Rollen er slettet.",
+          "roleSaved": "Rollen er gemt.",
+          "roleDialogDescription": "Markér, hvad rollen må i organisationen. Organisationens ejere og administratorer kan også selv administrere roller.",
+          "roleName": "Rollenavn",
+          "roleNameHint": "2 til 32 små bogstaver, cifre, bindestreger eller understregninger, og begynder med et bogstav. Kan ikke ændres senere.",
+          "permissions": "Tilladelser",
+          "save": "Gem",
+          "teamsDescription": "Grupper af medlemmer i organisationen. Tokens indeholder medlemmets teams (organization.teams).",
+          "noTeams": "Intet team.",
+          "teamCreated": "Team oprettet.",
+          "newTeam": "Nyt team",
+          "createTeam": "Opret team",
+          "teamRenamed": "Team omdøbt.",
+          "teamName": "Teamnavn",
+          "renameTeam": "Omdøb {team}",
+          "rename": "Omdøb",
+          "deleteTeam": "Slet {team}",
+          "noTeamMembers": "Ingen medlemmer i teamet.",
+          "removeFromTeam": "Fjern {email} fra {team}",
+          "remove": "Fjern",
+          "teamMemberRemoved": "Medlemmet er fjernet fra teamet.",
+          "teamMemberAdded": "Medlemmet er føjet til teamet.",
+          "addToTeam": "Tilføj et medlem til {team}",
+          "memberEmail": "Medlemmets e-mail",
+          "add": "Tilføj",
+          "deleteTeamTitle": "Slet {team}?",
+          "deleteTeamDescription": "Teamet og dets medlemsliste slettes. Medlemmerne bliver i organisationen.",
+          "teamDeleted": "Team slettet.",
+          "errors": {
+            "invalidName": "Et rollenavn har 2 til 32 små bogstaver, cifre, bindestreger eller understregninger og begynder med et bogstav.",
+            "reservedName": "owner, admin og member er indbyggede roller.",
+            "nameTaken": "Organisationen har allerede en rolle med dette navn.",
+            "invalidPermissions": "En af tilladelserne er ukendt.",
+            "roleInUse": "Medlemmer har denne rolle: giv dem en anden rolle først.",
+            "notFound": "Findes ikke i organisationen.",
+            "notMember": "Personen er ikke medlem af organisationen.",
+            "alreadyInTeam": "Medlemmet er allerede i teamet.",
+            "invalidTeamName": "Et teamnavn har 1 til 64 tegn."
+          }
         }
       }
     },
@@ -2314,7 +2533,8 @@
         "invalidCode": "Koden er ugyldig. Tjek, at enhedens ur går rigtigt, og prøv igen.",
         "rateLimited": "For mange forsøg. Vent et par sekunder, og prøv igen.",
         "generic": "Noget gik galt. Prøv igen."
-      }
+      },
+      "doneContinue": "Fortsæt til appen"
     },
     "organizations": {
       "title": "Organisationer",
@@ -2566,6 +2786,27 @@
     "impersonation": {
       "viewingAs": "Du ser denne konto som <strong>{email}</strong>.",
       "stop": "Stop med at logge ind som bruger"
+    },
+    "phone": {
+      "title": "Telefonnummer",
+      "description": "Log ind med en kode sendt på sms til dette nummer.",
+      "none": "Intet telefonnummer",
+      "add": "Tilføj et nummer",
+      "change": "Skift",
+      "remove": "Fjern",
+      "phoneLabel": "Telefonnummer",
+      "phoneHint": "Internationalt format, med + og landekode. Vi sender en kode på sms for at bekræfte det.",
+      "send": "Send kode",
+      "cancel": "Annuller",
+      "codeLabel": "Kode sendt til {phone}",
+      "verify": "Gem nummer",
+      "invalidPhone": "Indtast nummeret i internationalt format, fx +4512345678.",
+      "sendFailed": "Koden kunne ikke sendes. Prøv igen om et par minutter.",
+      "verifyFailed": "Koden er forkert eller udløbet.",
+      "taken": "En anden konto bruger allerede dette nummer.",
+      "saved": "Nummeret er gemt.",
+      "removeFailed": "Nummeret kunne ikke fjernes.",
+      "removed": "Nummeret er fjernet."
     },
     "demo": {
       "title": "Demokonto",

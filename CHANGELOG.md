@@ -8,6 +8,78 @@ All notable changes are documented here. The format follows
 
 ### Added
 
+- Sign-in with a code sent by text message (Better Auth's `phone-number` plugin), through
+  Twilio: set `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN` and `TWILIO_FROM`. People add and
+  verify a phone number on their account page (a recent sign-in, like adding a passkey), then
+  "Text me a sign-in code" on the sign-in page sends a 6-digit code. Codes go only to numbers an
+  account verified, behind the captcha and a rate limit (3 texts per 10 minutes per IP), so the
+  endpoint cannot be used to text anyone. Accounts with two-factor authentication still get their
+  second step. No sign-up by phone, no password sign-in or reset by phone, and a profile update
+  cannot set a number. New columns `user.phone_number` and `user.phone_number_verified`
+  (migration 0018).
+- Organization custom roles and teams (Better Auth's `dynamicAccessControl` and `teams`). An
+  organization's page in the admin console adds roles with their own permissions (any of the
+  built-in roles' resources and actions, API keys included), offers them in the member role
+  and invitation lists, and manages teams and their members. Better Auth enforces a custom
+  role's permissions; owners and admins of an organization can also manage roles and teams
+  through Better Auth's endpoints. Token claims gain `organization.permissions` (the role's
+  permissions) and `organization.teams` (the member's teams in the active organization).
+  New tables `organization_role`, `team` and `team_member`, and `session.active_team_id` and
+  `invitation.team_id` (migration 0017).
+- Two-factor authentication required for everyone, or for an organization's members: **Security**
+  › Sessions and passwords has "Two-factor authentication for everyone" and a grace period (none,
+  7, 14 or 30 days), and each organization's page has "Require two-factor authentication for
+  members". An app sign-in by an account without it (an authenticator app, or a passkey) stops
+  at a new prompt, after sign-in and before consent (Better Auth's `postLogin` step): during the
+  grace period people can go on and are asked again at the next app sign-in; after it they turn
+  it on first, and the account page brings them back to the app. Admins keep REQUIRE_ADMIN_2FA.
+  New table `organization_policy` (migration 0016).
+- Custom OpenID Connect sign-in providers (Keycloak, Okta, Authentik, a company's own): the
+  **Sign-in providers** page has a "Custom OpenID Connect providers" card to add one with its
+  discovery URL, client ID and secret, scopes and button name, turn it on or off, and choose
+  whether it creates accounts. Better Auth's generic-oauth plugin builds them (discovery, PKCE,
+  ID tokens checked against the provider's keys); the redirect URI is
+  `/api/auth/callback/oidc-<id>`. Every request Ostiary's server makes to the provider
+  (discovery, token, UserInfo, signing keys, refresh) goes through the webhook URL guard
+  (https, public addresses, connection pinned to the checked addresses), and the discovery
+  document is checked again each time the provider is built.
+- Session and password policy on the admin console's **Security** page: session lifetime
+  (1 to 90 days, 7 by default), whether sessions are extended while in use, signing out
+  everywhere on a password change (other sessions and the apps' tokens, as a password reset
+  does), the minimum password length (8 to 16) and password sign-up (off: social sign-in and
+  SSO only). The auth app applies a change within a minute; the sign-up, reset and change
+  password forms show the minimum. Sessions created before a change keep their expiry.
+- Signing algorithm on the **Signing keys** page: EdDSA (Ed25519, the default), ES256 or
+  RS256, for APIs and gateways that only verify ES256 or RS256 (AWS API Gateway, Azure API
+  Management). Changing it creates a key with the new algorithm at once; the previous key stays
+  published for the grace period. Discovery's `id_token_signing_alg_values_supported` follows
+  within a minute.
+- Grace period when rotating a client secret: **Rotate client secret** asks how long the
+  current secret keeps working (no, 1 hour, 24 hours or 7 days), so the app can switch to the
+  new one without failing. The app's row shows until when the previous secret works, and
+  **Revoke previous secret now** ends it early. Ostiary stores the previous secret's hash next
+  to the current one (`storeClientSecret`, the same SHA-256 hash Better Auth uses, so existing
+  secrets are unchanged).
+- The admin console sets two more things on the apps it registers:
+  - **Client authentication: Private key JWT**: the app signs client assertions with its own
+    key instead of a shared secret (`private_key_jwt`), and the console stores its public keys
+    (JWKS, public keys only). Change them when editing the app, or let the app replace them
+    itself at `/api/auth/oauth2/client/rotate-keys` with an assertion signed by a current key
+    (Better Auth's `allowClientKeyRotation`, now on). No `jwks_uri`: Better Auth only fetches
+    one from Ostiary's own origins.
+  - **Back-channel logout URI**: OpenID Connect Back-Channel Logout, so the app is told when
+    the user's session ends, optionally with `sid` required. Can be changed or removed when
+    editing the app. For apps that sign users in.
+- An app's client ID can be chosen when it is registered in the admin console (**Client ID**,
+  optional), so an app moved from Auth0, Keycloak, Cognito or another provider keeps its ID:
+  3 to 128 letters, digits, `.`, `_` or `-`, unique. Left empty, Better Auth generates one as
+  before. Only the admin console can choose it, not Dynamic Client Registration.
+- Pairwise subject identifiers: with `PAIRWISE_SECRET` set (32+ characters, both apps), an
+  app registered with **Pairwise user IDs** gets a `sub` derived from the user and its
+  redirect host in ID tokens, UserInfo, introspection and back-channel logout, so apps on
+  other hosts cannot match their users with it. Discovery then lists `pairwise` in
+  `subject_types_supported`. Set when the app is created, for apps that sign users in. JWT
+  access tokens for your APIs keep the user's ID.
 - OpenAPI schema of the auth endpoints (Better Auth's `openAPI` plugin), committed as
   `apps/auth/openapi.json` for the API reference on ostiary.dev and served at
   `/api/auth/open-api/generate-schema` outside production, or with
@@ -43,6 +115,15 @@ All notable changes are documented here. The format follows
   Before, the retry counted as a stolen-token replay and revoked the app's tokens, which broke
   MCP clients that retry after a dropped connection (`refreshTokenReuseInterval`, as in
   `@better-auth/mcp`).
+
+### Fixed
+
+- A passkey sign-in on the login page an app sent the person to opened their dashboard instead of
+  going on to the app (consent, then back to the app). It resumes the app's sign-in now, as a
+  password sign-in does (#110).
+- The admin console's **Applications** page listed at most 100 apps: Better Auth's
+  `/oauth2/get-clients` stops there (its adapter's default limit). It now reads every
+  admin-registered app from `GET /api/admin/oauth-clients`.
 
 ## [0.2.0] - 2026-11-22
 

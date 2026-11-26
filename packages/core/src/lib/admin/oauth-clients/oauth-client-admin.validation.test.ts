@@ -5,12 +5,15 @@ import {
   isMachineClient,
 } from "@ostiary/core/lib/admin/oauth-clients/oauth-client-admin.types";
 import {
+  BACKCHANNEL_WITHOUT_USERS_MESSAGE,
+  clientJwksError,
   createOAuthClientBodySchema,
   deviceCodeUpdateError,
   INVALID_LOGO_URI_MESSAGE,
   parseCreateOAuthClientBody,
   parseLogoUri,
   parseUpdateOAuthClientBody,
+  PAIRWISE_WITHOUT_USERS_MESSAGE,
   POST_LOGOUT_WITHOUT_END_SESSION_MESSAGE,
   withDeviceCodeGrant,
 } from "@ostiary/core/lib/admin/oauth-clients/oauth-client-admin.validation";
@@ -409,5 +412,97 @@ describe("scopes and policy links", () => {
     expect(cleared.ok && cleared.value).toEqual({ policy_uri: null, tos_uri: null });
     expect(parseUpdateOAuthClientBody({ policy_uri: "http://x/privacy" }).ok).toBe(false);
     expect(parseUpdateOAuthClientBody({ tos_uri: "javascript:alert(1)" }).ok).toBe(false);
+  });
+});
+
+describe("client_id on create", () => {
+  const base = { redirect_uris: ["https://app.example.com/callback"] };
+
+  it("keeps an ID moved from another provider", () => {
+    for (const id of ["my-app", "0oa1b2c3d4E5f6G7h8i9", "4f6d2c1e.apps.example", "legacy_app_01"]) {
+      const result = parseCreateOAuthClientBody({ ...base, client_id: ` ${id} ` });
+      expect(result.ok && result.value.client_id).toBe(id);
+    }
+  });
+
+  it("leaves it out when empty, so Better Auth generates one", () => {
+    const result = parseCreateOAuthClientBody({ ...base, client_id: "  " });
+    expect(result.ok && "client_id" in result.value).toBe(false);
+  });
+
+  it("refuses unsafe characters, URLs and lengths outside 3 to 128", () => {
+    for (const id of ["ab", "a".repeat(129), "https://app.example.com/client", "my app", "app:1", "app/1", "é-app"]) {
+      const result = parseCreateOAuthClientBody({ ...base, client_id: id });
+      expect(result.ok, id).toBe(false);
+    }
+  });
+});
+
+describe("subject_type on create", () => {
+  it("passes pairwise on for an app that signs users in, and leaves public out", () => {
+    const pairwise = parseCreateOAuthClientBody({ redirect_uris: ["https://app.example.com/cb"], subject_type: "pairwise" });
+    expect(pairwise.ok && pairwise.value.subject_type).toBe("pairwise");
+    const pub = parseCreateOAuthClientBody({ redirect_uris: ["https://app.example.com/cb"], subject_type: "public" });
+    expect(pub.ok && "subject_type" in pub.value).toBe(false);
+  });
+
+  it("refuses pairwise for a machine client", () => {
+    const result = parseCreateOAuthClientBody(
+      { subject_type: "pairwise", grant_types: ["client_credentials"], scope: "api:read" },
+      ["api:read"],
+    );
+    expect(result).toEqual({ ok: false, error: `subject_type: ${PAIRWISE_WITHOUT_USERS_MESSAGE}` });
+  });
+});
+
+describe("client authentication and back-channel logout on create", () => {
+  const ec = { kty: "EC", crv: "P-256", x: "x", y: "y", kid: "k1" };
+
+  it("accepts private_key_jwt with public keys, and only with them", () => {
+    const ok = parseCreateOAuthClientBody({
+      redirect_uris: ["https://app.example.com/cb"],
+      token_endpoint_auth_method: "private_key_jwt",
+      jwks: { keys: [ec] },
+    });
+    expect(ok.ok && ok.value.jwks).toEqual({ keys: [ec] });
+    expect(parseCreateOAuthClientBody({ redirect_uris: ["https://app.example.com/cb"], token_endpoint_auth_method: "private_key_jwt" }).ok).toBe(false);
+    expect(parseCreateOAuthClientBody({ redirect_uris: ["https://app.example.com/cb"], jwks: { keys: [ec] } }).ok).toBe(false);
+  });
+
+  it("takes a back-channel logout URI for an app that signs users in", () => {
+    const ok = parseCreateOAuthClientBody({
+      redirect_uris: ["https://app.example.com/cb"],
+      backchannel_logout_uri: "https://app.example.com/logout",
+      backchannel_logout_session_required: true,
+    });
+    expect(ok.ok && ok.value).toMatchObject({ backchannel_logout_uri: "https://app.example.com/logout", backchannel_logout_session_required: true });
+    expect(parseCreateOAuthClientBody({ redirect_uris: ["https://app.example.com/cb"], backchannel_logout_uri: "http://app.example.com/logout" }).ok).toBe(false);
+    const machine = parseCreateOAuthClientBody(
+      { grant_types: ["client_credentials"], scope: "api:read", backchannel_logout_uri: "https://app.example.com/logout" },
+      ["api:read"],
+    );
+    expect(machine).toEqual({ ok: false, error: `backchannel_logout_uri: ${BACKCHANNEL_WITHOUT_USERS_MESSAGE}` });
+  });
+
+  it("clears the back-channel URI and replaces keys on update", () => {
+    const cleared = parseUpdateOAuthClientBody({ backchannel_logout_uri: "" });
+    expect(cleared.ok && cleared.value).toEqual({ backchannel_logout_uri: null });
+    const keys = parseUpdateOAuthClientBody({ jwks: { keys: [ec] } });
+    expect(keys.ok && keys.value).toEqual({ jwks: { keys: [ec] } });
+  });
+});
+
+describe("clientJwksError", () => {
+  it("accepts RSA, EC and OKP public keys", () => {
+    expect(clientJwksError({ keys: [{ kty: "RSA", n: "n", e: "AQAB" }, { kty: "EC", crv: "P-256", x: "x", y: "y" }, { kty: "OKP", crv: "Ed25519", x: "x" }] })).toBeNull();
+  });
+
+  it("refuses private keys, symmetric keys, incomplete keys and malformed sets", () => {
+    expect(clientJwksError({ keys: [{ kty: "EC", crv: "P-256", x: "x", y: "y", d: "secret" }] })).toContain("private key");
+    expect(clientJwksError({ keys: [{ kty: "oct", k: "secret" }] })).not.toBeNull();
+    expect(clientJwksError({ keys: [{ kty: "RSA", n: "n" }] })).toContain("n, e");
+    expect(clientJwksError({ keys: [] })).not.toBeNull();
+    expect(clientJwksError({})).not.toBeNull();
+    expect(clientJwksError({ keys: Array.from({ length: 11 }, () => ({ kty: "OKP", crv: "Ed25519", x: "x" })) })).toContain("at most");
   });
 });

@@ -52,7 +52,8 @@ function json(body: unknown, status: number): NextResponse {
  */
 export function adminJsonRoute<P = Record<string, never>>(
   options: {
-    body?: boolean;
+    /** A JSON body. "optional": none at all is fine too (an empty request with no Content-Type). */
+    body?: boolean | "optional";
     /** A multipart/form-data upload of at most `maxBytes` (the whole request, as declared). */
     form?: { maxBytes: number };
   },
@@ -61,7 +62,8 @@ export function adminJsonRoute<P = Record<string, never>>(
   return async (request: Request, routeContext?: { params: Promise<P> }): Promise<NextResponse> => {
     try {
       if (!isAllowedOrigin(request, originOf(env.ADMIN_APP_URL))) return json({ error: "Cross-origin request refused" }, 403);
-      if (options.body && !isJsonContentType(request)) return json({ error: "Content-Type must be application/json" }, 415);
+      const hasBody = options.body === true || (options.body === "optional" && request.headers.has("content-type"));
+      if (hasBody && !isJsonContentType(request)) return json({ error: "Content-Type must be application/json" }, 415);
       if (options.form) {
         if (!isMultipartContentType(request)) return json({ error: "Content-Type must be multipart/form-data" }, 415);
         // Browsers declare the size of a FormData body. Without it the limit could not be
@@ -80,7 +82,7 @@ export function adminJsonRoute<P = Record<string, never>>(
       if (!isSafeMethod(request.method)) await assertAdminWriteRateLimit(authz.actor.id, ip);
 
       let body: unknown;
-      if (options.body) {
+      if (hasBody) {
         assertRequestBodyWithinLimit(request);
         try {
           body = await request.json();

@@ -33,6 +33,7 @@ import {
     demoMode,
 } from "@ostiary/core/lib/demo";
 import { OPENAPI_SCHEMA_PATH } from "@ostiary/core/lib/openapi";
+import { syncAuthPolicy, type PolicyContext } from "@ostiary/core/lib/auth-policy";
 
 type Ctx = Parameters<Parameters<typeof createAuthMiddleware>[0]>[0];
 
@@ -316,6 +317,11 @@ export function guardRequests({
         await syncSigningKeys(jwtOptions);
         // Sign-in providers enabled from the admin console, without a restart.
         await syncSocialProviders(ctx.context);
+        // Session lifetime, minimum password length and password sign-up (admin console, Security).
+        const policy = await syncAuthPolicy(ctx.context as unknown as PolicyContext);
+        if (ctx.path === "/change-password" && policy.signOutOnPasswordChange && ctx.body && typeof ctx.body === "object") {
+            (ctx.body as Bag).revokeOtherSessions = true;
+        }
         // Google One Tap answers only while the admin console has it on (and Google too).
         if (ctx.path === "/one-tap/callback" && !(await googleOneTap())) {
             throw new APIError("NOT_FOUND", { message: "Google One Tap is not enabled." });
@@ -333,7 +339,13 @@ export function guardRequests({
         if (ctx.path === "/sso/register") return guardSsoRegistration(ctx);
         if (ctx.path.startsWith("/organization/")) return guardOrganizationRequest(ctx);
         if (RECENT_SIGN_IN_PATHS.has(ctx.path)) return requireRecentSignIn(ctx);
+        // Adding a phone number adds a way to sign in (texted codes), like a passkey.
+        if (ctx.path === "/phone-number/verify" && (ctx.body as Bag | undefined)?.updatePhoneNumber === true) return requireRecentSignIn(ctx);
         if (ctx.path === "/delete-user") return guardAccountDeletion(ctx);
+        // A phone number is set only by verifying a texted code (/phone-number/verify).
+        if (ctx.path === "/update-user" && ctx.body && typeof ctx.body === "object" && ("phoneNumber" in ctx.body || "phoneNumberVerified" in ctx.body)) {
+            throw new APIError("BAD_REQUEST", { message: "Verify a phone number with the code texted to it.", code: "PHONE_NUMBER_NEEDS_VERIFICATION" });
+        }
         if (ctx.path === "/change-email") return guardEmailChange(ctx);
         if (ctx.path === "/multi-session/revoke") return recordAccountSignOut(ctx);
         if (ctx.path === "/sign-out") return recordSignOut(ctx);

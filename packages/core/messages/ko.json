@@ -43,6 +43,7 @@
         "error": "이메일을 보낼 수 없습니다. 잠시 후 다시 시도하세요."
       },
       "addAccountDescription": "이 브라우저에 이미 로그인된 계정은 로그인 상태로 유지됩니다.",
+      "phoneCode": "문자로 로그인 코드 받기",
       "demo": {
         "title": "데모 체험하기",
         "description": "업데이트할 때마다 초기화되는 공유 예시 계정입니다. 비밀번호, 이메일, 로그인 방법은 변경할 수 없습니다.",
@@ -128,7 +129,7 @@
       "backToLogin": "로그인으로 돌아가기",
       "newPasswordLabel": "새 비밀번호",
       "confirmPasswordLabel": "비밀번호 확인",
-      "passwordHint": "8자 이상이어야 합니다.",
+      "passwordHint": "{min}자 이상이어야 합니다.",
       "passwordMismatch": "비밀번호가 일치하지 않습니다",
       "submit": "비밀번호 변경",
       "submitting": "변경 중…",
@@ -154,7 +155,7 @@
       "emailDescription": "연락을 드릴 때 사용합니다. 이메일은 다른 사람과 공유하지 않습니다.",
       "passwordLabel": "비밀번호",
       "confirmPasswordLabel": "비밀번호 확인",
-      "passwordHint": "8자 이상이어야 합니다.",
+      "passwordHint": "{min}자 이상이어야 합니다.",
       "confirmPasswordHint": "비밀번호를 한 번 더 입력하세요.",
       "passwordMismatch": "비밀번호가 일치하지 않습니다",
       "submit": "계정 만들기",
@@ -169,7 +170,9 @@
         "usernameTooShort": "사용자 이름은 3자 이상이어야 합니다.",
         "usernameInvalid": "유효하지 않은 사용자 이름입니다.",
         "usernameTaken": "이미 사용 중인 사용자 이름입니다. 다른 이름을 입력하세요."
-      }
+      },
+      "passwordSignUpOff": "비밀번호로 가입은 꺼져 있습니다. 다음 중 하나로 계정을 만드세요:",
+      "signUpClosed": "여기서는 새 계정을 만들 수 없습니다. 관리자에게 계정을 요청하세요."
     },
     "screen": {
       "headline": "<accent>모든 앱</accent>을 하나의 계정으로.",
@@ -194,6 +197,42 @@
       "continue": "<app>{name}</app>(으)로 계속",
       "unverified": "확인되지 않은 앱입니다.",
       "unverifiedHint": "{name}에서 검토하지 않은 앱입니다. 신뢰하는 경우에만 계속하세요."
+    },
+    "twoFactorRequired": {
+      "metaTitle": "2단계 인증 필요",
+      "title": "2단계 인증을 켜세요",
+      "byOrganization": "조직 관리자가 앱 로그인에 2단계 인증을 요구합니다.",
+      "byPlatform": "앱에 로그인하려면 2단계 인증이 필요합니다.",
+      "until": "{date} 전에 켜세요.",
+      "now": "계속하려면 켜세요.",
+      "how": "인증 앱(Google Authenticator, 1Password 등)을 사용하거나 계정 페이지에서 패스키를 추가하세요.",
+      "setUp": "2단계 인증 설정",
+      "later": "나중에 알림",
+      "continue": "계속"
+    },
+    "phoneCode": {
+      "title": "문자로 로그인",
+      "description": "계정의 전화번호로 6자리 코드를 문자로 보내 드립니다.",
+      "phoneLabel": "전화번호",
+      "phoneHint": "국제 형식(+와 국가 번호로 시작).",
+      "send": "코드 보내기",
+      "sending": "보내는 중…",
+      "sentTitle": "휴대폰을 확인하세요",
+      "sent": "{phone}을(를) 사용하는 계정이 있으면 6자리 코드가 전송되었습니다. {minutes}분 후에 만료됩니다.",
+      "codeLabel": "로그인 코드",
+      "verify": "로그인",
+      "verifying": "로그인 중…",
+      "newCode": "받지 못했나요? 새 코드 보내기",
+      "usePassword": "비밀번호로 로그인",
+      "errors": {
+        "invalidPhone": "+821012345678처럼 국제 형식으로 입력하세요.",
+        "invalidCode": "코드가 올바르지 않습니다. 확인 후 다시 시도하세요.",
+        "expired": "코드가 만료되었습니다. 새 코드를 요청하세요.",
+        "tooManyAttempts": "잘못된 코드가 너무 많습니다. 새 코드를 요청하세요.",
+        "rateLimited": "시도가 너무 많습니다. 몇 분 후 다시 시도하세요.",
+        "sendFailed": "코드를 보내지 못했습니다. 몇 분 후 다시 시도하세요.",
+        "signInFailed": "로그인하지 못했습니다. 다시 시도하세요."
+      }
     }
   },
   "consent": {
@@ -380,7 +419,8 @@
           "duplicates": "×{count}",
           "duplicatesHint": "동일한 자체 등록 클라이언트 {count}개",
           "showDuplicates": "{count}개 모두 보기",
-          "hideDuplicates": "동일 항목 숨기기"
+          "hideDuplicates": "동일 항목 숨기기",
+          "previousSecretUntil": "이전 시크릿 유효 기간: {date}까지"
         },
         "registration": {
           "title": "자체 등록",
@@ -524,6 +564,8 @@
             "organization_id": "활성 조직 ID",
             "organization_slug": "활성 조직 슬러그",
             "organization_role": "활성 조직에서의 역할",
+            "organization_permissions": "활성 조직에서의 권한",
+            "organization_teams": "활성 조직에서의 팀",
             "organizations": "조직 멤버십"
           }
         },
@@ -584,6 +626,8 @@
           "allowedScopesHint": "로그인에는 openid를, 리프레시 토큰에는 offline_access를 포함하세요.",
           "iconUrlLabel": "아이콘 URL",
           "iconUrlHint": "콘솔, 동의 화면, 사용자 계정에서 앱에 표시됩니다. localhost로만 리디렉션하는 앱에 유용합니다. https, PNG/JPEG/WebP/AVIF/GIF/ICO/SVG.",
+          "clientIdLabel": "클라이언트 ID(선택)",
+          "clientIdHint": "비워 두면 자동으로 생성됩니다. 다른 제공자에서 옮겨 오는 앱이라면 현재 클라이언트 ID를 입력해 변경 없이 계속 작동하게 하세요. 영문자, 숫자, 점, 밑줄 또는 하이픈 3~128자.",
           "deviceCodeLabel": "기기 로그인(CLI, TV)",
           "deviceCodeHint": "기기 코드 그랜트(RFC 8628)를 추가합니다. 앱이 코드를 표시하면 사용자가 다른 화면의 <code>{path}</code>에서 승인합니다. 보통 공개 클라이언트입니다.",
           "endSessionLabel": "앱에서 로그아웃 (RP-initiated logout)",
@@ -592,6 +636,8 @@
           "postLogoutUrisHint": "로그아웃 후 앱이 사용자를 돌려보낼 수 있는 주소(post_logout_redirect_uri, 정확히 일치). 한 줄에 하나씩 또는 쉼표로 구분합니다. 없으면 사용자에게 로그아웃 완료 페이지가 표시됩니다.",
           "skipConsentLabel": "동의 건너뛰기(신뢰할 수 있는 클라이언트)",
           "skipConsentHint": "사용자에게 이 애플리케이션의 동의 화면이 표시되지 않습니다. 자사 또는 완전히 신뢰할 수 있는 통합에만 사용하세요.",
+          "pairwiseLabel": "앱별 사용자 ID",
+          "pairwiseHint": "사용자는 다른 호스트의 앱과 다른 ID(sub)를 받으므로 그 앱들은 이 앱과 사용자를 대조할 수 없습니다. 모든 리디렉션 URI는 같은 호스트에 있어야 합니다. 나중에 변경할 수 없습니다.",
           "registerFailed": "애플리케이션을 등록할 수 없습니다",
           "missingClientId": "서버가 {field}을(를) 반환하지 않았습니다.",
           "registered": "OAuth 애플리케이션이 등록되었습니다",
@@ -604,7 +650,18 @@
           "clientId": "클라이언트 ID",
           "clientSecret": "클라이언트 시크릿",
           "copyClientId": "클라이언트 ID 복사",
-          "copyClientSecret": "클라이언트 시크릿 복사"
+          "copyClientSecret": "클라이언트 시크릿 복사",
+          "authMethodLabel": "클라이언트 인증",
+          "authMethodSecret": "클라이언트 시크릿",
+          "authMethodPrivateKey": "개인 키 JWT(공개 키)",
+          "jwksLabel": "공개 키(JWKS)",
+          "jwksHint": "앱의 공개 키(JSON Web Key Set)입니다. 앱은 토큰 엔드포인트에서 개인 키로 클라이언트 어설션에 서명합니다(private_key_jwt). 바꾸려면 앱을 편집하거나 앱이 /api/auth/oauth2/client/rotate-keys를 호출하게 하세요.",
+          "jwksInvalidJson": "JWKS가 올바른 JSON이 아닙니다.",
+          "backchannelUriLabel": "백채널 로그아웃 URI(선택)",
+          "backchannelUriHint": "사용자의 세션이 끝나면 Ostiary가 이 https URL로 서명된 로그아웃 토큰을 보내 앱에서도 로그아웃할 수 있게 합니다.",
+          "backchannelSessionLabel": "앱에 세션 ID(sid)가 필요함",
+          "backchannelSessionHint": "로그아웃 토큰에 sid를 넣습니다. 앱은 이를 사용해 종료할 세션을 찾습니다.",
+          "successPrivateKey": "시크릿이 발급되지 않습니다. 앱은 등록된 키 중 하나로 서명한 클라이언트 어설션으로 인증합니다."
         },
         "rowActions": {
           "menuLabel": "{name} 작업",
@@ -662,15 +719,25 @@
           },
           "rotateDialog": {
             "title": "클라이언트 시크릿을 교체할까요?",
-            "description": "이전 시크릿은 즉시 작동을 멈춥니다. 새 시크릿을 안전한 곳에 보관하세요. 한 번만 표시될 수 있습니다.",
+            "description": "새 시크릿을 안전한 곳에 보관하세요. 한 번만 표시될 수 있습니다. 현재 시크릿은 지금 바로, 또는 선택한 유예 기간이 끝나면 더 이상 작동하지 않으므로 앱이 먼저 전환할 수 있습니다.",
             "newSecretLabel": "새 클라이언트 시크릿",
             "copySecret": "시크릿 복사",
             "secretCopied": "시크릿을 복사했습니다",
             "rotating": "교체 중…",
             "rotateFailed": "시크릿을 교체할 수 없습니다",
             "newSecretIssued": "새 클라이언트 시크릿이 발급되었습니다. 지금 복사하세요",
-            "rotated": "시크릿을 교체했습니다"
-          }
+            "rotated": "시크릿을 교체했습니다",
+            "graceLabel": "현재 시크릿 계속 사용",
+            "graceNone": "아니요, 지금 바로 중지",
+            "grace1h": "1시간 동안",
+            "grace24h": "24시간 동안",
+            "grace7d": "7일 동안",
+            "graceReplaces": "이전 교체에서 남겨 둔 시크릿은 지금 바로 작동을 멈춥니다."
+          },
+          "rotateHintPrivateKey": "이 앱은 시크릿이 아니라 키로 인증합니다",
+          "revokePreviousSecret": "이전 시크릿 지금 폐기",
+          "revokePreviousFailed": "이전 시크릿을 폐기하지 못했습니다",
+          "previousSecretRevoked": "이전 시크릿을 폐기했습니다"
         },
         "selfRegistered": {
           "menuLabel": "{name} 작업",
@@ -1317,6 +1384,47 @@
               }
             }
           }
+        },
+        "custom": {
+          "title": "사용자 지정 OpenID Connect 제공자",
+          "description": "모든 OpenID Connect 제공자(Keycloak, Okta, Authentik, 회사 자체 제공자)를 위 제공자들 옆에 로그인 버튼으로 추가합니다.",
+          "add": "제공자 추가",
+          "empty": "아직 사용자 지정 제공자가 없습니다.",
+          "on": "켜짐",
+          "off": "꺼짐",
+          "linkedAccounts": "연결된 계정 {count}개",
+          "edit": "편집",
+          "editProvider": "{name} 편집",
+          "remove": "삭제",
+          "removeProvider": "{name} 삭제",
+          "removeTitle": "{name}을(를) 삭제할까요?",
+          "removeDescription": "로그인 페이지에서 버튼이 사라집니다. 이 제공자를 사용한 계정은 남지만 더 이상 이 제공자로 로그인할 수 없습니다.",
+          "removed": "제공자를 삭제했습니다.",
+          "cancel": "취소",
+          "save": "저장",
+          "saved": "제공자를 저장했습니다.",
+          "addTitle": "OpenID Connect 제공자 추가",
+          "editTitle": "{name} 편집",
+          "dialogDescription": "아래 리디렉션 URI로 Ostiary를 제공자에 웹 애플리케이션으로 등록한 뒤, 제공자가 준 값을 입력하세요. 저장할 때 제공자의 디스커버리 문서를 확인합니다.",
+          "name": "버튼 이름",
+          "nameHint": "로그인 및 가입 페이지에 \"…(으)로 계속\"으로 표시됩니다.",
+          "slug": "제공자 ID",
+          "slugHint": "영문 소문자, 숫자, 하이픈. 리디렉션 URI의 일부이며 나중에 바꿀 수 없습니다.",
+          "callbackUrl": "리디렉션 URI",
+          "callbackUrlHint": "이 URI를 그대로 제공자에 등록하세요.",
+          "discoveryUrl": "디스커버리 URL",
+          "discoveryUrlHint": "제공자의 /.well-known/openid-configuration URL(https, 공개 주소).",
+          "clientId": "클라이언트 ID",
+          "clientSecret": "클라이언트 시크릿",
+          "clientSecretHint": "공개 클라이언트라면 비워 두세요(PKCE만 사용).",
+          "secretKept": "저장된 시크릿을 유지하려면 비워 두세요",
+          "secretUnreadable": "저장된 시크릿을 읽을 수 없습니다(BETTER_AUTH_SECRET 변경됨). 다시 입력하세요.",
+          "scopes": "스코프",
+          "scopesHint": "공백으로 구분. openid가 포함되어야 합니다.",
+          "enabled": "로그인 페이지에 표시",
+          "enabledHint": "꺼짐: 제공자는 저장되지만 표시되지 않습니다.",
+          "allowSignUp": "새 사용자 계정 만들기",
+          "allowSignUpHint": "꺼짐: 이미 계정이 있는 사람만 이 제공자로 로그인할 수 있습니다."
         }
       },
       "apiKeys": {
@@ -1829,7 +1937,8 @@
             "export_data": "계정 데이터 내보내기",
             "self_delete": "본인 계정 삭제",
             "export_csv": "사용자를 CSV로 내보내기",
-            "import": "사용자 가져오기"
+            "import": "사용자 가져오기",
+            "remove_phone_number": "전화번호 삭제"
           },
           "oauth_client": {
             "create": "OAuth 클라이언트 등록",
@@ -1842,7 +1951,8 @@
             "branding_update": "로그인 브랜딩 변경",
             "branding_reset": "로그인 브랜딩 초기화",
             "claims_update": "토큰 클레임 변경",
-            "remove_duplicates": "중복 OAuth 클라이언트 제거"
+            "remove_duplicates": "중복 OAuth 클라이언트 제거",
+            "revoke_previous_secret": "이전 클라이언트 시크릿 폐기"
           },
           "client_registration": {
             "update": "클라이언트 자체 등록 설정 변경"
@@ -1878,7 +1988,15 @@
             "invite": "멤버 초대",
             "cancel_invitation": "초대 취소",
             "update_member_role": "멤버 역할 변경",
-            "remove_member": "멤버 제거"
+            "remove_member": "멤버 제거",
+            "create_role": "조직 역할 생성",
+            "update_role": "조직 역할 변경",
+            "delete_role": "조직 역할 삭제",
+            "create_team": "팀 생성",
+            "update_team": "팀 이름 변경",
+            "delete_team": "팀 삭제",
+            "add_team_member": "팀에 구성원 추가",
+            "remove_team_member": "팀에서 구성원 제외"
           },
           "sso_provider": {
             "create": "SSO 제공자 등록",
@@ -1913,6 +2031,9 @@
           },
           "audit_log": {
             "export_csv": "감사 로그를 CSV로 내보내기"
+          },
+          "security": {
+            "update_policy": "세션 및 비밀번호 정책 변경"
           }
         },
         "actorPlaceholder": "수행자(이메일)로 검색…",
@@ -1958,6 +2079,38 @@
           "noReason": "사유 없음",
           "until": "{date}까지",
           "permanent": "영구"
+        },
+        "policy": {
+          "title": "세션 및 비밀번호",
+          "description": "인증 앱에 로그인 상태가 유지되는 기간과 비밀번호를 정하는 방식입니다. 앱은 자체 토큰과 새로고침 토큰을 유지합니다.",
+          "edit": "편집",
+          "on": "켜짐",
+          "off": "꺼짐",
+          "days": "{count}일",
+          "characters": "{count}자",
+          "sessionDays": "세션 유효 기간",
+          "sessionDaysHint": "로그인이 유지되는 기간입니다. 변경 전에 만든 세션은 만료 시점을 유지하며, 다음에 연장될 때 새 기간을 따릅니다.",
+          "extendSessions": "사용 중인 세션 연장",
+          "extendSessionsHint": "켜짐: 마지막 사용 후 {count}일 동안 유지됩니다. 꺼짐: 사용 여부와 관계없이 로그인 {count}일 후 종료됩니다.",
+          "signOutOnPasswordChange": "비밀번호 변경 시 모든 곳에서 로그아웃",
+          "signOutOnPasswordChangeHint": "비밀번호를 바꾸면 재설정과 마찬가지로 계정의 다른 세션을 끝내고 앱의 토큰을 폐기합니다. 꺼짐: 각자 선택합니다.",
+          "minPasswordLength": "최소 비밀번호 길이",
+          "minPasswordLengthHint": "새 비밀번호(가입, 재설정, 변경)에 적용됩니다. 기존 비밀번호는 계속 사용할 수 있습니다.",
+          "passwordSignUp": "비밀번호로 가입",
+          "passwordSignUpHint": "꺼짐: 더 이상 이메일과 비밀번호로 계정을 만들 수 없고, 소셜 제공자나 조직의 SSO로만 가능합니다. 관리자는 계속 계정을 만들 수 있으며 기존 비밀번호도 계속 사용할 수 있습니다.",
+          "dialogDescription": "인증 앱은 1분 이내에 적용합니다.",
+          "save": "저장",
+          "cancel": "취소",
+          "saved": "정책을 저장했습니다. 인증 앱은 1분 이내에 적용합니다.",
+          "errors": {
+            "invalid": "제공된 값 중 하나를 선택하세요.",
+            "save": "정책을 저장하지 못했습니다."
+          },
+          "twoFactorEveryone": "모두에게 2단계 인증",
+          "twoFactorEveryoneHint": "모든 사람이 앱 로그인에 인증 앱이나 패스키를 사용해야 합니다. 관리자: REQUIRE_ADMIN_2FA. 조직은 자체 페이지에서 구성원에게 요구할 수 있습니다.",
+          "twoFactorGraceDays": "켜기까지의 기간",
+          "twoFactorGraceDaysHint": "2단계 인증이 없는 사람은 앱에 로그인할 때마다 안내를 받고 그때까지 계속할 수 있습니다. 기간은 이 설정을 켠 시점 또는 계정을 만든 시점부터 시작됩니다.",
+          "noGrace": "없음: 즉시 필요"
         }
       },
       "signingKeys": {
@@ -1982,7 +2135,10 @@
           "graceHint": "폐기된 키를 게시 상태로 유지하는 기간입니다. 토큰의 가장 긴 수명보다 길게 설정하세요(액세스 토큰: 1시간, ID 토큰: 1시간).",
           "save": "저장",
           "cancel": "취소",
-          "saved": "설정을 저장했습니다. 인증 서버가 1분 안에 적용합니다."
+          "saved": "설정을 저장했습니다. 인증 서버가 1분 안에 적용합니다.",
+          "algorithm": "서명 알고리즘",
+          "algorithmHint": "기본값은 EdDSA(Ed25519)입니다. AWS API Gateway나 Azure API Management처럼 ES256 또는 RS256만 검증하는 API와 게이트웨이에는 해당 알고리즘을 선택하세요. 변경하면 새 알고리즘의 키가 바로 생성되고, 현재 키는 유예 기간 동안 게시된 상태로 유지됩니다.",
+          "savedAlgorithm": "설정을 저장했습니다. 새 토큰은 {alg}(키 {kid})로 서명됩니다."
         },
         "keys": {
           "title": "키",
@@ -2014,7 +2170,8 @@
           "interval": "제공된 교체 주기 중에서 선택하세요.",
           "grace": "제공된 유예 기간 중에서 선택하세요.",
           "save": "설정을 저장하지 못했습니다.",
-          "rotate": "키를 교체하지 못했습니다."
+          "rotate": "키를 교체하지 못했습니다.",
+          "algorithm": "제공된 알고리즘 중 하나를 선택하세요."
         }
       },
       "organizations": {
@@ -2100,7 +2257,14 @@
           "scimCounts": "프로비저닝됨 {active}개, 비활성화됨 {inactive}개.",
           "recentActions": "최근 관리 작업",
           "noActions": "아직 없습니다.",
-          "system": "시스템"
+          "system": "시스템",
+          "twoFactor": {
+            "title": "2단계 인증",
+            "label": "구성원에게 2단계 인증 요구",
+            "hint": "구성원은 보안 페이지에서 정한 기간이 지나면 앱 로그인에 인증 앱이나 패스키를 사용해야 합니다.",
+            "on": "이제 이 조직의 구성원에게 2단계 인증이 필요합니다.",
+            "off": "이제 이 조직의 구성원에게 2단계 인증이 필요하지 않습니다."
+          }
         },
         "errors": {
           "invalidNameSlug": "이름과 영문자, 숫자, 하이픈으로 된 슬러그를 입력하세요.",
@@ -2119,6 +2283,61 @@
           "lastOwner": "조직에는 소유자가 한 명 이상 있어야 합니다. 먼저 다른 구성원을 소유자로 지정하세요.",
           "publicDelete": "Public 워크스페이스는 삭제할 수 없습니다.",
           "organizationNotFound": "조직을 찾을 수 없습니다."
+        },
+        "rolesTeams": {
+          "rolesTitle": "사용자 지정 역할",
+          "teamsTitle": "팀",
+          "rolesDescription": "소유자, 관리자, 구성원 외에 이 조직만의 역할이며 각각 고유한 권한이 있습니다. 기본 역할처럼 구성원에게 부여할 수 있고, 토큰에는 역할 이름(organization.role)과 권한(organization.permissions)이 담깁니다.",
+          "noRoles": "사용자 지정 역할이 없습니다.",
+          "memberCount": "구성원 {count}명",
+          "noPermissions": "권한 없음",
+          "edit": "편집",
+          "delete": "삭제",
+          "editRole": "{role} 편집",
+          "deleteRole": "{role} 삭제",
+          "addRole": "역할 추가",
+          "deleteRoleTitle": "{role}을(를) 삭제할까요?",
+          "deleteRoleDescription": "이 조직에서 역할이 사라집니다. 이 역할을 가진 구성원이 없어야 삭제할 수 있습니다.",
+          "cancel": "취소",
+          "roleDeleted": "역할을 삭제했습니다.",
+          "roleSaved": "역할을 저장했습니다.",
+          "roleDialogDescription": "이 역할이 조직에서 할 수 있는 일을 선택하세요. 조직의 소유자와 관리자도 역할을 직접 관리할 수 있습니다.",
+          "roleName": "역할 이름",
+          "roleNameHint": "영문 소문자, 숫자, 하이픈, 밑줄 2~32자이며 영문자로 시작합니다. 나중에 바꿀 수 없습니다.",
+          "permissions": "권한",
+          "save": "저장",
+          "teamsDescription": "조직 안의 구성원 그룹입니다. 토큰에는 구성원의 팀(organization.teams)이 담깁니다.",
+          "noTeams": "팀이 없습니다.",
+          "teamCreated": "팀을 만들었습니다.",
+          "newTeam": "새 팀",
+          "createTeam": "팀 만들기",
+          "teamRenamed": "팀 이름을 바꿨습니다.",
+          "teamName": "팀 이름",
+          "renameTeam": "{team} 이름 바꾸기",
+          "rename": "이름 바꾸기",
+          "deleteTeam": "{team} 삭제",
+          "noTeamMembers": "이 팀에 구성원이 없습니다.",
+          "removeFromTeam": "{team}에서 {email} 제외",
+          "remove": "제외",
+          "teamMemberRemoved": "팀에서 구성원을 제외했습니다.",
+          "teamMemberAdded": "팀에 구성원을 추가했습니다.",
+          "addToTeam": "{team}에 구성원 추가",
+          "memberEmail": "구성원 이메일",
+          "add": "추가",
+          "deleteTeamTitle": "{team}을(를) 삭제할까요?",
+          "deleteTeamDescription": "팀과 구성원 목록이 삭제됩니다. 구성원은 조직에 남습니다.",
+          "teamDeleted": "팀을 삭제했습니다.",
+          "errors": {
+            "invalidName": "역할 이름은 영문 소문자, 숫자, 하이픈, 밑줄 2~32자이며 영문자로 시작합니다.",
+            "reservedName": "owner, admin, member는 기본 역할입니다.",
+            "nameTaken": "이 조직에 같은 이름의 역할이 이미 있습니다.",
+            "invalidPermissions": "알 수 없는 권한이 있습니다.",
+            "roleInUse": "이 역할을 가진 구성원이 있습니다. 먼저 다른 역할을 부여하세요.",
+            "notFound": "이 조직에서 찾을 수 없습니다.",
+            "notMember": "이 사람은 조직의 구성원이 아닙니다.",
+            "alreadyInTeam": "이 구성원은 이미 팀에 있습니다.",
+            "invalidTeamName": "팀 이름은 1~64자입니다."
+          }
         }
       }
     },
@@ -2314,7 +2533,8 @@
         "invalidCode": "코드가 올바르지 않습니다. 기기의 시간이 정확한지 확인한 후 다시 시도하세요.",
         "rateLimited": "시도 횟수가 너무 많습니다. 몇 초 후에 다시 시도하세요.",
         "generic": "문제가 발생했습니다. 다시 시도하세요."
-      }
+      },
+      "doneContinue": "앱으로 계속"
     },
     "organizations": {
       "title": "조직",
@@ -2566,6 +2786,27 @@
     "impersonation": {
       "viewingAs": "<strong>{email}</strong>(으)로 이 계정을 보고 있습니다.",
       "stop": "대리 로그인 중지"
+    },
+    "phone": {
+      "title": "전화번호",
+      "description": "이 번호로 문자로 받은 코드로 로그인합니다.",
+      "none": "전화번호 없음",
+      "add": "번호 추가",
+      "change": "변경",
+      "remove": "삭제",
+      "phoneLabel": "전화번호",
+      "phoneHint": "국제 형식(+와 국가 번호로 시작). 확인을 위해 문자로 코드를 보냅니다.",
+      "send": "코드 보내기",
+      "cancel": "취소",
+      "codeLabel": "{phone}(으)로 보낸 코드",
+      "verify": "번호 저장",
+      "invalidPhone": "+821012345678처럼 국제 형식으로 입력하세요.",
+      "sendFailed": "코드를 보내지 못했습니다. 몇 분 후 다시 시도하세요.",
+      "verifyFailed": "코드가 올바르지 않거나 만료되었습니다.",
+      "taken": "다른 계정이 이미 이 번호를 사용합니다.",
+      "saved": "번호를 저장했습니다.",
+      "removeFailed": "번호를 삭제하지 못했습니다.",
+      "removed": "번호를 삭제했습니다."
     },
     "demo": {
       "title": "데모 계정",

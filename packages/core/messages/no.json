@@ -43,6 +43,7 @@
         "error": "Kunne ikke sende e-posten. Prøv igjen om ett minutt."
       },
       "addAccountDescription": "Kontoer som allerede er logget inn i denne nettleseren, forblir logget inn.",
+      "phoneCode": "Send meg en påloggingskode på SMS",
       "demo": {
         "title": "Prøv demoen",
         "description": "Delte eksempelkontoer som tilbakestilles ved hver oppdatering. Passord, e-postadresse og påloggingsmetoder kan ikke endres.",
@@ -128,7 +129,7 @@
       "backToLogin": "Tilbake til innlogging",
       "newPasswordLabel": "Nytt passord",
       "confirmPasswordLabel": "Bekreft passord",
-      "passwordHint": "Må være minst 8 tegn langt.",
+      "passwordHint": "Må være minst {min} tegn langt.",
       "passwordMismatch": "Passordene samsvarer ikke",
       "submit": "Oppdater passord",
       "submitting": "Oppdaterer…",
@@ -154,7 +155,7 @@
       "emailDescription": "Vi bruker denne for å kontakte deg. Vi deler ikke e-postadressen din med andre.",
       "passwordLabel": "Passord",
       "confirmPasswordLabel": "Bekreft passord",
-      "passwordHint": "Må være minst 8 tegn langt.",
+      "passwordHint": "Må være minst {min} tegn langt.",
       "confirmPasswordHint": "Bekreft passordet ditt.",
       "passwordMismatch": "Passordene samsvarer ikke",
       "submit": "Opprett konto",
@@ -169,7 +170,9 @@
         "usernameTooShort": "Brukernavnet må ha minst 3 tegn.",
         "usernameInvalid": "Det brukernavnet er ikke gyldig.",
         "usernameTaken": "Det brukernavnet er allerede tatt. Prøv et annet."
-      }
+      },
+      "passwordSignUpOff": "Registrering med passord er slått av. Opprett kontoen din med en av disse:",
+      "signUpClosed": "Nye kontoer kan ikke opprettes her. Be en administrator om en konto."
     },
     "screen": {
       "headline": "Én konto for <accent>alle appene dine</accent>.",
@@ -194,6 +197,42 @@
       "continue": "Fortsett til <app>{name}</app>",
       "unverified": "Ubekreftet app.",
       "unverifiedHint": "{name} har ikke gjennomgått den: fortsett bare hvis du stoler på den."
+    },
+    "twoFactorRequired": {
+      "metaTitle": "Tofaktorautentisering kreves",
+      "title": "Slå på tofaktorautentisering",
+      "byOrganization": "Organisasjonens administratorer krever tofaktorautentisering for å logge på apper.",
+      "byPlatform": "Tofaktorautentisering kreves for å logge på apper.",
+      "until": "Slå den på før {date}.",
+      "now": "Slå den på for å fortsette.",
+      "how": "Bruk en autentiseringsapp (som Google Authenticator eller 1Password), eller legg til en tilgangsnøkkel på kontosiden din.",
+      "setUp": "Konfigurer tofaktorautentisering",
+      "later": "Minn meg på det senere",
+      "continue": "Fortsett"
+    },
+    "phoneCode": {
+      "title": "Logg på med SMS",
+      "description": "Vi sender en 6-sifret kode på SMS til telefonnummeret på kontoen din.",
+      "phoneLabel": "Telefonnummer",
+      "phoneHint": "Internasjonalt format, med + og landskode.",
+      "send": "Send kode",
+      "sending": "Sender…",
+      "sentTitle": "Sjekk telefonen",
+      "sent": "Hvis en konto bruker {phone}, er en 6-sifret kode på vei. Den utløper om {minutes} minutter.",
+      "codeLabel": "Påloggingskode",
+      "verify": "Logg på",
+      "verifying": "Logger på…",
+      "newCode": "Fikk du den ikke? Send en ny kode",
+      "usePassword": "Bruk passordet ditt i stedet",
+      "errors": {
+        "invalidPhone": "Skriv inn nummeret i internasjonalt format, for eksempel +4791234567.",
+        "invalidCode": "Koden er feil. Sjekk den og prøv igjen.",
+        "expired": "Koden er utløpt. Be om en ny.",
+        "tooManyAttempts": "For mange feil koder. Be om en ny.",
+        "rateLimited": "For mange forsøk. Vent noen minutter og prøv igjen.",
+        "sendFailed": "Kunne ikke sende koden. Prøv igjen om noen minutter.",
+        "signInFailed": "Kunne ikke logge på. Prøv igjen."
+      }
     }
   },
   "consent": {
@@ -380,7 +419,8 @@
           "duplicates": "×{count}",
           "duplicatesHint": "{count} identiske selvregistrerte klienter",
           "showDuplicates": "Vis alle {count}",
-          "hideDuplicates": "Skjul identiske"
+          "hideDuplicates": "Skjul identiske",
+          "previousSecretUntil": "Forrige hemmelighet gyldig til {date}"
         },
         "registration": {
           "title": "Selvregistrering",
@@ -524,6 +564,8 @@
             "organization_id": "ID for aktiv organisasjon",
             "organization_slug": "Slug for aktiv organisasjon",
             "organization_role": "Rolle i aktiv organisasjon",
+            "organization_permissions": "Tillatelser i den aktive organisasjonen",
+            "organization_teams": "Team i den aktive organisasjonen",
             "organizations": "Medlemskap i organisasjoner"
           }
         },
@@ -584,6 +626,8 @@
           "allowedScopesHint": "Ta med openid for innlogging og offline_access for oppdateringstokens.",
           "iconUrlLabel": "Ikon-URL",
           "iconUrlHint": "Vises for appen i konsollen, på samtykkeskjermen og i brukernes kontoer. Nyttig for apper som bare videresender til localhost. https, PNG/JPEG/WebP/AVIF/GIF/ICO/SVG.",
+          "clientIdLabel": "Klient-ID (valgfritt)",
+          "clientIdHint": "La feltet stå tomt for å generere en. For en app som flyttes fra en annen leverandør, skriver du inn den nåværende klient-ID-en slik at den fungerer uendret: 3 til 128 bokstaver, sifre, punktum, understreker eller bindestreker.",
           "deviceCodeLabel": "Enhetsinnlogging (CLI-er, TV-er)",
           "deviceCodeHint": "Legger til device code-granten (RFC 8628): appen viser en kode, og brukeren godkjenner den på <code>{path}</code> på en annen skjerm. Vanligvis en offentlig klient.",
           "endSessionLabel": "Utlogging fra appen (RP-initiated logout)",
@@ -592,6 +636,8 @@
           "postLogoutUrisHint": "Hvor appen kan sende brukere tilbake etter utlogging (post_logout_redirect_uri, eksakt samsvar). Én per linje eller kommaseparert. Uten noen ser brukerne en utloggingsside.",
           "skipConsentLabel": "Hopp over samtykke (klarert klient)",
           "skipConsentHint": "Brukere ser ikke samtykkeskjermen for denne applikasjonen. Bruk bare for egne eller fullt klarerte integrasjoner.",
+          "pairwiseLabel": "Bruker-ID per app",
+          "pairwiseHint": "Brukere får her en annen ID (sub) enn i apper på andre verter, som derfor ikke kan koble brukerne sine til denne appen. Alle omdirigerings-URI-er må ligge på samme vert. Kan ikke endres senere.",
           "registerFailed": "Kunne ikke registrere applikasjonen",
           "missingClientId": "Serveren returnerte ikke {field}.",
           "registered": "OAuth-applikasjonen er registrert",
@@ -604,7 +650,18 @@
           "clientId": "Klient-ID",
           "clientSecret": "Klienthemmelighet",
           "copyClientId": "Kopier klient-ID",
-          "copyClientSecret": "Kopier klienthemmelighet"
+          "copyClientSecret": "Kopier klienthemmelighet",
+          "authMethodLabel": "Klientautentisering",
+          "authMethodSecret": "Klienthemmelighet",
+          "authMethodPrivateKey": "Private key-JWT (offentlige nøkler)",
+          "jwksLabel": "Offentlige nøkler (JWKS)",
+          "jwksHint": "Appens offentlige nøkler som et JSON Web Key Set. Appen signerer en klientpåstand med sin private nøkkel ved tokenendepunktet (private_key_jwt). Endre dem ved å redigere appen, eller la appen kalle /api/auth/oauth2/client/rotate-keys.",
+          "jwksInvalidJson": "JWKS er ikke gyldig JSON.",
+          "backchannelUriLabel": "URI for back-channel-utlogging (valgfritt)",
+          "backchannelUriHint": "Når en brukers økt avsluttes, sender Ostiary et signert utloggingstoken til denne https-URL-en, slik at appen også kan logge brukeren ut.",
+          "backchannelSessionLabel": "Appen trenger økt-ID-en (sid)",
+          "backchannelSessionHint": "Ber Ostiary ta med sid i utloggingstokenet: appen bruker det til å finne økten som skal avsluttes.",
+          "successPrivateKey": "Ingen hemmelighet utstedes: appen autentiserer seg med en klientpåstand signert med en av de registrerte nøklene."
         },
         "rowActions": {
           "menuLabel": "Handlinger for {name}",
@@ -662,15 +719,25 @@
           },
           "rotateDialog": {
             "title": "Rotere klienthemmeligheten?",
-            "description": "Den forrige hemmeligheten slutter å virke umiddelbart. Lagre den nye hemmeligheten på et trygt sted, den vises kanskje bare én gang.",
+            "description": "Lagre den nye hemmeligheten et trygt sted, den vises kanskje bare én gang. Den nåværende hemmeligheten slutter å virke nå, eller når den valgte overgangsperioden er over, slik at appen kan bytte først.",
             "newSecretLabel": "Ny klienthemmelighet",
             "copySecret": "Kopier hemmelighet",
             "secretCopied": "Hemmeligheten er kopiert",
             "rotating": "Roterer…",
             "rotateFailed": "Kunne ikke rotere hemmeligheten",
             "newSecretIssued": "Ny klienthemmelighet er utstedt, kopier den nå",
-            "rotated": "Hemmeligheten er rotert"
-          }
+            "rotated": "Hemmeligheten er rotert",
+            "graceLabel": "Nåværende hemmelighet fortsetter å virke",
+            "graceNone": "Nei, den slutter å virke nå",
+            "grace1h": "I 1 time",
+            "grace24h": "I 24 timer",
+            "grace7d": "I 7 dager",
+            "graceReplaces": "Hemmeligheten som ble beholdt ved forrige rotasjon, slutter å virke nå."
+          },
+          "rotateHintPrivateKey": "Denne appen autentiserer seg med nøklene sine, ikke med en hemmelighet",
+          "revokePreviousSecret": "Trekk tilbake forrige hemmelighet nå",
+          "revokePreviousFailed": "Kunne ikke trekke tilbake forrige hemmelighet",
+          "previousSecretRevoked": "Forrige hemmelighet trukket tilbake"
         },
         "selfRegistered": {
           "menuLabel": "Handlinger for {name}",
@@ -1317,6 +1384,47 @@
               }
             }
           }
+        },
+        "custom": {
+          "title": "Egne OpenID Connect-leverandører",
+          "description": "Enhver OpenID Connect-leverandør (Keycloak, Okta, Authentik, bedriftens egen) som påloggingsknapp ved siden av leverandørene ovenfor.",
+          "add": "Legg til leverandør",
+          "empty": "Ingen egne leverandører ennå.",
+          "on": "På",
+          "off": "Av",
+          "linkedAccounts": "{count, plural, one {# tilknyttet konto} other {# tilknyttede kontoer}}",
+          "edit": "Rediger",
+          "editProvider": "Rediger {name}",
+          "remove": "Fjern",
+          "removeProvider": "Fjern {name}",
+          "removeTitle": "Fjerne {name}?",
+          "removeDescription": "Knappen forsvinner fra påloggingssidene. Kontoer som har brukt den, beholdes, men kan ikke lenger logge på med denne leverandøren.",
+          "removed": "Leverandøren er fjernet.",
+          "cancel": "Avbryt",
+          "save": "Lagre",
+          "saved": "Leverandøren er lagret.",
+          "addTitle": "Legg til en OpenID Connect-leverandør",
+          "editTitle": "Rediger {name}",
+          "dialogDescription": "Registrer Ostiary hos leverandøren som nettapplikasjon med omdirigerings-URI-en nedenfor, og fyll deretter inn det leverandøren gir deg. Når du lagrer, kontrolleres leverandørens discovery-dokument.",
+          "name": "Knappens navn",
+          "nameHint": "Vises som «Fortsett med …» på påloggings- og registreringssidene.",
+          "slug": "Leverandør-ID",
+          "slugHint": "Små bokstaver, sifre og bindestreker. Del av omdirigerings-URI-en og kan ikke endres senere.",
+          "callbackUrl": "Omdirigerings-URI",
+          "callbackUrlHint": "Registrer nøyaktig denne URI-en hos leverandøren.",
+          "discoveryUrl": "Discovery-URL",
+          "discoveryUrlHint": "Leverandørens /.well-known/openid-configuration-URL (https, offentlig adresse).",
+          "clientId": "Klient-ID",
+          "clientSecret": "Klienthemmelighet",
+          "clientSecretHint": "La stå tomt for en offentlig klient (bare PKCE).",
+          "secretKept": "La stå tomt for å beholde den lagrede hemmeligheten",
+          "secretUnreadable": "Den lagrede hemmeligheten kan ikke leses (BETTER_AUTH_SECRET er endret): skriv den inn på nytt.",
+          "scopes": "Scopes",
+          "scopesHint": "Skilt med mellomrom. Må inneholde openid.",
+          "enabled": "Vis på påloggingssidene",
+          "enabledHint": "Av: leverandøren lagres, men tilbys ikke.",
+          "allowSignUp": "Opprett kontoer for nye brukere",
+          "allowSignUpHint": "Av: bare personer som allerede har en konto, kan logge på med den."
         }
       },
       "apiKeys": {
@@ -1829,7 +1937,8 @@
             "export_data": "Eksporterte kontodata",
             "self_delete": "Slettet sin egen konto",
             "export_csv": "Eksporterte brukere til CSV",
-            "import": "Importerte brukere"
+            "import": "Importerte brukere",
+            "remove_phone_number": "Fjernet telefonnummeret sitt"
           },
           "oauth_client": {
             "create": "Registrerte OAuth-klient",
@@ -1842,7 +1951,8 @@
             "branding_update": "Endret innloggingsdesign",
             "branding_reset": "Tilbakestilte innloggingsdesign",
             "claims_update": "Endret token-claims",
-            "remove_duplicates": "Fjernet dupliserte OAuth-klienter"
+            "remove_duplicates": "Fjernet dupliserte OAuth-klienter",
+            "revoke_previous_secret": "Trakk tilbake forrige klienthemmelighet"
           },
           "client_registration": {
             "update": "Endret selvregistrering av klienter"
@@ -1878,7 +1988,15 @@
             "invite": "Inviterte medlem",
             "cancel_invitation": "Avbrøt invitasjon",
             "update_member_role": "Endret medlemsrolle",
-            "remove_member": "Fjernet medlem"
+            "remove_member": "Fjernet medlem",
+            "create_role": "Opprettet en organisasjonsrolle",
+            "update_role": "Endret en organisasjonsrolle",
+            "delete_role": "Slettet en organisasjonsrolle",
+            "create_team": "Opprettet et team",
+            "update_team": "Ga et team nytt navn",
+            "delete_team": "Slettet et team",
+            "add_team_member": "La til et medlem i et team",
+            "remove_team_member": "Fjernet et medlem fra et team"
           },
           "sso_provider": {
             "create": "Registrerte SSO-leverandør",
@@ -1913,6 +2031,9 @@
           },
           "audit_log": {
             "export_csv": "Eksporterte revisjonsloggen til CSV"
+          },
+          "security": {
+            "update_policy": "Endret retningslinjene for økter og passord"
           }
         },
         "actorPlaceholder": "Søk etter hvem som handlet (e-post)…",
@@ -1958,6 +2079,38 @@
           "noReason": "Ingen grunn oppgitt",
           "until": "til {date}",
           "permanent": "permanent"
+        },
+        "policy": {
+          "title": "Økter og passord",
+          "description": "Hvor lenge man forblir innlogget i autentiseringsappen, og hvordan passord velges. Apper beholder sine egne tokener og oppdateringstokener.",
+          "edit": "Rediger",
+          "on": "På",
+          "off": "Av",
+          "days": "{count, plural, one {# dag} other {# dager}}",
+          "characters": "{count, plural, one {# tegn} other {# tegn}}",
+          "sessionDays": "Øktens levetid",
+          "sessionDaysHint": "Hvor lenge en innlogging varer. Økter opprettet før en endring beholder utløpet sitt; de følger den nye levetiden neste gang de forlenges.",
+          "extendSessions": "Forleng økter som brukes",
+          "extendSessionsHint": "På: en økt varer {count, plural, one {# dag} other {# dager}} etter siste bruk. Av: den avsluttes {count, plural, one {# dag} other {# dager}} etter innlogging, brukt eller ikke.",
+          "signOutOnPasswordChange": "Logg ut overalt ved passordbytte",
+          "signOutOnPasswordChangeHint": "Et passordbytte avslutter kontoens andre økter og trekker tilbake tokenene til appene, som ved tilbakestilling. Av: hver enkelt velger.",
+          "minPasswordLength": "Minste passordlengde",
+          "minPasswordLengthHint": "Gjelder nye passord (registrering, tilbakestilling, bytte). Eksisterende passord fortsetter å virke.",
+          "passwordSignUp": "Registrering med passord",
+          "passwordSignUpHint": "Av: man kan ikke lenger opprette konto med e-post og passord, bare med en sosial leverandør eller organisasjonens SSO. Administratorer kan fortsatt opprette kontoer, og eksisterende passord fortsetter å virke.",
+          "dialogDescription": "Autentiseringsappen tar dem i bruk innen ett minutt.",
+          "save": "Lagre",
+          "cancel": "Avbryt",
+          "saved": "Retningslinjene er lagret. Autentiseringsappen tar dem i bruk innen ett minutt.",
+          "errors": {
+            "invalid": "Velg en av verdiene som tilbys.",
+            "save": "Kunne ikke lagre retningslinjene."
+          },
+          "twoFactorEveryone": "Tofaktor for alle",
+          "twoFactorEveryoneHint": "Alle må bruke en autentiseringsapp eller en tilgangsnøkkel for å logge på apper. Administratorer: REQUIRE_ADMIN_2FA. Organisasjoner kan kreve det av medlemmene på sin side.",
+          "twoFactorGraceDays": "Frist for å slå den på",
+          "twoFactorGraceDaysHint": "De som mangler tofaktor, blir spurt ved hver app-pålogging og kan fortsette til da. Fristen starter når du slår på dette, eller når kontoen opprettes.",
+          "noGrace": "Ingen: kreves med en gang"
         }
       },
       "signingKeys": {
@@ -1982,7 +2135,10 @@
           "graceHint": "Hvor lenge en utgått nøkkel forblir publisert. Velg lenger enn den lengste levetiden til tokens (tilgangstokens: 1 time, ID-tokens: 1 time).",
           "save": "Lagre",
           "cancel": "Avbryt",
-          "saved": "Innstillingene er lagret. Autentiseringsserveren bruker dem innen et minutt."
+          "saved": "Innstillingene er lagret. Autentiseringsserveren bruker dem innen et minutt.",
+          "algorithm": "Signeringsalgoritme",
+          "algorithmHint": "Standard er EdDSA (Ed25519). Velg ES256 eller RS256 for API-er og gatewayer som bare verifiserer disse, som AWS API Gateway eller Azure API Management. En endring lager straks en nøkkel med den nye algoritmen; den nåværende nøkkelen forblir publisert i overgangsperioden.",
+          "savedAlgorithm": "Innstillingene er lagret. Nye tokener signeres med {alg} (nøkkel {kid})."
         },
         "keys": {
           "title": "Nøkler",
@@ -2014,7 +2170,8 @@
           "interval": "Velg et av de tilbudte rotasjonsintervallene.",
           "grace": "Velg en av de tilbudte utsettelsesperiodene.",
           "save": "Kunne ikke lagre innstillingene.",
-          "rotate": "Kunne ikke rotere nøkkelen."
+          "rotate": "Kunne ikke rotere nøkkelen.",
+          "algorithm": "Velg en av algoritmene som tilbys."
         }
       },
       "organizations": {
@@ -2100,7 +2257,14 @@
           "scimCounts": "{active} klargjort, {inactive} deaktivert.",
           "recentActions": "Nylige administratorhandlinger",
           "noActions": "Ingen ennå.",
-          "system": "systemet"
+          "system": "systemet",
+          "twoFactor": {
+            "title": "Tofaktorautentisering",
+            "label": "Krev tofaktorautentisering av medlemmer",
+            "hint": "Medlemmer må bruke en autentiseringsapp eller en tilgangsnøkkel for å logge på apper etter fristen på Sikkerhet-siden.",
+            "on": "Tofaktorautentisering kreves nå for denne organisasjonens medlemmer.",
+            "off": "Tofaktorautentisering kreves ikke lenger for denne organisasjonens medlemmer."
+          }
         },
         "errors": {
           "invalidNameSlug": "Skriv inn et navn og en slug med bokstaver, tall og bindestreker.",
@@ -2119,6 +2283,61 @@
           "lastOwner": "En organisasjon må ha minst én eier. Gjør først et annet medlem til eier.",
           "publicDelete": "Arbeidsområdet Public kan ikke slettes.",
           "organizationNotFound": "Fant ikke organisasjonen."
+        },
+        "rolesTeams": {
+          "rolesTitle": "Egne roller",
+          "teamsTitle": "Team",
+          "rolesDescription": "Roller for denne organisasjonen i tillegg til eier, admin og medlem, hver med egne tillatelser. De gis til medlemmer som de innebygde, og tokener inneholder rollens navn (organization.role) og tillatelser (organization.permissions).",
+          "noRoles": "Ingen egen rolle.",
+          "memberCount": "{count, plural, one {# medlem} other {# medlemmer}}",
+          "noPermissions": "Ingen tillatelser",
+          "edit": "Rediger",
+          "delete": "Slett",
+          "editRole": "Rediger {role}",
+          "deleteRole": "Slett {role}",
+          "addRole": "Legg til rolle",
+          "deleteRoleTitle": "Slette {role}?",
+          "deleteRoleDescription": "Rollen forsvinner fra organisasjonen. Den kan bare slettes når ingen medlemmer har den.",
+          "cancel": "Avbryt",
+          "roleDeleted": "Rollen er slettet.",
+          "roleSaved": "Rollen er lagret.",
+          "roleDialogDescription": "Kryss av for hva rollen kan gjøre i organisasjonen. Organisasjonens eiere og administratorer kan også administrere roller selv.",
+          "roleName": "Rollenavn",
+          "roleNameHint": "2 til 32 små bokstaver, sifre, bindestreker eller understreker, og starter med en bokstav. Kan ikke endres senere.",
+          "permissions": "Tillatelser",
+          "save": "Lagre",
+          "teamsDescription": "Grupper av medlemmer i organisasjonen. Tokener inneholder medlemmets team (organization.teams).",
+          "noTeams": "Ingen team.",
+          "teamCreated": "Teamet er opprettet.",
+          "newTeam": "Nytt team",
+          "createTeam": "Opprett team",
+          "teamRenamed": "Teamet har fått nytt navn.",
+          "teamName": "Teamnavn",
+          "renameTeam": "Gi {team} nytt navn",
+          "rename": "Gi nytt navn",
+          "deleteTeam": "Slett {team}",
+          "noTeamMembers": "Ingen medlemmer i teamet.",
+          "removeFromTeam": "Fjern {email} fra {team}",
+          "remove": "Fjern",
+          "teamMemberRemoved": "Medlemmet er fjernet fra teamet.",
+          "teamMemberAdded": "Medlemmet er lagt til i teamet.",
+          "addToTeam": "Legg til et medlem i {team}",
+          "memberEmail": "Medlemmets e-post",
+          "add": "Legg til",
+          "deleteTeamTitle": "Slette {team}?",
+          "deleteTeamDescription": "Teamet og medlemslisten slettes. Medlemmene blir i organisasjonen.",
+          "teamDeleted": "Teamet er slettet.",
+          "errors": {
+            "invalidName": "Et rollenavn har 2 til 32 små bokstaver, sifre, bindestreker eller understreker og starter med en bokstav.",
+            "reservedName": "owner, admin og member er innebygde roller.",
+            "nameTaken": "Organisasjonen har allerede en rolle med dette navnet.",
+            "invalidPermissions": "En av tillatelsene er ukjent.",
+            "roleInUse": "Medlemmer har denne rollen: gi dem en annen rolle først.",
+            "notFound": "Finnes ikke i organisasjonen.",
+            "notMember": "Personen er ikke medlem av organisasjonen.",
+            "alreadyInTeam": "Medlemmet er allerede i teamet.",
+            "invalidTeamName": "Et teamnavn har 1 til 64 tegn."
+          }
         }
       }
     },
@@ -2314,7 +2533,8 @@
         "invalidCode": "Koden er ugyldig. Sjekk at klokken på enheten er riktig, og prøv igjen.",
         "rateLimited": "For mange forsøk. Vent noen sekunder og prøv igjen.",
         "generic": "Noe gikk galt. Prøv igjen."
-      }
+      },
+      "doneContinue": "Fortsett til appen"
     },
     "organizations": {
       "title": "Organisasjoner",
@@ -2566,6 +2786,27 @@
     "impersonation": {
       "viewingAs": "Du ser denne kontoen som <strong>{email}</strong>.",
       "stop": "Slutt å opptre som bruker"
+    },
+    "phone": {
+      "title": "Telefonnummer",
+      "description": "Logg på med en kode sendt på SMS til dette nummeret.",
+      "none": "Ikke noe telefonnummer",
+      "add": "Legg til et nummer",
+      "change": "Endre",
+      "remove": "Fjern",
+      "phoneLabel": "Telefonnummer",
+      "phoneHint": "Internasjonalt format, med + og landskode. Vi sender en kode på SMS for å bekrefte det.",
+      "send": "Send kode",
+      "cancel": "Avbryt",
+      "codeLabel": "Kode sendt til {phone}",
+      "verify": "Lagre nummer",
+      "invalidPhone": "Skriv inn nummeret i internasjonalt format, for eksempel +4791234567.",
+      "sendFailed": "Kunne ikke sende koden. Prøv igjen om noen minutter.",
+      "verifyFailed": "Koden er feil eller utløpt.",
+      "taken": "En annen konto bruker allerede dette nummeret.",
+      "saved": "Nummeret er lagret.",
+      "removeFailed": "Kunne ikke fjerne nummeret.",
+      "removed": "Nummeret er fjernet."
     },
     "demo": {
       "title": "Demokonto",

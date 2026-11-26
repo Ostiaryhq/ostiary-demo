@@ -43,6 +43,7 @@
         "error": "De e-mail kon niet worden verstuurd. Probeer het over een minuut opnieuw."
       },
       "addAccountDescription": "Accounts die al zijn aangemeld in deze browser blijven aangemeld.",
+      "phoneCode": "Sms me een inlogcode",
       "demo": {
         "title": "Probeer de demo",
         "description": "Gedeelde voorbeeldaccounts, teruggezet bij elke update. Wachtwoord, e-mailadres en aanmeldmethoden kunnen niet worden gewijzigd.",
@@ -128,7 +129,7 @@
       "backToLogin": "Terug naar inloggen",
       "newPasswordLabel": "Nieuw wachtwoord",
       "confirmPasswordLabel": "Wachtwoord bevestigen",
-      "passwordHint": "Moet minimaal 8 tekens lang zijn.",
+      "passwordHint": "Moet minimaal {min} tekens lang zijn.",
       "passwordMismatch": "Wachtwoorden komen niet overeen",
       "submit": "Wachtwoord bijwerken",
       "submitting": "Bijwerken…",
@@ -154,7 +155,7 @@
       "emailDescription": "We gebruiken dit om contact met je op te nemen. We delen je e-mailadres met niemand anders.",
       "passwordLabel": "Wachtwoord",
       "confirmPasswordLabel": "Wachtwoord bevestigen",
-      "passwordHint": "Moet minimaal 8 tekens lang zijn.",
+      "passwordHint": "Moet minimaal {min} tekens lang zijn.",
       "confirmPasswordHint": "Bevestig je wachtwoord.",
       "passwordMismatch": "Wachtwoorden komen niet overeen",
       "submit": "Account aanmaken",
@@ -169,7 +170,9 @@
         "usernameTooShort": "Gebruikersnaam moet minimaal 3 tekens lang zijn.",
         "usernameInvalid": "Die gebruikersnaam is niet geldig.",
         "usernameTaken": "Die gebruikersnaam is al in gebruik. Probeer een andere."
-      }
+      },
+      "passwordSignUpOff": "Registreren met een wachtwoord staat uit. Maak je account aan met een van deze:",
+      "signUpClosed": "Hier kunnen geen nieuwe accounts worden aangemaakt. Vraag een beheerder om een account."
     },
     "screen": {
       "headline": "Eén account voor <accent>al je apps</accent>.",
@@ -194,6 +197,42 @@
       "continue": "Doorgaan naar <app>{name}</app>",
       "unverified": "Niet-geverifieerde app.",
       "unverifiedHint": "{name} heeft deze niet beoordeeld: ga alleen door als je de app vertrouwt."
+    },
+    "twoFactorRequired": {
+      "metaTitle": "Tweestapsverificatie vereist",
+      "title": "Zet tweestapsverificatie aan",
+      "byOrganization": "De beheerders van je organisatie vereisen tweestapsverificatie om bij apps aan te melden.",
+      "byPlatform": "Tweestapsverificatie is vereist om bij apps aan te melden.",
+      "until": "Zet het aan vóór {date}.",
+      "now": "Zet het aan om door te gaan.",
+      "how": "Gebruik een authenticator-app (zoals Google Authenticator of 1Password) of voeg een passkey toe op je accountpagina.",
+      "setUp": "Tweestapsverificatie instellen",
+      "later": "Herinner me later",
+      "continue": "Doorgaan"
+    },
+    "phoneCode": {
+      "title": "Inloggen via sms",
+      "description": "We sturen een 6-cijferige code per sms naar het telefoonnummer van je account.",
+      "phoneLabel": "Telefoonnummer",
+      "phoneHint": "Internationaal formaat, met + en de landcode.",
+      "send": "Code versturen",
+      "sending": "Versturen…",
+      "sentTitle": "Kijk op je telefoon",
+      "sent": "Als een account {phone} gebruikt, is er een 6-cijferige code onderweg. Hij verloopt over {minutes} minuten.",
+      "codeLabel": "Inlogcode",
+      "verify": "Inloggen",
+      "verifying": "Inloggen…",
+      "newCode": "Niets ontvangen? Stuur een nieuwe code",
+      "usePassword": "Je wachtwoord gebruiken",
+      "errors": {
+        "invalidPhone": "Vul het nummer in internationaal formaat in, zoals +31612345678.",
+        "invalidCode": "Die code klopt niet. Controleer hem en probeer het opnieuw.",
+        "expired": "Deze code is verlopen. Vraag een nieuwe aan.",
+        "tooManyAttempts": "Te veel verkeerde codes. Vraag een nieuwe aan.",
+        "rateLimited": "Te veel pogingen. Wacht een paar minuten en probeer het opnieuw.",
+        "sendFailed": "De code kon niet worden verstuurd. Probeer het over een paar minuten opnieuw.",
+        "signInFailed": "Inloggen mislukt. Probeer het opnieuw."
+      }
     }
   },
   "consent": {
@@ -380,7 +419,8 @@
           "duplicates": "×{count}",
           "duplicatesHint": "{count} identieke zelf geregistreerde clients",
           "showDuplicates": "Alle {count} tonen",
-          "hideDuplicates": "Identieke verbergen"
+          "hideDuplicates": "Identieke verbergen",
+          "previousSecretUntil": "Vorig geheim geldig tot {date}"
         },
         "registration": {
           "title": "Zelfregistratie",
@@ -524,6 +564,8 @@
             "organization_id": "ID van de actieve organisatie",
             "organization_slug": "Slug van de actieve organisatie",
             "organization_role": "Rol in de actieve organisatie",
+            "organization_permissions": "Rechten in de actieve organisatie",
+            "organization_teams": "Teams in de actieve organisatie",
             "organizations": "Lidmaatschappen van organisaties"
           }
         },
@@ -584,6 +626,8 @@
           "allowedScopesHint": "Neem openid op voor inloggen en offline_access voor refresh tokens.",
           "iconUrlLabel": "Pictogram-URL",
           "iconUrlHint": "Wordt voor de app getoond in de console, op het toestemmingsscherm en in de accounts van gebruikers. Handig voor apps die alleen naar localhost doorsturen. https, PNG/JPEG/WebP/AVIF/GIF/ICO/SVG.",
+          "clientIdLabel": "Client-ID (optioneel)",
+          "clientIdHint": "Laat leeg om er een te genereren. Voor een app van een andere provider vult u de huidige client-ID in, zodat de app ongewijzigd blijft werken: 3 tot 128 letters, cijfers, punten, underscores of koppeltekens.",
           "deviceCodeLabel": "Inloggen op apparaat (CLI's, tv's)",
           "deviceCodeHint": "Voegt de device code grant toe (RFC 8628): de app toont een code en de gebruiker keurt die goed op <code>{path}</code> op een ander scherm. Meestal een openbare client.",
           "endSessionLabel": "Uitloggen vanuit de app (RP-initiated logout)",
@@ -592,6 +636,8 @@
           "postLogoutUrisHint": "Waarheen de app gebruikers na het uitloggen mag terugsturen (post_logout_redirect_uri, exacte overeenkomst). Eén per regel of gescheiden door komma's. Zonder URI zien gebruikers een uitlogpagina.",
           "skipConsentLabel": "Toestemming overslaan (vertrouwde client)",
           "skipConsentHint": "Gebruikers zien het toestemmingsscherm voor deze applicatie niet. Gebruik dit alleen voor eigen of volledig vertrouwde integraties.",
+          "pairwiseLabel": "Gebruikers-ID's per app",
+          "pairwiseHint": "Gebruikers krijgen hier een andere ID (sub) dan in apps op andere hosts, die hun gebruikers dus niet aan deze app kunnen koppelen. Alle omleidings-URI's moeten op dezelfde host staan. Kan later niet worden gewijzigd.",
           "registerFailed": "Kan de applicatie niet registreren",
           "missingClientId": "De server heeft geen {field} teruggegeven.",
           "registered": "OAuth-applicatie geregistreerd",
@@ -604,7 +650,18 @@
           "clientId": "Client-ID",
           "clientSecret": "Clientgeheim",
           "copyClientId": "Client-ID kopiëren",
-          "copyClientSecret": "Clientgeheim kopiëren"
+          "copyClientSecret": "Clientgeheim kopiëren",
+          "authMethodLabel": "Clientauthenticatie",
+          "authMethodSecret": "Clientgeheim",
+          "authMethodPrivateKey": "Private key-JWT (publieke sleutels)",
+          "jwksLabel": "Publieke sleutels (JWKS)",
+          "jwksHint": "De publieke sleutels van de app als JSON Web Key Set. De app ondertekent bij het tokenendpoint een client-assertion met haar privésleutel (private_key_jwt). Wijzig ze door de app te bewerken, of laat de app /api/auth/oauth2/client/rotate-keys aanroepen.",
+          "jwksInvalidJson": "De JWKS is geen geldige JSON.",
+          "backchannelUriLabel": "Back-channel-uitlog-URI (optioneel)",
+          "backchannelUriHint": "Wanneer de sessie van een gebruiker eindigt, stuurt Ostiary een ondertekend uitlogtoken naar deze https-URL, zodat de app de gebruiker ook uitlogt.",
+          "backchannelSessionLabel": "De app heeft de sessie-ID (sid) nodig",
+          "backchannelSessionHint": "Laat Ostiary sid in het uitlogtoken opnemen: de app gebruikt die om de te beëindigen sessie te vinden.",
+          "successPrivateKey": "Er wordt geen geheim uitgegeven: de app authenticeert zich met een client-assertion die is ondertekend met een van haar geregistreerde sleutels."
         },
         "rowActions": {
           "menuLabel": "Acties voor {name}",
@@ -662,15 +719,25 @@
           },
           "rotateDialog": {
             "title": "Clientgeheim roteren?",
-            "description": "Het vorige geheim werkt meteen niet meer. Bewaar het nieuwe geheim op een veilige plek, het wordt mogelijk maar één keer getoond.",
+            "description": "Bewaar het nieuwe geheim veilig, het wordt mogelijk maar één keer getoond. Het huidige geheim werkt meteen niet meer, of pas aan het einde van de gekozen overgangsperiode, zodat de app eerst kan overstappen.",
             "newSecretLabel": "Nieuw clientgeheim",
             "copySecret": "Geheim kopiëren",
             "secretCopied": "Geheim gekopieerd",
             "rotating": "Roteren…",
             "rotateFailed": "Kan het geheim niet roteren",
             "newSecretIssued": "Nieuw clientgeheim uitgegeven, kopieer het nu",
-            "rotated": "Geheim geroteerd"
-          }
+            "rotated": "Geheim geroteerd",
+            "graceLabel": "Huidig geheim blijft werken",
+            "graceNone": "Nee, het werkt meteen niet meer",
+            "grace1h": "1 uur",
+            "grace24h": "24 uur",
+            "grace7d": "7 dagen",
+            "graceReplaces": "Het geheim dat bij de vorige rotatie is bewaard, werkt vanaf nu niet meer."
+          },
+          "rotateHintPrivateKey": "Deze app authenticeert zich met haar sleutels, niet met een geheim",
+          "revokePreviousSecret": "Vorig geheim nu intrekken",
+          "revokePreviousFailed": "Het vorige geheim kon niet worden ingetrokken",
+          "previousSecretRevoked": "Vorig geheim ingetrokken"
         },
         "selfRegistered": {
           "menuLabel": "Acties voor {name}",
@@ -1317,6 +1384,47 @@
               }
             }
           }
+        },
+        "custom": {
+          "title": "Eigen OpenID Connect-providers",
+          "description": "Elke OpenID Connect-provider (Keycloak, Okta, Authentik, die van je bedrijf) als aanmeldknop, naast de providers hierboven.",
+          "add": "Provider toevoegen",
+          "empty": "Nog geen eigen provider.",
+          "on": "Aan",
+          "off": "Uit",
+          "linkedAccounts": "{count, plural, one {# gekoppeld account} other {# gekoppelde accounts}}",
+          "edit": "Bewerken",
+          "editProvider": "{name} bewerken",
+          "remove": "Verwijderen",
+          "removeProvider": "{name} verwijderen",
+          "removeTitle": "{name} verwijderen?",
+          "removeDescription": "De knop verdwijnt van de aanmeldpagina's. Accounts die hem gebruikten blijven bestaan, maar kunnen niet meer met deze provider aanmelden.",
+          "removed": "Provider verwijderd.",
+          "cancel": "Annuleren",
+          "save": "Opslaan",
+          "saved": "Provider opgeslagen.",
+          "addTitle": "Een OpenID Connect-provider toevoegen",
+          "editTitle": "{name} bewerken",
+          "dialogDescription": "Registreer Ostiary bij de provider als webapplicatie met de omleidings-URI hieronder en vul daarna in wat de provider je geeft. Bij het opslaan wordt het discovery-document van de provider gecontroleerd.",
+          "name": "Naam van de knop",
+          "nameHint": "Getoond als 'Doorgaan met …' op de aanmeld- en registratiepagina's.",
+          "slug": "Provider-ID",
+          "slugHint": "Kleine letters, cijfers en koppeltekens. Onderdeel van de omleidings-URI en later niet te wijzigen.",
+          "callbackUrl": "Omleidings-URI",
+          "callbackUrlHint": "Registreer precies deze URI bij de provider.",
+          "discoveryUrl": "Discovery-URL",
+          "discoveryUrlHint": "De /.well-known/openid-configuration-URL van de provider (https, openbaar adres).",
+          "clientId": "Client-ID",
+          "clientSecret": "Clientgeheim",
+          "clientSecretHint": "Laat leeg voor een openbare client (alleen PKCE).",
+          "secretKept": "Laat leeg om het opgeslagen geheim te houden",
+          "secretUnreadable": "Het opgeslagen geheim is onleesbaar (BETTER_AUTH_SECRET is gewijzigd): vul het opnieuw in.",
+          "scopes": "Scopes",
+          "scopesHint": "Gescheiden door spaties. Moeten openid bevatten.",
+          "enabled": "Tonen op de aanmeldpagina's",
+          "enabledHint": "Uit: de provider is opgeslagen maar wordt niet aangeboden.",
+          "allowSignUp": "Accounts maken voor nieuwe gebruikers",
+          "allowSignUpHint": "Uit: alleen mensen met een bestaand account kunnen ermee aanmelden."
         }
       },
       "apiKeys": {
@@ -1829,7 +1937,8 @@
             "export_data": "Accountgegevens geëxporteerd",
             "self_delete": "Eigen account verwijderd",
             "export_csv": "Gebruikers geëxporteerd naar CSV",
-            "import": "Gebruikers geïmporteerd"
+            "import": "Gebruikers geïmporteerd",
+            "remove_phone_number": "Heeft het telefoonnummer verwijderd"
           },
           "oauth_client": {
             "create": "OAuth-client geregistreerd",
@@ -1842,7 +1951,8 @@
             "branding_update": "Huisstijl van het inloggen gewijzigd",
             "branding_reset": "Huisstijl van het inloggen teruggezet",
             "claims_update": "Token-claims gewijzigd",
-            "remove_duplicates": "Dubbele OAuth-clients verwijderd"
+            "remove_duplicates": "Dubbele OAuth-clients verwijderd",
+            "revoke_previous_secret": "Vorig clientgeheim ingetrokken"
           },
           "client_registration": {
             "update": "Zelfregistratie van clients gewijzigd"
@@ -1878,7 +1988,15 @@
             "invite": "Lid uitgenodigd",
             "cancel_invitation": "Uitnodiging geannuleerd",
             "update_member_role": "Rol van lid gewijzigd",
-            "remove_member": "Lid verwijderd"
+            "remove_member": "Lid verwijderd",
+            "create_role": "Organisatierol gemaakt",
+            "update_role": "Organisatierol gewijzigd",
+            "delete_role": "Organisatierol verwijderd",
+            "create_team": "Team gemaakt",
+            "update_team": "Team hernoemd",
+            "delete_team": "Team verwijderd",
+            "add_team_member": "Lid aan een team toegevoegd",
+            "remove_team_member": "Lid uit een team verwijderd"
           },
           "sso_provider": {
             "create": "SSO-provider geregistreerd",
@@ -1913,6 +2031,9 @@
           },
           "audit_log": {
             "export_csv": "Auditlogboek geëxporteerd naar CSV"
+          },
+          "security": {
+            "update_policy": "Sessie- en wachtwoordbeleid gewijzigd"
           }
         },
         "actorPlaceholder": "Zoeken op wie het deed (e-mail)…",
@@ -1958,6 +2079,38 @@
           "noReason": "Geen reden opgegeven",
           "until": "tot {date}",
           "permanent": "permanent"
+        },
+        "policy": {
+          "title": "Sessies en wachtwoorden",
+          "description": "Hoe lang mensen aangemeld blijven bij de auth-app en hoe wachtwoorden worden gekozen. Apps houden hun eigen tokens en refresh-tokens.",
+          "edit": "Bewerken",
+          "on": "Aan",
+          "off": "Uit",
+          "days": "{count, plural, one {# dag} other {# dagen}}",
+          "characters": "{count, plural, one {# teken} other {# tekens}}",
+          "sessionDays": "Sessieduur",
+          "sessionDaysHint": "Hoe lang een aanmelding geldig is. Sessies van vóór een wijziging houden hun vervaldatum; bij de volgende verlenging geldt de nieuwe duur.",
+          "extendSessions": "Sessies verlengen bij gebruik",
+          "extendSessionsHint": "Aan: een sessie duurt {count, plural, one {# dag} other {# dagen}} na het laatste gebruik. Uit: ze eindigt {count, plural, one {# dag} other {# dagen}} na de aanmelding, gebruikt of niet.",
+          "signOutOnPasswordChange": "Overal afmelden bij wachtwoordwijziging",
+          "signOutOnPasswordChangeHint": "Een wachtwoordwijziging beëindigt de andere sessies van het account en trekt de tokens van zijn apps in, zoals een reset. Uit: ieder kiest zelf.",
+          "minPasswordLength": "Minimale wachtwoordlengte",
+          "minPasswordLengthHint": "Geldt voor nieuwe wachtwoorden (registratie, reset, wijziging). Bestaande wachtwoorden blijven werken.",
+          "passwordSignUp": "Registratie met wachtwoord",
+          "passwordSignUpHint": "Uit: een account kan niet meer worden aangemaakt met e-mail en wachtwoord, alleen met een sociale provider of de SSO van de organisatie. Beheerders kunnen nog steeds accounts aanmaken en bestaande wachtwoorden blijven werken.",
+          "dialogDescription": "De auth-app past ze binnen een minuut toe.",
+          "save": "Opslaan",
+          "cancel": "Annuleren",
+          "saved": "Beleid opgeslagen. De auth-app past het binnen een minuut toe.",
+          "errors": {
+            "invalid": "Kies een van de aangeboden waarden.",
+            "save": "Het beleid kon niet worden opgeslagen."
+          },
+          "twoFactorEveryone": "Tweestapsverificatie voor iedereen",
+          "twoFactorEveryoneHint": "Iedereen moet een authenticator-app of passkey gebruiken om bij apps aan te melden. Beheerders: REQUIRE_ADMIN_2FA. Organisaties kunnen het op hun pagina van hun leden vereisen.",
+          "twoFactorGraceDays": "Tijd om het aan te zetten",
+          "twoFactorGraceDaysHint": "Wie het niet heeft, krijgt bij elke app-aanmelding de vraag en kan tot dan doorgaan. De termijn begint als je dit aanzet, of bij het aanmaken van het account.",
+          "noGrace": "Geen: meteen vereist"
         }
       },
       "signingKeys": {
@@ -1982,7 +2135,10 @@
           "graceHint": "Hoe lang een ingetrokken sleutel gepubliceerd blijft. Kies een periode die langer is dan je langste tokengeldigheid (toegangstokens: 1 uur, ID-tokens: 1 uur).",
           "save": "Opslaan",
           "cancel": "Annuleren",
-          "saved": "Instellingen opgeslagen. De authenticatieserver past ze binnen een minuut toe."
+          "saved": "Instellingen opgeslagen. De authenticatieserver past ze binnen een minuut toe.",
+          "algorithm": "Ondertekeningsalgoritme",
+          "algorithmHint": "Standaard is EdDSA (Ed25519). Kies ES256 of RS256 voor API's en gateways die alleen die controleren, zoals AWS API Gateway of Azure API Management. Wijzigen maakt meteen een sleutel met het nieuwe algoritme; de huidige sleutel blijft gepubliceerd tijdens de overgangsperiode.",
+          "savedAlgorithm": "Instellingen opgeslagen. Nieuwe tokens worden ondertekend met {alg} (sleutel {kid})."
         },
         "keys": {
           "title": "Sleutels",
@@ -2014,7 +2170,8 @@
           "interval": "Kies een van de aangeboden rotatie-intervallen.",
           "grace": "Kies een van de aangeboden overgangsperioden.",
           "save": "Kan de instellingen niet opslaan.",
-          "rotate": "Kan de sleutel niet roteren."
+          "rotate": "Kan de sleutel niet roteren.",
+          "algorithm": "Kies een van de aangeboden algoritmen."
         }
       },
       "organizations": {
@@ -2100,7 +2257,14 @@
           "scimCounts": "{active} ingericht, {inactive} gedeactiveerd.",
           "recentActions": "Recente beheeracties",
           "noActions": "Nog geen.",
-          "system": "systeem"
+          "system": "systeem",
+          "twoFactor": {
+            "title": "Tweestapsverificatie",
+            "label": "Tweestapsverificatie vereisen van leden",
+            "hint": "Leden moeten na de termijn op de pagina Beveiliging een authenticator-app of passkey gebruiken om bij apps aan te melden.",
+            "on": "Tweestapsverificatie is nu vereist voor de leden van deze organisatie.",
+            "off": "Tweestapsverificatie is niet langer vereist voor de leden van deze organisatie."
+          }
         },
         "errors": {
           "invalidNameSlug": "Voer een naam in en een slug van letters, cijfers en streepjes.",
@@ -2119,6 +2283,61 @@
           "lastOwner": "Een organisatie heeft minstens één eigenaar nodig. Maak eerst een ander lid eigenaar.",
           "publicDelete": "De Public-werkruimte kan niet worden verwijderd.",
           "organizationNotFound": "Organisatie niet gevonden."
+        },
+        "rolesTeams": {
+          "rolesTitle": "Eigen rollen",
+          "teamsTitle": "Teams",
+          "rolesDescription": "Rollen van deze organisatie naast eigenaar, beheerder en lid, elk met eigen rechten. Je geeft ze aan leden zoals de ingebouwde, en tokens bevatten de naam van de rol (organization.role) en de rechten (organization.permissions).",
+          "noRoles": "Geen eigen rol.",
+          "memberCount": "{count, plural, one {# lid} other {# leden}}",
+          "noPermissions": "Geen rechten",
+          "edit": "Bewerken",
+          "delete": "Verwijderen",
+          "editRole": "{role} bewerken",
+          "deleteRole": "{role} verwijderen",
+          "addRole": "Rol toevoegen",
+          "deleteRoleTitle": "{role} verwijderen?",
+          "deleteRoleDescription": "De rol verdwijnt uit deze organisatie. Hij kan pas worden verwijderd als geen lid hem heeft.",
+          "cancel": "Annuleren",
+          "roleDeleted": "Rol verwijderd.",
+          "roleSaved": "Rol opgeslagen.",
+          "roleDialogDescription": "Vink aan wat de rol in de organisatie mag. Eigenaren en beheerders van de organisatie kunnen rollen ook zelf beheren.",
+          "roleName": "Naam van de rol",
+          "roleNameHint": "2 tot 32 kleine letters, cijfers, koppeltekens of underscores, beginnend met een letter. Later niet te wijzigen.",
+          "permissions": "Rechten",
+          "save": "Opslaan",
+          "teamsDescription": "Groepen leden binnen de organisatie. Tokens bevatten de teams van het lid (organization.teams).",
+          "noTeams": "Geen team.",
+          "teamCreated": "Team gemaakt.",
+          "newTeam": "Nieuw team",
+          "createTeam": "Team maken",
+          "teamRenamed": "Team hernoemd.",
+          "teamName": "Teamnaam",
+          "renameTeam": "{team} hernoemen",
+          "rename": "Hernoemen",
+          "deleteTeam": "{team} verwijderen",
+          "noTeamMembers": "Geen leden in dit team.",
+          "removeFromTeam": "{email} uit {team} verwijderen",
+          "remove": "Verwijderen",
+          "teamMemberRemoved": "Lid uit het team verwijderd.",
+          "teamMemberAdded": "Lid aan het team toegevoegd.",
+          "addToTeam": "Een lid toevoegen aan {team}",
+          "memberEmail": "E-mail van het lid",
+          "add": "Toevoegen",
+          "deleteTeamTitle": "{team} verwijderen?",
+          "deleteTeamDescription": "Het team en zijn ledenlijst worden verwijderd. De leden blijven in de organisatie.",
+          "teamDeleted": "Team verwijderd.",
+          "errors": {
+            "invalidName": "Een rolnaam heeft 2 tot 32 kleine letters, cijfers, koppeltekens of underscores en begint met een letter.",
+            "reservedName": "owner, admin en member zijn ingebouwde rollen.",
+            "nameTaken": "Deze organisatie heeft al een rol met deze naam.",
+            "invalidPermissions": "Een van de rechten is onbekend.",
+            "roleInUse": "Leden hebben deze rol: geef ze eerst een andere rol.",
+            "notFound": "Niet gevonden in deze organisatie.",
+            "notMember": "Deze persoon is geen lid van de organisatie.",
+            "alreadyInTeam": "Dit lid zit al in het team.",
+            "invalidTeamName": "Een teamnaam heeft 1 tot 64 tekens."
+          }
         }
       }
     },
@@ -2314,7 +2533,8 @@
         "invalidCode": "Deze code is ongeldig. Controleer of de klok van je apparaat klopt en probeer het opnieuw.",
         "rateLimited": "Te veel pogingen. Wacht een paar seconden en probeer het opnieuw.",
         "generic": "Er is iets misgegaan. Probeer het opnieuw."
-      }
+      },
+      "doneContinue": "Doorgaan naar de app"
     },
     "organizations": {
       "title": "Organisaties",
@@ -2566,6 +2786,27 @@
     "impersonation": {
       "viewingAs": "Je bekijkt dit account als <strong>{email}</strong>.",
       "stop": "Stoppen met meekijken"
+    },
+    "phone": {
+      "title": "Telefoonnummer",
+      "description": "Log in met een code die per sms naar dit nummer wordt gestuurd.",
+      "none": "Geen telefoonnummer",
+      "add": "Nummer toevoegen",
+      "change": "Wijzigen",
+      "remove": "Verwijderen",
+      "phoneLabel": "Telefoonnummer",
+      "phoneHint": "Internationaal formaat, met + en de landcode. We sturen een code per sms om het te controleren.",
+      "send": "Code versturen",
+      "cancel": "Annuleren",
+      "codeLabel": "Code verstuurd naar {phone}",
+      "verify": "Nummer opslaan",
+      "invalidPhone": "Vul het nummer in internationaal formaat in, zoals +31612345678.",
+      "sendFailed": "De code kon niet worden verstuurd. Probeer het over een paar minuten opnieuw.",
+      "verifyFailed": "Die code klopt niet of is verlopen.",
+      "taken": "Een ander account gebruikt dit nummer al.",
+      "saved": "Nummer opgeslagen.",
+      "removeFailed": "Het nummer kon niet worden verwijderd.",
+      "removed": "Nummer verwijderd."
     },
     "demo": {
       "title": "Demo-account",

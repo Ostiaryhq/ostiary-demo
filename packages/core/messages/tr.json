@@ -43,6 +43,7 @@
         "error": "E-posta gönderilemedi. Bir dakika sonra tekrar deneyin."
       },
       "addAccountDescription": "Bu tarayıcıda oturumu açık olan hesaplar açık kalır.",
+      "phoneCode": "Bana SMS ile giriş kodu gönder",
       "demo": {
         "title": "Demoyu deneyin",
         "description": "Her güncellemede sıfırlanan ortak örnek hesaplar. Parola, e-posta adresi ve oturum açma yöntemleri değiştirilemez.",
@@ -128,7 +129,7 @@
       "backToLogin": "Girişe dön",
       "newPasswordLabel": "Yeni parola",
       "confirmPasswordLabel": "Parolayı onaylayın",
-      "passwordHint": "En az 8 karakter uzunluğunda olmalıdır.",
+      "passwordHint": "En az {min} karakter uzunluğunda olmalıdır.",
       "passwordMismatch": "Parolalar eşleşmiyor",
       "submit": "Parolayı güncelle",
       "submitting": "Güncelleniyor…",
@@ -154,7 +155,7 @@
       "emailDescription": "Bunu sizinle iletişim kurmak için kullanacağız. E-posta adresinizi kimseyle paylaşmayız.",
       "passwordLabel": "Parola",
       "confirmPasswordLabel": "Parolayı Onaylayın",
-      "passwordHint": "En az 8 karakter uzunluğunda olmalıdır.",
+      "passwordHint": "En az {min} karakter uzunluğunda olmalıdır.",
       "confirmPasswordHint": "Lütfen parolanızı onaylayın.",
       "passwordMismatch": "Parolalar eşleşmiyor",
       "submit": "Hesap Oluştur",
@@ -169,7 +170,9 @@
         "usernameTooShort": "Kullanıcı adı en az 3 karakter olmalıdır.",
         "usernameInvalid": "Bu kullanıcı adı geçerli değil.",
         "usernameTaken": "Bu kullanıcı adı zaten alınmış. Başka bir tane deneyin."
-      }
+      },
+      "passwordSignUpOff": "Parolayla kayıt kapalı. Hesabınızı bunlardan biriyle oluşturun:",
+      "signUpClosed": "Burada yeni hesap oluşturulamaz. Bir yöneticiden hesap isteyin."
     },
     "screen": {
       "headline": "<accent>Tüm uygulamalarınız</accent> için tek hesap.",
@@ -194,6 +197,42 @@
       "continue": "<app>{name}</app> uygulamasına devam edin",
       "unverified": "Doğrulanmamış uygulama.",
       "unverifiedHint": "{name} bu uygulamayı incelemedi: yalnızca güveniyorsanız devam edin."
+    },
+    "twoFactorRequired": {
+      "metaTitle": "İki adımlı doğrulama gerekli",
+      "title": "İki adımlı doğrulamayı açın",
+      "byOrganization": "Kuruluşunuzun yöneticileri uygulamalarda oturum açmak için iki adımlı doğrulama istiyor.",
+      "byPlatform": "Uygulamalarda oturum açmak için iki adımlı doğrulama gerekli.",
+      "until": "{date} tarihinden önce açın.",
+      "now": "Devam etmek için açın.",
+      "how": "Bir doğrulama uygulaması (Google Authenticator veya 1Password gibi) kullanın ya da hesap sayfanızdan bir geçiş anahtarı ekleyin.",
+      "setUp": "İki adımlı doğrulamayı ayarla",
+      "later": "Sonra hatırlat",
+      "continue": "Devam et"
+    },
+    "phoneCode": {
+      "title": "SMS ile oturum aç",
+      "description": "Hesabınızdaki telefon numarasına SMS ile 6 haneli bir kod göndereceğiz.",
+      "phoneLabel": "Telefon numarası",
+      "phoneHint": "Uluslararası biçim, + ve ülke koduyla.",
+      "send": "Kod gönder",
+      "sending": "Gönderiliyor…",
+      "sentTitle": "Telefonunuza bakın",
+      "sent": "{phone} numarasını kullanan bir hesap varsa 6 haneli kod yolda. {minutes} dakika içinde geçerliliğini yitirir.",
+      "codeLabel": "Giriş kodu",
+      "verify": "Oturum aç",
+      "verifying": "Oturum açılıyor…",
+      "newCode": "Gelmedi mi? Yeni kod gönder",
+      "usePassword": "Bunun yerine parolanızı kullanın",
+      "errors": {
+        "invalidPhone": "Numarayı uluslararası biçimde girin, örneğin +905321234567.",
+        "invalidCode": "Kod doğru değil. Kontrol edip yeniden deneyin.",
+        "expired": "Kodun süresi doldu. Yenisini isteyin.",
+        "tooManyAttempts": "Çok fazla yanlış kod. Yenisini isteyin.",
+        "rateLimited": "Çok fazla deneme. Birkaç dakika bekleyip yeniden deneyin.",
+        "sendFailed": "Kod gönderilemedi. Birkaç dakika sonra yeniden deneyin.",
+        "signInFailed": "Oturum açılamadı. Yeniden deneyin."
+      }
     }
   },
   "consent": {
@@ -380,7 +419,8 @@
           "duplicates": "×{count}",
           "duplicatesHint": "{count} özdeş kendini kaydeden istemci",
           "showDuplicates": "{count} istemcinin tümünü göster",
-          "hideDuplicates": "Özdeşleri gizle"
+          "hideDuplicates": "Özdeşleri gizle",
+          "previousSecretUntil": "Önceki gizli anahtar {date} tarihine kadar geçerli"
         },
         "registration": {
           "title": "Kendi kendine kayıt",
@@ -524,6 +564,8 @@
             "organization_id": "Etkin kuruluşun kimliği",
             "organization_slug": "Etkin kuruluşun slug'ı",
             "organization_role": "Etkin kuruluştaki rol",
+            "organization_permissions": "Etkin kuruluştaki izinler",
+            "organization_teams": "Etkin kuruluştaki ekipler",
             "organizations": "Kuruluş üyelikleri"
           }
         },
@@ -584,6 +626,8 @@
           "allowedScopesHint": "Giriş için openid, yenileme token’ları için offline_access ekleyin.",
           "iconUrlLabel": "Simge URL’si",
           "iconUrlHint": "Uygulama için konsolda, onay ekranında ve kullanıcıların hesaplarında gösterilir. Yalnızca localhost’a yönlendiren uygulamalar için kullanışlıdır. https, PNG/JPEG/WebP/AVIF/GIF/ICO/SVG.",
+          "clientIdLabel": "İstemci kimliği (isteğe bağlı)",
+          "clientIdHint": "Oluşturulması için boş bırakın. Başka bir sağlayıcıdan taşınan bir uygulama için, değişmeden çalışmaya devam etmesi amacıyla mevcut istemci kimliğini girin: 3 ile 128 arasında harf, rakam, nokta, alt çizgi veya kısa çizgi.",
           "deviceCodeLabel": "Cihazla giriş (CLI'lar, TV'ler)",
           "deviceCodeHint": "Cihaz kodu grant'ını (RFC 8628) ekler: uygulama bir kod gösterir ve kullanıcı bunu başka bir ekranda <code>{path}</code> adresinde onaylar. Genellikle genel bir istemcidir.",
           "endSessionLabel": "Uygulamadan oturumu kapatma (RP-initiated logout)",
@@ -592,6 +636,8 @@
           "postLogoutUrisHint": "Uygulamanın çıkıştan sonra kullanıcıları geri gönderebileceği adresler (post_logout_redirect_uri, birebir eşleşme). Her satıra bir tane veya virgülle ayrılmış. Hiçbiri yoksa kullanıcılar bir çıkış sayfası görür.",
           "skipConsentLabel": "Onayı atla (güvenilir istemci)",
           "skipConsentHint": "Kullanıcılar bu uygulama için onay ekranını görmez. Yalnızca birinci taraf veya tamamen güvenilir entegrasyonlar için kullanın.",
+          "pairwiseLabel": "Uygulamaya özel kullanıcı kimlikleri",
+          "pairwiseHint": "Kullanıcılar burada başka ana makinelerdeki uygulamalardan farklı bir kimlik (sub) alır; bu uygulamalar kullanıcılarını bununla eşleştiremez. Tüm yönlendirme URI'leri aynı ana makinede olmalıdır. Sonradan değiştirilemez.",
           "registerFailed": "Uygulama kaydedilemedi",
           "missingClientId": "Sunucu bir {field} döndürmedi.",
           "registered": "OAuth uygulaması kaydedildi",
@@ -604,7 +650,18 @@
           "clientId": "İstemci kimliği",
           "clientSecret": "İstemci gizli anahtarı",
           "copyClientId": "İstemci kimliğini kopyala",
-          "copyClientSecret": "İstemci gizli anahtarını kopyala"
+          "copyClientSecret": "İstemci gizli anahtarını kopyala",
+          "authMethodLabel": "İstemci kimlik doğrulaması",
+          "authMethodSecret": "İstemci gizli anahtarı",
+          "authMethodPrivateKey": "Özel anahtarlı JWT (açık anahtarlar)",
+          "jwksLabel": "Açık anahtarlar (JWKS)",
+          "jwksHint": "Uygulamanın açık anahtarları, JSON Web Key Set olarak. Uygulama, belirteç uç noktasında özel anahtarıyla bir istemci onaylaması imzalar (private_key_jwt). Değiştirmek için uygulamayı düzenleyin ya da uygulamanın /api/auth/oauth2/client/rotate-keys adresini çağırmasına izin verin.",
+          "jwksInvalidJson": "JWKS geçerli bir JSON değil.",
+          "backchannelUriLabel": "Back-channel oturum kapatma URI'si (isteğe bağlı)",
+          "backchannelUriHint": "Bir kullanıcının oturumu bittiğinde Ostiary bu https adresine imzalı bir oturum kapatma belirteci gönderir; böylece uygulama da kullanıcının oturumunu kapatabilir.",
+          "backchannelSessionLabel": "Uygulamanın oturum kimliğine (sid) ihtiyacı var",
+          "backchannelSessionHint": "Ostiary oturum kapatma belirtecine sid ekler: uygulama kapatılacak oturumu bununla bulur.",
+          "successPrivateKey": "Gizli anahtar verilmez: uygulama, kayıtlı anahtarlarından biriyle imzalanmış bir istemci onaylamasıyla kimliğini doğrular."
         },
         "rowActions": {
           "menuLabel": "{name} için işlemler",
@@ -662,15 +719,25 @@
           },
           "rotateDialog": {
             "title": "İstemci gizli anahtarı yenilensin mi?",
-            "description": "Önceki gizli anahtar hemen çalışmayı durdurur. Yeni gizli anahtarı güvenli bir yere kaydedin, yalnızca bir kez gösterilebilir.",
+            "description": "Yeni gizli anahtarı güvenli bir yerde saklayın, yalnızca bir kez gösterilebilir. Geçerli gizli anahtar hemen ya da seçtiğiniz geçiş süresinin sonunda çalışmayı bırakır; böylece uygulama önce geçiş yapabilir.",
             "newSecretLabel": "Yeni istemci gizli anahtarı",
             "copySecret": "Gizli anahtarı kopyala",
             "secretCopied": "Gizli anahtar kopyalandı",
             "rotating": "Yenileniyor…",
             "rotateFailed": "Gizli anahtar yenilenemedi",
             "newSecretIssued": "Yeni istemci gizli anahtarı oluşturuldu, şimdi kopyalayın",
-            "rotated": "Gizli anahtar yenilendi"
-          }
+            "rotated": "Gizli anahtar yenilendi",
+            "graceLabel": "Geçerli gizli anahtar çalışmaya devam eder",
+            "graceNone": "Hayır, hemen çalışmayı bırakır",
+            "grace1h": "1 saat",
+            "grace24h": "24 saat",
+            "grace7d": "7 gün",
+            "graceReplaces": "Önceki rotasyondan saklanan gizli anahtar hemen çalışmayı bırakır."
+          },
+          "rotateHintPrivateKey": "Bu uygulama gizli anahtarla değil, anahtarlarıyla kimlik doğrular",
+          "revokePreviousSecret": "Önceki gizli anahtarı şimdi iptal et",
+          "revokePreviousFailed": "Önceki gizli anahtar iptal edilemedi",
+          "previousSecretRevoked": "Önceki gizli anahtar iptal edildi"
         },
         "selfRegistered": {
           "menuLabel": "{name} için işlemler",
@@ -1317,6 +1384,47 @@
               }
             }
           }
+        },
+        "custom": {
+          "title": "Özel OpenID Connect sağlayıcıları",
+          "description": "Herhangi bir OpenID Connect sağlayıcısı (Keycloak, Okta, Authentik, şirketinizinki) yukarıdaki sağlayıcıların yanında oturum açma düğmesi olarak.",
+          "add": "Sağlayıcı ekle",
+          "empty": "Henüz özel sağlayıcı yok.",
+          "on": "Açık",
+          "off": "Kapalı",
+          "linkedAccounts": "{count, plural, one {# bağlı hesap} other {# bağlı hesap}}",
+          "edit": "Düzenle",
+          "editProvider": "{name} düzenle",
+          "remove": "Kaldır",
+          "removeProvider": "{name} kaldır",
+          "removeTitle": "{name} kaldırılsın mı?",
+          "removeDescription": "Düğme oturum açma sayfalarından kalkar. Onu kullanan hesaplar kalır ama artık bu sağlayıcıyla oturum açamaz.",
+          "removed": "Sağlayıcı kaldırıldı.",
+          "cancel": "İptal",
+          "save": "Kaydet",
+          "saved": "Sağlayıcı kaydedildi.",
+          "addTitle": "OpenID Connect sağlayıcısı ekle",
+          "editTitle": "{name} düzenle",
+          "dialogDescription": "Ostiary'yi sağlayıcıda aşağıdaki yönlendirme URI'siyle web uygulaması olarak kaydedin, ardından sağlayıcının verdiği bilgileri girin. Kaydetme, sağlayıcının keşif belgesini denetler.",
+          "name": "Düğme adı",
+          "nameHint": "Oturum açma ve kayıt sayfalarında \"… ile devam et\" olarak gösterilir.",
+          "slug": "Sağlayıcı kimliği",
+          "slugHint": "Küçük harf, rakam ve kısa çizgi. Yönlendirme URI'sinin parçasıdır ve sonradan değiştirilemez.",
+          "callbackUrl": "Yönlendirme URI'si",
+          "callbackUrlHint": "Sağlayıcıda tam olarak bu URI'yi kaydedin.",
+          "discoveryUrl": "Keşif URL'si",
+          "discoveryUrlHint": "Sağlayıcının /.well-known/openid-configuration URL'si (https, genel adres).",
+          "clientId": "İstemci kimliği",
+          "clientSecret": "İstemci gizli anahtarı",
+          "clientSecretHint": "Genel istemci için boş bırakın (yalnızca PKCE).",
+          "secretKept": "Kayıtlı gizli anahtarı korumak için boş bırakın",
+          "secretUnreadable": "Kayıtlı gizli anahtar okunamıyor (BETTER_AUTH_SECRET değişti): yeniden girin.",
+          "scopes": "Kapsamlar",
+          "scopesHint": "Boşlukla ayrılmış. openid içermelidir.",
+          "enabled": "Oturum açma sayfalarında göster",
+          "enabledHint": "Kapalı: sağlayıcı kaydedilir ama sunulmaz.",
+          "allowSignUp": "Yeni kullanıcılar için hesap oluştur",
+          "allowSignUpHint": "Kapalı: yalnızca hesabı olanlar onunla oturum açabilir."
         }
       },
       "apiKeys": {
@@ -1829,7 +1937,8 @@
             "export_data": "Hesap verilerini dışa aktardı",
             "self_delete": "Kendi hesabını sildi",
             "export_csv": "Kullanıcıları CSV olarak dışa aktardı",
-            "import": "Kullanıcıları içe aktardı"
+            "import": "Kullanıcıları içe aktardı",
+            "remove_phone_number": "Telefon numarasını kaldırdı"
           },
           "oauth_client": {
             "create": "OAuth istemcisi kaydetti",
@@ -1842,7 +1951,8 @@
             "branding_update": "Giriş ekranı markalamasını değiştirdi",
             "branding_reset": "Giriş ekranı markalamasını sıfırladı",
             "claims_update": "Token claim'lerini değiştirdi",
-            "remove_duplicates": "Yinelenen OAuth istemcilerini kaldırdı"
+            "remove_duplicates": "Yinelenen OAuth istemcilerini kaldırdı",
+            "revoke_previous_secret": "Önceki istemci gizli anahtarı iptal edildi"
           },
           "client_registration": {
             "update": "İstemcilerin kendi kendine kaydını değiştirdi"
@@ -1878,7 +1988,15 @@
             "invite": "Üye davet etti",
             "cancel_invitation": "Daveti iptal etti",
             "update_member_role": "Üye rolünü değiştirdi",
-            "remove_member": "Üyeyi çıkardı"
+            "remove_member": "Üyeyi çıkardı",
+            "create_role": "Kuruluş rolü oluşturuldu",
+            "update_role": "Kuruluş rolü değiştirildi",
+            "delete_role": "Kuruluş rolü silindi",
+            "create_team": "Ekip oluşturuldu",
+            "update_team": "Ekibin adı değiştirildi",
+            "delete_team": "Ekip silindi",
+            "add_team_member": "Ekibe üye eklendi",
+            "remove_team_member": "Ekipten üye çıkarıldı"
           },
           "sso_provider": {
             "create": "SSO sağlayıcısı kaydetti",
@@ -1913,6 +2031,9 @@
           },
           "audit_log": {
             "export_csv": "Denetim günlüğünü CSV olarak dışa aktardı"
+          },
+          "security": {
+            "update_policy": "Oturum ve parola ilkesi değiştirildi"
           }
         },
         "actorPlaceholder": "İşlemi yapana göre ara (e-posta)…",
@@ -1958,6 +2079,38 @@
           "noReason": "Neden belirtilmedi",
           "until": "{date} tarihine kadar",
           "permanent": "kalıcı"
+        },
+        "policy": {
+          "title": "Oturumlar ve parolalar",
+          "description": "Kimlik doğrulama uygulamasında ne kadar süre oturum açık kalınacağı ve parolaların nasıl seçileceği. Uygulamalar kendi belirteçlerini ve yenileme belirteçlerini korur.",
+          "edit": "Düzenle",
+          "on": "Açık",
+          "off": "Kapalı",
+          "days": "{count, plural, one {# gün} other {# gün}}",
+          "characters": "{count, plural, one {# karakter} other {# karakter}}",
+          "sessionDays": "Oturum süresi",
+          "sessionDaysHint": "Bir oturum açmanın ne kadar sürdüğü. Değişiklikten önce açılan oturumlar bitiş tarihlerini korur; bir sonraki uzatmada yeni süreyi izler.",
+          "extendSessions": "Kullanılan oturumları uzat",
+          "extendSessionsHint": "Açık: oturum son kullanımdan sonra {count, plural, one {# gün} other {# gün}} sürer. Kapalı: kullanılsın ya da kullanılmasın oturum açmadan {count, plural, one {# gün} other {# gün}} sonra biter.",
+          "signOutOnPasswordChange": "Parola değişince her yerden çıkış yap",
+          "signOutOnPasswordChangeHint": "Parola değişikliği, hesabın diğer oturumlarını sonlandırır ve uygulamalarının belirteçlerini iptal eder; tıpkı parola sıfırlamada olduğu gibi. Kapalı: herkes kendi seçer.",
+          "minPasswordLength": "En kısa parola uzunluğu",
+          "minPasswordLengthHint": "Yeni parolalar için geçerlidir (kayıt, sıfırlama, değişiklik). Mevcut parolalar çalışmaya devam eder.",
+          "passwordSignUp": "Parolayla kayıt",
+          "passwordSignUpHint": "Kapalı: artık e-posta ve parolayla hesap oluşturulamaz; yalnızca bir sosyal sağlayıcıyla veya kuruluşun SSO'suyla. Yöneticiler hesap oluşturmaya devam edebilir ve mevcut parolalar çalışmaya devam eder.",
+          "dialogDescription": "Kimlik doğrulama uygulaması bunları bir dakika içinde uygular.",
+          "save": "Kaydet",
+          "cancel": "İptal",
+          "saved": "İlke kaydedildi. Kimlik doğrulama uygulaması bir dakika içinde uygular.",
+          "errors": {
+            "invalid": "Sunulan değerlerden birini seçin.",
+            "save": "İlke kaydedilemedi."
+          },
+          "twoFactorEveryone": "Herkes için iki adımlı doğrulama",
+          "twoFactorEveryoneHint": "Herkes uygulamalarda oturum açmak için bir doğrulama uygulaması veya geçiş anahtarı kullanmalıdır. Yöneticiler: REQUIRE_ADMIN_2FA. Kuruluşlar kendi sayfalarından üyeleri için zorunlu kılabilir.",
+          "twoFactorGraceDays": "Açmak için süre",
+          "twoFactorGraceDaysHint": "İki adımlı doğrulaması olmayanlara her uygulama oturum açışında sorulur ve o zamana kadar devam edebilirler. Süre bunu açtığınızda ya da hesap oluşturulduğunda başlar.",
+          "noGrace": "Yok: hemen gerekli"
         }
       },
       "signingKeys": {
@@ -1982,7 +2135,10 @@
           "graceHint": "Kullanımdan kalkan anahtarın ne kadar süre yayımda kalacağı. En uzun token ömründen daha uzun tutun (erişim token’ları: 1 saat, ID token’lar: 1 saat).",
           "save": "Kaydet",
           "cancel": "İptal",
-          "saved": "Ayarlar kaydedildi. Kimlik doğrulama sunucusu bunları bir dakika içinde uygular."
+          "saved": "Ayarlar kaydedildi. Kimlik doğrulama sunucusu bunları bir dakika içinde uygular.",
+          "algorithm": "İmzalama algoritması",
+          "algorithmHint": "Varsayılan EdDSA (Ed25519). Yalnızca bunları doğrulayan API ve ağ geçitleri için ES256 veya RS256 seçin; örneğin AWS API Gateway veya Azure API Management. Değiştirmek hemen yeni algoritmayla bir anahtar oluşturur; geçerli anahtar geçiş süresi boyunca yayımlanmaya devam eder.",
+          "savedAlgorithm": "Ayarlar kaydedildi. Yeni belirteçler {alg} ile imzalanıyor (anahtar {kid})."
         },
         "keys": {
           "title": "Anahtarlar",
@@ -2014,7 +2170,8 @@
           "interval": "Sunulan döndürme aralıklarından birini seçin.",
           "grace": "Sunulan ek sürelerden birini seçin.",
           "save": "Ayarlar kaydedilemedi.",
-          "rotate": "Anahtar döndürülemedi."
+          "rotate": "Anahtar döndürülemedi.",
+          "algorithm": "Sunulan algoritmalardan birini seçin."
         }
       },
       "organizations": {
@@ -2100,7 +2257,14 @@
           "scimCounts": "{active} sağlandı, {inactive} devre dışı.",
           "recentActions": "Son yönetici işlemleri",
           "noActions": "Henüz yok.",
-          "system": "sistem"
+          "system": "sistem",
+          "twoFactor": {
+            "title": "İki adımlı doğrulama",
+            "label": "Üyeler için iki adımlı doğrulamayı zorunlu kıl",
+            "hint": "Üyeler, Güvenlik sayfasındaki süreden sonra uygulamalarda oturum açmak için bir doğrulama uygulaması veya geçiş anahtarı kullanmalıdır.",
+            "on": "İki adımlı doğrulama artık bu kuruluşun üyeleri için gerekli.",
+            "off": "İki adımlı doğrulama artık bu kuruluşun üyeleri için gerekli değil."
+          }
         },
         "errors": {
           "invalidNameSlug": "Bir ad ve harf, rakam ve tirelerden oluşan bir slug girin.",
@@ -2119,6 +2283,61 @@
           "lastOwner": "Bir kuruluşun en az bir sahibi olmalıdır. Önce başka bir üyeyi sahip yapın.",
           "publicDelete": "Public çalışma alanı silinemez.",
           "organizationNotFound": "Kuruluş bulunamadı."
+        },
+        "rolesTeams": {
+          "rolesTitle": "Özel roller",
+          "teamsTitle": "Ekipler",
+          "rolesDescription": "Bu kuruluşun sahip, yönetici ve üye dışındaki rolleri; her birinin kendi izinleri vardır. Üyelere yerleşik roller gibi verilir ve belirteçler rolün adını (organization.role) ve izinlerini (organization.permissions) taşır.",
+          "noRoles": "Özel rol yok.",
+          "memberCount": "{count, plural, one {# üye} other {# üye}}",
+          "noPermissions": "İzin yok",
+          "edit": "Düzenle",
+          "delete": "Sil",
+          "editRole": "{role} düzenle",
+          "deleteRole": "{role} sil",
+          "addRole": "Rol ekle",
+          "deleteRoleTitle": "{role} silinsin mi?",
+          "deleteRoleDescription": "Rol bu kuruluştan kalkar. Ancak hiçbir üyede yokken silinebilir.",
+          "cancel": "İptal",
+          "roleDeleted": "Rol silindi.",
+          "roleSaved": "Rol kaydedildi.",
+          "roleDialogDescription": "Rolün kuruluşta neler yapabileceğini işaretleyin. Kuruluşun sahipleri ve yöneticileri de rolleri yönetebilir.",
+          "roleName": "Rol adı",
+          "roleNameHint": "Harfle başlayan 2 ile 32 arası küçük harf, rakam, kısa çizgi veya alt çizgi. Sonradan değiştirilemez.",
+          "permissions": "İzinler",
+          "save": "Kaydet",
+          "teamsDescription": "Kuruluş içindeki üye grupları. Belirteçler üyenin ekiplerini taşır (organization.teams).",
+          "noTeams": "Ekip yok.",
+          "teamCreated": "Ekip oluşturuldu.",
+          "newTeam": "Yeni ekip",
+          "createTeam": "Ekip oluştur",
+          "teamRenamed": "Ekibin adı değiştirildi.",
+          "teamName": "Ekip adı",
+          "renameTeam": "{team} adını değiştir",
+          "rename": "Adını değiştir",
+          "deleteTeam": "{team} sil",
+          "noTeamMembers": "Bu ekipte üye yok.",
+          "removeFromTeam": "{email} kişisini {team} ekibinden çıkar",
+          "remove": "Çıkar",
+          "teamMemberRemoved": "Üye ekipten çıkarıldı.",
+          "teamMemberAdded": "Üye ekibe eklendi.",
+          "addToTeam": "{team} ekibine üye ekle",
+          "memberEmail": "Üyenin e-postası",
+          "add": "Ekle",
+          "deleteTeamTitle": "{team} silinsin mi?",
+          "deleteTeamDescription": "Ekip ve üye listesi silinir. Üyeler kuruluşta kalır.",
+          "teamDeleted": "Ekip silindi.",
+          "errors": {
+            "invalidName": "Rol adı harfle başlayan 2 ile 32 arası küçük harf, rakam, kısa çizgi veya alt çizgiden oluşur.",
+            "reservedName": "owner, admin ve member yerleşik rollerdir.",
+            "nameTaken": "Bu kuruluşta bu adla bir rol zaten var.",
+            "invalidPermissions": "İzinlerden biri bilinmiyor.",
+            "roleInUse": "Bu role sahip üyeler var: önce onlara başka bir rol verin.",
+            "notFound": "Bu kuruluşta bulunamadı.",
+            "notMember": "Bu kişi kuruluşun üyesi değil.",
+            "alreadyInTeam": "Bu üye zaten ekipte.",
+            "invalidTeamName": "Ekip adı 1 ile 64 karakter arasındadır."
+          }
         }
       }
     },
@@ -2314,7 +2533,8 @@
         "invalidCode": "Bu kod geçerli değil. Cihazınızın saatinin doğru olduğunu kontrol edip yeniden deneyin.",
         "rateLimited": "Çok fazla deneme. Birkaç saniye bekleyip yeniden deneyin.",
         "generic": "Bir şeyler ters gitti. Yeniden deneyin."
-      }
+      },
+      "doneContinue": "Uygulamaya devam et"
     },
     "organizations": {
       "title": "Kuruluşlar",
@@ -2566,6 +2786,27 @@
     "impersonation": {
       "viewingAs": "Bu hesabı <strong>{email}</strong> olarak görüntülüyorsunuz.",
       "stop": "Kimliğe bürünmeyi durdur"
+    },
+    "phone": {
+      "title": "Telefon numarası",
+      "description": "Bu numaraya SMS ile gönderilen bir kodla oturum açın.",
+      "none": "Telefon numarası yok",
+      "add": "Numara ekle",
+      "change": "Değiştir",
+      "remove": "Kaldır",
+      "phoneLabel": "Telefon numarası",
+      "phoneHint": "Uluslararası biçim, + ve ülke koduyla. Doğrulamak için SMS ile kod göndereceğiz.",
+      "send": "Kod gönder",
+      "cancel": "İptal",
+      "codeLabel": "{phone} numarasına gönderilen kod",
+      "verify": "Numarayı kaydet",
+      "invalidPhone": "Numarayı uluslararası biçimde girin, örneğin +905321234567.",
+      "sendFailed": "Kod gönderilemedi. Birkaç dakika sonra yeniden deneyin.",
+      "verifyFailed": "Kod doğru değil ya da süresi doldu.",
+      "taken": "Bu numarayı başka bir hesap kullanıyor.",
+      "saved": "Numara kaydedildi.",
+      "removeFailed": "Numara kaldırılamadı.",
+      "removed": "Numara kaldırıldı."
     },
     "demo": {
       "title": "Demo hesap",

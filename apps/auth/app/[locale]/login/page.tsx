@@ -8,6 +8,7 @@ import { authScreenApp } from "@/lib/app-context";
 import { appLinkOf, appShowsProvider, appSocialProviders } from "@/lib/app-links";
 import { enabledSocialProviders, googleOneTap } from "@ostiary/core/lib/social-providers";
 import { demoCredentials } from "@ostiary/core/lib/demo";
+import { smsConfigured } from "@ostiary/core/lib/sms";
 
 // Providers enabled from the admin console are read at request time.
 export const dynamic = "force-dynamic";
@@ -33,6 +34,7 @@ export default async function Page({
           oneTap={oneTap}
           appLink={appLinkOf(app)}
           demoAccounts={demoCredentials()}
+          sms={smsConfigured()}
         />
       </Suspense>
     </AuthScreen>

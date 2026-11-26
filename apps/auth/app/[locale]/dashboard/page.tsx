@@ -1,5 +1,6 @@
 import { FlaskConical, ShieldAlert } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { currentAuthPolicy } from "@ostiary/core/lib/auth-policy";
 
 import { DashboardAccountSummary } from "@/components/dashboard/dashboard-account-summary";
 import { DashboardApiKeysSection } from "@/components/dashboard/dashboard-api-keys-section";
@@ -7,6 +8,8 @@ import { DashboardAppsSection } from "@/components/dashboard/dashboard-apps-sect
 import { DashboardDataSection } from "@/components/dashboard/dashboard-data-section";
 import { DashboardOrganizationsSection } from "@/components/dashboard/dashboard-organizations-section";
 import { DashboardProfileSection } from "@/components/dashboard/dashboard-profile-section";
+import { DashboardPhoneSection } from "@/components/dashboard/dashboard-phone-section";
+import { smsConfigured } from "@ostiary/core/lib/sms";
 import { DashboardSecuritySection } from "@/components/dashboard/dashboard-security-section";
 import { getDashboardContext } from "@/lib/dashboard-context";
 import { getDeletionStatus } from "@/lib/account-data-actions";
@@ -16,14 +19,20 @@ import { Alert, AlertDescription, AlertTitle } from "@ostiary/core/components/ui
 import { adminNeedsTwoFactor } from "@ostiary/core/lib/admin/admin-two-factor";
 import { demoAccount } from "@ostiary/core/lib/demo";
 import { env } from "@ostiary/core/lib/env";
+import { promptToResume } from "@ostiary/core/lib/two-factor-policy";
 import { enabledSocialProviders } from "@ostiary/core/lib/social-providers";
 
 export default async function DashboardPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { locale } = await params;
+  // Sent here by the two-factor prompt: turning it on resumes the app's sign-in.
+  const resume = (await searchParams).continue;
+  const returnUrl = promptToResume(typeof resume === "string" ? resume : null) ?? undefined;
   const t = await getTranslations({ locale, namespace: "dashboard" });
   const { session, hasOrganizations, showApiKeys } = await getDashboardContext();
   // The admin console sends admins here until they turn on two-factor authentication.
@@ -33,11 +42,12 @@ export default async function DashboardPage({
   // Read here rather than by each section after it renders: the sections show at once. A read
   // that fails leaves null, and the section tries again in the browser (or says it could not).
   const orNull = <T,>(promise: Promise<T>) => promise.catch(() => null);
-  const [socialProviders, connectedApps, apiKeys, deletionStatus] = await Promise.all([
+  const [socialProviders, connectedApps, apiKeys, deletionStatus, policy] = await Promise.all([
     enabledSocialProviders(),
     orNull(getMyConnectedApps()),
     showApiKeys ? orNull(getMyApiKeys()) : null,
     orNull(getDeletionStatus()),
+    currentAuthPolicy(),
   ]);
 
   return (
@@ -85,10 +95,16 @@ export default async function DashboardPage({
       </section>
       <div className="space-y-10">
         <DashboardProfileSection />
+        {smsConfigured() ? (
+          <DashboardPhoneSection phoneNumber={(session?.user as { phoneNumber?: string | null } | undefined)?.phoneNumber ?? null} />
+        ) : null}
         {hasOrganizations ? <DashboardOrganizationsSection /> : null}
         <DashboardSecuritySection
           socialProviders={socialProviders}
           adminConsoleUrl={twoFactorRequired ? env.ADMIN_APP_URL : undefined}
+          minPasswordLength={policy.minPasswordLength}
+          signOutOnPasswordChange={policy.signOutOnPasswordChange}
+          returnUrl={returnUrl}
         />
         <DashboardAppsSection initialApps={connectedApps} />
         {showApiKeys ? <DashboardApiKeysSection initialKeys={apiKeys} /> : null}

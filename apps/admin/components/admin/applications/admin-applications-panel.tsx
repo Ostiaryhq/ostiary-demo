@@ -33,8 +33,7 @@ import {
   TableHeader,
   TableRow,
 } from "@ostiary/core/components/ui/table";
-import { authClient } from "@/lib/auth-client";
-import { asRecord, asStringArray, normalizeGetClientsPayload } from "@/lib/oauth-client-payload";
+import { asRecord, asStringArray, normalizeGetClientsPayload, routeError } from "@/lib/oauth-client-payload";
 import {
   DEVICE_CODE_GRANT_TYPE,
   isMachineClient,
@@ -82,6 +81,10 @@ function mapApiClientToRow(raw: unknown): OAuthApplicationRow | null {
   const scopes = typeof o.scope === "string" ? o.scope.split(/\s+/).filter(Boolean) : [];
   const policyUri = typeof o.policy_uri === "string" && o.policy_uri ? o.policy_uri : null;
   const tosUri = typeof o.tos_uri === "string" && o.tos_uri ? o.tos_uri : null;
+  const backchannelLogoutUri =
+    typeof o.backchannel_logout_uri === "string" && o.backchannel_logout_uri ? o.backchannel_logout_uri : null;
+  const backchannelLogoutSessionRequired = o.backchannel_logout_session_required === true;
+  const jwks = o.jwks && typeof o.jwks === "object" ? JSON.stringify(o.jwks, null, 2) : null;
   const issuedAt = o.client_id_issued_at ?? o.clientIdIssuedAt;
   let createdAt: string;
   if (typeof issuedAt === "number" && Number.isFinite(issuedAt)) {
@@ -113,6 +116,9 @@ function mapApiClientToRow(raw: unknown): OAuthApplicationRow | null {
     scopes,
     policyUri,
     tosUri,
+    backchannelLogoutUri,
+    backchannelLogoutSessionRequired,
+    jwks,
     createdAt,
     // Dynamic clients carry the marker in their metadata, which Better Auth returns inline.
     registration: o.ostiary_registration === "dynamic" ? "dynamic" : "admin",
@@ -177,14 +183,17 @@ function collapseDuplicates(rows: OAuthApplicationRow[], expanded: ReadonlySet<s
  * APIs page. APIs open to every application are not listed.
  * @param machineScopes The scopes an application may be limited to (a machine-to-machine client
  * must be), grouped by API.
+ * @param pairwiseAvailable PAIRWISE_SECRET is set: new apps may use pairwise user IDs.
  */
 export function AdminApplicationsPanel({
   linkedApis = {},
   machineScopes = EMPTY_SCOPE_OPTIONS,
+  pairwiseAvailable = false,
   selfRegistered,
 }: {
   linkedApis?: Record<string, string[]>;
   machineScopes?: MachineScopeOptions;
+  pairwiseAvailable?: boolean;
   selfRegistered: OAuthApplicationRow[];
 }) {
   const t = useTranslations("admin.pages.applications.panel");
@@ -201,11 +210,26 @@ export function AdminApplicationsPanel({
   );
 
   const loadClients = React.useCallback(async () => {
-    const res = await authClient.oauth2.getClients();
-    if (res.error) throw new Error(res.error.message || t("loadFailed"));
-    return normalizeGetClientsPayload(res.data)
+    const [list, grace] = await Promise.all([
+      // The admin route, not Better Auth's /oauth2/get-clients: that one stops at 100 clients.
+      fetch("/api/admin/oauth-clients", { credentials: "include" }).then(async (r) => ({
+        ok: r.ok,
+        json: (await r.json().catch(() => null)) as unknown,
+      })),
+      // Previous secrets still valid after a rotation (client-secret-grace.ts); none if it fails.
+      fetch("/api/admin/oauth-client-secrets", { credentials: "include" })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((json: unknown) => (asRecord(asRecord(json)?.data) ?? {}) as Record<string, unknown>)
+        .catch(() => ({}) as Record<string, unknown>),
+    ]);
+    if (!list.ok) throw new Error(routeError(list.json) ?? t("loadFailed"));
+    return normalizeGetClientsPayload(asRecord(list.json)?.data)
       .map(mapApiClientToRow)
-      .filter((r): r is OAuthApplicationRow => r !== null);
+      .filter((r): r is OAuthApplicationRow => r !== null)
+      .map((r) => {
+        const until = grace[r.clientId];
+        return typeof until === "string" ? { ...r, previousSecretExpiresAt: until } : r;
+      });
   }, [t]);
   const { data: rows, loading, error: listError, reload: refetch } = useAdminList(loadClients, []);
 
@@ -282,7 +306,11 @@ export function AdminApplicationsPanel({
             </SelectContent>
           </Select>
           {hasDuplicates ? <RemoveDuplicatesDialog /> : null}
-          <AdminRegisterOAuthClientDialog machineScopes={machineScopes} onCreated={refetch} />
+          <AdminRegisterOAuthClientDialog
+            machineScopes={machineScopes}
+            pairwiseAvailable={pairwiseAvailable}
+            onCreated={refetch}
+          />
           <Button
             size="sm"
             variant="outline"
@@ -367,7 +395,7 @@ export function AdminApplicationsPanel({
 
       <p className="text-muted-foreground text-xs">
         {t.rich("footnote", {
-          getClients: "authClient.oauth2.getClients()",
+          getClients: "GET /api/admin/oauth-clients",
           skipConsent: "skip_consent",
           create: "POST /api/admin/oauth-clients",
           update: "PATCH /api/admin/oauth-clients/[clientId]",
