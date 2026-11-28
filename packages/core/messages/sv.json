@@ -1493,7 +1493,17 @@
           "user_role_changed": "Ett kontos plattformsroll ändras.",
           "organization_member_added": "Någon går med i en organisation.",
           "organization_member_removed": "Någon lämnar eller tas bort från en organisation.",
-          "organization_member_role_changed": "En medlems roll i en organisation ändras."
+          "organization_member_role_changed": "En medlems roll i en organisation ändras.",
+          "user_signed_in": "Någon loggar in, med om det är en ny enhet.",
+          "user_sign_in_locked": "Inloggning med lösenord pausas efter upprepade felaktiga lösenord.",
+          "user_password_changed": "Ett lösenord ändras.",
+          "user_password_reset": "Ett lösenord återställs från en länk eller kod via e-post.",
+          "user_password_breached": "Ett lösenord som använts för inloggning finns i ett dataläckage.",
+          "user_two_factor_enabled": "Tvåstegsverifiering aktiveras.",
+          "user_two_factor_disabled": "Tvåstegsverifiering inaktiveras.",
+          "user_passkey_added": "En nyckel läggs till.",
+          "user_passkey_removed": "En nyckel tas bort.",
+          "user_account_secured": "Någon loggar ut överallt från ett e-postmeddelande om ny enhet eller säkerhet (Det var inte jag)."
         },
         "panel": {
           "events": "Händelser",
@@ -1697,7 +1707,14 @@
           "twoFactorReset": "Tvåfaktorsautentisering har stängts av",
           "reset": "Återställ",
           "resetTwoFactorTitle": "Återställa tvåfaktorsautentiseringen för {email}?",
-          "resetTwoFactorDescription": "Användarens autentiseringsapp, reservkoder och betrodda enheter slutar fungera, och hen loggar in med bara lösenordet tills tvåfaktorsautentisering konfigureras igen. Gör detta bara när du har bekräftat vem som frågar. Detta registreras i granskningsloggen."
+          "resetTwoFactorDescription": "Användarens autentiseringsapp, reservkoder och betrodda enheter slutar fungera, och hen loggar in med bara lösenordet tills tvåfaktorsautentisering konfigureras igen. Gör detta bara när du har bekräftat vem som frågar. Detta registreras i granskningsloggen.",
+          "requirePasswordChange": "Kräv lösenordsbyte",
+          "cancelPasswordChange": "Avbryt lösenordsbyte",
+          "requirePasswordChangeTitle": "Kräva ett nytt lösenord för {email}?",
+          "requirePasswordChangeDescription": "Nästa gång personen loggar in eller öppnar sitt konto måste ett nytt lösenord väljas innan det går vidare. Personens andra sessioner loggas ut vid bytet. Detta registreras i granskningsloggen.",
+          "passwordChangeRequired": "Lösenordsbyte krävs",
+          "passwordChangeCancelled": "Lösenordsbyte avbrutet",
+          "passwordChangeError": "Det gick inte att uppdatera begäran om lösenordsbyte."
         },
         "detail": {
           "emailVerified": "E-post verifierad",
@@ -1738,7 +1755,9 @@
             "unnamed": "Namnlös",
             "empty": "Inga inloggningsmetoder.",
             "twoFactor": "Tvåfaktorsautentisering <muted>(autentiseringsapp)</muted>",
-            "managedByYou": "Hanteras från ditt konto"
+            "managedByYou": "Hanteras från ditt konto",
+            "changeRequired": "Byte krävs",
+            "breached": "Läckt"
           },
           "organizations": {
             "title": "Organisationer",
@@ -1944,7 +1963,11 @@
             "new_device_sign_in": "Loggade in från en ny enhet",
             "secure_account": "Skyddade sitt konto (Det var inte jag)",
             "password_breached": "Lösenordet hittades i en dataläcka",
-            "sign_in_locked": "Inloggning med lösenord låst efter fel lösenord"
+            "sign_in_locked": "Inloggning med lösenord låst efter fel lösenord",
+            "require_password_change": "Krävde ett lösenordsbyte",
+            "cancel_password_change": "Avbröt ett lösenordsbyte",
+            "inactive_disabled": "Inaktiverat efter inaktivitet",
+            "inactive_deleted": "Raderat efter inaktivitet"
           },
           "oauth_client": {
             "create": "Registrerade OAuth-klient",
@@ -2127,7 +2150,16 @@
           "lockoutAttempts": "Lås inloggning med lösenord efter",
           "lockoutAttemptsHint": "Fel lösenord för samma e-postadress eller användarnamn inom {minutes} minuter. Inloggning med lösenord stoppas då i {minutes} minuter, oavsett om ett konto finns. Nycklar, inloggningskoder och -länkar, social inloggning och SSO fungerar fortfarande.",
           "lockoutNever": "Aldrig",
-          "wrongPasswords": "{count, plural, one {# fel lösenord} other {# fel lösenord}}"
+          "wrongPasswords": "{count, plural, one {# fel lösenord} other {# fel lösenord}}",
+          "inactiveDays": "Inaktiva konton",
+          "inactiveDaysHint": "Dagar utan inloggning eller användning av kontot. Personer får ett e-postmeddelande {warning} dagar innan, och en inloggning behåller kontot. Administratörer och konton som en SCIM-katalog hanterar påverkas aldrig. Räknas från när det slås på.",
+          "inactiveNever": "Aldrig",
+          "inactiveAction": "Därefter",
+          "inactiveActionHint": "Ett inaktiverat konto kan inte logga in förrän en administratör häver spärren. Ett raderat konto tas bort med allt som hör till det.",
+          "inactiveDisable": "Inaktivera kontot",
+          "inactiveDelete": "Radera kontot",
+          "inactiveDisableAfter": "Inaktivera efter {count, plural, one {# dag} other {# dagar}}",
+          "inactiveDeleteAfter": "Radera efter {count, plural, one {# dag} other {# dagar}}"
         },
         "emailDomains": {
           "title": "E-postdomäner",
@@ -3267,6 +3299,19 @@
       "button": "Det var inte jag",
       "note": "Knappen fungerar en gång inom {days} dagar. Den loggar ut dig överallt och mejlar dig en länk för att välja ett nytt lösenord.",
       "footnote": "Du får det här mejlet när lösenordet, tvåfaktorsautentiseringen eller nycklarna för ditt konto ändras. Dela aldrig ditt lösenord eller dina inloggningskoder."
+    },
+    "inactiveAccount": {
+      "subjects": {
+        "disable": "Ditt {brand}-konto inaktiveras den {date}",
+        "delete": "Ditt {brand}-konto raderas den {date}"
+      },
+      "bodies": {
+        "disable": "{brand}-kontot {email} har inte använts på länge. Det inaktiveras den {date} och kan sedan inte logga in.",
+        "delete": "{brand}-kontot {email} har inte använts på länge. Det raderas den {date} med allt som hör till det."
+      },
+      "keep": "Logga in innan dess för att behålla det. Inget annat behövs.",
+      "button": "Logga in och behåll mitt konto",
+      "footnote": "Du får det här meddelandet eftersom konton som inte använts på länge stängs på den här tjänsten."
     }
   },
   "authErrors": {
@@ -3290,7 +3335,8 @@
     "countryNotAllowed": "Inloggning från ditt land är inte tillåten här.",
     "demoLocked": "Demokontona behåller sitt lösenord, sin e-postadress och sina inloggningsmetoder.",
     "demoReadOnly": "Demons administratörskonsol är skrivskyddad.",
-    "demoSignUpClosed": "Registreringen är stängd i den här demon. Logga in med ett av exempelkontona."
+    "demoSignUpClosed": "Registreringen är stängd i den här demon. Logga in med ett av exempelkontona.",
+    "inactive": "Det här kontot inaktiverades efter lång tid utan användning. Kontakta supporten för att återställa det."
   },
   "secureAccount": {
     "title": "Skydda ditt konto",
@@ -3313,7 +3359,8 @@
     "doneTitle": "Lösenordet har ändrats",
     "doneBody": "Ditt nya lösenord är sparat och dina andra sessioner har loggats ut.",
     "continue": "Fortsätt",
-    "toAccount": "Till ditt konto"
+    "toAccount": "Till ditt konto",
+    "adminDescription": "En administratör ber dig välja ett nytt lösenord. Välj ett för att fortsätta. Dina andra sessioner loggas ut."
   },
   "signInLink": {
     "title": "Logga in",

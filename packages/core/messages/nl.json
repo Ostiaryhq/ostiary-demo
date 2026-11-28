@@ -1493,7 +1493,17 @@
           "user_role_changed": "De platformrol van een account wijzigt.",
           "organization_member_added": "Iemand wordt lid van een organisatie.",
           "organization_member_removed": "Iemand verlaat een organisatie of wordt eruit verwijderd.",
-          "organization_member_role_changed": "De rol van een lid in een organisatie wijzigt."
+          "organization_member_role_changed": "De rol van een lid in een organisatie wijzigt.",
+          "user_signed_in": "Iemand meldt zich aan, met of het een nieuw apparaat is.",
+          "user_sign_in_locked": "Aanmelden met wachtwoord wordt gepauzeerd na herhaaldelijk verkeerde wachtwoorden.",
+          "user_password_changed": "Een wachtwoord wordt gewijzigd.",
+          "user_password_reset": "Een wachtwoord wordt opnieuw ingesteld via een gemailde link of code.",
+          "user_password_breached": "Een wachtwoord waarmee is aangemeld, komt voor in een datalek.",
+          "user_two_factor_enabled": "Tweestapsverificatie wordt ingeschakeld.",
+          "user_two_factor_disabled": "Tweestapsverificatie wordt uitgeschakeld.",
+          "user_passkey_added": "Er wordt een passkey toegevoegd.",
+          "user_passkey_removed": "Er wordt een passkey verwijderd.",
+          "user_account_secured": "Iemand meldt zich overal af vanuit een nieuw-apparaat- of beveiligingsmail (Dit was ik niet)."
         },
         "panel": {
           "events": "Gebeurtenissen",
@@ -1697,7 +1707,14 @@
           "twoFactorReset": "Tweestapsverificatie uitgeschakeld",
           "reset": "Resetten",
           "resetTwoFactorTitle": "Tweestapsverificatie resetten voor {email}?",
-          "resetTwoFactorDescription": "De authenticator-app, back-upcodes en vertrouwde apparaten van deze gebruiker werken niet meer, en diegene logt alleen met een wachtwoord in tot het opnieuw is ingesteld. Doe dit pas als je hebt bevestigd wie het vraagt. Dit wordt vastgelegd in het auditlogboek."
+          "resetTwoFactorDescription": "De authenticator-app, back-upcodes en vertrouwde apparaten van deze gebruiker werken niet meer, en diegene logt alleen met een wachtwoord in tot het opnieuw is ingesteld. Doe dit pas als je hebt bevestigd wie het vraagt. Dit wordt vastgelegd in het auditlogboek.",
+          "requirePasswordChange": "Wachtwoordwijziging vereisen",
+          "cancelPasswordChange": "Wachtwoordwijziging annuleren",
+          "requirePasswordChangeTitle": "Nieuw wachtwoord vereisen voor {email}?",
+          "requirePasswordChangeDescription": "Bij de volgende aanmelding of wanneer diegene het account opent, moet een nieuw wachtwoord gekozen worden voordat het verder kan. Andere sessies worden bij de wijziging afgemeld. Dit wordt vastgelegd in het auditlogboek.",
+          "passwordChangeRequired": "Wachtwoordwijziging vereist",
+          "passwordChangeCancelled": "Wachtwoordwijziging geannuleerd",
+          "passwordChangeError": "Kon het verzoek om wachtwoordwijziging niet bijwerken."
         },
         "detail": {
           "emailVerified": "E-mailadres geverifieerd",
@@ -1738,7 +1755,9 @@
             "unnamed": "Naamloos",
             "empty": "Geen inlogmethoden.",
             "twoFactor": "Tweestapsverificatie <muted>(authenticator-app)</muted>",
-            "managedByYou": "Beheerd vanuit je account"
+            "managedByYou": "Beheerd vanuit je account",
+            "changeRequired": "Wijziging vereist",
+            "breached": "Gelekt"
           },
           "organizations": {
             "title": "Organisaties",
@@ -1944,7 +1963,11 @@
             "new_device_sign_in": "Aangemeld vanaf een nieuw apparaat",
             "secure_account": "Heeft het account beveiligd (Dit was ik niet)",
             "password_breached": "Wachtwoord gevonden in een datalek",
-            "sign_in_locked": "Inloggen met wachtwoord geblokkeerd na verkeerde wachtwoorden"
+            "sign_in_locked": "Inloggen met wachtwoord geblokkeerd na verkeerde wachtwoorden",
+            "require_password_change": "Heeft een wachtwoordwijziging vereist",
+            "cancel_password_change": "Heeft een wachtwoordwijziging geannuleerd",
+            "inactive_disabled": "Uitgeschakeld na inactiviteit",
+            "inactive_deleted": "Verwijderd na inactiviteit"
           },
           "oauth_client": {
             "create": "OAuth-client geregistreerd",
@@ -2127,7 +2150,16 @@
           "lockoutAttempts": "Inloggen met wachtwoord blokkeren na",
           "lockoutAttemptsHint": "Verkeerde wachtwoorden voor hetzelfde e-mailadres of dezelfde gebruikersnaam binnen {minutes} minuten. Inloggen met wachtwoord stopt dan {minutes} minuten, of er nu een account bestaat of niet. Passkeys, inlogcodes en -links, sociale login en SSO blijven werken.",
           "lockoutNever": "Nooit",
-          "wrongPasswords": "{count, plural, one {# verkeerd wachtwoord} other {# verkeerde wachtwoorden}}"
+          "wrongPasswords": "{count, plural, one {# verkeerd wachtwoord} other {# verkeerde wachtwoorden}}",
+          "inactiveDays": "Inactieve accounts",
+          "inactiveDaysHint": "Dagen zonder aanmelding of gebruik van het account. Mensen krijgen {warning} dagen vooraf een e-mail, en aanmelden houdt het account. Beheerders en accounts die een SCIM-directory beheert, worden nooit geraakt. Geteld vanaf het inschakelen.",
+          "inactiveNever": "Nooit",
+          "inactiveAction": "Daarna",
+          "inactiveActionHint": "Een uitgeschakeld account kan zich niet meer aanmelden tot een beheerder de blokkade opheft. Een verwijderd account wordt gewist met alles wat eraan gekoppeld is.",
+          "inactiveDisable": "Account uitschakelen",
+          "inactiveDelete": "Account verwijderen",
+          "inactiveDisableAfter": "Uitschakelen na {count, plural, one {# dag} other {# dagen}}",
+          "inactiveDeleteAfter": "Verwijderen na {count, plural, one {# dag} other {# dagen}}"
         },
         "emailDomains": {
           "title": "E-maildomeinen",
@@ -3267,6 +3299,19 @@
       "button": "Dit was ik niet",
       "note": "De knop werkt één keer binnen {days} dagen. Hij meldt je overal af en mailt je een link om een nieuw wachtwoord te kiezen.",
       "footnote": "Je krijgt deze e-mail wanneer het wachtwoord, de tweestapsverificatie of de passkeys van je account veranderen. Deel nooit je wachtwoord of inlogcodes."
+    },
+    "inactiveAccount": {
+      "subjects": {
+        "disable": "Je {brand}-account wordt op {date} uitgeschakeld",
+        "delete": "Je {brand}-account wordt op {date} verwijderd"
+      },
+      "bodies": {
+        "disable": "Het {brand}-account {email} is lang niet gebruikt. Het wordt op {date} uitgeschakeld en kan zich dan niet meer aanmelden.",
+        "delete": "Het {brand}-account {email} is lang niet gebruikt. Het wordt op {date} verwijderd, met alles wat eraan gekoppeld is."
+      },
+      "keep": "Meld je vóór die datum aan om het te houden. Verder hoef je niets te doen.",
+      "button": "Aanmelden en mijn account houden",
+      "footnote": "Je krijgt deze e-mail omdat accounts die lang niet gebruikt zijn op deze dienst worden gesloten."
     }
   },
   "authErrors": {
@@ -3290,7 +3335,8 @@
     "countryNotAllowed": "Aanmelden vanuit je land is hier niet toegestaan.",
     "demoLocked": "De demo-accounts behouden hun wachtwoord, e-mailadres en aanmeldmethoden.",
     "demoReadOnly": "De demo-beheerconsole is alleen-lezen.",
-    "demoSignUpClosed": "Registreren is gesloten in deze demo. Meld je aan met een van de voorbeeldaccounts."
+    "demoSignUpClosed": "Registreren is gesloten in deze demo. Meld je aan met een van de voorbeeldaccounts.",
+    "inactive": "Dit account is uitgeschakeld na lange tijd zonder gebruik. Neem contact op met support om het te herstellen."
   },
   "secureAccount": {
     "title": "Beveilig je account",
@@ -3313,7 +3359,8 @@
     "doneTitle": "Wachtwoord gewijzigd",
     "doneBody": "Je nieuwe wachtwoord is ingesteld en je andere sessies zijn afgemeld.",
     "continue": "Doorgaan",
-    "toAccount": "Naar je account"
+    "toAccount": "Naar je account",
+    "adminDescription": "Een beheerder vraagt je een nieuw wachtwoord te kiezen. Kies er een om verder te gaan. Je andere sessies worden afgemeld."
   },
   "signInLink": {
     "title": "Aanmelden",

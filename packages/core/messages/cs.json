@@ -1493,7 +1493,17 @@
           "user_role_changed": "Změní se role účtu na platformě.",
           "organization_member_added": "Někdo se připojí k organizaci.",
           "organization_member_removed": "Někdo opustí organizaci nebo je z ní odebrán.",
-          "organization_member_role_changed": "Změní se role člena v organizaci."
+          "organization_member_role_changed": "Změní se role člena v organizaci.",
+          "user_signed_in": "Někdo se přihlásí, s údajem, zda jde o nové zařízení.",
+          "user_sign_in_locked": "Přihlašování heslem je po opakovaně špatných heslech pozastaveno.",
+          "user_password_changed": "Heslo je změněno.",
+          "user_password_reset": "Heslo je obnoveno odkazem nebo kódem z e-mailu.",
+          "user_password_breached": "Heslo použité k přihlášení se objeví v úniku dat.",
+          "user_two_factor_enabled": "Dvoufázové ověření je zapnuto.",
+          "user_two_factor_disabled": "Dvoufázové ověření je vypnuto.",
+          "user_passkey_added": "Je přidán přístupový klíč.",
+          "user_passkey_removed": "Je odebrán přístupový klíč.",
+          "user_account_secured": "Někdo se odhlásí všude z e-mailu o novém zařízení nebo o zabezpečení (To jsem nebyl já)."
         },
         "panel": {
           "events": "Události",
@@ -1697,7 +1707,14 @@
           "twoFactorReset": "Dvoufázové ověření bylo vypnuto",
           "reset": "Resetovat",
           "resetTwoFactorTitle": "Resetovat dvoufázové ověření pro {email}?",
-          "resetTwoFactorDescription": "Ověřovací aplikace, záložní kódy a důvěryhodná zařízení uživatele přestanou fungovat a bude se přihlašovat jen heslem, dokud si ověření znovu nenastaví. Udělejte to, jen když jste ověřili, kdo o to žádá. Akce se zaznamená do auditního protokolu."
+          "resetTwoFactorDescription": "Ověřovací aplikace, záložní kódy a důvěryhodná zařízení uživatele přestanou fungovat a bude se přihlašovat jen heslem, dokud si ověření znovu nenastaví. Udělejte to, jen když jste ověřili, kdo o to žádá. Akce se zaznamená do auditního protokolu.",
+          "requirePasswordChange": "Vyžadovat změnu hesla",
+          "cancelPasswordChange": "Zrušit změnu hesla",
+          "requirePasswordChangeTitle": "Vyžadovat nové heslo pro {email}?",
+          "requirePasswordChangeDescription": "Při příštím přihlášení nebo otevření účtu bude muset tato osoba zvolit nové heslo, než bude pokračovat. Její ostatní relace budou při změně odhlášeny. Záznam se uloží do protokolu auditu.",
+          "passwordChangeRequired": "Změna hesla vyžadována",
+          "passwordChangeCancelled": "Změna hesla zrušena",
+          "passwordChangeError": "Požadavek na změnu hesla se nepodařilo aktualizovat."
         },
         "detail": {
           "emailVerified": "E-mail ověřen",
@@ -1738,7 +1755,9 @@
             "unnamed": "Bez názvu",
             "empty": "Žádné metody přihlášení.",
             "twoFactor": "Dvoufázové ověření <muted>(ověřovací aplikace)</muted>",
-            "managedByYou": "Spravováno z vašeho účtu"
+            "managedByYou": "Spravováno z vašeho účtu",
+            "changeRequired": "Vyžadována změna",
+            "breached": "Uniklé"
           },
           "organizations": {
             "title": "Organizace",
@@ -1944,7 +1963,11 @@
             "new_device_sign_in": "Přihlášení z nového zařízení",
             "secure_account": "Zabezpečil(a) svůj účet (Nebyl(a) jsem to já)",
             "password_breached": "Heslo nalezeno v úniku dat",
-            "sign_in_locked": "Přihlášení heslem zablokováno po chybných heslech"
+            "sign_in_locked": "Přihlášení heslem zablokováno po chybných heslech",
+            "require_password_change": "Vyžádal změnu hesla",
+            "cancel_password_change": "Zrušil změnu hesla",
+            "inactive_disabled": "Deaktivováno kvůli neaktivitě",
+            "inactive_deleted": "Smazáno kvůli neaktivitě"
           },
           "oauth_client": {
             "create": "Registrace klienta OAuth",
@@ -2127,7 +2150,16 @@
           "lockoutAttempts": "Zablokovat přihlášení heslem po",
           "lockoutAttemptsHint": "Chybná hesla pro stejný e-mail nebo uživatelské jméno během {minutes} minut. Přihlášení heslem se pak na {minutes} minut zastaví, ať účet existuje, nebo ne. Přístupové klíče, přihlašovací kódy a odkazy, sociální přihlášení a SSO fungují dál.",
           "lockoutNever": "Nikdy",
-          "wrongPasswords": "{count, plural, one {# chybném heslu} few {# chybných heslech} many {# chybného hesla} other {# chybných heslech}}"
+          "wrongPasswords": "{count, plural, one {# chybném heslu} few {# chybných heslech} many {# chybného hesla} other {# chybných heslech}}",
+          "inactiveDays": "Neaktivní účty",
+          "inactiveDaysHint": "Dny bez přihlášení či použití účtu. Lidé dostanou e-mail {warning} dní předem a přihlášení účet zachová. Nikdy se netýká administrátorů ani účtů spravovaných adresářem SCIM. Počítá se od zapnutí.",
+          "inactiveNever": "Nikdy",
+          "inactiveAction": "Poté",
+          "inactiveActionHint": "Deaktivovaný účet se nemůže přihlásit, dokud administrátor nezruší zákaz. Smazaný účet se vymaže se vším, co k němu patří.",
+          "inactiveDisable": "Deaktivovat účet",
+          "inactiveDelete": "Smazat účet",
+          "inactiveDisableAfter": "Deaktivovat po {count, plural, one {# dni} other {# dnech}}",
+          "inactiveDeleteAfter": "Smazat po {count, plural, one {# dni} other {# dnech}}"
         },
         "emailDomains": {
           "title": "E-mailové domény",
@@ -3267,6 +3299,19 @@
       "button": "Nebyl(a) jsem to já",
       "note": "Tlačítko funguje jednou během {days} dnů. Odhlásí vás všude a pošle vám odkaz pro nastavení nového hesla.",
       "footnote": "Tento e-mail dostáváte, když se změní heslo, dvoufázové ověření nebo přístupové klíče vašeho účtu. Nikdy nesdílejte své heslo ani přihlašovací kódy."
+    },
+    "inactiveAccount": {
+      "subjects": {
+        "disable": "Váš účet {brand} bude {date} deaktivován",
+        "delete": "Váš účet {brand} bude {date} smazán"
+      },
+      "bodies": {
+        "disable": "Účet {brand} {email} se dlouho nepoužíval. {date} bude deaktivován a nebude se moci přihlásit.",
+        "delete": "Účet {brand} {email} se dlouho nepoužíval. {date} bude smazán se vším, co k němu patří."
+      },
+      "keep": "Chcete-li ho zachovat, přihlaste se do té doby. Nic dalšího není potřeba.",
+      "button": "Přihlásit se a zachovat účet",
+      "footnote": "Tento e-mail dostáváte, protože dlouho nepoužívané účty se v této službě ruší."
     }
   },
   "authErrors": {
@@ -3290,7 +3335,8 @@
     "countryNotAllowed": "Přihlášení z vaší země zde není povoleno.",
     "demoLocked": "Ukázkové účty si ponechávají heslo, e-mail i způsoby přihlášení.",
     "demoReadOnly": "Ukázková administrátorská konzole je jen pro čtení.",
-    "demoSignUpClosed": "Registrace je v této ukázce uzavřená. Přihlaste se jedním z ukázkových účtů."
+    "demoSignUpClosed": "Registrace je v této ukázce uzavřená. Přihlaste se jedním z ukázkových účtů.",
+    "inactive": "Tento účet byl deaktivován po dlouhé době bez použití. Pro obnovení kontaktujte podporu."
   },
   "secureAccount": {
     "title": "Zabezpečte svůj účet",
@@ -3313,7 +3359,8 @@
     "doneTitle": "Heslo změněno",
     "doneBody": "Nové heslo je nastaveno a ostatní relace byly odhlášeny.",
     "continue": "Pokračovat",
-    "toAccount": "Přejít na účet"
+    "toAccount": "Přejít na účet",
+    "adminDescription": "Administrátor vás žádá o zvolení nového hesla. Zvolte ho, abyste mohli pokračovat. Vaše ostatní relace budou odhlášeny."
   },
   "signInLink": {
     "title": "Přihlásit se",

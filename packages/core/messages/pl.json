@@ -1493,7 +1493,17 @@
           "user_role_changed": "Zmieniła się rola konta na platformie.",
           "organization_member_added": "Ktoś dołącza do organizacji.",
           "organization_member_removed": "Ktoś opuszcza organizację lub zostaje z niej usunięty.",
-          "organization_member_role_changed": "Zmienia się rola członka w organizacji."
+          "organization_member_role_changed": "Zmienia się rola członka w organizacji.",
+          "user_signed_in": "Ktoś się loguje, z informacją, czy to nowe urządzenie.",
+          "user_sign_in_locked": "Logowanie hasłem zostaje wstrzymane po wielokrotnym podaniu złego hasła.",
+          "user_password_changed": "Hasło zostaje zmienione.",
+          "user_password_reset": "Hasło zostaje zresetowane za pomocą linku lub kodu z e-maila.",
+          "user_password_breached": "Hasło użyte do logowania pojawia się w wycieku danych.",
+          "user_two_factor_enabled": "Uwierzytelnianie dwuskładnikowe zostaje włączone.",
+          "user_two_factor_disabled": "Uwierzytelnianie dwuskładnikowe zostaje wyłączone.",
+          "user_passkey_added": "Dodano klucz dostępu.",
+          "user_passkey_removed": "Usunięto klucz dostępu.",
+          "user_account_secured": "Ktoś wylogowuje się wszędzie z e-maila o nowym urządzeniu lub bezpieczeństwie (To nie ja)."
         },
         "panel": {
           "events": "Zdarzenia",
@@ -1697,7 +1707,14 @@
           "twoFactorReset": "Uwierzytelnianie dwuskładnikowe wyłączone",
           "reset": "Resetuj",
           "resetTwoFactorTitle": "Zresetować uwierzytelnianie dwuskładnikowe dla {email}?",
-          "resetTwoFactorDescription": "Aplikacja uwierzytelniająca, kody zapasowe i zaufane urządzenia tego użytkownika przestaną działać, a będzie on logował się samym hasłem, dopóki ponownie tego nie skonfiguruje. Zrób to dopiero po potwierdzeniu, kto o to prosi. Zostanie to zapisane w dzienniku audytu."
+          "resetTwoFactorDescription": "Aplikacja uwierzytelniająca, kody zapasowe i zaufane urządzenia tego użytkownika przestaną działać, a będzie on logował się samym hasłem, dopóki ponownie tego nie skonfiguruje. Zrób to dopiero po potwierdzeniu, kto o to prosi. Zostanie to zapisane w dzienniku audytu.",
+          "requirePasswordChange": "Wymagaj zmiany hasła",
+          "cancelPasswordChange": "Anuluj zmianę hasła",
+          "requirePasswordChangeTitle": "Wymagać nowego hasła od {email}?",
+          "requirePasswordChangeDescription": "Przy następnym logowaniu lub otwarciu konta ta osoba będzie musiała wybrać nowe hasło, zanim przejdzie dalej. Jej pozostałe sesje zostaną wylogowane po zmianie. Zostanie to zapisane w dzienniku audytu.",
+          "passwordChangeRequired": "Wymagana zmiana hasła",
+          "passwordChangeCancelled": "Anulowano zmianę hasła",
+          "passwordChangeError": "Nie udało się zaktualizować żądania zmiany hasła."
         },
         "detail": {
           "emailVerified": "E-mail zweryfikowany",
@@ -1738,7 +1755,9 @@
             "unnamed": "Bez nazwy",
             "empty": "Brak metod logowania.",
             "twoFactor": "Uwierzytelnianie dwuskładnikowe <muted>(aplikacja uwierzytelniająca)</muted>",
-            "managedByYou": "Zarządzane z Twojego konta"
+            "managedByYou": "Zarządzane z Twojego konta",
+            "changeRequired": "Wymagana zmiana",
+            "breached": "Ujawnione"
           },
           "organizations": {
             "title": "Organizacje",
@@ -1944,7 +1963,11 @@
             "new_device_sign_in": "Zalogowano z nowego urządzenia",
             "secure_account": "Zabezpieczył(a) konto (To nie ja)",
             "password_breached": "Hasło znalezione w wycieku",
-            "sign_in_locked": "Logowanie hasłem zablokowane po błędnych hasłach"
+            "sign_in_locked": "Logowanie hasłem zablokowane po błędnych hasłach",
+            "require_password_change": "Wymagał zmiany hasła",
+            "cancel_password_change": "Anulował zmianę hasła",
+            "inactive_disabled": "Wyłączone z powodu nieaktywności",
+            "inactive_deleted": "Usunięte z powodu nieaktywności"
           },
           "oauth_client": {
             "create": "Zarejestrowano klienta OAuth",
@@ -2127,7 +2150,16 @@
           "lockoutAttempts": "Blokuj logowanie hasłem po",
           "lockoutAttemptsHint": "Błędne hasła dla tego samego e-maila lub nazwy użytkownika w ciągu {minutes} minut. Logowanie hasłem zostaje wtedy wstrzymane na {minutes} minut, niezależnie od tego, czy konto istnieje. Klucze dostępu, kody i linki logowania, logowanie społecznościowe i SSO nadal działają.",
           "lockoutNever": "Nigdy",
-          "wrongPasswords": "{count, plural, one {# błędnym haśle} few {# błędnych hasłach} many {# błędnych hasłach} other {# błędnego hasła}}"
+          "wrongPasswords": "{count, plural, one {# błędnym haśle} few {# błędnych hasłach} many {# błędnych hasłach} other {# błędnego hasła}}",
+          "inactiveDays": "Nieaktywne konta",
+          "inactiveDaysHint": "Dni bez logowania ani używania konta. Osoby dostają e-mail {warning} dni wcześniej, a zalogowanie się zachowuje konto. Nigdy nie dotyczy administratorów ani kont zarządzanych przez katalog SCIM. Liczone od włączenia.",
+          "inactiveNever": "Nigdy",
+          "inactiveAction": "Następnie",
+          "inactiveActionHint": "Wyłączone konto nie może się logować, dopóki administrator nie zdejmie blokady. Usunięte konto jest kasowane wraz ze wszystkim, co z nim powiązane.",
+          "inactiveDisable": "Wyłącz konto",
+          "inactiveDelete": "Usuń konto",
+          "inactiveDisableAfter": "Wyłącz po {count, plural, one {# dniu} other {# dniach}}",
+          "inactiveDeleteAfter": "Usuń po {count, plural, one {# dniu} other {# dniach}}"
         },
         "emailDomains": {
           "title": "Domeny e-mail",
@@ -3267,6 +3299,19 @@
       "button": "To nie ja",
       "note": "Przycisk działa raz przez {days} dni. Wylogowuje Cię wszędzie i wysyła link do ustawienia nowego hasła.",
       "footnote": "Otrzymujesz tę wiadomość, gdy zmienia się hasło, uwierzytelnianie dwuskładnikowe lub klucze dostępu Twojego konta. Nigdy nie udostępniaj hasła ani kodów logowania."
+    },
+    "inactiveAccount": {
+      "subjects": {
+        "disable": "Twoje konto {brand} zostanie wyłączone {date}",
+        "delete": "Twoje konto {brand} zostanie usunięte {date}"
+      },
+      "bodies": {
+        "disable": "Konto {brand} {email} od dawna nie było używane. Zostanie wyłączone {date} i nie będzie można się na nie zalogować.",
+        "delete": "Konto {brand} {email} od dawna nie było używane. Zostanie usunięte {date} wraz ze wszystkim, co z nim powiązane."
+      },
+      "keep": "Aby je zachować, zaloguj się przed tą datą. Nic więcej nie trzeba robić.",
+      "button": "Zaloguj się i zachowaj konto",
+      "footnote": "Otrzymujesz ten e-mail, ponieważ długo nieużywane konta są w tym serwisie zamykane."
     }
   },
   "authErrors": {
@@ -3290,7 +3335,8 @@
     "countryNotAllowed": "Logowanie z Twojego kraju nie jest tu dozwolone.",
     "demoLocked": "Konta demonstracyjne zachowują hasło, adres e-mail i metody logowania.",
     "demoReadOnly": "Demonstracyjna konsola administratora jest tylko do odczytu.",
-    "demoSignUpClosed": "Rejestracja w tym demo jest zamknięta. Zaloguj się na jedno z przykładowych kont."
+    "demoSignUpClosed": "Rejestracja w tym demo jest zamknięta. Zaloguj się na jedno z przykładowych kont.",
+    "inactive": "To konto zostało wyłączone po długim okresie nieużywania. Skontaktuj się z pomocą techniczną, aby je przywrócić."
   },
   "secureAccount": {
     "title": "Zabezpiecz swoje konto",
@@ -3313,7 +3359,8 @@
     "doneTitle": "Hasło zmienione",
     "doneBody": "Nowe hasło jest ustawione, a pozostałe sesje zostały wylogowane.",
     "continue": "Kontynuuj",
-    "toAccount": "Przejdź do konta"
+    "toAccount": "Przejdź do konta",
+    "adminDescription": "Administrator prosi o wybranie nowego hasła. Wybierz je, aby kontynuować. Pozostałe sesje zostaną wylogowane."
   },
   "signInLink": {
     "title": "Zaloguj się",

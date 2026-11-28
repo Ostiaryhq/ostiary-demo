@@ -1493,7 +1493,17 @@
           "user_role_changed": "An account's platform role changes.",
           "organization_member_added": "Someone joins an organization.",
           "organization_member_removed": "Someone leaves or is removed from an organization.",
-          "organization_member_role_changed": "A member's role in an organization changes."
+          "organization_member_role_changed": "A member's role in an organization changes.",
+          "user_signed_in": "Someone signs in, with whether it is a new device.",
+          "user_sign_in_locked": "Password sign-in is paused after repeated wrong passwords.",
+          "user_password_changed": "A password is changed.",
+          "user_password_reset": "A password is reset from an emailed link or code.",
+          "user_password_breached": "A password used to sign in appears in a data breach.",
+          "user_two_factor_enabled": "Two-factor authentication is turned on.",
+          "user_two_factor_disabled": "Two-factor authentication is turned off.",
+          "user_passkey_added": "A passkey is added.",
+          "user_passkey_removed": "A passkey is removed.",
+          "user_account_secured": "Someone signs out everywhere from a new-device or security email (This wasn't me)."
         },
         "panel": {
           "events": "Events",
@@ -1697,7 +1707,14 @@
           "twoFactorReset": "Two-factor authentication turned off",
           "reset": "Reset",
           "resetTwoFactorTitle": "Reset two-factor authentication for {email}?",
-          "resetTwoFactorDescription": "Their authenticator app, backup codes and trusted devices stop working, and they sign in with their password alone until they set it up again. Only do this once you have confirmed who is asking. This is recorded in the audit log."
+          "resetTwoFactorDescription": "Their authenticator app, backup codes and trusted devices stop working, and they sign in with their password alone until they set it up again. Only do this once you have confirmed who is asking. This is recorded in the audit log.",
+          "requirePasswordChange": "Require a password change",
+          "cancelPasswordChange": "Cancel password change",
+          "requirePasswordChangeTitle": "Require a new password for {email}?",
+          "requirePasswordChangeDescription": "The next time they sign in or open their account, they must choose a new password before going on. Their other sessions are signed out when they change it. This is recorded in the audit log.",
+          "passwordChangeRequired": "Password change required",
+          "passwordChangeCancelled": "Password change cancelled",
+          "passwordChangeError": "Could not update the password change request."
         },
         "detail": {
           "emailVerified": "Email verified",
@@ -1738,7 +1755,9 @@
             "unnamed": "Unnamed",
             "empty": "No sign-in methods.",
             "twoFactor": "Two-factor authentication <muted>(authenticator app)</muted>",
-            "managedByYou": "Managed from your account"
+            "managedByYou": "Managed from your account",
+            "changeRequired": "Change required",
+            "breached": "Breached"
           },
           "organizations": {
             "title": "Organizations",
@@ -1944,7 +1963,11 @@
             "new_device_sign_in": "Signed in from a new device",
             "secure_account": "Secured their account (This wasn't me)",
             "password_breached": "Password found in a breach",
-            "sign_in_locked": "Password sign-in locked after wrong passwords"
+            "sign_in_locked": "Password sign-in locked after wrong passwords",
+            "require_password_change": "Required a password change",
+            "cancel_password_change": "Cancelled a password change",
+            "inactive_disabled": "Disabled after inactivity",
+            "inactive_deleted": "Deleted after inactivity"
           },
           "oauth_client": {
             "create": "Registered OAuth client",
@@ -2127,7 +2150,16 @@
           "lockoutAttempts": "Lock password sign-in after",
           "lockoutAttemptsHint": "Wrong passwords for the same email or username within {minutes} minutes. Password sign-in for it then stops for {minutes} minutes, whether or not an account has it. Passkeys, sign-in codes and links, social sign-in and SSO keep working.",
           "lockoutNever": "Never",
-          "wrongPasswords": "{count, plural, one {# wrong password} other {# wrong passwords}}"
+          "wrongPasswords": "{count, plural, one {# wrong password} other {# wrong passwords}}",
+          "inactiveDays": "Inactive accounts",
+          "inactiveDaysHint": "Days without a sign-in or use of the account. People are emailed {warning} days before, and signing in keeps the account. Admins and accounts a SCIM directory manages are never affected. Counted from when this is turned on.",
+          "inactiveNever": "Never",
+          "inactiveAction": "Then",
+          "inactiveActionHint": "Disabled accounts can no longer sign in until an admin lifts the ban. Deleted accounts are erased with everything linked to them.",
+          "inactiveDisable": "Disable the account",
+          "inactiveDelete": "Delete the account",
+          "inactiveDisableAfter": "Disable after {count, plural, one {# day} other {# days}}",
+          "inactiveDeleteAfter": "Delete after {count, plural, one {# day} other {# days}}"
         },
         "emailDomains": {
           "title": "Email domains",
@@ -3267,6 +3299,19 @@
       "button": "This wasn't me",
       "note": "The button works once within {days} days. It signs you out everywhere and emails you a link to choose a new password.",
       "footnote": "You get this email when your account's password, two-factor authentication or passkeys change. Never share your password or sign-in codes."
+    },
+    "inactiveAccount": {
+      "subjects": {
+        "disable": "Your {brand} account will be disabled on {date}",
+        "delete": "Your {brand} account will be deleted on {date}"
+      },
+      "bodies": {
+        "disable": "The {brand} account {email} has not been used for a long time. It will be disabled on {date}, and then can no longer sign in.",
+        "delete": "The {brand} account {email} has not been used for a long time. It will be deleted on {date}, with everything linked to it."
+      },
+      "keep": "To keep it, sign in before then. There is nothing else to do.",
+      "button": "Sign in to keep my account",
+      "footnote": "You get this email because accounts unused for a long time are closed on this service."
     }
   },
   "authErrors": {
@@ -3290,7 +3335,8 @@
     "countryNotAllowed": "Signing in from your country is not allowed here.",
     "demoLocked": "The demo accounts keep their password, email and sign-in methods.",
     "demoReadOnly": "The demo admin console is read-only.",
-    "demoSignUpClosed": "Sign-up is closed on this demo. Sign in with one of the example accounts."
+    "demoSignUpClosed": "Sign-up is closed on this demo. Sign in with one of the example accounts.",
+    "inactive": "This account was disabled after a long time without use. Contact support to restore it."
   },
   "secureAccount": {
     "title": "Secure your account",
@@ -3313,7 +3359,8 @@
     "doneTitle": "Password changed",
     "doneBody": "Your new password is set and your other sessions were signed out.",
     "continue": "Continue",
-    "toAccount": "Go to your account"
+    "toAccount": "Go to your account",
+    "adminDescription": "An administrator asked you to choose a new password. Choose one to continue. Your other sessions will be signed out."
   },
   "signInLink": {
     "title": "Sign in",

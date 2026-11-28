@@ -1493,7 +1493,17 @@
           "user_role_changed": "账户的平台角色发生变化。",
           "organization_member_added": "有人加入组织。",
           "organization_member_removed": "有人离开组织或被移出组织。",
-          "organization_member_role_changed": "成员在组织中的角色发生变化。"
+          "organization_member_role_changed": "成员在组织中的角色发生变化。",
+          "user_signed_in": "有人登录时（包括是否为新设备）。",
+          "user_sign_in_locked": "多次输入错误密码后，密码登录被暂停。",
+          "user_password_changed": "密码被更改。",
+          "user_password_reset": "通过邮件中的链接或验证码重置密码。",
+          "user_password_breached": "用于登录的密码出现在数据泄露中。",
+          "user_two_factor_enabled": "开启双重身份验证。",
+          "user_two_factor_disabled": "关闭双重身份验证。",
+          "user_passkey_added": "添加了通行密钥。",
+          "user_passkey_removed": "移除了通行密钥。",
+          "user_account_secured": "有人通过新设备或安全邮件在所有位置退出登录（不是我本人）。"
         },
         "panel": {
           "events": "事件",
@@ -1697,7 +1707,14 @@
           "twoFactorReset": "双重身份验证已关闭",
           "reset": "重置",
           "resetTwoFactorTitle": "为 {email} 重置双重身份验证？",
-          "resetTwoFactorDescription": "其身份验证器应用、备用代码和受信任设备都将失效，在重新设置之前只需密码即可登录。请仅在确认请求者身份后执行此操作。此操作会记录在审计日志中。"
+          "resetTwoFactorDescription": "其身份验证器应用、备用代码和受信任设备都将失效，在重新设置之前只需密码即可登录。请仅在确认请求者身份后执行此操作。此操作会记录在审计日志中。",
+          "requirePasswordChange": "要求更改密码",
+          "cancelPasswordChange": "取消密码更改要求",
+          "requirePasswordChangeTitle": "要求 {email} 设置新密码？",
+          "requirePasswordChangeDescription": "下次登录或打开账户时，必须先选择新密码才能继续。更改后，其其他会话将被注销。此操作会记录在审计日志中。",
+          "passwordChangeRequired": "已要求更改密码",
+          "passwordChangeCancelled": "已取消密码更改要求",
+          "passwordChangeError": "无法更新密码更改要求。"
         },
         "detail": {
           "emailVerified": "邮箱已验证",
@@ -1738,7 +1755,9 @@
             "unnamed": "未命名",
             "empty": "没有登录方式。",
             "twoFactor": "双重身份验证 <muted>（身份验证器应用）</muted>",
-            "managedByYou": "在你的账户中管理"
+            "managedByYou": "在你的账户中管理",
+            "changeRequired": "需要更改",
+            "breached": "已泄露"
           },
           "organizations": {
             "title": "组织",
@@ -1944,7 +1963,11 @@
             "new_device_sign_in": "在新设备上登录",
             "secure_account": "保护了自己的账户（不是我）",
             "password_breached": "密码出现在泄露数据中",
-            "sign_in_locked": "多次密码错误后已锁定密码登录"
+            "sign_in_locked": "多次密码错误后已锁定密码登录",
+            "require_password_change": "要求更改密码",
+            "cancel_password_change": "取消了密码更改要求",
+            "inactive_disabled": "因不活跃被停用",
+            "inactive_deleted": "因不活跃被删除"
           },
           "oauth_client": {
             "create": "注册了 OAuth 客户端",
@@ -2127,7 +2150,16 @@
           "lockoutAttempts": "密码登录锁定条件",
           "lockoutAttemptsHint": "{minutes} 分钟内同一邮箱或用户名输入错误密码的次数。之后无论账户是否存在，该邮箱或用户名的密码登录都会停止 {minutes} 分钟。通行密钥、登录验证码和链接、社交登录和 SSO 仍可使用。",
           "lockoutNever": "从不",
-          "wrongPasswords": "{count, plural, other {# 次密码错误}}"
+          "wrongPasswords": "{count, plural, other {# 次密码错误}}",
+          "inactiveDays": "不活跃账户",
+          "inactiveDaysHint": "未登录也未使用账户的天数。会在 {warning} 天前发送邮件，登录即可保留账户。管理员和由 SCIM 目录管理的账户不受影响。从开启时开始计算。",
+          "inactiveNever": "从不",
+          "inactiveAction": "然后",
+          "inactiveActionHint": "被停用的账户在管理员解除封禁前无法登录。被删除的账户会连同所有相关内容一起清除。",
+          "inactiveDisable": "停用账户",
+          "inactiveDelete": "删除账户",
+          "inactiveDisableAfter": "{count, plural, other {# 天}}后停用",
+          "inactiveDeleteAfter": "{count, plural, other {# 天}}后删除"
         },
         "emailDomains": {
           "title": "邮箱域名",
@@ -3267,6 +3299,19 @@
       "button": "不是我",
       "note": "此按钮在 {days} 天内可使用一次。它会让你在所有地方退出登录，并通过邮件发送设置新密码的链接。",
       "footnote": "当你账户的密码、双重验证或通行密钥发生变化时，你会收到此邮件。切勿与他人分享你的密码或登录验证码。"
+    },
+    "inactiveAccount": {
+      "subjects": {
+        "disable": "你的 {brand} 账户将于 {date} 停用",
+        "delete": "你的 {brand} 账户将于 {date} 删除"
+      },
+      "bodies": {
+        "disable": "{brand} 账户 {email} 已长时间未使用。它将于 {date} 停用，之后无法登录。",
+        "delete": "{brand} 账户 {email} 已长时间未使用。它将于 {date} 连同所有相关内容一起删除。"
+      },
+      "keep": "如需保留，请在此之前登录。无需其他操作。",
+      "button": "登录并保留我的账户",
+      "footnote": "你收到此邮件是因为本服务会关闭长时间未使用的账户。"
     }
   },
   "authErrors": {
@@ -3290,7 +3335,8 @@
     "countryNotAllowed": "此处不允许从你所在的国家/地区登录。",
     "demoLocked": "演示账户会保留其密码、邮箱和登录方式。",
     "demoReadOnly": "演示管理控制台为只读。",
-    "demoSignUpClosed": "此演示已关闭注册。请使用其中一个示例账户登录。"
+    "demoSignUpClosed": "此演示已关闭注册。请使用其中一个示例账户登录。",
+    "inactive": "此账户因长时间未使用已被停用。请联系支持以恢复。"
   },
   "secureAccount": {
     "title": "保护你的账户",
@@ -3313,7 +3359,8 @@
     "doneTitle": "密码已修改",
     "doneBody": "新密码已设置，其他会话已退出。",
     "continue": "继续",
-    "toAccount": "前往你的账户"
+    "toAccount": "前往你的账户",
+    "adminDescription": "管理员要求你选择一个新密码。请选择一个以继续。你的其他会话将被注销。"
   },
   "signInLink": {
     "title": "登录",

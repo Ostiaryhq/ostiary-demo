@@ -1493,7 +1493,17 @@
           "user_role_changed": "Cambia il ruolo di piattaforma di un account.",
           "organization_member_added": "Qualcuno entra in un’organizzazione.",
           "organization_member_removed": "Qualcuno lascia un’organizzazione o ne viene rimosso.",
-          "organization_member_role_changed": "Cambia il ruolo di un membro in un’organizzazione."
+          "organization_member_role_changed": "Cambia il ruolo di un membro in un’organizzazione.",
+          "user_signed_in": "Qualcuno accede, indicando se è un nuovo dispositivo.",
+          "user_sign_in_locked": "L’accesso con password viene sospeso dopo ripetute password errate.",
+          "user_password_changed": "Una password viene cambiata.",
+          "user_password_reset": "Una password viene reimpostata da un link o codice ricevuto via email.",
+          "user_password_breached": "Una password usata per accedere compare in una violazione di dati.",
+          "user_two_factor_enabled": "L’autenticazione a due fattori viene attivata.",
+          "user_two_factor_disabled": "L’autenticazione a due fattori viene disattivata.",
+          "user_passkey_added": "Viene aggiunta una passkey.",
+          "user_passkey_removed": "Viene rimossa una passkey.",
+          "user_account_secured": "Qualcuno si disconnette ovunque da un’email di nuovo dispositivo o di sicurezza (Non sono stato io)."
         },
         "panel": {
           "events": "Eventi",
@@ -1697,7 +1707,14 @@
           "twoFactorReset": "Autenticazione a due fattori disattivata",
           "reset": "Reimposta",
           "resetTwoFactorTitle": "Reimpostare l’autenticazione a due fattori per {email}?",
-          "resetTwoFactorDescription": "La sua app di autenticazione, i codici di backup e i dispositivi attendibili smettono di funzionare, e accederà con la sola password finché non la configurerà di nuovo. Fallo solo dopo aver verificato chi lo sta chiedendo. L’operazione viene registrata nel registro di audit."
+          "resetTwoFactorDescription": "La sua app di autenticazione, i codici di backup e i dispositivi attendibili smettono di funzionare, e accederà con la sola password finché non la configurerà di nuovo. Fallo solo dopo aver verificato chi lo sta chiedendo. L’operazione viene registrata nel registro di audit.",
+          "requirePasswordChange": "Richiedi un cambio di password",
+          "cancelPasswordChange": "Annulla il cambio di password",
+          "requirePasswordChangeTitle": "Richiedere una nuova password a {email}?",
+          "requirePasswordChangeDescription": "Al prossimo accesso o quando apre il proprio account, dovrà scegliere una nuova password prima di continuare. Le altre sessioni verranno disconnesse al cambio. L’operazione viene registrata nel registro di audit.",
+          "passwordChangeRequired": "Cambio di password richiesto",
+          "passwordChangeCancelled": "Cambio di password annullato",
+          "passwordChangeError": "Impossibile aggiornare la richiesta di cambio password."
         },
         "detail": {
           "emailVerified": "Email verificata",
@@ -1738,7 +1755,9 @@
             "unnamed": "Senza nome",
             "empty": "Nessun metodo di accesso.",
             "twoFactor": "Autenticazione a due fattori <muted>(app di autenticazione)</muted>",
-            "managedByYou": "Gestito dal tuo account"
+            "managedByYou": "Gestito dal tuo account",
+            "changeRequired": "Cambio richiesto",
+            "breached": "Compromessa"
           },
           "organizations": {
             "title": "Organizzazioni",
@@ -1944,7 +1963,11 @@
             "new_device_sign_in": "Accesso da un nuovo dispositivo",
             "secure_account": "Ha protetto il proprio account (Non sono stato io)",
             "password_breached": "Password trovata in una violazione",
-            "sign_in_locked": "Accesso con password bloccato dopo password errate"
+            "sign_in_locked": "Accesso con password bloccato dopo password errate",
+            "require_password_change": "Ha richiesto un cambio di password",
+            "cancel_password_change": "Ha annullato un cambio di password",
+            "inactive_disabled": "Disattivato per inattività",
+            "inactive_deleted": "Eliminato per inattività"
           },
           "oauth_client": {
             "create": "Client OAuth registrato",
@@ -2127,7 +2150,16 @@
           "lockoutAttempts": "Blocca l’accesso con password dopo",
           "lockoutAttemptsHint": "Password errate per la stessa email o lo stesso nome utente in {minutes} minuti. L’accesso con password si ferma poi per {minutes} minuti, che esista o no un account. Passkey, codici e link di accesso, accesso social e SSO continuano a funzionare.",
           "lockoutNever": "Mai",
-          "wrongPasswords": "{count, plural, one {# password errata} other {# password errate}}"
+          "wrongPasswords": "{count, plural, one {# password errata} other {# password errate}}",
+          "inactiveDays": "Account inattivi",
+          "inactiveDaysHint": "Giorni senza accessi né uso dell’account. Le persone ricevono un’email {warning} giorni prima, e accedere mantiene l’account. Amministratori e account gestiti da una directory SCIM non sono mai interessati. Conteggiato da quando viene attivato.",
+          "inactiveNever": "Mai",
+          "inactiveAction": "Poi",
+          "inactiveActionHint": "Un account disattivato non può più accedere finché un amministratore non revoca il blocco. Un account eliminato viene cancellato con tutto ciò che vi è collegato.",
+          "inactiveDisable": "Disattiva l’account",
+          "inactiveDelete": "Elimina l’account",
+          "inactiveDisableAfter": "Disattiva dopo {count, plural, one {# giorno} other {# giorni}}",
+          "inactiveDeleteAfter": "Elimina dopo {count, plural, one {# giorno} other {# giorni}}"
         },
         "emailDomains": {
           "title": "Domini email",
@@ -3267,6 +3299,19 @@
       "button": "Non sono stato io",
       "note": "Il pulsante funziona una sola volta entro {days} giorni. Ti disconnette ovunque e ti invia un link per scegliere una nuova password.",
       "footnote": "Ricevi questa email quando cambiano la password, l’autenticazione a due fattori o le passkey del tuo account. Non condividere mai la password o i codici di accesso."
+    },
+    "inactiveAccount": {
+      "subjects": {
+        "disable": "Il tuo account {brand} verrà disattivato il {date}",
+        "delete": "Il tuo account {brand} verrà eliminato il {date}"
+      },
+      "bodies": {
+        "disable": "L’account {brand} {email} non viene usato da molto tempo. Verrà disattivato il {date} e non potrà più accedere.",
+        "delete": "L’account {brand} {email} non viene usato da molto tempo. Verrà eliminato il {date}, con tutto ciò che vi è collegato."
+      },
+      "keep": "Per mantenerlo, accedi prima di allora. Non c’è altro da fare.",
+      "button": "Accedi per mantenere l’account",
+      "footnote": "Ricevi questa email perché gli account inutilizzati da molto tempo vengono chiusi su questo servizio."
     }
   },
   "authErrors": {
@@ -3290,7 +3335,8 @@
     "countryNotAllowed": "L’accesso dal tuo paese non è consentito qui.",
     "demoLocked": "Gli account demo mantengono password, email e metodi di accesso.",
     "demoReadOnly": "La console di amministrazione demo è di sola lettura.",
-    "demoSignUpClosed": "La registrazione è chiusa in questa demo. Accedi con uno degli account di esempio."
+    "demoSignUpClosed": "La registrazione è chiusa in questa demo. Accedi con uno degli account di esempio.",
+    "inactive": "Questo account è stato disattivato dopo un lungo periodo di inutilizzo. Contatta l’assistenza per ripristinarlo."
   },
   "secureAccount": {
     "title": "Proteggi il tuo account",
@@ -3313,7 +3359,8 @@
     "doneTitle": "Password modificata",
     "doneBody": "La nuova password è impostata e le altre sessioni sono state disconnesse.",
     "continue": "Continua",
-    "toAccount": "Vai al tuo account"
+    "toAccount": "Vai al tuo account",
+    "adminDescription": "Un amministratore ti chiede di scegliere una nuova password. Sceglila per continuare. Le altre sessioni verranno disconnesse."
   },
   "signInLink": {
     "title": "Accedi",

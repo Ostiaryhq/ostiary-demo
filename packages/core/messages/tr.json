@@ -1493,7 +1493,17 @@
           "user_role_changed": "Bir hesabın platform rolü değişir.",
           "organization_member_added": "Biri bir kuruluşa katılır.",
           "organization_member_removed": "Biri bir kuruluştan ayrılır veya çıkarılır.",
-          "organization_member_role_changed": "Bir üyenin kuruluştaki rolü değişir."
+          "organization_member_role_changed": "Bir üyenin kuruluştaki rolü değişir.",
+          "user_signed_in": "Biri oturum açar; yeni bir cihaz olup olmadığı da belirtilir.",
+          "user_sign_in_locked": "Tekrarlanan yanlış parolalardan sonra parolayla giriş duraklatılır.",
+          "user_password_changed": "Bir parola değiştirilir.",
+          "user_password_reset": "Bir parola e-postayla gönderilen bağlantı veya kodla sıfırlanır.",
+          "user_password_breached": "Giriş için kullanılan bir parola veri sızıntısında görünür.",
+          "user_two_factor_enabled": "İki adımlı doğrulama açılır.",
+          "user_two_factor_disabled": "İki adımlı doğrulama kapatılır.",
+          "user_passkey_added": "Bir geçiş anahtarı eklenir.",
+          "user_passkey_removed": "Bir geçiş anahtarı kaldırılır.",
+          "user_account_secured": "Biri yeni cihaz veya güvenlik e-postasından her yerde oturumu kapatır (Bu ben değildim)."
         },
         "panel": {
           "events": "Olaylar",
@@ -1697,7 +1707,14 @@
           "twoFactorReset": "İki faktörlü kimlik doğrulama kapatıldı",
           "reset": "Sıfırla",
           "resetTwoFactorTitle": "{email} için iki faktörlü kimlik doğrulama sıfırlansın mı?",
-          "resetTwoFactorDescription": "Kimlik doğrulama uygulaması, yedek kodları ve güvenilir cihazları çalışmayı bırakır; yeniden ayarlayana kadar yalnızca parolasıyla giriş yapar. Bunu yalnızca talepte bulunan kişinin kimliğini doğruladıktan sonra yapın. Bu işlem denetim günlüğüne kaydedilir."
+          "resetTwoFactorDescription": "Kimlik doğrulama uygulaması, yedek kodları ve güvenilir cihazları çalışmayı bırakır; yeniden ayarlayana kadar yalnızca parolasıyla giriş yapar. Bunu yalnızca talepte bulunan kişinin kimliğini doğruladıktan sonra yapın. Bu işlem denetim günlüğüne kaydedilir.",
+          "requirePasswordChange": "Parola değişikliği iste",
+          "cancelPasswordChange": "Parola değişikliğini iptal et",
+          "requirePasswordChangeTitle": "{email} için yeni parola istensin mi?",
+          "requirePasswordChangeDescription": "Bir sonraki girişinde veya hesabını açtığında devam etmeden önce yeni bir parola seçmesi gerekir. Değiştirdiğinde diğer oturumları kapatılır. Bu işlem denetim günlüğüne kaydedilir.",
+          "passwordChangeRequired": "Parola değişikliği istendi",
+          "passwordChangeCancelled": "Parola değişikliği iptal edildi",
+          "passwordChangeError": "Parola değişikliği isteği güncellenemedi."
         },
         "detail": {
           "emailVerified": "E-posta doğrulandı",
@@ -1738,7 +1755,9 @@
             "unnamed": "Adsız",
             "empty": "Giriş yöntemi yok.",
             "twoFactor": "İki faktörlü kimlik doğrulama <muted>(kimlik doğrulama uygulaması)</muted>",
-            "managedByYou": "Kendi hesabınızdan yönetilir"
+            "managedByYou": "Kendi hesabınızdan yönetilir",
+            "changeRequired": "Değişiklik gerekli",
+            "breached": "Sızdırılmış"
           },
           "organizations": {
             "title": "Kuruluşlar",
@@ -1944,7 +1963,11 @@
             "new_device_sign_in": "Yeni bir cihazdan oturum açtı",
             "secure_account": "Hesabını güvenceye aldı (Bu ben değildim)",
             "password_breached": "Parola bir veri sızıntısında bulundu",
-            "sign_in_locked": "Yanlış şifrelerden sonra şifreyle giriş kilitlendi"
+            "sign_in_locked": "Yanlış şifrelerden sonra şifreyle giriş kilitlendi",
+            "require_password_change": "Parola değişikliği istedi",
+            "cancel_password_change": "Parola değişikliğini iptal etti",
+            "inactive_disabled": "Etkinsizlik nedeniyle devre dışı bırakıldı",
+            "inactive_deleted": "Etkinsizlik nedeniyle silindi"
           },
           "oauth_client": {
             "create": "OAuth istemcisi kaydetti",
@@ -2127,7 +2150,16 @@
           "lockoutAttempts": "Şifreyle girişi şu kadar sonra kilitle",
           "lockoutAttemptsHint": "{minutes} dakika içinde aynı e-posta veya kullanıcı adı için yanlış şifreler. Ardından bir hesap olsun ya da olmasın şifreyle giriş {minutes} dakika durur. Geçiş anahtarları, giriş kodları ve bağlantıları, sosyal giriş ve SSO çalışmaya devam eder.",
           "lockoutNever": "Asla",
-          "wrongPasswords": "{count, plural, one {# yanlış şifre} other {# yanlış şifre}}"
+          "wrongPasswords": "{count, plural, one {# yanlış şifre} other {# yanlış şifre}}",
+          "inactiveDays": "Etkin olmayan hesaplar",
+          "inactiveDaysHint": "Giriş yapılmayan ve hesabın kullanılmadığı gün sayısı. Kişilere {warning} gün önce e-posta gider; giriş yapmak hesabı korur. Yöneticiler ve bir SCIM dizininin yönettiği hesaplar hiçbir zaman etkilenmez. Açıldığı andan itibaren sayılır.",
+          "inactiveNever": "Hiçbir zaman",
+          "inactiveAction": "Ardından",
+          "inactiveActionHint": "Devre dışı bırakılan hesap, bir yönetici yasağı kaldırana kadar giriş yapamaz. Silinen hesap, bağlı her şeyle birlikte silinir.",
+          "inactiveDisable": "Hesabı devre dışı bırak",
+          "inactiveDelete": "Hesabı sil",
+          "inactiveDisableAfter": "{count, plural, one {# gün} other {# gün}} sonra devre dışı bırak",
+          "inactiveDeleteAfter": "{count, plural, one {# gün} other {# gün}} sonra sil"
         },
         "emailDomains": {
           "title": "E-posta alan adları",
@@ -3267,6 +3299,19 @@
       "button": "Bu ben değildim",
       "note": "Düğme {days} gün içinde bir kez çalışır. Her yerde oturumunuzu kapatır ve yeni bir parola seçmeniz için size bir bağlantı gönderir.",
       "footnote": "Bu e-postayı hesabınızın şifresi, iki adımlı doğrulaması veya geçiş anahtarları değiştiğinde alırsınız. Şifrenizi veya giriş kodlarınızı asla paylaşmayın."
+    },
+    "inactiveAccount": {
+      "subjects": {
+        "disable": "{brand} hesabınız {date} tarihinde devre dışı bırakılacak",
+        "delete": "{brand} hesabınız {date} tarihinde silinecek"
+      },
+      "bodies": {
+        "disable": "{brand} hesabı {email} uzun süredir kullanılmadı. {date} tarihinde devre dışı bırakılacak ve artık giriş yapamayacak.",
+        "delete": "{brand} hesabı {email} uzun süredir kullanılmadı. {date} tarihinde bağlı her şeyle birlikte silinecek."
+      },
+      "keep": "Korumak için o tarihten önce giriş yapın. Başka bir şey yapmanız gerekmez.",
+      "button": "Giriş yap ve hesabımı koru",
+      "footnote": "Bu e-postayı, uzun süre kullanılmayan hesaplar bu hizmette kapatıldığı için alıyorsunuz."
     }
   },
   "authErrors": {
@@ -3290,7 +3335,8 @@
     "countryNotAllowed": "Ülkenizden oturum açmaya burada izin verilmiyor.",
     "demoLocked": "Demo hesaplar parolalarını, e-posta adreslerini ve oturum açma yöntemlerini korur.",
     "demoReadOnly": "Demo yönetim konsolu salt okunurdur.",
-    "demoSignUpClosed": "Bu demoda kayıt kapalı. Örnek hesaplardan biriyle oturum açın."
+    "demoSignUpClosed": "Bu demoda kayıt kapalı. Örnek hesaplardan biriyle oturum açın.",
+    "inactive": "Bu hesap uzun süre kullanılmadığı için devre dışı bırakıldı. Geri almak için destekle iletişime geçin."
   },
   "secureAccount": {
     "title": "Hesabınızı güvenceye alın",
@@ -3313,7 +3359,8 @@
     "doneTitle": "Parola değiştirildi",
     "doneBody": "Yeni parolanız ayarlandı ve diğer oturumlarınız kapatıldı.",
     "continue": "Devam et",
-    "toAccount": "Hesabınıza gidin"
+    "toAccount": "Hesabınıza gidin",
+    "adminDescription": "Bir yönetici yeni bir parola seçmenizi istedi. Devam etmek için bir parola seçin. Diğer oturumlarınız kapatılacak."
   },
   "signInLink": {
     "title": "Oturum aç",

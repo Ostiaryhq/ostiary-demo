@@ -1493,7 +1493,17 @@
           "user_role_changed": "En kontos plattformrolle endres.",
           "organization_member_added": "Noen blir med i en organisasjon.",
           "organization_member_removed": "Noen forlater eller fjernes fra en organisasjon.",
-          "organization_member_role_changed": "Et medlems rolle i en organisasjon endres."
+          "organization_member_role_changed": "Et medlems rolle i en organisasjon endres.",
+          "user_signed_in": "Noen logger på, med om det er en ny enhet.",
+          "user_sign_in_locked": "Pålogging med passord settes på pause etter gjentatte feil passord.",
+          "user_password_changed": "Et passord endres.",
+          "user_password_reset": "Et passord tilbakestilles fra en lenke eller kode sendt på e-post.",
+          "user_password_breached": "Et passord brukt til pålogging finnes i en datalekkasje.",
+          "user_two_factor_enabled": "Totrinnsbekreftelse slås på.",
+          "user_two_factor_disabled": "Totrinnsbekreftelse slås av.",
+          "user_passkey_added": "En tilgangsnøkkel legges til.",
+          "user_passkey_removed": "En tilgangsnøkkel fjernes.",
+          "user_account_secured": "Noen logger ut overalt fra en e-post om ny enhet eller sikkerhet (Dette var ikke meg)."
         },
         "panel": {
           "events": "Hendelser",
@@ -1697,7 +1707,14 @@
           "twoFactorReset": "Tofaktorautentisering er slått av",
           "reset": "Tilbakestill",
           "resetTwoFactorTitle": "Tilbakestille tofaktorautentisering for {email}?",
-          "resetTwoFactorDescription": "Autentiseringsappen, reservekodene og de klarerte enhetene slutter å virke, og vedkommende logger inn med bare passordet til tofaktor er satt opp igjen. Gjør dette bare når du har bekreftet hvem som spør. Dette registreres i revisjonsloggen."
+          "resetTwoFactorDescription": "Autentiseringsappen, reservekodene og de klarerte enhetene slutter å virke, og vedkommende logger inn med bare passordet til tofaktor er satt opp igjen. Gjør dette bare når du har bekreftet hvem som spør. Dette registreres i revisjonsloggen.",
+          "requirePasswordChange": "Krev passordbytte",
+          "cancelPasswordChange": "Avbryt passordbytte",
+          "requirePasswordChangeTitle": "Kreve nytt passord for {email}?",
+          "requirePasswordChangeDescription": "Neste gang personen logger på eller åpner kontoen, må et nytt passord velges før det går videre. Personens andre økter logges ut ved byttet. Dette registreres i revisjonsloggen.",
+          "passwordChangeRequired": "Passordbytte kreves",
+          "passwordChangeCancelled": "Passordbytte avbrutt",
+          "passwordChangeError": "Kunne ikke oppdatere forespørselen om passordbytte."
         },
         "detail": {
           "emailVerified": "E-post bekreftet",
@@ -1738,7 +1755,9 @@
             "unnamed": "Uten navn",
             "empty": "Ingen innloggingsmetoder.",
             "twoFactor": "Tofaktorautentisering <muted>(autentiseringsapp)</muted>",
-            "managedByYou": "Administreres fra kontoen din"
+            "managedByYou": "Administreres fra kontoen din",
+            "changeRequired": "Bytte kreves",
+            "breached": "Lekket"
           },
           "organizations": {
             "title": "Organisasjoner",
@@ -1944,7 +1963,11 @@
             "new_device_sign_in": "Logget på fra en ny enhet",
             "secure_account": "Sikret kontoen sin (Det var ikke meg)",
             "password_breached": "Passord funnet i en datalekkasje",
-            "sign_in_locked": "Pålogging med passord låst etter feil passord"
+            "sign_in_locked": "Pålogging med passord låst etter feil passord",
+            "require_password_change": "Krevde et passordbytte",
+            "cancel_password_change": "Avbrøt et passordbytte",
+            "inactive_disabled": "Deaktivert etter inaktivitet",
+            "inactive_deleted": "Slettet etter inaktivitet"
           },
           "oauth_client": {
             "create": "Registrerte OAuth-klient",
@@ -2127,7 +2150,16 @@
           "lockoutAttempts": "Lås pålogging med passord etter",
           "lockoutAttemptsHint": "Feil passord for samme e-post eller brukernavn innen {minutes} minutter. Pålogging med passord stoppes da i {minutes} minutter, enten en konto finnes eller ikke. Tilgangsnøkler, påloggingskoder og -lenker, sosial pålogging og SSO virker fortsatt.",
           "lockoutNever": "Aldri",
-          "wrongPasswords": "{count, plural, one {# feil passord} other {# feil passord}}"
+          "wrongPasswords": "{count, plural, one {# feil passord} other {# feil passord}}",
+          "inactiveDays": "Inaktive kontoer",
+          "inactiveDaysHint": "Dager uten pålogging eller bruk av kontoen. Personer får en e-post {warning} dager før, og en pålogging beholder kontoen. Administratorer og kontoer en SCIM-katalog styrer, berøres aldri. Telles fra når det slås på.",
+          "inactiveNever": "Aldri",
+          "inactiveAction": "Deretter",
+          "inactiveActionHint": "En deaktivert konto kan ikke logge på før en administrator opphever utestengelsen. En slettet konto fjernes med alt som er knyttet til den.",
+          "inactiveDisable": "Deaktiver kontoen",
+          "inactiveDelete": "Slett kontoen",
+          "inactiveDisableAfter": "Deaktiver etter {count, plural, one {# dag} other {# dager}}",
+          "inactiveDeleteAfter": "Slett etter {count, plural, one {# dag} other {# dager}}"
         },
         "emailDomains": {
           "title": "E-postdomener",
@@ -3267,6 +3299,19 @@
       "button": "Det var ikke meg",
       "note": "Knappen fungerer én gang innen {days} dager. Den logger deg ut overalt og sender deg en lenke for å velge et nytt passord.",
       "footnote": "Du får denne e-posten når passordet, tofaktorautentiseringen eller tilgangsnøklene til kontoen din endres. Del aldri passordet eller påloggingskodene dine."
+    },
+    "inactiveAccount": {
+      "subjects": {
+        "disable": "{brand}-kontoen din deaktiveres {date}",
+        "delete": "{brand}-kontoen din slettes {date}"
+      },
+      "bodies": {
+        "disable": "{brand}-kontoen {email} har ikke vært brukt på lenge. Den deaktiveres {date} og kan deretter ikke logge på.",
+        "delete": "{brand}-kontoen {email} har ikke vært brukt på lenge. Den slettes {date} med alt som er knyttet til den."
+      },
+      "keep": "Logg på før da for å beholde den. Det er ikke noe annet å gjøre.",
+      "button": "Logg på og behold kontoen min",
+      "footnote": "Du får denne e-posten fordi kontoer som ikke har vært brukt på lenge, stenges på denne tjenesten."
     }
   },
   "authErrors": {
@@ -3290,7 +3335,8 @@
     "countryNotAllowed": "Pålogging fra landet ditt er ikke tillatt her.",
     "demoLocked": "Demokontoene beholder passordet, e-postadressen og påloggingsmetodene sine.",
     "demoReadOnly": "Demoens administrasjonskonsoll er skrivebeskyttet.",
-    "demoSignUpClosed": "Registrering er stengt i denne demoen. Logg på med en av eksempelkontoene."
+    "demoSignUpClosed": "Registrering er stengt i denne demoen. Logg på med en av eksempelkontoene.",
+    "inactive": "Denne kontoen ble deaktivert etter lang tid uten bruk. Kontakt brukerstøtte for å gjenopprette den."
   },
   "secureAccount": {
     "title": "Sikre kontoen din",
@@ -3313,7 +3359,8 @@
     "doneTitle": "Passordet er endret",
     "doneBody": "Det nye passordet er lagret, og de andre øktene dine er logget ut.",
     "continue": "Fortsett",
-    "toAccount": "Gå til kontoen din"
+    "toAccount": "Gå til kontoen din",
+    "adminDescription": "En administrator ber deg velge et nytt passord. Velg ett for å fortsette. De andre øktene dine logges ut."
   },
   "signInLink": {
     "title": "Logg på",

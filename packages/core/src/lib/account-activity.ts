@@ -2,16 +2,19 @@ import { randomUUID } from "node:crypto";
 import { and, desc, eq, gte, inArray, lt } from "drizzle-orm";
 
 import { db } from "@ostiary/core/db/index";
-import { accountEvent, session as sessionTable } from "@ostiary/core/db/schema";
+import { accountEvent, session as sessionTable, user as userTable } from "@ostiary/core/db/schema";
 import { clientIp } from "@ostiary/core/lib/auth-events";
+import { requestCountry } from "@ostiary/core/lib/country";
 import { env } from "@ostiary/core/lib/env";
 import { demoMode } from "@ostiary/core/lib/demo";
+import { makeEvent, userSnapshot, type WebhookEventType } from "@ostiary/core/lib/webhooks/events";
+import { emitWebhookEvents } from "@ostiary/core/lib/webhooks/outbox";
 
 /*
  * A person's own security history ("Recent activity" on the account page). Recorded from the
  * sign-in check (security/new-device.ts), the account hooks (auth-hooks/account-activity-hook.ts),
  * the password reset callback and "This wasn't me". Never throws: history must not break the
- * action it records.
+ * action it records. The security events among them also go to webhooks (SECURITY_WEBHOOKS).
  */
 
 export const ACCOUNT_EVENT_TYPES = [
@@ -32,6 +35,20 @@ export const ACCOUNT_EVENT_TYPES = [
 
 export type AccountEventType = (typeof ACCOUNT_EVENT_TYPES)[number];
 
+/** The webhook event for each account event that has one. Email changes are user.updated. */
+const SECURITY_WEBHOOKS: Partial<Record<AccountEventType, WebhookEventType>> = {
+    sign_in: "user.signed_in",
+    sign_in_locked: "user.sign_in_locked",
+    password_changed: "user.password_changed",
+    password_reset: "user.password_reset",
+    password_breached: "user.password_breached",
+    two_factor_enabled: "user.two_factor_enabled",
+    two_factor_disabled: "user.two_factor_disabled",
+    passkey_added: "user.passkey_added",
+    passkey_removed: "user.passkey_removed",
+    account_secured: "user.account_secured",
+};
+
 /** The account page shows this many days. */
 export const ACCOUNT_ACTIVITY_DAYS = 30;
 export const ACCOUNT_ACTIVITY_PAGE = 20;
@@ -43,24 +60,50 @@ export type AccountEventDetails = {
     userAgent?: string | null;
     sessionId?: string | null;
     newDevice?: boolean;
+    /** Already worked out by the caller; otherwise from `headers`. */
+    country?: string | null;
 };
 
 export async function recordAccountEvent(type: AccountEventType, userId: string, details: AccountEventDetails = {}): Promise<void> {
     try {
         const headers = details.headers ?? null;
-        await db.insert(accountEvent).values({
-            id: randomUUID(),
-            userId,
-            type,
-            // A demo instance stores no IP address or browser (lib/demo.ts): visitors share its accounts.
-            ipAddress: demoMode() ? null : (details.ipAddress ?? clientIp(headers)),
-            userAgent: demoMode() ? null : ((details.userAgent ?? headers?.get("user-agent") ?? null)?.slice(0, 512) ?? null),
-            sessionId: details.sessionId ?? null,
-            newDevice: details.newDevice ?? false,
-        });
+        const [row] = await db
+            .insert(accountEvent)
+            .values({
+                id: randomUUID(),
+                userId,
+                type,
+                // A demo instance stores no IP address, browser or country (lib/demo.ts): visitors share its accounts.
+                ipAddress: demoMode() ? null : (details.ipAddress ?? clientIp(headers)),
+                userAgent: demoMode() ? null : ((details.userAgent ?? headers?.get("user-agent") ?? null)?.slice(0, 512) ?? null),
+                country: demoMode() ? null : details.country !== undefined ? details.country : await requestCountry(headers),
+                sessionId: details.sessionId ?? null,
+                newDevice: details.newDevice ?? false,
+            })
+            .returning();
+        const webhook = SECURITY_WEBHOOKS[type];
+        if (row && webhook) await emitSecurityWebhook(webhook, row);
     } catch (error) {
         console.error("account_event insert failed", error);
     }
+}
+
+async function emitSecurityWebhook(type: WebhookEventType, row: typeof accountEvent.$inferSelect): Promise<void> {
+    const [account] = await db.select().from(userTable).where(eq(userTable.id, row.userId)).limit(1);
+    if (!account) return;
+    await emitWebhookEvents([
+        makeEvent(
+            type,
+            {
+                user: userSnapshot(account),
+                ipAddress: row.ipAddress,
+                userAgent: row.userAgent,
+                country: row.country,
+                ...(type === "user.signed_in" ? { newDevice: row.newDevice } : {}),
+            },
+            row.createdAt,
+        ),
+    ]);
 }
 
 export type AccountActivityItem = {
@@ -69,6 +112,8 @@ export type AccountActivityItem = {
     at: string;
     ipAddress: string | null;
     userAgent: string | null;
+    /** ISO 3166-1 alpha-2, when known. */
+    country: string | null;
     newDevice: boolean;
     /** For a sign-in whose session is still open: its id, to sign it out. */
     openSessionId: string | null;
@@ -119,6 +164,7 @@ export async function listAccountActivity(
             at: r.createdAt.toISOString(),
             ipAddress: r.ipAddress,
             userAgent: r.userAgent,
+            country: r.country,
             newDevice: r.newDevice,
             openSessionId: r.sessionId && openIds.has(r.sessionId) ? r.sessionId : null,
             current: Boolean(r.sessionId && r.sessionId === options.currentSessionId),

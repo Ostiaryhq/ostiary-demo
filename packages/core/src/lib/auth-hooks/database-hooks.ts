@@ -23,6 +23,7 @@ import { auditActor } from "@ostiary/core/lib/auth-hooks/audit-hook";
 import { TWO_STEP_SIGN_IN_PATHS } from "@ostiary/core/lib/auth-hooks/sign-in-plugins";
 import { noticeSignIn } from "@ostiary/core/lib/security/new-device";
 import { countryRefusal, refusedCountry } from "@ostiary/core/lib/country-policy";
+import { requestCountry } from "@ostiary/core/lib/country";
 import { isPlatformAdmin } from "@ostiary/core/lib/admin/user-has-admin-role";
 import { runAfterResponse } from "@ostiary/core/lib/background";
 import { userUpdateEvents } from "@ostiary/core/lib/auth-hooks/account-activity-hook";
@@ -205,7 +206,7 @@ export function databaseHooks() {
             create: {
                 before: async (sess, context) => {
                     await refuseCountry(context, { id: sess.userId });
-                    // A demo instance stores no IP address (lib/demo.ts): visitors share its accounts.
+                    // A demo instance stores no IP address or country (lib/demo.ts): visitors share its accounts.
                     const ip = demoMode() ? { ipAddress: null } : {};
                     // The policy's session lifetime (Better Auth only reads its own at start-up).
                     const expiresAt = policySessionExpiry(new Date(sess.expiresAt), await currentAuthPolicy());
@@ -214,6 +215,7 @@ export function databaseHooks() {
                             ...sess,
                             ...ip,
                             expiresAt,
+                            country: demoMode() ? null : await requestCountry(context?.headers),
                             activeOrganizationId: sess.activeOrganizationId ?? PUBLIC_ORGANIZATION_ID,
                         },
                     };

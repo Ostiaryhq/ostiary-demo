@@ -7,12 +7,16 @@ import { resetDemo } from "@ostiary/core/lib/demo-reset";
 import { env } from "@ostiary/core/lib/env";
 import { purgeAccountEvents } from "@ostiary/core/lib/account-activity";
 import { purgeKnownDevices } from "@ostiary/core/lib/security/new-device";
+import { sweepInactiveAccounts } from "@ostiary/core/lib/security/inactive-accounts";
 import { processDueDeliveries } from "@ostiary/core/lib/webhooks/outbox";
+
+import { auth } from "@/lib/auth";
 
 /*
  * Daily housekeeping. Retries webhook deliveries that are due, then deletes deliveries older
  * than 30 days, and applies the sign-in event retention (lib/auth-events.ts) and the known
- * device retention (lib/security/new-device.ts). With DEMO_MODE, also resets the demo
+ * device retention (lib/security/new-device.ts), and the inactive account rule
+ * (lib/security/inactive-accounts.ts). With DEMO_MODE, resets the demo instead of that rule
  * (lib/demo-reset.ts).
  * Called by Vercel Cron (apps/auth/vercel.json), which sends `Authorization: Bearer
  * $CRON_SECRET`; any other scheduler can call it the same way. Without CRON_SECRET it refuses.
@@ -40,9 +44,10 @@ export async function GET(request: Request) {
   const authEvents = await purgeAuthEvents();
   const knownDevices = await purgeKnownDevices();
   const accountEvents = await purgeAccountEvents();
-  // DEMO_MODE: the nightly reset (lib/demo-reset.ts).
+  // DEMO_MODE: the nightly reset (lib/demo-reset.ts); its accounts are never inactive.
   const demo = demoMode() ? await resetDemoNow() : undefined;
-  return Response.json({ ...counts, authEvents, knownDevices, accountEvents, demo });
+  const inactiveAccounts = demoMode() ? undefined : await sweepInactiveAccounts(await auth.$context);
+  return Response.json({ ...counts, authEvents, knownDevices, accountEvents, inactiveAccounts, demo });
 }
 
 async function resetDemoNow() {

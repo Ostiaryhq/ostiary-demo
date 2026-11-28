@@ -1493,7 +1493,17 @@
           "user_role_changed": "アカウントのプラットフォームロールが変更された。",
           "organization_member_added": "誰かが組織に参加した。",
           "organization_member_removed": "誰かが組織から退出した、または削除された。",
-          "organization_member_role_changed": "組織内のメンバーのロールが変更された。"
+          "organization_member_role_changed": "組織内のメンバーのロールが変更された。",
+          "user_signed_in": "誰かがサインインしたとき（新しいデバイスかどうかを含む）。",
+          "user_sign_in_locked": "パスワードの入力ミスが続き、パスワードでのサインインが一時停止されたとき。",
+          "user_password_changed": "パスワードが変更されたとき。",
+          "user_password_reset": "メールのリンクまたはコードでパスワードがリセットされたとき。",
+          "user_password_breached": "サインインに使われたパスワードがデータ漏えいで見つかったとき。",
+          "user_two_factor_enabled": "2 段階認証が有効になったとき。",
+          "user_two_factor_disabled": "2 段階認証が無効になったとき。",
+          "user_passkey_added": "パスキーが追加されたとき。",
+          "user_passkey_removed": "パスキーが削除されたとき。",
+          "user_account_secured": "新しいデバイスまたはセキュリティのメールからすべての場所でサインアウトしたとき（心当たりがない）。"
         },
         "panel": {
           "events": "イベント",
@@ -1697,7 +1707,14 @@
           "twoFactorReset": "2段階認証をオフにしました",
           "reset": "リセット",
           "resetTwoFactorTitle": "{email} の2段階認証をリセットしますか？",
-          "resetTwoFactorDescription": "認証アプリ、バックアップコード、信頼済みデバイスは使えなくなり、再設定するまではパスワードのみでサインインすることになります。依頼者の本人確認が済んでから実行してください。この操作は監査ログに記録されます。"
+          "resetTwoFactorDescription": "認証アプリ、バックアップコード、信頼済みデバイスは使えなくなり、再設定するまではパスワードのみでサインインすることになります。依頼者の本人確認が済んでから実行してください。この操作は監査ログに記録されます。",
+          "requirePasswordChange": "パスワード変更を要求",
+          "cancelPasswordChange": "パスワード変更の要求を取り消す",
+          "requirePasswordChangeTitle": "{email} に新しいパスワードを要求しますか？",
+          "requirePasswordChangeDescription": "次回のサインイン時またはアカウントを開いたときに、続行する前に新しいパスワードを選ぶ必要があります。変更すると他のセッションはサインアウトされます。この操作は監査ログに記録されます。",
+          "passwordChangeRequired": "パスワード変更を要求しました",
+          "passwordChangeCancelled": "パスワード変更の要求を取り消しました",
+          "passwordChangeError": "パスワード変更の要求を更新できませんでした。"
         },
         "detail": {
           "emailVerified": "メール確認済み",
@@ -1738,7 +1755,9 @@
             "unnamed": "名前なし",
             "empty": "サインイン方法はありません。",
             "twoFactor": "2段階認証 <muted>（認証アプリ）</muted>",
-            "managedByYou": "あなたのアカウントから管理"
+            "managedByYou": "あなたのアカウントから管理",
+            "changeRequired": "変更が必要",
+            "breached": "漏えい"
           },
           "organizations": {
             "title": "組織",
@@ -1944,7 +1963,11 @@
             "new_device_sign_in": "新しいデバイスからサインイン",
             "secure_account": "アカウントを保護 (心当たりがない)",
             "password_breached": "漏えいしたパスワードを検出",
-            "sign_in_locked": "誤ったパスワードの後にパスワードでのサインインをロック"
+            "sign_in_locked": "誤ったパスワードの後にパスワードでのサインインをロック",
+            "require_password_change": "パスワード変更を要求",
+            "cancel_password_change": "パスワード変更の要求を取り消し",
+            "inactive_disabled": "非アクティブのため無効化",
+            "inactive_deleted": "非アクティブのため削除"
           },
           "oauth_client": {
             "create": "OAuth クライアントを登録",
@@ -2127,7 +2150,16 @@
           "lockoutAttempts": "パスワードでのサインインをロックする回数",
           "lockoutAttemptsHint": "{minutes} 分以内に同じメールアドレスまたはユーザー名で誤ったパスワードが入力された回数です。その後 {minutes} 分間、アカウントの有無にかかわらず、パスワードでのサインインが停止されます。パスキー、サインインコードとリンク、ソーシャルサインイン、SSO は引き続き使えます。",
           "lockoutNever": "しない",
-          "wrongPasswords": "{count, plural, other {誤ったパスワード # 回}}"
+          "wrongPasswords": "{count, plural, other {誤ったパスワード # 回}}",
+          "inactiveDays": "非アクティブなアカウント",
+          "inactiveDaysHint": "サインインもアカウントの利用もない日数。{warning} 日前にメールが届き、サインインすればアカウントは保持されます。管理者と SCIM ディレクトリが管理するアカウントは対象外です。有効にした時点から数えます。",
+          "inactiveNever": "しない",
+          "inactiveAction": "その後",
+          "inactiveActionHint": "無効化されたアカウントは、管理者が利用停止を解除するまでサインインできません。削除されたアカウントは関連するすべてと一緒に消去されます。",
+          "inactiveDisable": "アカウントを無効化",
+          "inactiveDelete": "アカウントを削除",
+          "inactiveDisableAfter": "{count, plural, other {# 日}}後に無効化",
+          "inactiveDeleteAfter": "{count, plural, other {# 日}}後に削除"
         },
         "emailDomains": {
           "title": "メールドメイン",
@@ -3267,6 +3299,19 @@
       "button": "心当たりがない",
       "note": "このボタンは {days} 日以内に 1 回だけ使えます。すべての場所からサインアウトし、新しいパスワードを設定するリンクをメールでお送りします。",
       "footnote": "このメールは、アカウントのパスワード、2 要素認証、パスキーが変更されたときに届きます。パスワードやサインインコードは誰にも教えないでください。"
+    },
+    "inactiveAccount": {
+      "subjects": {
+        "disable": "{brand} アカウントは {date} に無効化されます",
+        "delete": "{brand} アカウントは {date} に削除されます"
+      },
+      "bodies": {
+        "disable": "{brand} アカウント {email} は長期間使われていません。{date} に無効化され、その後はサインインできなくなります。",
+        "delete": "{brand} アカウント {email} は長期間使われていません。{date} に、関連するすべてと一緒に削除されます。"
+      },
+      "keep": "保持するには、それまでにサインインしてください。ほかに必要な操作はありません。",
+      "button": "サインインしてアカウントを保持",
+      "footnote": "このサービスでは長期間使われていないアカウントが閉鎖されるため、このメールをお送りしています。"
     }
   },
   "authErrors": {
@@ -3290,7 +3335,8 @@
     "countryNotAllowed": "お住まいの国からのサインインは許可されていません。",
     "demoLocked": "デモアカウントのパスワード、メールアドレス、サインイン方法は変更されません。",
     "demoReadOnly": "デモの管理コンソールは読み取り専用です。",
-    "demoSignUpClosed": "このデモでは新規登録を受け付けていません。サンプルアカウントのいずれかでサインインしてください。"
+    "demoSignUpClosed": "このデモでは新規登録を受け付けていません。サンプルアカウントのいずれかでサインインしてください。",
+    "inactive": "このアカウントは長期間使われなかったため無効化されました。復元するにはサポートにお問い合わせください。"
   },
   "secureAccount": {
     "title": "アカウントを保護",
@@ -3313,7 +3359,8 @@
     "doneTitle": "パスワードを変更しました",
     "doneBody": "新しいパスワードが設定され、他のセッションはサインアウトされました。",
     "continue": "続行",
-    "toAccount": "アカウントへ"
+    "toAccount": "アカウントへ",
+    "adminDescription": "管理者から新しいパスワードを選ぶよう求められています。続行するにはパスワードを選んでください。他のセッションはサインアウトされます。"
   },
   "signInLink": {
     "title": "サインイン",

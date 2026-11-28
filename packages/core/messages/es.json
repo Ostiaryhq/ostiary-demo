@@ -1493,7 +1493,17 @@
           "user_role_changed": "Cambia el rol de plataforma de una cuenta.",
           "organization_member_added": "Alguien se une a una organización.",
           "organization_member_removed": "Alguien abandona una organización o se le quita de ella.",
-          "organization_member_role_changed": "Cambia el rol de un miembro en una organización."
+          "organization_member_role_changed": "Cambia el rol de un miembro en una organización.",
+          "user_signed_in": "Alguien inicia sesión, indicando si es un dispositivo nuevo.",
+          "user_sign_in_locked": "El inicio de sesión con contraseña se pausa tras varias contraseñas incorrectas.",
+          "user_password_changed": "Se cambia una contraseña.",
+          "user_password_reset": "Se restablece una contraseña desde un enlace o código enviado por correo.",
+          "user_password_breached": "Una contraseña usada para iniciar sesión aparece en una filtración de datos.",
+          "user_two_factor_enabled": "Se activa la autenticación en dos pasos.",
+          "user_two_factor_disabled": "Se desactiva la autenticación en dos pasos.",
+          "user_passkey_added": "Se añade una llave de acceso.",
+          "user_passkey_removed": "Se elimina una llave de acceso.",
+          "user_account_secured": "Alguien cierra sesión en todas partes desde un correo de nuevo dispositivo o de seguridad (No fui yo)."
         },
         "panel": {
           "events": "Eventos",
@@ -1697,7 +1707,14 @@
           "twoFactorReset": "Autenticación en dos pasos desactivada",
           "reset": "Restablecer",
           "resetTwoFactorTitle": "¿Restablecer la autenticación en dos pasos de {email}?",
-          "resetTwoFactorDescription": "Su aplicación de autenticación, sus códigos de respaldo y sus dispositivos de confianza dejan de funcionar, e iniciará sesión solo con su contraseña hasta que vuelva a configurarla. Hazlo solo después de confirmar quién lo solicita. Esto queda registrado en el registro de auditoría."
+          "resetTwoFactorDescription": "Su aplicación de autenticación, sus códigos de respaldo y sus dispositivos de confianza dejan de funcionar, e iniciará sesión solo con su contraseña hasta que vuelva a configurarla. Hazlo solo después de confirmar quién lo solicita. Esto queda registrado en el registro de auditoría.",
+          "requirePasswordChange": "Exigir un cambio de contraseña",
+          "cancelPasswordChange": "Cancelar el cambio de contraseña",
+          "requirePasswordChangeTitle": "¿Exigir una nueva contraseña a {email}?",
+          "requirePasswordChangeDescription": "La próxima vez que inicie sesión o abra su cuenta, deberá elegir una nueva contraseña para continuar. Sus otras sesiones se cerrarán al cambiarla. Esto queda registrado en el registro de auditoría.",
+          "passwordChangeRequired": "Cambio de contraseña exigido",
+          "passwordChangeCancelled": "Cambio de contraseña cancelado",
+          "passwordChangeError": "No se pudo actualizar la solicitud de cambio de contraseña."
         },
         "detail": {
           "emailVerified": "Correo verificado",
@@ -1738,7 +1755,9 @@
             "unnamed": "Sin nombre",
             "empty": "No hay métodos de inicio de sesión.",
             "twoFactor": "Autenticación en dos pasos <muted>(aplicación de autenticación)</muted>",
-            "managedByYou": "Se gestiona desde tu cuenta"
+            "managedByYou": "Se gestiona desde tu cuenta",
+            "changeRequired": "Cambio exigido",
+            "breached": "Filtrada"
           },
           "organizations": {
             "title": "Organizaciones",
@@ -1944,7 +1963,11 @@
             "new_device_sign_in": "Inició sesión desde un dispositivo nuevo",
             "secure_account": "Protegió su cuenta (No fui yo)",
             "password_breached": "Contraseña encontrada en una filtración",
-            "sign_in_locked": "Inicio de sesión con contraseña bloqueado tras contraseñas incorrectas"
+            "sign_in_locked": "Inicio de sesión con contraseña bloqueado tras contraseñas incorrectas",
+            "require_password_change": "Exigió un cambio de contraseña",
+            "cancel_password_change": "Canceló un cambio de contraseña",
+            "inactive_disabled": "Desactivada por inactividad",
+            "inactive_deleted": "Eliminada por inactividad"
           },
           "oauth_client": {
             "create": "Registró un cliente OAuth",
@@ -2127,7 +2150,16 @@
           "lockoutAttempts": "Bloquear el inicio con contraseña tras",
           "lockoutAttemptsHint": "Contraseñas incorrectas para el mismo correo o nombre de usuario en {minutes} minutos. El inicio de sesión con contraseña se detiene entonces {minutes} minutos, exista o no una cuenta. Las llaves de acceso, los códigos y enlaces de inicio, el inicio social y el SSO siguen funcionando.",
           "lockoutNever": "Nunca",
-          "wrongPasswords": "{count, plural, one {# contraseña incorrecta} other {# contraseñas incorrectas}}"
+          "wrongPasswords": "{count, plural, one {# contraseña incorrecta} other {# contraseñas incorrectas}}",
+          "inactiveDays": "Cuentas inactivas",
+          "inactiveDaysHint": "Días sin iniciar sesión ni usar la cuenta. Se avisa por correo {warning} días antes, e iniciar sesión conserva la cuenta. Nunca afecta a administradores ni a cuentas gestionadas por un directorio SCIM. Se cuenta desde que se activa.",
+          "inactiveNever": "Nunca",
+          "inactiveAction": "Después",
+          "inactiveActionHint": "Una cuenta desactivada no puede iniciar sesión hasta que un administrador levante el bloqueo. Una cuenta eliminada se borra con todo lo vinculado.",
+          "inactiveDisable": "Desactivar la cuenta",
+          "inactiveDelete": "Eliminar la cuenta",
+          "inactiveDisableAfter": "Desactivar tras {count, plural, one {# día} other {# días}}",
+          "inactiveDeleteAfter": "Eliminar tras {count, plural, one {# día} other {# días}}"
         },
         "emailDomains": {
           "title": "Dominios de correo",
@@ -3267,6 +3299,19 @@
       "button": "No fui yo",
       "note": "El botón funciona una vez durante {days} días. Cierra tu sesión en todas partes y te envía un enlace para elegir una contraseña nueva.",
       "footnote": "Recibes este correo cuando cambian la contraseña, la autenticación en dos pasos o las llaves de acceso de tu cuenta. Nunca compartas tu contraseña ni tus códigos de inicio de sesión."
+    },
+    "inactiveAccount": {
+      "subjects": {
+        "disable": "Tu cuenta de {brand} se desactivará el {date}",
+        "delete": "Tu cuenta de {brand} se eliminará el {date}"
+      },
+      "bodies": {
+        "disable": "La cuenta de {brand} {email} lleva mucho tiempo sin usarse. Se desactivará el {date} y ya no podrá iniciar sesión.",
+        "delete": "La cuenta de {brand} {email} lleva mucho tiempo sin usarse. Se eliminará el {date}, con todo lo vinculado."
+      },
+      "keep": "Para conservarla, inicia sesión antes. No hay que hacer nada más.",
+      "button": "Iniciar sesión y conservar mi cuenta",
+      "footnote": "Recibes este correo porque las cuentas sin uso durante mucho tiempo se cierran en este servicio."
     }
   },
   "authErrors": {
@@ -3290,7 +3335,8 @@
     "countryNotAllowed": "No se permite iniciar sesión desde tu país aquí.",
     "demoLocked": "Las cuentas de demostración conservan su contraseña, su correo y sus métodos de inicio de sesión.",
     "demoReadOnly": "La consola de administración de demostración es de solo lectura.",
-    "demoSignUpClosed": "El registro está cerrado en esta demostración. Inicia sesión con una de las cuentas de ejemplo."
+    "demoSignUpClosed": "El registro está cerrado en esta demostración. Inicia sesión con una de las cuentas de ejemplo.",
+    "inactive": "Esta cuenta se desactivó tras mucho tiempo sin uso. Contacta con soporte para recuperarla."
   },
   "secureAccount": {
     "title": "Protege tu cuenta",
@@ -3313,7 +3359,8 @@
     "doneTitle": "Contraseña cambiada",
     "doneBody": "Tu nueva contraseña está guardada y se cerraron tus demás sesiones.",
     "continue": "Continuar",
-    "toAccount": "Ir a tu cuenta"
+    "toAccount": "Ir a tu cuenta",
+    "adminDescription": "Un administrador te pide que elijas una nueva contraseña. Elige una para continuar. Tus otras sesiones se cerrarán."
   },
   "signInLink": {
     "title": "Iniciar sesión",

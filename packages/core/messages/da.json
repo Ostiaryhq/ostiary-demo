@@ -1493,7 +1493,17 @@
           "user_role_changed": "En kontos platformsrolle ændres.",
           "organization_member_added": "Nogen bliver medlem af en organisation.",
           "organization_member_removed": "Nogen forlader eller fjernes fra en organisation.",
-          "organization_member_role_changed": "Et medlems rolle i en organisation ændres."
+          "organization_member_role_changed": "Et medlems rolle i en organisation ændres.",
+          "user_signed_in": "Nogen logger ind, med angivelse af om det er en ny enhed.",
+          "user_sign_in_locked": "Login med adgangskode sættes på pause efter gentagne forkerte adgangskoder.",
+          "user_password_changed": "En adgangskode ændres.",
+          "user_password_reset": "En adgangskode nulstilles fra et link eller en kode sendt på e-mail.",
+          "user_password_breached": "En adgangskode brugt til login optræder i et datalæk.",
+          "user_two_factor_enabled": "Totrinsbekræftelse slås til.",
+          "user_two_factor_disabled": "Totrinsbekræftelse slås fra.",
+          "user_passkey_added": "En adgangsnøgle tilføjes.",
+          "user_passkey_removed": "En adgangsnøgle fjernes.",
+          "user_account_secured": "Nogen logger ud overalt fra en e-mail om ny enhed eller sikkerhed (Det var ikke mig)."
         },
         "panel": {
           "events": "Hændelser",
@@ -1697,7 +1707,14 @@
           "twoFactorReset": "Totrinsgodkendelse slået fra",
           "reset": "Nulstil",
           "resetTwoFactorTitle": "Nulstil totrinsgodkendelse for {email}?",
-          "resetTwoFactorDescription": "Brugerens godkendelsesapp, backupkoder og betroede enheder holder op med at virke, og vedkommende logger ind med adgangskoden alene, indtil det er konfigureret igen. Gør det kun, når du har bekræftet, hvem der spørger. Dette registreres i revisionsloggen."
+          "resetTwoFactorDescription": "Brugerens godkendelsesapp, backupkoder og betroede enheder holder op med at virke, og vedkommende logger ind med adgangskoden alene, indtil det er konfigureret igen. Gør det kun, når du har bekræftet, hvem der spørger. Dette registreres i revisionsloggen.",
+          "requirePasswordChange": "Kræv adgangskodeskift",
+          "cancelPasswordChange": "Annuller adgangskodeskift",
+          "requirePasswordChangeTitle": "Kræv en ny adgangskode for {email}?",
+          "requirePasswordChangeDescription": "Næste gang personen logger ind eller åbner sin konto, skal der vælges en ny adgangskode, før der kan fortsættes. Personens andre sessioner logges ud ved skiftet. Dette registreres i revisionsloggen.",
+          "passwordChangeRequired": "Adgangskodeskift krævet",
+          "passwordChangeCancelled": "Adgangskodeskift annulleret",
+          "passwordChangeError": "Kunne ikke opdatere anmodningen om adgangskodeskift."
         },
         "detail": {
           "emailVerified": "E-mail bekræftet",
@@ -1738,7 +1755,9 @@
             "unnamed": "Unavngivet",
             "empty": "Ingen loginmetoder.",
             "twoFactor": "Totrinsgodkendelse <muted>(godkendelsesapp)</muted>",
-            "managedByYou": "Administreres fra din konto"
+            "managedByYou": "Administreres fra din konto",
+            "changeRequired": "Skift krævet",
+            "breached": "Lækket"
           },
           "organizations": {
             "title": "Organisationer",
@@ -1944,7 +1963,11 @@
             "new_device_sign_in": "Loggede ind fra en ny enhed",
             "secure_account": "Beskyttede sin konto (Det var ikke mig)",
             "password_breached": "Adgangskode fundet i et datalæk",
-            "sign_in_locked": "Login med adgangskode låst efter forkerte adgangskoder"
+            "sign_in_locked": "Login med adgangskode låst efter forkerte adgangskoder",
+            "require_password_change": "Krævede et adgangskodeskift",
+            "cancel_password_change": "Annullerede et adgangskodeskift",
+            "inactive_disabled": "Deaktiveret efter inaktivitet",
+            "inactive_deleted": "Slettet efter inaktivitet"
           },
           "oauth_client": {
             "create": "Registrerede OAuth-klient",
@@ -2127,7 +2150,16 @@
           "lockoutAttempts": "Lås login med adgangskode efter",
           "lockoutAttemptsHint": "Forkerte adgangskoder for samme e-mail eller brugernavn inden for {minutes} minutter. Login med adgangskode stoppes så i {minutes} minutter, uanset om der findes en konto. Adgangsnøgler, loginkoder og -links, socialt login og SSO virker stadig.",
           "lockoutNever": "Aldrig",
-          "wrongPasswords": "{count, plural, one {# forkert adgangskode} other {# forkerte adgangskoder}}"
+          "wrongPasswords": "{count, plural, one {# forkert adgangskode} other {# forkerte adgangskoder}}",
+          "inactiveDays": "Inaktive konti",
+          "inactiveDaysHint": "Dage uden login eller brug af kontoen. Personer får en e-mail {warning} dage før, og et login bevarer kontoen. Administratorer og konti, som et SCIM-katalog styrer, berøres aldrig. Tælles fra, når det slås til.",
+          "inactiveNever": "Aldrig",
+          "inactiveAction": "Derefter",
+          "inactiveActionHint": "En deaktiveret konto kan ikke logge ind, før en administrator ophæver spærringen. En slettet konto fjernes med alt, der er knyttet til den.",
+          "inactiveDisable": "Deaktiver kontoen",
+          "inactiveDelete": "Slet kontoen",
+          "inactiveDisableAfter": "Deaktiver efter {count, plural, one {# dag} other {# dage}}",
+          "inactiveDeleteAfter": "Slet efter {count, plural, one {# dag} other {# dage}}"
         },
         "emailDomains": {
           "title": "E-maildomæner",
@@ -3267,6 +3299,19 @@
       "button": "Det var ikke mig",
       "note": "Knappen virker én gang inden for {days} dage. Den logger dig ud overalt og mailer dig et link til at vælge en ny adgangskode.",
       "footnote": "Du får denne e-mail, når adgangskoden, totrinsgodkendelsen eller adgangsnøglerne til din konto ændres. Del aldrig din adgangskode eller dine loginkoder."
+    },
+    "inactiveAccount": {
+      "subjects": {
+        "disable": "Din {brand}-konto deaktiveres den {date}",
+        "delete": "Din {brand}-konto slettes den {date}"
+      },
+      "bodies": {
+        "disable": "{brand}-kontoen {email} har ikke været brugt i lang tid. Den deaktiveres den {date} og kan derefter ikke logge ind.",
+        "delete": "{brand}-kontoen {email} har ikke været brugt i lang tid. Den slettes den {date} med alt, der er knyttet til den."
+      },
+      "keep": "Log ind inden da for at beholde den. Der er ikke andet at gøre.",
+      "button": "Log ind og behold min konto",
+      "footnote": "Du får denne e-mail, fordi konti, der ikke har været brugt længe, lukkes på denne tjeneste."
     }
   },
   "authErrors": {
@@ -3290,7 +3335,8 @@
     "countryNotAllowed": "Login fra dit land er ikke tilladt her.",
     "demoLocked": "Demokontiene beholder deres adgangskode, e-mail og loginmetoder.",
     "demoReadOnly": "Demoens administrationskonsol er skrivebeskyttet.",
-    "demoSignUpClosed": "Tilmelding er lukket i denne demo. Log ind med en af eksempelkontiene."
+    "demoSignUpClosed": "Tilmelding er lukket i denne demo. Log ind med en af eksempelkontiene.",
+    "inactive": "Denne konto blev deaktiveret efter lang tid uden brug. Kontakt support for at gendanne den."
   },
   "secureAccount": {
     "title": "Beskyt din konto",
@@ -3313,7 +3359,8 @@
     "doneTitle": "Adgangskoden er ændret",
     "doneBody": "Din nye adgangskode er gemt, og dine andre sessioner er logget ud.",
     "continue": "Fortsæt",
-    "toAccount": "Gå til din konto"
+    "toAccount": "Gå til din konto",
+    "adminDescription": "En administrator beder dig vælge en ny adgangskode. Vælg en for at fortsætte. Dine andre sessioner bliver logget ud."
   },
   "signInLink": {
     "title": "Log ind",

@@ -122,6 +122,7 @@ import {
 } from "@ostiary/core/lib/auth-hooks/sign-in-plugins";
 import { accountActivityEvents } from "@ostiary/core/lib/auth-hooks/account-activity-hook";
 import { recordSecurityEvent } from "@ostiary/core/lib/security/security-change";
+import { INACTIVE_MESSAGE, INACTIVE_REASON } from "@ostiary/core/lib/security/inactive-accounts";
 import { clearPasswordBreach, passwordBreachPending, passwordBreachSignInCheck } from "@ostiary/core/lib/security/password-breach";
 import { signInLockout } from "@ostiary/core/lib/security/sign-in-lockout";
 
@@ -527,6 +528,10 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
             // Required by @better-auth/oauth-provider as soon as any session option is set (its
             // init throws otherwise). Sessions already live in the database here, so no change.
             storeSessionInDatabase: true,
+            // Set on create (auth-hooks/database-hooks.ts), shown in the dashboard's sessions list.
+            additionalFields: {
+                country: { type: "string", required: false, input: false },
+            },
         },
         user: {
             validateUserInfo,
@@ -600,7 +605,9 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
                 bannedUserMessage: (user: { banReason?: string | null }) =>
                     user.banReason === SCIM_DEACTIVATED_REASON
                         ? SCIM_DEACTIVATED_MESSAGE
-                        : "You have been banned from this application. Please contact support if you believe this is an error.",
+                        : user.banReason === INACTIVE_REASON
+                          ? INACTIVE_MESSAGE
+                          : "You have been banned from this application. Please contact support if you believe this is an error.",
             }),
             lastLoginMethod({
                 customResolveMethod: (ctx) => {

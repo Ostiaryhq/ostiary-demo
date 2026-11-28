@@ -1493,7 +1493,17 @@
           "user_role_changed": "A função de uma conta na plataforma muda.",
           "organization_member_added": "Alguém entra em uma organização.",
           "organization_member_removed": "Alguém sai ou é removido de uma organização.",
-          "organization_member_role_changed": "A função de um membro em uma organização muda."
+          "organization_member_role_changed": "A função de um membro em uma organização muda.",
+          "user_signed_in": "Alguém entra, indicando se é um novo dispositivo.",
+          "user_sign_in_locked": "O início de sessão com senha é suspenso após várias senhas erradas.",
+          "user_password_changed": "Uma senha é alterada.",
+          "user_password_reset": "Uma senha é redefinida a partir de um link ou código enviado por email.",
+          "user_password_breached": "Uma senha usada para entrar aparece numa fuga de dados.",
+          "user_two_factor_enabled": "A autenticação de dois fatores é ativada.",
+          "user_two_factor_disabled": "A autenticação de dois fatores é desativada.",
+          "user_passkey_added": "É adicionada uma chave de acesso.",
+          "user_passkey_removed": "É removida uma chave de acesso.",
+          "user_account_secured": "Alguém termina sessão em todo o lado a partir de um email de novo dispositivo ou de segurança (Não fui eu)."
         },
         "panel": {
           "events": "Eventos",
@@ -1697,7 +1707,14 @@
           "twoFactorReset": "Autenticação em dois fatores desativada",
           "reset": "Redefinir",
           "resetTwoFactorTitle": "Redefinir a autenticação em dois fatores de {email}?",
-          "resetTwoFactorDescription": "O app autenticador, os códigos de backup e os dispositivos confiáveis dele deixam de funcionar, e ele entra apenas com a senha até configurá-la novamente. Faça isso somente depois de confirmar quem está pedindo. Isso fica registrado no log de auditoria."
+          "resetTwoFactorDescription": "O app autenticador, os códigos de backup e os dispositivos confiáveis dele deixam de funcionar, e ele entra apenas com a senha até configurá-la novamente. Faça isso somente depois de confirmar quem está pedindo. Isso fica registrado no log de auditoria.",
+          "requirePasswordChange": "Exigir alteração de senha",
+          "cancelPasswordChange": "Cancelar alteração de senha",
+          "requirePasswordChangeTitle": "Exigir uma nova senha para {email}?",
+          "requirePasswordChangeDescription": "Na próxima vez que entrar ou abrir a conta, a pessoa terá de escolher uma nova senha antes de continuar. As outras sessões serão encerradas quando a alterar. Isto fica registado no registo de auditoria.",
+          "passwordChangeRequired": "Alteração de senha exigida",
+          "passwordChangeCancelled": "Alteração de senha cancelada",
+          "passwordChangeError": "Não foi possível atualizar o pedido de alteração de senha."
         },
         "detail": {
           "emailVerified": "E-mail verificado",
@@ -1738,7 +1755,9 @@
             "unnamed": "Sem nome",
             "empty": "Nenhum método de login.",
             "twoFactor": "Autenticação em dois fatores <muted>(app autenticador)</muted>",
-            "managedByYou": "Gerenciado pela sua conta"
+            "managedByYou": "Gerenciado pela sua conta",
+            "changeRequired": "Alteração exigida",
+            "breached": "Comprometida"
           },
           "organizations": {
             "title": "Organizações",
@@ -1944,7 +1963,11 @@
             "new_device_sign_in": "Iniciou sessão num novo dispositivo",
             "secure_account": "Protegeu a sua conta (Não fui eu)",
             "password_breached": "Palavra-passe encontrada numa fuga de dados",
-            "sign_in_locked": "Login com senha bloqueado após senhas erradas"
+            "sign_in_locked": "Login com senha bloqueado após senhas erradas",
+            "require_password_change": "Exigiu uma alteração de senha",
+            "cancel_password_change": "Cancelou uma alteração de senha",
+            "inactive_disabled": "Desativada por inatividade",
+            "inactive_deleted": "Eliminada por inatividade"
           },
           "oauth_client": {
             "create": "Registrou cliente OAuth",
@@ -2127,7 +2150,16 @@
           "lockoutAttempts": "Bloquear o login com senha após",
           "lockoutAttemptsHint": "Senhas erradas para o mesmo e-mail ou nome de usuário em {minutes} minutos. O login com senha para ele é então interrompido por {minutes} minutos, exista ou não uma conta. Chaves de acesso, códigos e links de login, login social e SSO continuam funcionando.",
           "lockoutNever": "Nunca",
-          "wrongPasswords": "{count, plural, one {# senha errada} other {# senhas erradas}}"
+          "wrongPasswords": "{count, plural, one {# senha errada} other {# senhas erradas}}",
+          "inactiveDays": "Contas inativas",
+          "inactiveDaysHint": "Dias sem iniciar sessão nem usar a conta. As pessoas recebem um email {warning} dias antes, e iniciar sessão mantém a conta. Administradores e contas geridas por um diretório SCIM nunca são afetados. Contado a partir da ativação.",
+          "inactiveNever": "Nunca",
+          "inactiveAction": "Depois",
+          "inactiveActionHint": "Uma conta desativada deixa de poder entrar até um administrador levantar o bloqueio. Uma conta eliminada é apagada com tudo o que lhe está ligado.",
+          "inactiveDisable": "Desativar a conta",
+          "inactiveDelete": "Eliminar a conta",
+          "inactiveDisableAfter": "Desativar após {count, plural, one {# dia} other {# dias}}",
+          "inactiveDeleteAfter": "Eliminar após {count, plural, one {# dia} other {# dias}}"
         },
         "emailDomains": {
           "title": "Domínios de e-mail",
@@ -3267,6 +3299,19 @@
       "button": "Não fui eu",
       "note": "O botão funciona uma vez durante {days} dias. Termina a sua sessão em todo o lado e envia-lhe um link para escolher uma nova palavra-passe.",
       "footnote": "Você recebe este e-mail quando a senha, a autenticação em dois fatores ou as chaves de acesso da sua conta mudam. Nunca compartilhe sua senha nem seus códigos de login."
+    },
+    "inactiveAccount": {
+      "subjects": {
+        "disable": "A sua conta {brand} será desativada a {date}",
+        "delete": "A sua conta {brand} será eliminada a {date}"
+      },
+      "bodies": {
+        "disable": "A conta {brand} {email} não é usada há muito tempo. Será desativada a {date} e deixará de poder entrar.",
+        "delete": "A conta {brand} {email} não é usada há muito tempo. Será eliminada a {date}, com tudo o que lhe está ligado."
+      },
+      "keep": "Para a manter, inicie sessão antes disso. Não há mais nada a fazer.",
+      "button": "Entrar e manter a minha conta",
+      "footnote": "Recebe este email porque as contas sem uso há muito tempo são encerradas neste serviço."
     }
   },
   "authErrors": {
@@ -3290,7 +3335,8 @@
     "countryNotAllowed": "Não é permitido iniciar sessão a partir do seu país aqui.",
     "demoLocked": "As contas de demonstração mantêm a senha, o e-mail e os métodos de login.",
     "demoReadOnly": "O console de administração de demonstração é somente leitura.",
-    "demoSignUpClosed": "O cadastro está fechado nesta demonstração. Entre com uma das contas de exemplo."
+    "demoSignUpClosed": "O cadastro está fechado nesta demonstração. Entre com uma das contas de exemplo.",
+    "inactive": "Esta conta foi desativada após muito tempo sem uso. Contacte o suporte para a recuperar."
   },
   "secureAccount": {
     "title": "Proteja a sua conta",
@@ -3313,7 +3359,8 @@
     "doneTitle": "Palavra-passe alterada",
     "doneBody": "A nova palavra-passe está definida e as suas outras sessões foram terminadas.",
     "continue": "Continuar",
-    "toAccount": "Ir para a sua conta"
+    "toAccount": "Ir para a sua conta",
+    "adminDescription": "Um administrador pediu que escolha uma nova senha. Escolha uma para continuar. As suas outras sessões serão encerradas."
   },
   "signInLink": {
     "title": "Iniciar sessão",

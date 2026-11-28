@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 
+import { INACTIVE_REASON } from "@ostiary/core/lib/auth-policy-options";
 import { SCIM_DEACTIVATED_REASON } from "@ostiary/core/lib/scim";
 
 /*
@@ -19,6 +20,17 @@ export const WEBHOOK_EVENT_TYPES = [
   "organization.member.added",
   "organization.member.removed",
   "organization.member.role_changed",
+  // Security events, from the account's Recent activity (account-activity.ts).
+  "user.signed_in",
+  "user.sign_in_locked",
+  "user.password_changed",
+  "user.password_reset",
+  "user.password_breached",
+  "user.two_factor_enabled",
+  "user.two_factor_disabled",
+  "user.passkey_added",
+  "user.passkey_removed",
+  "user.account_secured",
 ] as const;
 
 export type WebhookEventType = (typeof WEBHOOK_EVENT_TYPES)[number];
@@ -118,7 +130,7 @@ export function userUpdateEvents(before: Row, after: Row, now = new Date()): Web
           {
             user,
             // Who banned the account, not why: the reason is an admin's private note.
-            source: after.banReason === SCIM_DEACTIVATED_REASON ? "scim" : "admin",
+            source: after.banReason === SCIM_DEACTIVATED_REASON ? "scim" : after.banReason === INACTIVE_REASON ? "inactivity" : "admin",
             expiresAt: after.banExpires ? new Date(after.banExpires as Date).toISOString() : null,
           },
           now,

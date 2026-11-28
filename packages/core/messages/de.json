@@ -1493,7 +1493,17 @@
           "user_role_changed": "Die Plattformrolle eines Kontos ändert sich.",
           "organization_member_added": "Jemand tritt einer Organisation bei.",
           "organization_member_removed": "Jemand verlässt eine Organisation oder wird daraus entfernt.",
-          "organization_member_role_changed": "Die Rolle eines Mitglieds in einer Organisation ändert sich."
+          "organization_member_role_changed": "Die Rolle eines Mitglieds in einer Organisation ändert sich.",
+          "user_signed_in": "Jemand meldet sich an, mit Angabe, ob es ein neues Gerät ist.",
+          "user_sign_in_locked": "Die Anmeldung mit Passwort wird nach wiederholt falschen Passwörtern pausiert.",
+          "user_password_changed": "Ein Passwort wird geändert.",
+          "user_password_reset": "Ein Passwort wird über einen per E-Mail gesendeten Link oder Code zurückgesetzt.",
+          "user_password_breached": "Ein zur Anmeldung verwendetes Passwort taucht in einem Datenleck auf.",
+          "user_two_factor_enabled": "Die Zwei-Faktor-Authentifizierung wird aktiviert.",
+          "user_two_factor_disabled": "Die Zwei-Faktor-Authentifizierung wird deaktiviert.",
+          "user_passkey_added": "Ein Passkey wird hinzugefügt.",
+          "user_passkey_removed": "Ein Passkey wird entfernt.",
+          "user_account_secured": "Jemand meldet sich über eine Neues-Gerät- oder Sicherheits-E-Mail überall ab (Das war ich nicht)."
         },
         "panel": {
           "events": "Ereignisse",
@@ -1697,7 +1707,14 @@
           "twoFactorReset": "Zwei-Faktor-Authentifizierung ausgeschaltet",
           "reset": "Zurücksetzen",
           "resetTwoFactorTitle": "Zwei-Faktor-Authentifizierung für {email} zurücksetzen?",
-          "resetTwoFactorDescription": "Die Authenticator-App, die Backup-Codes und die vertrauenswürdigen Geräte des Benutzers funktionieren nicht mehr, und er meldet sich nur mit seinem Passwort an, bis er sie erneut einrichtet. Tun Sie dies nur, wenn Sie bestätigt haben, wer die Anfrage stellt. Dies wird im Audit-Log festgehalten."
+          "resetTwoFactorDescription": "Die Authenticator-App, die Backup-Codes und die vertrauenswürdigen Geräte des Benutzers funktionieren nicht mehr, und er meldet sich nur mit seinem Passwort an, bis er sie erneut einrichtet. Tun Sie dies nur, wenn Sie bestätigt haben, wer die Anfrage stellt. Dies wird im Audit-Log festgehalten.",
+          "requirePasswordChange": "Passwortänderung verlangen",
+          "cancelPasswordChange": "Passwortänderung aufheben",
+          "requirePasswordChangeTitle": "Neues Passwort für {email} verlangen?",
+          "requirePasswordChangeDescription": "Bei der nächsten Anmeldung oder beim Öffnen des Kontos muss die Person ein neues Passwort wählen, bevor es weitergeht. Ihre anderen Sitzungen werden bei der Änderung abgemeldet. Dies wird im Audit-Log festgehalten.",
+          "passwordChangeRequired": "Passwortänderung verlangt",
+          "passwordChangeCancelled": "Passwortänderung aufgehoben",
+          "passwordChangeError": "Die Anfrage zur Passwortänderung konnte nicht aktualisiert werden."
         },
         "detail": {
           "emailVerified": "E-Mail-Adresse verifiziert",
@@ -1738,7 +1755,9 @@
             "unnamed": "Unbenannt",
             "empty": "Keine Anmeldemethoden.",
             "twoFactor": "Zwei-Faktor-Authentifizierung <muted>(Authenticator-App)</muted>",
-            "managedByYou": "Über Ihr Konto verwaltet"
+            "managedByYou": "Über Ihr Konto verwaltet",
+            "changeRequired": "Änderung verlangt",
+            "breached": "Kompromittiert"
           },
           "organizations": {
             "title": "Organisationen",
@@ -1944,7 +1963,11 @@
             "new_device_sign_in": "Von neuem Gerät angemeldet",
             "secure_account": "Konto abgesichert (Das war ich nicht)",
             "password_breached": "Passwort in einem Datenleck gefunden",
-            "sign_in_locked": "Passwort-Anmeldung nach falschen Passwörtern gesperrt"
+            "sign_in_locked": "Passwort-Anmeldung nach falschen Passwörtern gesperrt",
+            "require_password_change": "Hat eine Passwortänderung verlangt",
+            "cancel_password_change": "Hat eine Passwortänderung aufgehoben",
+            "inactive_disabled": "Wegen Inaktivität deaktiviert",
+            "inactive_deleted": "Wegen Inaktivität gelöscht"
           },
           "oauth_client": {
             "create": "OAuth-Client registriert",
@@ -2127,7 +2150,16 @@
           "lockoutAttempts": "Passwort-Anmeldung sperren nach",
           "lockoutAttemptsHint": "Falsche Passwörter für dieselbe E-Mail-Adresse oder denselben Benutzernamen innerhalb von {minutes} Minuten. Die Passwort-Anmeldung dafür ist dann {minutes} Minuten gesperrt, ob ein Konto existiert oder nicht. Passkeys, Anmeldecodes und -links, soziale Anmeldung und SSO funktionieren weiter.",
           "lockoutNever": "Nie",
-          "wrongPasswords": "{count, plural, one {# falsches Passwort} other {# falschen Passwörtern}}"
+          "wrongPasswords": "{count, plural, one {# falsches Passwort} other {# falschen Passwörtern}}",
+          "inactiveDays": "Inaktive Konten",
+          "inactiveDaysHint": "Tage ohne Anmeldung oder Nutzung des Kontos. Personen erhalten {warning} Tage vorher eine E-Mail, und eine Anmeldung erhält das Konto. Administratoren und von einem SCIM-Verzeichnis verwaltete Konten sind nie betroffen. Gezählt ab dem Einschalten.",
+          "inactiveNever": "Nie",
+          "inactiveAction": "Danach",
+          "inactiveActionHint": "Deaktivierte Konten können sich nicht mehr anmelden, bis ein Administrator die Sperre aufhebt. Gelöschte Konten werden mit allem Verknüpften entfernt.",
+          "inactiveDisable": "Konto deaktivieren",
+          "inactiveDelete": "Konto löschen",
+          "inactiveDisableAfter": "Nach {count, plural, one {# Tag} other {# Tagen}} deaktivieren",
+          "inactiveDeleteAfter": "Nach {count, plural, one {# Tag} other {# Tagen}} löschen"
         },
         "emailDomains": {
           "title": "E-Mail-Domains",
@@ -3267,6 +3299,19 @@
       "button": "Das war ich nicht",
       "note": "Die Schaltfläche funktioniert einmal innerhalb von {days} Tagen. Sie meldet Sie überall ab und sendet Ihnen einen Link, um ein neues Passwort festzulegen.",
       "footnote": "Sie erhalten diese E-Mail, wenn sich Passwort, Zwei-Faktor-Authentifizierung oder Passkeys Ihres Kontos ändern. Geben Sie Ihr Passwort oder Anmeldecodes niemals weiter."
+    },
+    "inactiveAccount": {
+      "subjects": {
+        "disable": "Ihr {brand}-Konto wird am {date} deaktiviert",
+        "delete": "Ihr {brand}-Konto wird am {date} gelöscht"
+      },
+      "bodies": {
+        "disable": "Das {brand}-Konto {email} wurde lange nicht genutzt. Es wird am {date} deaktiviert und kann sich dann nicht mehr anmelden.",
+        "delete": "Das {brand}-Konto {email} wurde lange nicht genutzt. Es wird am {date} mit allem Verknüpften gelöscht."
+      },
+      "keep": "Um es zu behalten, melden Sie sich vorher an. Sonst ist nichts zu tun.",
+      "button": "Anmelden und Konto behalten",
+      "footnote": "Sie erhalten diese E-Mail, weil lange ungenutzte Konten bei diesem Dienst geschlossen werden."
     }
   },
   "authErrors": {
@@ -3290,7 +3335,8 @@
     "countryNotAllowed": "Die Anmeldung aus Ihrem Land ist hier nicht erlaubt.",
     "demoLocked": "Die Demokonten behalten ihr Passwort, ihre E-Mail-Adresse und ihre Anmeldemethoden.",
     "demoReadOnly": "Die Demo-Admin-Konsole ist schreibgeschützt.",
-    "demoSignUpClosed": "Die Registrierung ist in dieser Demo geschlossen. Melde dich mit einem der Beispielkonten an."
+    "demoSignUpClosed": "Die Registrierung ist in dieser Demo geschlossen. Melde dich mit einem der Beispielkonten an.",
+    "inactive": "Dieses Konto wurde nach langer Nichtnutzung deaktiviert. Wenden Sie sich an den Support, um es wiederherzustellen."
   },
   "secureAccount": {
     "title": "Konto absichern",
@@ -3313,7 +3359,8 @@
     "doneTitle": "Passwort geändert",
     "doneBody": "Ihr neues Passwort ist gesetzt und Ihre anderen Sitzungen wurden abgemeldet.",
     "continue": "Weiter",
-    "toAccount": "Zu Ihrem Konto"
+    "toAccount": "Zu Ihrem Konto",
+    "adminDescription": "Ein Administrator bittet Sie, ein neues Passwort zu wählen. Wählen Sie eines, um fortzufahren. Ihre anderen Sitzungen werden abgemeldet."
   },
   "signInLink": {
     "title": "Anmelden",

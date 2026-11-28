@@ -1493,7 +1493,17 @@
           "user_role_changed": "Tilin alustarooli muuttuu.",
           "organization_member_added": "Joku liittyy organisaatioon.",
           "organization_member_removed": "Joku poistuu tai poistetaan organisaatiosta.",
-          "organization_member_role_changed": "Jäsenen rooli organisaatiossa muuttuu."
+          "organization_member_role_changed": "Jäsenen rooli organisaatiossa muuttuu.",
+          "user_signed_in": "Joku kirjautuu sisään, ja tieto siitä, onko laite uusi.",
+          "user_sign_in_locked": "Salasanalla kirjautuminen keskeytetään toistuvien väärien salasanojen jälkeen.",
+          "user_password_changed": "Salasana vaihdetaan.",
+          "user_password_reset": "Salasana nollataan sähköpostilla saadulla linkillä tai koodilla.",
+          "user_password_breached": "Kirjautumiseen käytetty salasana löytyy tietovuodosta.",
+          "user_two_factor_enabled": "Kaksivaiheinen tunnistautuminen otetaan käyttöön.",
+          "user_two_factor_disabled": "Kaksivaiheinen tunnistautuminen poistetaan käytöstä.",
+          "user_passkey_added": "Pääsyavain lisätään.",
+          "user_passkey_removed": "Pääsyavain poistetaan.",
+          "user_account_secured": "Joku kirjautuu ulos kaikkialta uuden laitteen tai tietoturvan sähköpostista (En ollut minä)."
         },
         "panel": {
           "events": "Tapahtumat",
@@ -1697,7 +1707,14 @@
           "twoFactorReset": "Kaksivaiheinen tunnistautuminen poistettu käytöstä",
           "reset": "Nollaa",
           "resetTwoFactorTitle": "Nollataanko käyttäjän {email} kaksivaiheinen tunnistautuminen?",
-          "resetTwoFactorDescription": "Käyttäjän todennussovellus, varakoodit ja luotetut laitteet lakkaavat toimimasta, ja hän kirjautuu pelkällä salasanalla, kunnes ottaa sen uudelleen käyttöön. Tee tämä vain, kun olet varmistanut pyytäjän henkilöllisyyden. Tämä kirjataan tarkastuslokiin."
+          "resetTwoFactorDescription": "Käyttäjän todennussovellus, varakoodit ja luotetut laitteet lakkaavat toimimasta, ja hän kirjautuu pelkällä salasanalla, kunnes ottaa sen uudelleen käyttöön. Tee tämä vain, kun olet varmistanut pyytäjän henkilöllisyyden. Tämä kirjataan tarkastuslokiin.",
+          "requirePasswordChange": "Vaadi salasanan vaihto",
+          "cancelPasswordChange": "Peru salasanan vaihto",
+          "requirePasswordChangeTitle": "Vaaditaanko käyttäjältä {email} uusi salasana?",
+          "requirePasswordChangeDescription": "Seuraavalla kirjautumiskerralla tai tiliä avatessaan hänen on valittava uusi salasana ennen jatkamista. Hänen muut istuntonsa kirjataan ulos vaihdon yhteydessä. Tämä tallennetaan tarkastuslokiin.",
+          "passwordChangeRequired": "Salasanan vaihto vaaditaan",
+          "passwordChangeCancelled": "Salasanan vaihto peruttu",
+          "passwordChangeError": "Salasanan vaihtopyyntöä ei voitu päivittää."
         },
         "detail": {
           "emailVerified": "Sähköposti vahvistettu",
@@ -1738,7 +1755,9 @@
             "unnamed": "Nimetön",
             "empty": "Ei kirjautumistapoja.",
             "twoFactor": "Kaksivaiheinen tunnistautuminen <muted>(todennussovellus)</muted>",
-            "managedByYou": "Hallitaan omalta tililtäsi"
+            "managedByYou": "Hallitaan omalta tililtäsi",
+            "changeRequired": "Vaihto vaaditaan",
+            "breached": "Vuotanut"
           },
           "organizations": {
             "title": "Organisaatiot",
@@ -1944,7 +1963,11 @@
             "new_device_sign_in": "Kirjautui uudelta laitteelta",
             "secure_account": "Suojasi tilinsä (Se en ollut minä)",
             "password_breached": "Salasana löytyi tietovuodosta",
-            "sign_in_locked": "Salasanakirjautuminen lukittu väärien salasanojen jälkeen"
+            "sign_in_locked": "Salasanakirjautuminen lukittu väärien salasanojen jälkeen",
+            "require_password_change": "Vaati salasanan vaihdon",
+            "cancel_password_change": "Perui salasanan vaihdon",
+            "inactive_disabled": "Poistettu käytöstä passiivisuuden vuoksi",
+            "inactive_deleted": "Poistettu passiivisuuden vuoksi"
           },
           "oauth_client": {
             "create": "Rekisteröi OAuth-asiakkaan",
@@ -2127,7 +2150,16 @@
           "lockoutAttempts": "Lukitse salasanakirjautuminen",
           "lockoutAttemptsHint": "Väärät salasanat samalle sähköpostiosoitteelle tai käyttäjänimelle {minutes} minuutin sisällä. Salasanakirjautuminen pysähtyy sitten {minutes} minuutiksi, oli tiliä tai ei. Pääsyavaimet, kirjautumiskoodit ja -linkit, sosiaalinen kirjautuminen ja SSO toimivat edelleen.",
           "lockoutNever": "Ei koskaan",
-          "wrongPasswords": "{count, plural, one {# väärän salasanan jälkeen} other {# väärän salasanan jälkeen}}"
+          "wrongPasswords": "{count, plural, one {# väärän salasanan jälkeen} other {# väärän salasanan jälkeen}}",
+          "inactiveDays": "Passiiviset tilit",
+          "inactiveDaysHint": "Päiviä ilman kirjautumista tai tilin käyttöä. Henkilö saa sähköpostin {warning} päivää ennen, ja kirjautuminen säilyttää tilin. Ylläpitäjiin ja SCIM-hakemiston hallitsemiin tileihin tämä ei koskaan vaikuta. Lasketaan käyttöönotosta.",
+          "inactiveNever": "Ei koskaan",
+          "inactiveAction": "Sen jälkeen",
+          "inactiveActionHint": "Poistettu käytöstä -tilillä ei voi kirjautua, ennen kuin ylläpitäjä poistaa eston. Poistettu tili pyyhitään kaikkine siihen liittyvine tietoineen.",
+          "inactiveDisable": "Poista tili käytöstä",
+          "inactiveDelete": "Poista tili",
+          "inactiveDisableAfter": "Poista käytöstä {count, plural, one {# päivän} other {# päivän}} jälkeen",
+          "inactiveDeleteAfter": "Poista {count, plural, one {# päivän} other {# päivän}} jälkeen"
         },
         "emailDomains": {
           "title": "Sähköpostiverkkotunnukset",
@@ -3267,6 +3299,19 @@
       "button": "Se en ollut minä",
       "note": "Painike toimii kerran {days} päivän ajan. Se kirjaa sinut ulos kaikkialta ja lähettää linkin uuden salasanan valitsemiseen.",
       "footnote": "Saat tämän sähköpostin, kun tilisi salasana, kaksivaiheinen tunnistautuminen tai pääsyavaimet muuttuvat. Älä koskaan jaa salasanaasi tai kirjautumiskoodejasi."
+    },
+    "inactiveAccount": {
+      "subjects": {
+        "disable": "{brand}-tilisi poistetaan käytöstä {date}",
+        "delete": "{brand}-tilisi poistetaan {date}"
+      },
+      "bodies": {
+        "disable": "{brand}-tiliä {email} ei ole käytetty pitkään aikaan. Se poistetaan käytöstä {date}, eikä sillä voi sen jälkeen kirjautua.",
+        "delete": "{brand}-tiliä {email} ei ole käytetty pitkään aikaan. Se poistetaan {date} kaikkine siihen liittyvine tietoineen."
+      },
+      "keep": "Säilyttääksesi sen kirjaudu sisään ennen sitä. Muuta ei tarvitse tehdä.",
+      "button": "Kirjaudu ja säilytä tilini",
+      "footnote": "Saat tämän viestin, koska pitkään käyttämättömät tilit suljetaan tässä palvelussa."
     }
   },
   "authErrors": {
@@ -3290,7 +3335,8 @@
     "countryNotAllowed": "Kirjautuminen maastasi ei ole täällä sallittu.",
     "demoLocked": "Demotilit säilyttävät salasanansa, sähköpostiosoitteensa ja kirjautumistapansa.",
     "demoReadOnly": "Demon hallintakonsoli on vain luku -tilassa.",
-    "demoSignUpClosed": "Rekisteröityminen on suljettu tässä demossa. Kirjaudu jollakin esimerkkitileistä."
+    "demoSignUpClosed": "Rekisteröityminen on suljettu tässä demossa. Kirjaudu jollakin esimerkkitileistä.",
+    "inactive": "Tämä tili poistettiin käytöstä pitkän käyttämättömyyden jälkeen. Ota yhteyttä tukeen palauttaaksesi sen."
   },
   "secureAccount": {
     "title": "Suojaa tilisi",
@@ -3313,7 +3359,8 @@
     "doneTitle": "Salasana vaihdettu",
     "doneBody": "Uusi salasanasi on asetettu ja muut istuntosi kirjattiin ulos.",
     "continue": "Jatka",
-    "toAccount": "Siirry tiliisi"
+    "toAccount": "Siirry tiliisi",
+    "adminDescription": "Ylläpitäjä pyytää sinua valitsemaan uuden salasanan. Valitse se jatkaaksesi. Muut istuntosi kirjataan ulos."
   },
   "signInLink": {
     "title": "Kirjaudu",
