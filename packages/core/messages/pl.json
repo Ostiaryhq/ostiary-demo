@@ -417,7 +417,6 @@
           "previous": "Poprzednia",
           "next": "Następna",
           "page": "Strona {page} / {total}",
-          "footnote": "Dane z <code>{getClients}</code>. Rejestracja i edycja (w tym <code>{skipConsent}</code>) wywołują <code>{create}</code> i <code>{update}</code>; pozostałe zmiany używają <code>{deleteClient}</code> i <code>{rotateSecret}</code>. Zobacz dokumentację <docs>OAuth provider</docs>. Klienci są przypisani do zalogowanego użytkownika (lub do <code>{clientReference}</code>, jeśli skonfigurowano). Klienci zarejestrowani samodzielnie nie mają właściciela i są wyświetlani wszyscy; można ich wyłączyć lub usunąć, ale nie edytować.",
           "duplicates": "×{count}",
           "duplicatesHint": "Identycznych klientów zarejestrowanych samodzielnie: {count}",
           "showDuplicates": "Pokaż wszystkie ({count})",
@@ -1482,7 +1481,7 @@
       },
       "webhooks": {
         "title": "Webhooki",
-        "description": "Podpisane powiadomienia HTTPS informujące Twoje aplikacje o zmianach użytkowników, ról i członkostwa w organizacjach w {name}.",
+        "description": "Podpisane powiadomienia HTTPS, które informują Twoje aplikacje lub monitoring bezpieczeństwa o zmianach kont, logowań i członkostw w organizacjach w {name}.",
         "deliveries": "Dziennik dostarczeń",
         "eventDescriptions": {
           "user_created": "Utworzono konto (rejestracja, administrator, SSO, SCIM).",
@@ -1567,6 +1566,11 @@
             "title": "Usunąć ten endpoint?",
             "description": "{url} przestanie otrzymywać zdarzenia, a jego dziennik dostarczeń i oczekujące ponowienia zostaną usunięte. Aby go wstrzymać, wyłącz go.",
             "deleted": "Endpoint usunięty"
+          },
+          "groups": {
+            "users": "Użytkownicy",
+            "security": "Bezpieczeństwo",
+            "organizations": "Organizacje"
           }
         },
         "redeliver": {
@@ -1627,7 +1631,6 @@
           "previous": "Poprzednia",
           "next": "Następna",
           "pageOf": "Strona {page} / {pages}",
-          "poweredBy": "Korzysta z <code>listUsers</code>, <code>createUser</code>, <code>setRole</code>, <code>updateUser</code>, <code>setUserPassword</code> i powiązanych metod <link>wtyczki admin Better Auth</link>. Musisz być zalogowany jako administrator.",
           "import": "Importuj użytkowników"
         },
         "status": {
@@ -2078,7 +2081,7 @@
       },
       "security": {
         "title": "Bezpieczeństwo",
-        "description": "Nieudane próby logowania, konta i adresy, z których pochodzą, oraz zablokowane konta.",
+        "description": "Kto i jak może się logować oraz nieudane logowania i zablokowane konta do obserwowania.",
         "tiles": {
           "failed24h": "Nieudane logowania, 24 godziny",
           "failed7d": "Nieudane logowania, 7 dni",
@@ -2113,8 +2116,6 @@
           "permanent": "na stałe"
         },
         "policy": {
-          "title": "Sesje i hasła",
-          "description": "Jak długo użytkownicy pozostają zalogowani w aplikacji uwierzytelniania i jak wybierają hasła. Aplikacje zachowują własne tokeny i tokeny odświeżania.",
           "edit": "Edytuj",
           "on": "Włączone",
           "off": "Wyłączone",
@@ -2130,7 +2131,6 @@
           "minPasswordLengthHint": "Dotyczy nowych haseł (rejestracja, reset, zmiana). Istniejące hasła nadal działają.",
           "passwordSignUp": "Rejestracja z hasłem",
           "passwordSignUpHint": "Wyłączone: nie można już założyć konta za pomocą e-maila i hasła, tylko przez dostawcę społecznościowego lub SSO organizacji. Administratorzy nadal mogą tworzyć konta, a istniejące hasła nadal działają.",
-          "dialogDescription": "Aplikacja uwierzytelniania stosuje je w ciągu minuty.",
           "save": "Zapisz",
           "cancel": "Anuluj",
           "saved": "Zasady zapisane. Aplikacja uwierzytelniania zastosuje je w ciągu minuty.",
@@ -2159,7 +2159,30 @@
           "inactiveDisable": "Wyłącz konto",
           "inactiveDelete": "Usuń konto",
           "inactiveDisableAfter": "Wyłącz po {count, plural, one {# dniu} other {# dniach}}",
-          "inactiveDeleteAfter": "Usuń po {count, plural, one {# dniu} other {# dniach}}"
+          "inactiveDeleteAfter": "Usuń po {count, plural, one {# dniu} other {# dniach}}",
+          "editGroup": "Edytuj: {group}",
+          "groups": {
+            "sessions": {
+              "title": "Sesje",
+              "description": "Jak długo pozostaje się zalogowanym w aplikacji uwierzytelniania. Aplikacje mają własne tokeny."
+            },
+            "passwords": {
+              "title": "Hasła",
+              "description": "Jak hasła są wybierane i zgadywane."
+            },
+            "twoFactor": {
+              "title": "Uwierzytelnianie dwuskładnikowe",
+              "description": "Drugi krok dla każdego, kto loguje się do aplikacji."
+            },
+            "emails": {
+              "title": "E-maile o bezpieczeństwie",
+              "description": "Co ludzie dowiadują się o logowaniach i zmianach na swoim koncie."
+            },
+            "inactive": {
+              "title": "Nieaktywne konta",
+              "description": "Co dzieje się z kontami, których nikt nie używa."
+            }
+          }
         },
         "emailDomains": {
           "title": "Domeny e-mail",
@@ -2225,6 +2248,10 @@
             "noCountries": "Podaj co najmniej jeden kraj.",
             "save": "Nie udało się zapisać krajów."
           }
+        },
+        "tabs": {
+          "settings": "Ustawienia",
+          "monitoring": "Monitorowanie"
         }
       },
       "signingKeys": {
@@ -2497,7 +2524,8 @@
         "showing": "Wyświetlono {from}-{to} z {total}"
       },
       "passwordCompromised": "To hasło pojawiło się w wycieku danych. Wybierz inne.",
-      "demoReadOnly": "Demonstracyjna konsola administratora jest tylko do odczytu."
+      "demoReadOnly": "Demonstracyjna konsola administratora jest tylko do odczytu.",
+      "docs": "Dokumentacja"
     },
     "urlCheck": {
       "tooLong": "URL jest za długi.",
@@ -2739,7 +2767,9 @@
       "expires": "Wygasa",
       "none": "Brak",
       "startedAt": "Rozpoczęto: {date}",
-      "expiresAt": "Wygasa: {date}"
+      "expiresAt": "Wygasa: {date}",
+      "openPasswordForm": "Zmień hasło",
+      "closePasswordForm": "Anuluj"
     },
     "apps": {
       "title": "Połączone aplikacje",
@@ -2958,6 +2988,24 @@
       "userBody": "Wszyscy logują się na to konto. Hasła, adresu e-mail i metod logowania nie można zmienić, a konto jest resetowane przy każdej aktualizacji.",
       "adminBody": "Wszyscy logują się na to konto. Może otworzyć konsolę administratora i zobaczyć wszystko, ale niczego nie zmieni.",
       "adminLink": "Otwórz konsolę administratora"
+    },
+    "checklist": {
+      "title": "Lista bezpieczeństwa",
+      "description": "Kilka kroków, które utrudniają przejęcie konta.",
+      "allDone": "Twoje konto jest dobrze chronione.",
+      "emailVerified": "Adres e-mail zweryfikowany",
+      "emailUnverified": "Zweryfikuj adres e-mail",
+      "twoFactorOn": "Uwierzytelnianie dwuskładnikowe jest włączone",
+      "twoFactorOff": "Włącz uwierzytelnianie dwuskładnikowe",
+      "passkeys": "{count, plural, one {# klucz dostępu skonfigurowany} few {# klucze dostępu skonfigurowane} many {# kluczy dostępu skonfigurowanych} other {# klucza dostępu skonfigurowane}}",
+      "noPasskey": "Dodaj klucz dostępu, aby logować się bez hasła",
+      "thisDeviceOnly": "Zalogowano tylko na tym urządzeniu",
+      "otherSessions": "{count, plural, one {Zalogowano na # innym urządzeniu} other {Zalogowano na # innych urządzeniach}}",
+      "verify": "Zweryfikuj",
+      "turnOn": "Włącz",
+      "addPasskey": "Dodaj klucz dostępu",
+      "review": "Sprawdź",
+      "manage": "Zarządzaj"
     }
   },
   "acceptInvitation": {

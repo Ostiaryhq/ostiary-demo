@@ -417,7 +417,6 @@
           "previous": "Anterior",
           "next": "Siguiente",
           "page": "Página {page} / {total}",
-          "footnote": "Datos de <code>{getClients}</code>. Registrar y editar (incluido <code>{skipConsent}</code>) llaman a <code>{create}</code> y <code>{update}</code>; el resto de cambios usan <code>{deleteClient}</code> y <code>{rotateSecret}</code>. Consulta la documentación del <docs>proveedor OAuth</docs>. Los clientes se limitan al usuario que ha iniciado sesión (o a <code>{clientReference}</code> si está configurado). Los clientes autorregistrados no tienen propietario y se muestran todos; se pueden desactivar o eliminar, pero no editar.",
           "duplicates": "×{count}",
           "duplicatesHint": "{count} clientes autorregistrados idénticos",
           "showDuplicates": "Mostrar los {count}",
@@ -1482,7 +1481,7 @@
       },
       "webhooks": {
         "title": "Webhooks",
-        "description": "Notificaciones HTTPS firmadas que avisan a tus aplicaciones cuando cambian los usuarios, los roles o las membresías de organizaciones de {name}.",
+        "description": "Notificaciones HTTPS firmadas que avisan a tus apps o a tu supervisión de seguridad cuando cambian las cuentas, los inicios de sesión o las membresías de organizaciones de {name}.",
         "deliveries": "Registro de entregas",
         "eventDescriptions": {
           "user_created": "Se crea una cuenta (registro, administrador, SSO, SCIM).",
@@ -1567,6 +1566,11 @@
             "title": "¿Eliminar este endpoint?",
             "description": "{url} deja de recibir eventos, y se eliminan su registro de entregas y los reintentos pendientes. Para pausarlo, desactívalo.",
             "deleted": "Endpoint eliminado"
+          },
+          "groups": {
+            "users": "Usuarios",
+            "security": "Seguridad",
+            "organizations": "Organizaciones"
           }
         },
         "redeliver": {
@@ -1627,7 +1631,6 @@
           "previous": "Anterior",
           "next": "Siguiente",
           "pageOf": "Página {page} / {pages}",
-          "poweredBy": "Funciona con <code>listUsers</code>, <code>createUser</code>, <code>setRole</code>, <code>updateUser</code>, <code>setUserPassword</code> y métodos relacionados del <link>plugin de administración de Better Auth</link>. Debes haber iniciado sesión como administrador.",
           "import": "Importar usuarios"
         },
         "status": {
@@ -2078,7 +2081,7 @@
       },
       "security": {
         "title": "Seguridad",
-        "description": "Intentos fallidos de inicio de sesión, las cuentas y direcciones que los originan, y las cuentas bloqueadas.",
+        "description": "Quién puede iniciar sesión y cómo, y los inicios fallidos y cuentas bloqueadas que vigilar.",
         "tiles": {
           "failed24h": "Inicios de sesión fallidos, 24 horas",
           "failed7d": "Inicios de sesión fallidos, 7 días",
@@ -2113,8 +2116,6 @@
           "permanent": "permanente"
         },
         "policy": {
-          "title": "Sesiones y contraseñas",
-          "description": "Cuánto tiempo sigue iniciada la sesión en la aplicación de autenticación y cómo se eligen las contraseñas. Las aplicaciones conservan sus propios tokens y tokens de actualización.",
           "edit": "Editar",
           "on": "Activado",
           "off": "Desactivado",
@@ -2130,7 +2131,6 @@
           "minPasswordLengthHint": "Se aplica a las contraseñas nuevas (registro, restablecimiento, cambio). Las contraseñas existentes siguen funcionando.",
           "passwordSignUp": "Registro con contraseña",
           "passwordSignUpHint": "Desactivado: ya no se puede crear una cuenta con un correo y una contraseña, solo con un proveedor social o el SSO de la organización. Los administradores pueden seguir creando cuentas y las contraseñas existentes siguen funcionando.",
-          "dialogDescription": "La aplicación de autenticación los aplica en menos de un minuto.",
           "save": "Guardar",
           "cancel": "Cancelar",
           "saved": "Política guardada. La aplicación de autenticación la aplica en menos de un minuto.",
@@ -2159,7 +2159,30 @@
           "inactiveDisable": "Desactivar la cuenta",
           "inactiveDelete": "Eliminar la cuenta",
           "inactiveDisableAfter": "Desactivar tras {count, plural, one {# día} other {# días}}",
-          "inactiveDeleteAfter": "Eliminar tras {count, plural, one {# día} other {# días}}"
+          "inactiveDeleteAfter": "Eliminar tras {count, plural, one {# día} other {# días}}",
+          "editGroup": "Editar {group}",
+          "groups": {
+            "sessions": {
+              "title": "Sesiones",
+              "description": "Cuánto tiempo se mantiene la sesión en la app de autenticación. Las apps conservan sus propios tokens."
+            },
+            "passwords": {
+              "title": "Contraseñas",
+              "description": "Cómo se eligen y se adivinan las contraseñas."
+            },
+            "twoFactor": {
+              "title": "Autenticación en dos pasos",
+              "description": "Un segundo paso para todos los que inician sesión en una app."
+            },
+            "emails": {
+              "title": "Correos de seguridad",
+              "description": "Lo que se comunica a las personas sobre los accesos y cambios de su cuenta."
+            },
+            "inactive": {
+              "title": "Cuentas inactivas",
+              "description": "Qué pasa con las cuentas que nadie usa."
+            }
+          }
         },
         "emailDomains": {
           "title": "Dominios de correo",
@@ -2225,6 +2248,10 @@
             "noCountries": "Indica al menos un país.",
             "save": "No se pudieron guardar los países."
           }
+        },
+        "tabs": {
+          "settings": "Ajustes",
+          "monitoring": "Supervisión"
         }
       },
       "signingKeys": {
@@ -2497,7 +2524,8 @@
         "showing": "Mostrando {from}-{to} de {total}"
       },
       "passwordCompromised": "Esta contraseña apareció en una filtración de datos. Elige otra.",
-      "demoReadOnly": "La consola de administración de demostración es de solo lectura."
+      "demoReadOnly": "La consola de administración de demostración es de solo lectura.",
+      "docs": "Documentación"
     },
     "urlCheck": {
       "tooLong": "La URL es demasiado larga.",
@@ -2739,7 +2767,9 @@
       "expires": "Caduca",
       "none": "Ninguna",
       "startedAt": "Iniciada: {date}",
-      "expiresAt": "Caduca: {date}"
+      "expiresAt": "Caduca: {date}",
+      "openPasswordForm": "Cambiar contraseña",
+      "closePasswordForm": "Cancelar"
     },
     "apps": {
       "title": "Aplicaciones conectadas",
@@ -2958,6 +2988,24 @@
       "userBody": "Todo el mundo inicia sesión en esta cuenta. No se puede cambiar su contraseña, su correo ni sus métodos de inicio de sesión, y se restablece en cada actualización.",
       "adminBody": "Todo el mundo inicia sesión en esta cuenta. Puede abrir la consola de administración y verlo todo, pero no cambiar nada.",
       "adminLink": "Abrir la consola de administración"
+    },
+    "checklist": {
+      "title": "Lista de seguridad",
+      "description": "Unos pasos que hacen tu cuenta más difícil de robar.",
+      "allDone": "Tu cuenta está bien protegida.",
+      "emailVerified": "Correo electrónico verificado",
+      "emailUnverified": "Verifica tu correo electrónico",
+      "twoFactorOn": "La autenticación en dos pasos está activada",
+      "twoFactorOff": "Activa la autenticación en dos pasos",
+      "passkeys": "{count, plural, one {# llave de acceso configurada} other {# llaves de acceso configuradas}}",
+      "noPasskey": "Añade una llave de acceso para entrar sin contraseña",
+      "thisDeviceOnly": "Sesión iniciada solo en este dispositivo",
+      "otherSessions": "{count, plural, one {Sesión iniciada en # dispositivo más} other {Sesión iniciada en # dispositivos más}}",
+      "verify": "Verificar",
+      "turnOn": "Activar",
+      "addPasskey": "Añadir una llave de acceso",
+      "review": "Revisar",
+      "manage": "Gestionar"
     }
   },
   "acceptInvitation": {

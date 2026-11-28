@@ -417,7 +417,6 @@
           "previous": "Précédent",
           "next": "Suivant",
           "page": "Page {page} / {total}",
-          "footnote": "Données issues de <code>{getClients}</code>. L’enregistrement et la modification (y compris <code>{skipConsent}</code>) appellent <code>{create}</code> et <code>{update}</code> ; les autres modifications utilisent <code>{deleteClient}</code> et <code>{rotateSecret}</code>. Voir la documentation <docs>OAuth provider</docs>. Les clients sont rattachés à l’utilisateur connecté (ou à <code>{clientReference}</code> s’il est configuré). Les clients auto-enregistrés n’ont pas de propriétaire et sont tous listés ; ils peuvent être désactivés ou supprimés, mais pas modifiés.",
           "duplicates": "×{count}",
           "duplicatesHint": "{count} clients auto-enregistrés identiques",
           "showDuplicates": "Afficher les {count}",
@@ -1482,7 +1481,7 @@
       },
       "webhooks": {
         "title": "Webhooks",
-        "description": "Notifications HTTPS signées qui préviennent vos applications quand les utilisateurs, les rôles ou les adhésions aux organisations de {name} changent.",
+        "description": "Notifications HTTPS signées qui préviennent vos applications ou votre supervision de sécurité quand les comptes, les connexions ou les adhésions aux organisations de {name} changent.",
         "deliveries": "Journal des envois",
         "eventDescriptions": {
           "user_created": "Un compte est créé (inscription, admin, SSO, SCIM).",
@@ -1567,6 +1566,11 @@
             "title": "Supprimer ce point de terminaison ?",
             "description": "{url} ne recevra plus d’événements, et son journal des envois et ses relances en attente sont supprimés. Pour le mettre en pause, désactivez-le plutôt.",
             "deleted": "Point de terminaison supprimé"
+          },
+          "groups": {
+            "users": "Utilisateurs",
+            "security": "Sécurité",
+            "organizations": "Organisations"
           }
         },
         "redeliver": {
@@ -1627,7 +1631,6 @@
           "previous": "Précédent",
           "next": "Suivant",
           "pageOf": "Page {page} / {pages}",
-          "poweredBy": "Repose sur <code>listUsers</code>, <code>createUser</code>, <code>setRole</code>, <code>updateUser</code>, <code>setUserPassword</code> et les méthodes associées du <link>plugin admin de Better Auth</link>. Vous devez être connecté en tant qu’administrateur.",
           "import": "Importer des utilisateurs"
         },
         "status": {
@@ -2078,7 +2081,7 @@
       },
       "security": {
         "title": "Sécurité",
-        "description": "Tentatives de connexion échouées, comptes et adresses concernés, et comptes bannis.",
+        "description": "Qui peut se connecter et comment, et les connexions échouées et comptes bannis à surveiller.",
         "tiles": {
           "failed24h": "Connexions échouées, 24 heures",
           "failed7d": "Connexions échouées, 7 jours",
@@ -2113,8 +2116,6 @@
           "permanent": "définitif"
         },
         "policy": {
-          "title": "Sessions et mots de passe",
-          "description": "Durée pendant laquelle on reste connecté à l'application d'authentification, et choix des mots de passe. Les applications gardent leurs propres jetons et jetons de rafraîchissement.",
           "edit": "Modifier",
           "on": "Activé",
           "off": "Désactivé",
@@ -2130,7 +2131,6 @@
           "minPasswordLengthHint": "S'applique aux nouveaux mots de passe (inscription, réinitialisation, changement). Les mots de passe existants continuent de fonctionner.",
           "passwordSignUp": "Inscription par mot de passe",
           "passwordSignUpHint": "Désactivé : on ne peut plus créer de compte avec un e-mail et un mot de passe, seulement avec un fournisseur social ou le SSO de son organisation. Les admins peuvent toujours créer des comptes, et les mots de passe existants continuent de fonctionner.",
-          "dialogDescription": "L'application d'authentification les applique en moins d'une minute.",
           "save": "Enregistrer",
           "cancel": "Annuler",
           "saved": "Politique enregistrée. L'application d'authentification l'applique en moins d'une minute.",
@@ -2159,7 +2159,30 @@
           "inactiveDisable": "Désactiver le compte",
           "inactiveDelete": "Supprimer le compte",
           "inactiveDisableAfter": "Désactiver après {count, plural, one {# jour} other {# jours}}",
-          "inactiveDeleteAfter": "Supprimer après {count, plural, one {# jour} other {# jours}}"
+          "inactiveDeleteAfter": "Supprimer après {count, plural, one {# jour} other {# jours}}",
+          "editGroup": "Modifier : {group}",
+          "groups": {
+            "sessions": {
+              "title": "Sessions",
+              "description": "Combien de temps on reste connecté à l’application d’authentification. Les applications gardent leurs propres jetons."
+            },
+            "passwords": {
+              "title": "Mots de passe",
+              "description": "Comment les mots de passe sont choisis et devinés."
+            },
+            "twoFactor": {
+              "title": "Authentification à deux facteurs",
+              "description": "Une seconde étape pour toute personne qui se connecte à une application."
+            },
+            "emails": {
+              "title": "E-mails de sécurité",
+              "description": "Ce qui est signalé aux personnes sur les connexions et modifications de leur compte."
+            },
+            "inactive": {
+              "title": "Comptes inactifs",
+              "description": "Ce qu’il advient des comptes que personne n’utilise."
+            }
+          }
         },
         "emailDomains": {
           "title": "Domaines d'e-mail",
@@ -2225,6 +2248,10 @@
             "noCountries": "Indiquez au moins un pays.",
             "save": "Impossible d’enregistrer les pays."
           }
+        },
+        "tabs": {
+          "settings": "Paramètres",
+          "monitoring": "Surveillance"
         }
       },
       "signingKeys": {
@@ -2497,7 +2524,8 @@
         "showing": "{from}-{to} sur {total}"
       },
       "passwordCompromised": "Ce mot de passe figure dans une fuite de données. Choisissez-en un autre.",
-      "demoReadOnly": "La console d'administration de démo est en lecture seule."
+      "demoReadOnly": "La console d'administration de démo est en lecture seule.",
+      "docs": "Documentation"
     },
     "urlCheck": {
       "tooLong": "L’URL est trop longue.",
@@ -2739,7 +2767,9 @@
       "expires": "Expiration",
       "none": "Aucun",
       "startedAt": "Début : {date}",
-      "expiresAt": "Expiration : {date}"
+      "expiresAt": "Expiration : {date}",
+      "openPasswordForm": "Changer le mot de passe",
+      "closePasswordForm": "Annuler"
     },
     "apps": {
       "title": "Applications connectées",
@@ -2958,6 +2988,24 @@
       "userBody": "Tout le monde se connecte à ce compte. Son mot de passe, son e-mail et ses méthodes de connexion ne peuvent pas être modifiés, et il est réinitialisé à chaque mise à jour.",
       "adminBody": "Tout le monde se connecte à ce compte. Il peut ouvrir la console d'administration et tout y voir, mais rien modifier.",
       "adminLink": "Ouvrir la console d'administration"
+    },
+    "checklist": {
+      "title": "Liste de sécurité",
+      "description": "Quelques étapes qui rendent votre compte plus difficile à pirater.",
+      "allDone": "Votre compte est bien protégé.",
+      "emailVerified": "Adresse e-mail vérifiée",
+      "emailUnverified": "Vérifiez votre adresse e-mail",
+      "twoFactorOn": "L’authentification à deux facteurs est activée",
+      "twoFactorOff": "Activez l’authentification à deux facteurs",
+      "passkeys": "{count, plural, one {# clé d’accès configurée} other {# clés d’accès configurées}}",
+      "noPasskey": "Ajoutez une clé d’accès pour vous connecter sans mot de passe",
+      "thisDeviceOnly": "Connecté sur cet appareil uniquement",
+      "otherSessions": "{count, plural, one {Connecté sur # autre appareil} other {Connecté sur # autres appareils}}",
+      "verify": "Vérifier",
+      "turnOn": "Activer",
+      "addPasskey": "Ajouter une clé d’accès",
+      "review": "Vérifier",
+      "manage": "Gérer"
     }
   },
   "acceptInvitation": {

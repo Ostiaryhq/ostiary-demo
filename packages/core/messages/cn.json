@@ -417,7 +417,6 @@
           "previous": "上一页",
           "next": "下一页",
           "page": "第 {page} / {total} 页",
-          "footnote": "数据来自 <code>{getClients}</code>。注册和编辑（包括 <code>{skipConsent}</code>）调用 <code>{create}</code> 和 <code>{update}</code>；其他修改使用 <code>{deleteClient}</code> 和 <code>{rotateSecret}</code>。请参阅 <docs>OAuth provider</docs> 文档。客户端的范围限定为当前登录用户（配置后则为 <code>{clientReference}</code>）。自行注册的客户端没有所有者，全部列出；它们可以停用或删除，但不能编辑。",
           "duplicates": "×{count}",
           "duplicatesHint": "{count} 个相同的自行注册客户端",
           "showDuplicates": "显示全部 {count} 个",
@@ -1482,7 +1481,7 @@
       },
       "webhooks": {
         "title": "Webhook",
-        "description": "签名的 HTTPS 通知，在 {name} 的用户、角色和组织成员关系发生变化时通知你的应用。",
+        "description": "已签名的 HTTPS 通知，在 {name} 的账户、登录或组织成员关系发生变化时通知你的应用或安全监控。",
         "deliveries": "投递日志",
         "eventDescriptions": {
           "user_created": "创建了账户（注册、管理员、SSO、SCIM）。",
@@ -1567,6 +1566,11 @@
             "title": "删除此端点？",
             "description": "{url} 将不再接收事件，其投递日志和待处理的重试也会被删除。如需暂停，请改为停用。",
             "deleted": "端点已删除"
+          },
+          "groups": {
+            "users": "用户",
+            "security": "安全",
+            "organizations": "组织"
           }
         },
         "redeliver": {
@@ -1627,7 +1631,6 @@
           "previous": "上一页",
           "next": "下一页",
           "pageOf": "第 {page} / {pages} 页",
-          "poweredBy": "基于 <link>Better Auth admin 插件</link>的 <code>listUsers</code>、<code>createUser</code>、<code>setRole</code>、<code>updateUser</code>、<code>setUserPassword</code> 等方法。你必须以管理员身份登录。",
           "import": "导入用户"
         },
         "status": {
@@ -2078,7 +2081,7 @@
       },
       "security": {
         "title": "安全",
-        "description": "登录失败记录、相关账户与 IP 地址，以及被封禁的账户。",
+        "description": "谁可以登录以及如何登录，以及需要关注的登录失败和被封禁账户。",
         "tiles": {
           "failed24h": "登录失败（24 小时）",
           "failed7d": "登录失败（7 天）",
@@ -2113,8 +2116,6 @@
           "permanent": "永久"
         },
         "policy": {
-          "title": "会话与密码",
-          "description": "用户在认证应用中保持登录的时长，以及密码的设置规则。各应用保留自己的令牌和刷新令牌。",
           "edit": "编辑",
           "on": "开启",
           "off": "关闭",
@@ -2130,7 +2131,6 @@
           "minPasswordLengthHint": "适用于新密码（注册、重置、更改）。现有密码继续有效。",
           "passwordSignUp": "使用密码注册",
           "passwordSignUpHint": "关闭：不能再用邮箱和密码创建账户，只能通过社交登录或组织的 SSO。管理员仍可创建账户，现有密码继续有效。",
-          "dialogDescription": "认证应用会在一分钟内应用这些设置。",
           "save": "保存",
           "cancel": "取消",
           "saved": "策略已保存。认证应用会在一分钟内应用。",
@@ -2159,7 +2159,30 @@
           "inactiveDisable": "停用账户",
           "inactiveDelete": "删除账户",
           "inactiveDisableAfter": "{count, plural, other {# 天}}后停用",
-          "inactiveDeleteAfter": "{count, plural, other {# 天}}后删除"
+          "inactiveDeleteAfter": "{count, plural, other {# 天}}后删除",
+          "editGroup": "编辑{group}",
+          "groups": {
+            "sessions": {
+              "title": "会话",
+              "description": "在认证应用中保持登录的时长。应用保留各自的令牌。"
+            },
+            "passwords": {
+              "title": "密码",
+              "description": "密码如何设置以及如何防止被猜中。"
+            },
+            "twoFactor": {
+              "title": "双重身份验证",
+              "description": "每个登录应用的人都需要的第二步。"
+            },
+            "emails": {
+              "title": "安全邮件",
+              "description": "会告知用户其账户登录和更改的哪些情况。"
+            },
+            "inactive": {
+              "title": "不活跃账户",
+              "description": "无人使用的账户会如何处理。"
+            }
+          }
         },
         "emailDomains": {
           "title": "邮箱域名",
@@ -2225,6 +2248,10 @@
             "noCountries": "请至少填写一个国家/地区。",
             "save": "无法保存国家/地区。"
           }
+        },
+        "tabs": {
+          "settings": "设置",
+          "monitoring": "监控"
         }
       },
       "signingKeys": {
@@ -2497,7 +2524,8 @@
         "showing": "第 {from}-{to} 条，共 {total} 条"
       },
       "passwordCompromised": "此密码出现在数据泄露中，请选择其他密码。",
-      "demoReadOnly": "演示管理控制台为只读。"
+      "demoReadOnly": "演示管理控制台为只读。",
+      "docs": "文档"
     },
     "urlCheck": {
       "tooLong": "URL 过长。",
@@ -2739,7 +2767,9 @@
       "expires": "过期时间",
       "none": "无",
       "startedAt": "开始时间：{date}",
-      "expiresAt": "过期时间：{date}"
+      "expiresAt": "过期时间：{date}",
+      "openPasswordForm": "更改密码",
+      "closePasswordForm": "取消"
     },
     "apps": {
       "title": "已连接应用",
@@ -2958,6 +2988,24 @@
       "userBody": "所有人都登录此账户。其密码、邮箱和登录方式无法更改，并会在每次更新时重置。",
       "adminBody": "所有人都登录此账户。它可以打开管理控制台并查看所有内容，但无法更改任何内容。",
       "adminLink": "打开管理控制台"
+    },
+    "checklist": {
+      "title": "安全检查清单",
+      "description": "几个步骤，让你的账户更难被盗。",
+      "allDone": "你的账户已得到良好保护。",
+      "emailVerified": "邮箱已验证",
+      "emailUnverified": "请验证你的邮箱",
+      "twoFactorOn": "双重身份验证已开启",
+      "twoFactorOff": "开启双重身份验证",
+      "passkeys": "{count, plural, other {已设置 # 个通行密钥}}",
+      "noPasskey": "添加通行密钥，无需密码即可登录",
+      "thisDeviceOnly": "仅在此设备上登录",
+      "otherSessions": "{count, plural, other {还在另外 # 台设备上登录}}",
+      "verify": "验证",
+      "turnOn": "开启",
+      "addPasskey": "添加通行密钥",
+      "review": "查看",
+      "manage": "管理"
     }
   },
   "acceptInvitation": {

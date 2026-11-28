@@ -417,7 +417,6 @@
           "previous": "Vorige",
           "next": "Volgende",
           "page": "Pagina {page} / {total}",
-          "footnote": "Gegevens uit <code>{getClients}</code>. Registreren en bewerken (inclusief <code>{skipConsent}</code>) roepen <code>{create}</code> en <code>{update}</code> aan; andere wijzigingen gebruiken <code>{deleteClient}</code> en <code>{rotateSecret}</code>. Zie de documentatie van de <docs>OAuth provider</docs>. Clients zijn beperkt tot de ingelogde gebruiker (of <code>{clientReference}</code> als dat is ingesteld). Zelf geregistreerde clients hebben geen eigenaar en worden allemaal getoond; ze kunnen worden uitgeschakeld of verwijderd, niet bewerkt.",
           "duplicates": "×{count}",
           "duplicatesHint": "{count} identieke zelf geregistreerde clients",
           "showDuplicates": "Alle {count} tonen",
@@ -1482,7 +1481,7 @@
       },
       "webhooks": {
         "title": "Webhooks",
-        "description": "Ondertekende HTTPS-meldingen die je apps laten weten wanneer gebruikers, rollen of organisatielidmaatschappen in {name} veranderen.",
+        "description": "Ondertekende HTTPS-meldingen die je apps of beveiligingsmonitoring laten weten wanneer accounts, aanmeldingen of organisatielidmaatschappen in {name} veranderen.",
         "deliveries": "Bezorglogboek",
         "eventDescriptions": {
           "user_created": "Er wordt een account aangemaakt (registratie, beheerder, SSO, SCIM).",
@@ -1567,6 +1566,11 @@
             "title": "Dit endpoint verwijderen?",
             "description": "{url} ontvangt geen gebeurtenissen meer, en het leveringslogboek en de wachtende nieuwe pogingen worden verwijderd. Schakel het uit als je het wilt pauzeren.",
             "deleted": "Endpoint verwijderd"
+          },
+          "groups": {
+            "users": "Gebruikers",
+            "security": "Beveiliging",
+            "organizations": "Organisaties"
           }
         },
         "redeliver": {
@@ -1627,7 +1631,6 @@
           "previous": "Vorige",
           "next": "Volgende",
           "pageOf": "Pagina {page} / {pages}",
-          "poweredBy": "Werkt met <code>listUsers</code>, <code>createUser</code>, <code>setRole</code>, <code>updateUser</code>, <code>setUserPassword</code> en verwante methoden uit de <link>Better Auth admin-plug-in</link>. Je moet ingelogd zijn als beheerder.",
           "import": "Gebruikers importeren"
         },
         "status": {
@@ -2078,7 +2081,7 @@
       },
       "security": {
         "title": "Beveiliging",
-        "description": "Mislukte inlogpogingen, de accounts en adressen erachter, en geblokkeerde accounts.",
+        "description": "Wie hoe kan inloggen, en mislukte aanmeldingen en geblokkeerde accounts om in de gaten te houden.",
         "tiles": {
           "failed24h": "Mislukte inlogpogingen, 24 uur",
           "failed7d": "Mislukte inlogpogingen, 7 dagen",
@@ -2113,8 +2116,6 @@
           "permanent": "permanent"
         },
         "policy": {
-          "title": "Sessies en wachtwoorden",
-          "description": "Hoe lang mensen aangemeld blijven bij de auth-app en hoe wachtwoorden worden gekozen. Apps houden hun eigen tokens en refresh-tokens.",
           "edit": "Bewerken",
           "on": "Aan",
           "off": "Uit",
@@ -2130,7 +2131,6 @@
           "minPasswordLengthHint": "Geldt voor nieuwe wachtwoorden (registratie, reset, wijziging). Bestaande wachtwoorden blijven werken.",
           "passwordSignUp": "Registratie met wachtwoord",
           "passwordSignUpHint": "Uit: een account kan niet meer worden aangemaakt met e-mail en wachtwoord, alleen met een sociale provider of de SSO van de organisatie. Beheerders kunnen nog steeds accounts aanmaken en bestaande wachtwoorden blijven werken.",
-          "dialogDescription": "De auth-app past ze binnen een minuut toe.",
           "save": "Opslaan",
           "cancel": "Annuleren",
           "saved": "Beleid opgeslagen. De auth-app past het binnen een minuut toe.",
@@ -2159,7 +2159,30 @@
           "inactiveDisable": "Account uitschakelen",
           "inactiveDelete": "Account verwijderen",
           "inactiveDisableAfter": "Uitschakelen na {count, plural, one {# dag} other {# dagen}}",
-          "inactiveDeleteAfter": "Verwijderen na {count, plural, one {# dag} other {# dagen}}"
+          "inactiveDeleteAfter": "Verwijderen na {count, plural, one {# dag} other {# dagen}}",
+          "editGroup": "{group} bewerken",
+          "groups": {
+            "sessions": {
+              "title": "Sessies",
+              "description": "Hoelang je ingelogd blijft in de auth-app. Apps houden hun eigen tokens."
+            },
+            "passwords": {
+              "title": "Wachtwoorden",
+              "description": "Hoe wachtwoorden worden gekozen en geraden."
+            },
+            "twoFactor": {
+              "title": "Tweestapsverificatie",
+              "description": "Een tweede stap voor iedereen die inlogt bij een app."
+            },
+            "emails": {
+              "title": "Beveiligingsmails",
+              "description": "Wat mensen horen over aanmeldingen en wijzigingen van hun account."
+            },
+            "inactive": {
+              "title": "Inactieve accounts",
+              "description": "Wat er gebeurt met accounts die niemand gebruikt."
+            }
+          }
         },
         "emailDomains": {
           "title": "E-maildomeinen",
@@ -2225,6 +2248,10 @@
             "noCountries": "Geef minstens één land op.",
             "save": "De landen konden niet worden opgeslagen."
           }
+        },
+        "tabs": {
+          "settings": "Instellingen",
+          "monitoring": "Monitoring"
         }
       },
       "signingKeys": {
@@ -2497,7 +2524,8 @@
         "showing": "{from}-{to} van {total} weergegeven"
       },
       "passwordCompromised": "Dit wachtwoord is in een datalek opgedoken. Kies een ander.",
-      "demoReadOnly": "De demo-beheerconsole is alleen-lezen."
+      "demoReadOnly": "De demo-beheerconsole is alleen-lezen.",
+      "docs": "Documentatie"
     },
     "urlCheck": {
       "tooLong": "De URL is te lang.",
@@ -2739,7 +2767,9 @@
       "expires": "Verloopt",
       "none": "Geen",
       "startedAt": "Gestart: {date}",
-      "expiresAt": "Verloopt: {date}"
+      "expiresAt": "Verloopt: {date}",
+      "openPasswordForm": "Wachtwoord wijzigen",
+      "closePasswordForm": "Annuleren"
     },
     "apps": {
       "title": "Verbonden applicaties",
@@ -2958,6 +2988,24 @@
       "userBody": "Iedereen meldt zich aan bij dit account. Wachtwoord, e-mailadres en aanmeldmethoden kunnen niet worden gewijzigd, en het wordt bij elke update teruggezet.",
       "adminBody": "Iedereen meldt zich aan bij dit account. Het kan de beheerconsole openen en alles zien, maar niets wijzigen.",
       "adminLink": "Beheerconsole openen"
+    },
+    "checklist": {
+      "title": "Beveiligingschecklist",
+      "description": "Een paar stappen die je account moeilijker over te nemen maken.",
+      "allDone": "Je account is goed beveiligd.",
+      "emailVerified": "E-mailadres bevestigd",
+      "emailUnverified": "Bevestig je e-mailadres",
+      "twoFactorOn": "Tweestapsverificatie staat aan",
+      "twoFactorOff": "Zet tweestapsverificatie aan",
+      "passkeys": "{count, plural, one {# passkey ingesteld} other {# passkeys ingesteld}}",
+      "noPasskey": "Voeg een passkey toe om zonder wachtwoord in te loggen",
+      "thisDeviceOnly": "Alleen op dit apparaat ingelogd",
+      "otherSessions": "{count, plural, one {Ingelogd op # ander apparaat} other {Ingelogd op # andere apparaten}}",
+      "verify": "Bevestigen",
+      "turnOn": "Aanzetten",
+      "addPasskey": "Passkey toevoegen",
+      "review": "Bekijken",
+      "manage": "Beheren"
     }
   },
   "acceptInvitation": {

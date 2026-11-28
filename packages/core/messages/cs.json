@@ -417,7 +417,6 @@
           "previous": "Předchozí",
           "next": "Další",
           "page": "Stránka {page} / {total}",
-          "footnote": "Data z <code>{getClients}</code>. Registrace a úpravy (včetně <code>{skipConsent}</code>) volají <code>{create}</code> a <code>{update}</code>; ostatní změny používají <code>{deleteClient}</code> a <code>{rotateSecret}</code>. Viz dokumentaci <docs>OAuth provider</docs>. Klienti jsou omezeni na přihlášeného uživatele (nebo na <code>{clientReference}</code>, pokud je nastaveno). Samoregistrovaní klienti nemají vlastníka a zobrazují se všichni; lze je vypnout nebo smazat, ne upravit.",
           "duplicates": "×{count}",
           "duplicatesHint": "Identických samoregistrovaných klientů: {count}",
           "showDuplicates": "Zobrazit všechny ({count})",
@@ -1482,7 +1481,7 @@
       },
       "webhooks": {
         "title": "Webhooky",
-        "description": "Podepsaná HTTPS oznámení, která vašim aplikacím sdělí, když se změní uživatelé, role nebo členství v organizacích v {name}.",
+        "description": "Podepsaná oznámení HTTPS, která informují vaše aplikace nebo bezpečnostní monitoring o změnách účtů, přihlášení a členství v organizacích v {name}.",
         "deliveries": "Protokol doručení",
         "eventDescriptions": {
           "user_created": "Je vytvořen účet (registrace, administrátor, SSO, SCIM).",
@@ -1567,6 +1566,11 @@
             "title": "Smazat tento endpoint?",
             "description": "{url} přestane dostávat události a jeho protokol doručení i čekající opakované pokusy se smažou. Chcete-li ho pozastavit, raději ho vypněte.",
             "deleted": "Endpoint smazán"
+          },
+          "groups": {
+            "users": "Uživatelé",
+            "security": "Zabezpečení",
+            "organizations": "Organizace"
           }
         },
         "redeliver": {
@@ -1627,7 +1631,6 @@
           "previous": "Předchozí",
           "next": "Další",
           "pageOf": "Stránka {page} / {pages}",
-          "poweredBy": "Využívá <code>listUsers</code>, <code>createUser</code>, <code>setRole</code>, <code>updateUser</code>, <code>setUserPassword</code> a související metody z <link>pluginu Better Auth admin</link>. Musíte být přihlášeni jako administrátor.",
           "import": "Importovat uživatele"
         },
         "status": {
@@ -2078,7 +2081,7 @@
       },
       "security": {
         "title": "Zabezpečení",
-        "description": "Neúspěšné pokusy o přihlášení, účty a adresy, ze kterých pocházejí, a zablokované účty.",
+        "description": "Kdo a jak se může přihlásit a neúspěšná přihlášení a zablokované účty ke sledování.",
         "tiles": {
           "failed24h": "Neúspěšná přihlášení, 24 hodin",
           "failed7d": "Neúspěšná přihlášení, 7 dní",
@@ -2113,8 +2116,6 @@
           "permanent": "trvale"
         },
         "policy": {
-          "title": "Relace a hesla",
-          "description": "Jak dlouho zůstávají lidé přihlášeni k ověřovací aplikaci a jak se volí hesla. Aplikace si ponechávají vlastní tokeny a obnovovací tokeny.",
           "edit": "Upravit",
           "on": "Zapnuto",
           "off": "Vypnuto",
@@ -2130,7 +2131,6 @@
           "minPasswordLengthHint": "Platí pro nová hesla (registrace, obnovení, změna). Stávající hesla fungují dál.",
           "passwordSignUp": "Registrace s heslem",
           "passwordSignUpHint": "Vypnuto: účet už nelze vytvořit e-mailem a heslem, jen přes sociálního poskytovatele nebo SSO organizace. Správci mohou účty dál vytvářet a stávající hesla fungují dál.",
-          "dialogDescription": "Ověřovací aplikace je použije do minuty.",
           "save": "Uložit",
           "cancel": "Zrušit",
           "saved": "Zásady uloženy. Ověřovací aplikace je použije do minuty.",
@@ -2159,7 +2159,30 @@
           "inactiveDisable": "Deaktivovat účet",
           "inactiveDelete": "Smazat účet",
           "inactiveDisableAfter": "Deaktivovat po {count, plural, one {# dni} other {# dnech}}",
-          "inactiveDeleteAfter": "Smazat po {count, plural, one {# dni} other {# dnech}}"
+          "inactiveDeleteAfter": "Smazat po {count, plural, one {# dni} other {# dnech}}",
+          "editGroup": "Upravit: {group}",
+          "groups": {
+            "sessions": {
+              "title": "Relace",
+              "description": "Jak dlouho zůstává člověk přihlášen v ověřovací aplikaci. Aplikace si drží vlastní tokeny."
+            },
+            "passwords": {
+              "title": "Hesla",
+              "description": "Jak se hesla volí a hádají."
+            },
+            "twoFactor": {
+              "title": "Dvoufázové ověření",
+              "description": "Druhý krok pro každého, kdo se přihlašuje do aplikace."
+            },
+            "emails": {
+              "title": "Bezpečnostní e-maily",
+              "description": "Co se lidé dozvědí o přihlášeních a změnách svého účtu."
+            },
+            "inactive": {
+              "title": "Neaktivní účty",
+              "description": "Co se stane s účty, které nikdo nepoužívá."
+            }
+          }
         },
         "emailDomains": {
           "title": "E-mailové domény",
@@ -2225,6 +2248,10 @@
             "noCountries": "Uveďte alespoň jednu zemi.",
             "save": "Země se nepodařilo uložit."
           }
+        },
+        "tabs": {
+          "settings": "Nastavení",
+          "monitoring": "Sledování"
         }
       },
       "signingKeys": {
@@ -2497,7 +2524,8 @@
         "showing": "Zobrazeno {from}–{to} z {total}"
       },
       "passwordCompromised": "Toto heslo se objevilo v úniku dat. Zvolte jiné.",
-      "demoReadOnly": "Ukázková administrátorská konzole je jen pro čtení."
+      "demoReadOnly": "Ukázková administrátorská konzole je jen pro čtení.",
+      "docs": "Dokumentace"
     },
     "urlCheck": {
       "tooLong": "URL je příliš dlouhá.",
@@ -2739,7 +2767,9 @@
       "expires": "Vyprší",
       "none": "Žádné",
       "startedAt": "Zahájeno: {date}",
-      "expiresAt": "Vyprší: {date}"
+      "expiresAt": "Vyprší: {date}",
+      "openPasswordForm": "Změnit heslo",
+      "closePasswordForm": "Zrušit"
     },
     "apps": {
       "title": "Připojené aplikace",
@@ -2958,6 +2988,24 @@
       "userBody": "K tomuto účtu se přihlašují všichni. Heslo, e-mail ani způsoby přihlášení nelze změnit a účet se obnovuje při každé aktualizaci.",
       "adminBody": "K tomuto účtu se přihlašují všichni. Může otevřít administrátorskou konzoli a vidět v ní vše, ale nic nezmění.",
       "adminLink": "Otevřít administrátorskou konzoli"
+    },
+    "checklist": {
+      "title": "Bezpečnostní kontrola",
+      "description": "Několik kroků, které ztíží převzetí vašeho účtu.",
+      "allDone": "Váš účet je dobře chráněný.",
+      "emailVerified": "E-mailová adresa ověřena",
+      "emailUnverified": "Ověřte svou e-mailovou adresu",
+      "twoFactorOn": "Dvoufázové ověření je zapnuté",
+      "twoFactorOff": "Zapněte dvoufázové ověření",
+      "passkeys": "{count, plural, one {# přístupový klíč nastaven} few {# přístupové klíče nastaveny} other {# přístupových klíčů nastaveno}}",
+      "noPasskey": "Přidejte přístupový klíč a přihlašujte se bez hesla",
+      "thisDeviceOnly": "Přihlášeno jen na tomto zařízení",
+      "otherSessions": "{count, plural, one {Přihlášeno na # dalším zařízení} other {Přihlášeno na # dalších zařízeních}}",
+      "verify": "Ověřit",
+      "turnOn": "Zapnout",
+      "addPasskey": "Přidat přístupový klíč",
+      "review": "Zkontrolovat",
+      "manage": "Spravovat"
     }
   },
   "acceptInvitation": {

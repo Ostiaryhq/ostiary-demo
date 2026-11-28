@@ -417,7 +417,6 @@
           "previous": "이전",
           "next": "다음",
           "page": "{page} / {total} 페이지",
-          "footnote": "데이터 출처: <code>{getClients}</code>. 등록과 편집(<code>{skipConsent}</code> 포함)은 <code>{create}</code> 및 <code>{update}</code>를 호출하고, 그 밖의 변경은 <code>{deleteClient}</code>와 <code>{rotateSecret}</code>을 사용합니다. <docs>OAuth 제공자</docs> 문서를 참고하세요. 클라이언트는 로그인한 사용자(또는 구성된 경우 <code>{clientReference}</code>) 범위로 제한됩니다. 자체 등록 클라이언트는 소유자가 없으며 모두 표시됩니다. 비활성화하거나 삭제할 수 있지만 편집할 수는 없습니다.",
           "duplicates": "×{count}",
           "duplicatesHint": "동일한 자체 등록 클라이언트 {count}개",
           "showDuplicates": "{count}개 모두 보기",
@@ -1482,7 +1481,7 @@
       },
       "webhooks": {
         "title": "웹훅",
-        "description": "{name}의 사용자, 역할, 조직 멤버십이 바뀔 때 앱에 알려 주는 서명된 HTTPS 알림입니다.",
+        "description": "{name}의 계정, 로그인, 조직 멤버십이 바뀔 때 앱이나 보안 모니터링에 알려 주는 서명된 HTTPS 알림입니다.",
         "deliveries": "전송 기록",
         "eventDescriptions": {
           "user_created": "계정이 만들어짐(가입, 관리자, SSO, SCIM).",
@@ -1567,6 +1566,11 @@
             "title": "이 엔드포인트를 삭제할까요?",
             "description": "{url}은(는) 더 이상 이벤트를 받지 않으며, 전송 기록과 대기 중인 재시도가 삭제됩니다. 일시 중지하려면 대신 비활성화하세요.",
             "deleted": "엔드포인트를 삭제했습니다"
+          },
+          "groups": {
+            "users": "사용자",
+            "security": "보안",
+            "organizations": "조직"
           }
         },
         "redeliver": {
@@ -1627,7 +1631,6 @@
           "previous": "이전",
           "next": "다음",
           "pageOf": "{page} / {pages} 페이지",
-          "poweredBy": "<link>Better Auth 관리자 플러그인</link>의 <code>listUsers</code>, <code>createUser</code>, <code>setRole</code>, <code>updateUser</code>, <code>setUserPassword</code> 및 관련 메서드를 사용합니다. 관리자로 로그인해야 합니다.",
           "import": "사용자 가져오기"
         },
         "status": {
@@ -2078,7 +2081,7 @@
       },
       "security": {
         "title": "보안",
-        "description": "실패한 로그인 시도, 해당 계정과 주소, 차단된 계정.",
+        "description": "누가 어떻게 로그인할 수 있는지, 그리고 지켜볼 로그인 실패와 차단된 계정.",
         "tiles": {
           "failed24h": "로그인 실패(24시간)",
           "failed7d": "로그인 실패(7일)",
@@ -2113,8 +2116,6 @@
           "permanent": "영구"
         },
         "policy": {
-          "title": "세션 및 비밀번호",
-          "description": "인증 앱에 로그인 상태가 유지되는 기간과 비밀번호를 정하는 방식입니다. 앱은 자체 토큰과 새로고침 토큰을 유지합니다.",
           "edit": "편집",
           "on": "켜짐",
           "off": "꺼짐",
@@ -2130,7 +2131,6 @@
           "minPasswordLengthHint": "새 비밀번호(가입, 재설정, 변경)에 적용됩니다. 기존 비밀번호는 계속 사용할 수 있습니다.",
           "passwordSignUp": "비밀번호로 가입",
           "passwordSignUpHint": "꺼짐: 더 이상 이메일과 비밀번호로 계정을 만들 수 없고, 소셜 제공자나 조직의 SSO로만 가능합니다. 관리자는 계속 계정을 만들 수 있으며 기존 비밀번호도 계속 사용할 수 있습니다.",
-          "dialogDescription": "인증 앱은 1분 이내에 적용합니다.",
           "save": "저장",
           "cancel": "취소",
           "saved": "정책을 저장했습니다. 인증 앱은 1분 이내에 적용합니다.",
@@ -2159,7 +2159,30 @@
           "inactiveDisable": "계정 비활성화",
           "inactiveDelete": "계정 삭제",
           "inactiveDisableAfter": "{count, plural, other {#일}} 후 비활성화",
-          "inactiveDeleteAfter": "{count, plural, other {#일}} 후 삭제"
+          "inactiveDeleteAfter": "{count, plural, other {#일}} 후 삭제",
+          "editGroup": "{group} 편집",
+          "groups": {
+            "sessions": {
+              "title": "세션",
+              "description": "인증 앱에 로그인 상태가 유지되는 기간입니다. 앱은 자체 토큰을 유지합니다."
+            },
+            "passwords": {
+              "title": "비밀번호",
+              "description": "비밀번호를 정하고 추측을 막는 방식입니다."
+            },
+            "twoFactor": {
+              "title": "2단계 인증",
+              "description": "앱에 로그인하는 모든 사람을 위한 두 번째 단계입니다."
+            },
+            "emails": {
+              "title": "보안 이메일",
+              "description": "계정의 로그인과 변경 사항에 대해 알려 주는 내용입니다."
+            },
+            "inactive": {
+              "title": "비활성 계정",
+              "description": "아무도 사용하지 않는 계정의 처리 방식입니다."
+            }
+          }
         },
         "emailDomains": {
           "title": "이메일 도메인",
@@ -2225,6 +2248,10 @@
             "noCountries": "국가를 하나 이상 입력하세요.",
             "save": "국가를 저장할 수 없습니다."
           }
+        },
+        "tabs": {
+          "settings": "설정",
+          "monitoring": "모니터링"
         }
       },
       "signingKeys": {
@@ -2497,7 +2524,8 @@
         "showing": "{total}명 중 {from}-{to}"
       },
       "passwordCompromised": "이 비밀번호는 데이터 유출에서 발견되었습니다. 다른 비밀번호를 선택하세요.",
-      "demoReadOnly": "데모 관리자 콘솔은 읽기 전용입니다."
+      "demoReadOnly": "데모 관리자 콘솔은 읽기 전용입니다.",
+      "docs": "문서"
     },
     "urlCheck": {
       "tooLong": "URL이 너무 깁니다.",
@@ -2739,7 +2767,9 @@
       "expires": "만료",
       "none": "없음",
       "startedAt": "시작: {date}",
-      "expiresAt": "만료: {date}"
+      "expiresAt": "만료: {date}",
+      "openPasswordForm": "비밀번호 변경",
+      "closePasswordForm": "취소"
     },
     "apps": {
       "title": "연결된 애플리케이션",
@@ -2958,6 +2988,24 @@
       "userBody": "모두가 이 계정으로 로그인합니다. 비밀번호, 이메일, 로그인 방법은 변경할 수 없으며 업데이트할 때마다 초기화됩니다.",
       "adminBody": "모두가 이 계정으로 로그인합니다. 관리자 콘솔을 열어 모든 것을 볼 수 있지만 아무것도 변경할 수 없습니다.",
       "adminLink": "관리자 콘솔 열기"
+    },
+    "checklist": {
+      "title": "보안 체크리스트",
+      "description": "계정을 탈취하기 어렵게 만드는 몇 가지 단계입니다.",
+      "allDone": "계정이 잘 보호되고 있습니다.",
+      "emailVerified": "이메일 주소 인증됨",
+      "emailUnverified": "이메일 주소를 인증하세요",
+      "twoFactorOn": "2단계 인증이 켜져 있습니다",
+      "twoFactorOff": "2단계 인증을 켜세요",
+      "passkeys": "{count, plural, other {패스키 #개 설정됨}}",
+      "noPasskey": "비밀번호 없이 로그인하려면 패스키를 추가하세요",
+      "thisDeviceOnly": "이 기기에서만 로그인됨",
+      "otherSessions": "{count, plural, other {다른 기기 #대에서 로그인됨}}",
+      "verify": "인증",
+      "turnOn": "켜기",
+      "addPasskey": "패스키 추가",
+      "review": "검토",
+      "manage": "관리"
     }
   },
   "acceptInvitation": {

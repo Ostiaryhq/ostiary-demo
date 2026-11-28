@@ -417,7 +417,6 @@
           "previous": "Forrige",
           "next": "Næste",
           "page": "Side {page} / {total}",
-          "footnote": "Data fra <code>{getClients}</code>. Registrering og redigering (inklusive <code>{skipConsent}</code>) kalder <code>{create}</code> og <code>{update}</code>; andre ændringer bruger <code>{deleteClient}</code> og <code>{rotateSecret}</code>. Se dokumentationen til <docs>OAuth provider</docs>. Klienter er afgrænset til den loggede ind bruger (eller <code>{clientReference}</code>, når det er konfigureret). Selvregistrerede klienter har ingen ejer og vises alle; de kan deaktiveres eller slettes, men ikke redigeres.",
           "duplicates": "×{count}",
           "duplicatesHint": "{count} identiske selvregistrerede klienter",
           "showDuplicates": "Vis alle {count}",
@@ -1482,7 +1481,7 @@
       },
       "webhooks": {
         "title": "Webhooks",
-        "description": "Signerede HTTPS-notifikationer, der fortæller dine apps, når brugere, roller og organisationsmedlemskaber i {name} ændres.",
+        "description": "Signerede HTTPS-notifikationer, der fortæller dine apps eller din sikkerhedsovervågning, når konti, login eller organisationsmedlemskaber i {name} ændres.",
         "deliveries": "Leveringslog",
         "eventDescriptions": {
           "user_created": "En konto oprettes (tilmelding, administrator, SSO, SCIM).",
@@ -1567,6 +1566,11 @@
             "title": "Slet dette endpoint?",
             "description": "{url} modtager ikke længere hændelser, og dets leveringslog og ventende genforsøg slettes. Deaktiver det i stedet for at sætte det på pause.",
             "deleted": "Endpoint slettet"
+          },
+          "groups": {
+            "users": "Brugere",
+            "security": "Sikkerhed",
+            "organizations": "Organisationer"
           }
         },
         "redeliver": {
@@ -1627,7 +1631,6 @@
           "previous": "Forrige",
           "next": "Næste",
           "pageOf": "Side {page} / {pages}",
-          "poweredBy": "Drevet af <code>listUsers</code>, <code>createUser</code>, <code>setRole</code>, <code>updateUser</code>, <code>setUserPassword</code> og relaterede metoder fra <link>Better Auth admin-pluginet</link>. Du skal være logget ind som administrator.",
           "import": "Importér brugere"
         },
         "status": {
@@ -2078,7 +2081,7 @@
       },
       "security": {
         "title": "Sikkerhed",
-        "description": "Mislykkede loginforsøg, kontiene og adresserne bag dem samt udelukkede konti.",
+        "description": "Hvem kan logge ind og hvordan, og mislykkede login og spærrede konti at holde øje med.",
         "tiles": {
           "failed24h": "Mislykkede logins, 24 timer",
           "failed7d": "Mislykkede logins, 7 dage",
@@ -2113,8 +2116,6 @@
           "permanent": "permanent"
         },
         "policy": {
-          "title": "Sessioner og adgangskoder",
-          "description": "Hvor længe man forbliver logget ind i godkendelsesappen, og hvordan adgangskoder vælges. Apps beholder deres egne tokens og opdateringstokens.",
           "edit": "Rediger",
           "on": "Til",
           "off": "Fra",
@@ -2130,7 +2131,6 @@
           "minPasswordLengthHint": "Gælder nye adgangskoder (oprettelse, nulstilling, skift). Eksisterende adgangskoder virker fortsat.",
           "passwordSignUp": "Oprettelse med adgangskode",
           "passwordSignUpHint": "Fra: man kan ikke længere oprette en konto med e-mail og adgangskode, kun med en social udbyder eller organisationens SSO. Administratorer kan stadig oprette konti, og eksisterende adgangskoder virker fortsat.",
-          "dialogDescription": "Godkendelsesappen anvender dem inden for et minut.",
           "save": "Gem",
           "cancel": "Annuller",
           "saved": "Politikken er gemt. Godkendelsesappen anvender den inden for et minut.",
@@ -2159,7 +2159,30 @@
           "inactiveDisable": "Deaktiver kontoen",
           "inactiveDelete": "Slet kontoen",
           "inactiveDisableAfter": "Deaktiver efter {count, plural, one {# dag} other {# dage}}",
-          "inactiveDeleteAfter": "Slet efter {count, plural, one {# dag} other {# dage}}"
+          "inactiveDeleteAfter": "Slet efter {count, plural, one {# dag} other {# dage}}",
+          "editGroup": "Rediger {group}",
+          "groups": {
+            "sessions": {
+              "title": "Sessioner",
+              "description": "Hvor længe man forbliver logget ind i godkendelsesappen. Apps beholder deres egne tokens."
+            },
+            "passwords": {
+              "title": "Adgangskoder",
+              "description": "Hvordan adgangskoder vælges og gættes."
+            },
+            "twoFactor": {
+              "title": "Totrinsbekræftelse",
+              "description": "Et ekstra trin for alle, der logger ind i en app."
+            },
+            "emails": {
+              "title": "Sikkerheds-e-mails",
+              "description": "Hvad folk får at vide om login og ændringer på deres konto."
+            },
+            "inactive": {
+              "title": "Inaktive konti",
+              "description": "Hvad der sker med konti, som ingen bruger."
+            }
+          }
         },
         "emailDomains": {
           "title": "E-maildomæner",
@@ -2225,6 +2248,10 @@
             "noCountries": "Angiv mindst ét land.",
             "save": "Landene kunne ikke gemmes."
           }
+        },
+        "tabs": {
+          "settings": "Indstillinger",
+          "monitoring": "Overvågning"
         }
       },
       "signingKeys": {
@@ -2497,7 +2524,8 @@
         "showing": "Viser {from}-{to} af {total}"
       },
       "passwordCompromised": "Adgangskoden er dukket op i et datalæk. Vælg en anden.",
-      "demoReadOnly": "Demoens administrationskonsol er skrivebeskyttet."
+      "demoReadOnly": "Demoens administrationskonsol er skrivebeskyttet.",
+      "docs": "Dokumentation"
     },
     "urlCheck": {
       "tooLong": "URL'en er for lang.",
@@ -2739,7 +2767,9 @@
       "expires": "Udløber",
       "none": "Ingen",
       "startedAt": "Startet: {date}",
-      "expiresAt": "Udløber: {date}"
+      "expiresAt": "Udløber: {date}",
+      "openPasswordForm": "Skift adgangskode",
+      "closePasswordForm": "Annuller"
     },
     "apps": {
       "title": "Forbundne apps",
@@ -2958,6 +2988,24 @@
       "userBody": "Alle logger ind på denne konto. Adgangskode, e-mail og loginmetoder kan ikke ændres, og den nulstilles ved hver opdatering.",
       "adminBody": "Alle logger ind på denne konto. Den kan åbne administrationskonsollen og se alt der, men ikke ændre noget.",
       "adminLink": "Åbn administrationskonsollen"
+    },
+    "checklist": {
+      "title": "Sikkerhedstjekliste",
+      "description": "Et par trin, der gør din konto sværere at overtage.",
+      "allDone": "Din konto er godt beskyttet.",
+      "emailVerified": "E-mailadresse bekræftet",
+      "emailUnverified": "Bekræft din e-mailadresse",
+      "twoFactorOn": "Totrinsbekræftelse er slået til",
+      "twoFactorOff": "Slå totrinsbekræftelse til",
+      "passkeys": "{count, plural, one {# adgangsnøgle oprettet} other {# adgangsnøgler oprettet}}",
+      "noPasskey": "Tilføj en adgangsnøgle for at logge ind uden adgangskode",
+      "thisDeviceOnly": "Kun logget ind på denne enhed",
+      "otherSessions": "{count, plural, one {Logget ind på # anden enhed} other {Logget ind på # andre enheder}}",
+      "verify": "Bekræft",
+      "turnOn": "Slå til",
+      "addPasskey": "Tilføj adgangsnøgle",
+      "review": "Gennemgå",
+      "manage": "Administrer"
     }
   },
   "acceptInvitation": {
