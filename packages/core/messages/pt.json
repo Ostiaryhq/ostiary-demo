@@ -189,7 +189,9 @@
       "error": "Não foi possível entrar com essa conta. Tente novamente ou use outro método.",
       "notLinked": "Essa conta ainda não está conectada a uma conta {name}. Entre de outra forma e depois conecte-a nas suas configurações de segurança.",
       "noEmail": "Essa conta não partilhou um endereço de email. Tente mais tarde ou entre de outra forma.",
-      "signUpDisabled": "Ainda não existe uma conta para esse endereço e este método de início de sessão não pode criá-la. Inicie sessão de outra forma."
+      "signUpDisabled": "Ainda não existe uma conta para esse endereço e este método de início de sessão não pode criá-la. Inicie sessão de outra forma.",
+      "createFailed": "Não foi possível criar uma conta com esse início de sessão. O seu endereço de e-mail pode não ser permitido aqui: tente outro endereço ou entre de outra forma.",
+      "sessionRefused": "O início de sessão foi recusado. Se achar que é um erro, contacte o seu administrador."
     },
     "app": {
       "signIn": "Inicie sessão para continuar para <app>{name}</app>",
@@ -1938,7 +1940,10 @@
             "self_delete": "Excluiu a própria conta",
             "export_csv": "Exportou os usuários para CSV",
             "import": "Importou usuários",
-            "remove_phone_number": "Removeu o seu número de telefone"
+            "remove_phone_number": "Removeu o seu número de telefone",
+            "new_device_sign_in": "Iniciou sessão num novo dispositivo",
+            "secure_account": "Protegeu a sua conta (Não fui eu)",
+            "password_breached": "Palavra-passe encontrada numa fuga de dados"
           },
           "oauth_client": {
             "create": "Registrou cliente OAuth",
@@ -2033,7 +2038,10 @@
             "export_csv": "Exportou o log de auditoria para CSV"
           },
           "security": {
-            "update_policy": "Alterou a política de sessões e palavras-passe"
+            "update_policy": "Alterou a política de sessões e palavras-passe",
+            "update_email_domains": "Alterou os domínios de e-mail permitidos",
+            "update_countries": "Alterou os países",
+            "country_refused": "Recusou um início de sessão de um país"
           }
         },
         "actorPlaceholder": "Pesquisar por quem agiu (e-mail)…",
@@ -2110,7 +2118,74 @@
           "twoFactorEveryoneHint": "Todos têm de usar uma aplicação de autenticação ou uma chave de acesso para iniciar sessão nas aplicações. Administradores: REQUIRE_ADMIN_2FA. As organizações podem exigi-la aos seus membros na página delas.",
           "twoFactorGraceDays": "Prazo para a ativar",
           "twoFactorGraceDaysHint": "Quem não a tem é avisado em cada início de sessão numa aplicação e pode continuar até lá. O prazo começa quando ativa isto, ou na criação da conta.",
-          "noGrace": "Nenhum: obrigatória de imediato"
+          "noGrace": "Nenhum: obrigatória de imediato",
+          "newDeviceEmail": "Email ao iniciar sessão num novo dispositivo",
+          "newDeviceEmailHint": "As pessoas recebem um email quando a conta inicia sessão num navegador que nunca usou, com um botão para terminar sessão em todo o lado e repor a palavra-passe. Inícios de sessão pelo SSO de uma organização não enviam email."
+        },
+        "emailDomains": {
+          "title": "Domínios de e-mail",
+          "description": "Quais endereços de e-mail podem criar uma conta. Aplica-se a todas as formas de registo e às alterações de endereço; as contas existentes continuam a funcionar.",
+          "edit": "Editar",
+          "mode": "Quem pode registar-se",
+          "modes": {
+            "any": "Qualquer endereço de e-mail",
+            "allow": "Apenas estes domínios",
+            "block": "Qualquer endereço exceto estes domínios"
+          },
+          "modeHints": {
+            "any": "Sem restrição de domínio.",
+            "allow": "Para um Ostiary usado por uma única empresa ou escola: os outros endereços não podem criar conta.",
+            "block": "Os endereços dos domínios indicados não podem criar conta."
+          },
+          "allowed": "Domínios permitidos",
+          "blocked": "Domínios bloqueados",
+          "none": "Nenhum",
+          "domainsHint": "Um por linha. Um domínio inclui também os seus subdomínios (acme.com inclui eu.acme.com).",
+          "blockDisposable": "Bloquear endereços de e-mail descartáveis",
+          "blockDisposableHint": "Recusa cerca de 9000 serviços de e-mail descartável conhecidos, como o Mailinator, a partir de uma lista incluída no Ostiary.",
+          "on": "Ativado",
+          "off": "Desativado",
+          "dialogDescription": "Admins, SSO e SCIM continuam a poder criar contas com qualquer endereço. A app de autenticação aplica isto em menos de um minuto.",
+          "save": "Guardar",
+          "cancel": "Cancelar",
+          "saved": "Domínios de e-mail guardados. A app de autenticação aplica-os em menos de um minuto.",
+          "errors": {
+            "invalid": "Escolha uma das opções apresentadas.",
+            "invalidDomain": "Uma das entradas não é um nome de domínio, como example.com.",
+            "noDomains": "Indique pelo menos um domínio.",
+            "save": "Não foi possível guardar os domínios de e-mail."
+          }
+        },
+        "countries": {
+          "title": "Países",
+          "description": "De que países é possível iniciar sessão e criar conta. Os administradores da plataforma podem sempre iniciar sessão; um pedido de país desconhecido é aceite.",
+          "notConfigured": "Defina COUNTRY_HEADER (um cabeçalho definido pelo seu proxy, como cf-ipcountry) ou GEOIP_DATABASE (um ficheiro MaxMind GeoLite2 Country) nas duas aplicações para ativar. Na Vercel funciona sem eles.",
+          "edit": "Editar",
+          "mode": "Quem pode iniciar sessão",
+          "modes": {
+            "any": "Qualquer país",
+            "allow": "Apenas estes países",
+            "block": "Qualquer país exceto estes"
+          },
+          "modeHints": {
+            "any": "Sem restrição de país.",
+            "allow": "Inícios de sessão e registos de outros países são recusados.",
+            "block": "Inícios de sessão e registos dos países indicados são recusados."
+          },
+          "allowed": "Países permitidos",
+          "blocked": "Países bloqueados",
+          "none": "Nenhum",
+          "countriesHint": "Códigos de país de duas letras (ISO 3166-1), separados por vírgulas ou espaços: FR, DE, US.",
+          "dialogDescription": "Os administradores continuam a poder iniciar sessão de qualquer lado. A aplicação de autenticação aplica isto em menos de um minuto.",
+          "save": "Guardar",
+          "cancel": "Cancelar",
+          "saved": "Países guardados. A aplicação de autenticação aplica-os em menos de um minuto.",
+          "errors": {
+            "invalid": "Escolha uma das opções disponíveis.",
+            "invalidCountry": "Uma das entradas não é um código de país de duas letras, como FR.",
+            "noCountries": "Indique pelo menos um país.",
+            "save": "Não foi possível guardar os países."
+          }
         }
       },
       "signingKeys": {
@@ -2382,6 +2457,7 @@
         "pageOf": "Página {page} / {pages}",
         "showing": "Exibindo {from}-{to} de {total}"
       },
+      "passwordCompromised": "Esta palavra-passe apareceu numa fuga de dados. Escolha outra.",
       "demoReadOnly": "O console de administração de demonstração é somente leitura."
     },
     "urlCheck": {
@@ -2422,7 +2498,8 @@
       "admin": "Administração",
       "marketingHome": "Sobre",
       "signOut": "Sair",
-      "data": "Seus dados"
+      "data": "Seus dados",
+      "activity": "Atividade recente"
     },
     "profile": {
       "title": "Perfil",
@@ -2808,6 +2885,34 @@
       "removeFailed": "Não foi possível remover o número.",
       "removed": "Número removido."
     },
+    "activity": {
+      "title": "Atividade recente",
+      "description": "Inícios de sessão e alterações de segurança da sua conta nos últimos 30 dias. Algo que não reconhece? Termine essa sessão e altere a palavra-passe.",
+      "empty": "Sem atividade nos últimos 30 dias.",
+      "loadError": "Não foi possível carregar a sua atividade.",
+      "more": "Mostrar mais",
+      "signOut": "Terminar sessão",
+      "signedOut": "Sessão terminada.",
+      "signOutError": "Não foi possível terminar esta sessão.",
+      "current": "Este navegador",
+      "newDevice": "Novo dispositivo",
+      "deviceOn": "{browser} em {system}",
+      "unknownDevice": "Navegador desconhecido",
+      "types": {
+        "sign_in": "Início de sessão",
+        "password_changed": "Palavra-passe alterada",
+        "password_reset": "Palavra-passe reposta",
+        "email_changed": "Endereço de email alterado",
+        "two_factor_enabled": "Autenticação de dois fatores ativada",
+        "two_factor_disabled": "Autenticação de dois fatores desativada",
+        "passkey_added": "Chave de acesso adicionada",
+        "passkey_removed": "Chave de acesso removida",
+        "session_revoked": "Uma sessão terminada",
+        "sessions_revoked": "Sessão terminada nas outras sessões",
+        "account_secured": "Sessão terminada em todo o lado (Não fui eu)",
+        "password_breached": "Palavra-passe encontrada numa fuga de dados"
+      }
+    },
     "demo": {
       "title": "Conta de demonstração",
       "userBody": "Todos entram nesta conta. A senha, o e-mail e os métodos de login não podem ser alterados, e ela é redefinida a cada atualização.",
@@ -3095,7 +3200,10 @@
       "heading": "O seu código de acesso",
       "body": "Introduza este código na página de início de sessão de {brand} para concluir o acesso.",
       "note": "O código expira dentro de {minutes} minutos e só funciona uma vez.",
-      "footnote": "Não pediu um código? Ignore este e-mail: ninguém consegue entrar sem ele. Nunca o partilhe com ninguém."
+      "footnote": "Não pediu um código? Ignore este e-mail: ninguém consegue entrar sem ele. Nunca o partilhe com ninguém.",
+      "button": "Iniciar sessão no {brand}",
+      "linkBody": "Ou use este botão para iniciar sessão neste dispositivo.",
+      "noteWithLink": "O código e o botão expiram em {minutes} minutos e só funcionam uma vez."
     },
     "deleteAccount": {
       "subject": "Confirme a exclusão da sua conta {brand}",
@@ -3106,6 +3214,23 @@
       "button": "Revisar e excluir",
       "note": "O link expira em {minutes} minutos e só funciona uma vez.",
       "footnote": "Se não foi você quem pediu, ignore este e-mail: sua conta continua como está. Considere alterar sua senha, já que o pedido veio de uma sessão conectada."
+    },
+    "newDevice": {
+      "subject": "Novo início de sessão na sua conta {brand}",
+      "preheader": "A sua conta iniciou sessão num dispositivo que nunca tinha usado.",
+      "heading": "Novo início de sessão noutro dispositivo",
+      "body": "A conta {brand} {email} acabou de iniciar sessão num navegador ou dispositivo que nunca tinha usado.",
+      "when": "Quando: {when}",
+      "device": "Dispositivo: {device}",
+      "deviceOn": "{browser} em {system}",
+      "unknownDevice": "Navegador desconhecido",
+      "ipAddress": "Endereço IP: {ip}",
+      "unknownIp": "desconhecido",
+      "ifYou": "Se foi você, não precisa de fazer nada.",
+      "button": "Não fui eu",
+      "note": "O botão funciona uma vez durante {days} dias. Termina a sua sessão em todo o lado e envia-lhe um link para escolher uma nova palavra-passe.",
+      "footnote": "Recebe este email quando a sua conta inicia sessão num novo dispositivo. Nunca partilhe a sua palavra-passe nem os seus códigos de início de sessão.",
+      "location": "Localização: {country}"
     }
   },
   "authErrors": {
@@ -3125,8 +3250,42 @@
     "emailNotVerified": "Verifique primeiro o seu endereço de e-mail.",
     "invalidToken": "Este link é inválido ou expirou.",
     "publicOrganization": "Os membros da organização Public são geridos apenas pelos administradores da plataforma.",
+    "emailDomainNotAllowed": "Não é possível criar contas com este domínio de e-mail aqui. Use outro endereço.",
+    "countryNotAllowed": "Não é permitido iniciar sessão a partir do seu país aqui.",
     "demoLocked": "As contas de demonstração mantêm a senha, o e-mail e os métodos de login.",
     "demoReadOnly": "O console de administração de demonstração é somente leitura.",
     "demoSignUpClosed": "O cadastro está fechado nesta demonstração. Entre com uma das contas de exemplo."
+  },
+  "secureAccount": {
+    "title": "Proteja a sua conta",
+    "description": "Alguém pode ter iniciado sessão na sua conta. Confirme para o impedir:",
+    "stepSignOut": "A sua sessão é terminada em todos os dispositivos, incluindo este.",
+    "stepApps": "As aplicações perdem o acesso que tinham através da sua conta até voltar a iniciar sessão.",
+    "stepReset": "Enviamos-lhe um link para escolher uma nova palavra-passe.",
+    "confirm": "Terminar sessão em todo o lado e repor a palavra-passe",
+    "toSignIn": "Ir para o início de sessão",
+    "doneTitle": "Verifique a sua caixa de entrada",
+    "doneBody": "A sessão da sua conta foi terminada em todo o lado. Abra o email que acabámos de enviar para escolher uma nova palavra-passe. Se usa a autenticação de dois fatores, confirme que a sua aplicação de autenticação e as suas chaves de acesso continuam a ser suas.",
+    "errors": {
+      "invalid": "Este link expirou ou já foi usado. Por segurança, reponha a palavra-passe a partir da página de início de sessão.",
+      "failed": "Algo correu mal. Tente novamente."
+    }
+  },
+  "breachedPassword": {
+    "title": "Altere a sua palavra-passe",
+    "description": "A palavra-passe com que acabou de iniciar sessão aparece numa fuga de dados pública, por isso outras pessoas podem conhecê-la. Escolha uma nova para continuar. As suas outras sessões serão terminadas.",
+    "doneTitle": "Palavra-passe alterada",
+    "doneBody": "A nova palavra-passe está definida e as suas outras sessões foram terminadas.",
+    "continue": "Continuar",
+    "toAccount": "Ir para a sua conta"
+  },
+  "signInLink": {
+    "title": "Iniciar sessão",
+    "description": "Iniciar sessão como {email}",
+    "note": "Vai iniciar sessão neste dispositivo e voltar ao ponto onde começou.",
+    "signIn": "Iniciar sessão",
+    "invalidTitle": "Este link já não funciona",
+    "invalidBody": "Expirou ou já foi usado. Peça um novo código na página de início de sessão.",
+    "toSignIn": "Ir para o início de sessão"
   }
 }

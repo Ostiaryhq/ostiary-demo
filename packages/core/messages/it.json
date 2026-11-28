@@ -189,7 +189,9 @@
       "error": "Impossibile accedere con questo account. Riprova o usa un altro metodo.",
       "notLinked": "Questo account non è ancora collegato a un account {name}. Accedi in un altro modo, poi collegalo dalle impostazioni di sicurezza.",
       "noEmail": "Quell'account non ha condiviso un indirizzo email. Riprova più tardi o accedi in un altro modo.",
-      "signUpDisabled": "Non esiste ancora un account per questo indirizzo e questo metodo di accesso non può crearne uno. Accedi in un altro modo."
+      "signUpDisabled": "Non esiste ancora un account per questo indirizzo e questo metodo di accesso non può crearne uno. Accedi in un altro modo.",
+      "createFailed": "Impossibile creare un account con questo accesso. Il tuo indirizzo email potrebbe non essere consentito qui: prova un altro indirizzo o accedi in un altro modo.",
+      "sessionRefused": "L’accesso è stato rifiutato. Se pensi che sia un errore, contatta il tuo amministratore."
     },
     "app": {
       "signIn": "Accedi per continuare su <app>{name}</app>",
@@ -1938,7 +1940,10 @@
             "self_delete": "Ha eliminato il proprio account",
             "export_csv": "Utenti esportati in CSV",
             "import": "Utenti importati",
-            "remove_phone_number": "Ha rimosso il proprio numero di telefono"
+            "remove_phone_number": "Ha rimosso il proprio numero di telefono",
+            "new_device_sign_in": "Accesso da un nuovo dispositivo",
+            "secure_account": "Ha protetto il proprio account (Non sono stato io)",
+            "password_breached": "Password trovata in una violazione"
           },
           "oauth_client": {
             "create": "Client OAuth registrato",
@@ -2033,7 +2038,10 @@
             "export_csv": "Registro di audit esportato in CSV"
           },
           "security": {
-            "update_policy": "Criterio di sessioni e password modificato"
+            "update_policy": "Criterio di sessioni e password modificato",
+            "update_email_domains": "Domini email consentiti modificati",
+            "update_countries": "Ha modificato i paesi",
+            "country_refused": "Ha rifiutato un accesso da un paese"
           }
         },
         "actorPlaceholder": "Cerca per autore (email)…",
@@ -2110,7 +2118,74 @@
           "twoFactorEveryoneHint": "Tutti devono usare un'app di autenticazione o una passkey per accedere alle app. Admin: REQUIRE_ADMIN_2FA. Le organizzazioni possono richiederla ai propri membri dalla loro pagina.",
           "twoFactorGraceDays": "Tempo per attivarla",
           "twoFactorGraceDaysHint": "Chi non ha i due fattori riceve la richiesta a ogni accesso a un'app e può continuare fino ad allora. Il periodo parte quando attivi questa opzione, o dalla creazione dell'account.",
-          "noGrace": "Nessuno: richiesta subito"
+          "noGrace": "Nessuno: richiesta subito",
+          "newDeviceEmail": "Email per accesso da nuovo dispositivo",
+          "newDeviceEmailHint": "Le persone ricevono un’email quando il loro account accede da un browser mai usato prima, con un pulsante per disconnettersi ovunque e reimpostare la password. Gli accessi tramite il SSO di un’organizzazione non inviano email."
+        },
+        "emailDomains": {
+          "title": "Domini email",
+          "description": "Quali indirizzi email possono creare un account. Vale per ogni modalità di registrazione e per i cambi di indirizzo; gli account esistenti continuano a funzionare.",
+          "edit": "Modifica",
+          "mode": "Chi può registrarsi",
+          "modes": {
+            "any": "Qualsiasi indirizzo email",
+            "allow": "Solo questi domini",
+            "block": "Qualsiasi indirizzo tranne questi domini"
+          },
+          "modeHints": {
+            "any": "Nessuna restrizione sul dominio.",
+            "allow": "Per un Ostiary usato da una sola azienda o scuola: gli altri indirizzi non possono creare un account.",
+            "block": "Gli indirizzi dei domini elencati non possono creare un account."
+          },
+          "allowed": "Domini consentiti",
+          "blocked": "Domini bloccati",
+          "none": "Nessuno",
+          "domainsHint": "Uno per riga. Un dominio include anche i suoi sottodomini (acme.com include eu.acme.com).",
+          "blockDisposable": "Blocca gli indirizzi email usa e getta",
+          "blockDisposableHint": "Rifiuta circa 9.000 servizi di email usa e getta noti, come Mailinator, da un elenco incluso in Ostiary.",
+          "on": "Attivo",
+          "off": "Disattivo",
+          "dialogDescription": "Admin, SSO e SCIM possono comunque creare account con qualsiasi indirizzo. L'app di autenticazione lo applica entro un minuto.",
+          "save": "Salva",
+          "cancel": "Annulla",
+          "saved": "Domini email salvati. L'app di autenticazione li applica entro un minuto.",
+          "errors": {
+            "invalid": "Scegli una delle opzioni proposte.",
+            "invalidDomain": "Una delle voci non è un nome di dominio, come example.com.",
+            "noDomains": "Indica almeno un dominio.",
+            "save": "Impossibile salvare i domini email."
+          }
+        },
+        "countries": {
+          "title": "Paesi",
+          "description": "Da quali paesi si può accedere e registrarsi. Gli amministratori della piattaforma possono sempre accedere; una richiesta di paese sconosciuto è consentita.",
+          "notConfigured": "Imposta COUNTRY_HEADER (un’intestazione impostata dal tuo proxy, come cf-ipcountry) o GEOIP_DATABASE (un file MaxMind GeoLite2 Country) su entrambe le app per attivarlo. Su Vercel funziona senza.",
+          "edit": "Modifica",
+          "mode": "Chi può accedere",
+          "modes": {
+            "any": "Qualsiasi paese",
+            "allow": "Solo questi paesi",
+            "block": "Qualsiasi paese tranne questi"
+          },
+          "modeHints": {
+            "any": "Nessuna limitazione per paese.",
+            "allow": "Accessi e registrazioni da altri paesi vengono rifiutati.",
+            "block": "Accessi e registrazioni dai paesi elencati vengono rifiutati."
+          },
+          "allowed": "Paesi consentiti",
+          "blocked": "Paesi bloccati",
+          "none": "Nessuno",
+          "countriesHint": "Codici paese di due lettere (ISO 3166-1), separati da virgole o spazi: FR, DE, US.",
+          "dialogDescription": "Gli amministratori possono comunque accedere da ovunque. L’app di autenticazione lo applica entro un minuto.",
+          "save": "Salva",
+          "cancel": "Annulla",
+          "saved": "Paesi salvati. L’app di autenticazione li applica entro un minuto.",
+          "errors": {
+            "invalid": "Scegli una delle opzioni proposte.",
+            "invalidCountry": "Una delle voci non è un codice paese di due lettere, come FR.",
+            "noCountries": "Indica almeno un paese.",
+            "save": "Impossibile salvare i paesi."
+          }
         }
       },
       "signingKeys": {
@@ -2382,6 +2457,7 @@
         "pageOf": "Pagina {page} / {pages}",
         "showing": "{from}-{to} di {total}"
       },
+      "passwordCompromised": "Questa password è comparsa in una violazione di dati. Scegline un'altra.",
       "demoReadOnly": "La console di amministrazione demo è di sola lettura."
     },
     "urlCheck": {
@@ -2422,7 +2498,8 @@
       "admin": "Amministrazione",
       "marketingHome": "Informazioni",
       "signOut": "Esci",
-      "data": "I tuoi dati"
+      "data": "I tuoi dati",
+      "activity": "Attività recente"
     },
     "profile": {
       "title": "Profilo",
@@ -2808,6 +2885,34 @@
       "removeFailed": "Impossibile rimuovere il numero.",
       "removed": "Numero rimosso."
     },
+    "activity": {
+      "title": "Attività recente",
+      "description": "Accessi e modifiche di sicurezza del tuo account negli ultimi 30 giorni. Qualcosa che non riconosci? Disconnetti quella sessione e cambia la password.",
+      "empty": "Nessuna attività negli ultimi 30 giorni.",
+      "loadError": "Impossibile caricare la tua attività.",
+      "more": "Mostra altro",
+      "signOut": "Disconnetti",
+      "signedOut": "Sessione disconnessa.",
+      "signOutError": "Impossibile disconnettere questa sessione.",
+      "current": "Questo browser",
+      "newDevice": "Nuovo dispositivo",
+      "deviceOn": "{browser} su {system}",
+      "unknownDevice": "Browser sconosciuto",
+      "types": {
+        "sign_in": "Accesso",
+        "password_changed": "Password modificata",
+        "password_reset": "Password reimpostata",
+        "email_changed": "Indirizzo email modificato",
+        "two_factor_enabled": "Autenticazione a due fattori attivata",
+        "two_factor_disabled": "Autenticazione a due fattori disattivata",
+        "passkey_added": "Passkey aggiunta",
+        "passkey_removed": "Passkey rimossa",
+        "session_revoked": "Una sessione disconnessa",
+        "sessions_revoked": "Disconnesso dalle altre sessioni",
+        "account_secured": "Disconnesso ovunque (Non sono stato io)",
+        "password_breached": "Password trovata in una violazione"
+      }
+    },
     "demo": {
       "title": "Account demo",
       "userBody": "Tutti accedono a questo account. Password, email e metodi di accesso non si possono modificare, e viene reimpostato a ogni aggiornamento.",
@@ -3095,7 +3200,10 @@
       "heading": "Il tuo codice di accesso",
       "body": "Inserisci questo codice nella pagina di accesso di {brand} per completare l’accesso.",
       "note": "Il codice scade tra {minutes} minuti e funziona una sola volta.",
-      "footnote": "Non hai richiesto un codice? Ignora questa email: nessuno può accedere senza. Non condividerlo mai con nessuno."
+      "footnote": "Non hai richiesto un codice? Ignora questa email: nessuno può accedere senza. Non condividerlo mai con nessuno.",
+      "button": "Accedi a {brand}",
+      "linkBody": "Oppure usa questo pulsante per accedere su questo dispositivo.",
+      "noteWithLink": "Il codice e il pulsante scadono tra {minutes} minuti e funzionano una sola volta."
     },
     "deleteAccount": {
       "subject": "Conferma l’eliminazione del tuo account {brand}",
@@ -3106,6 +3214,23 @@
       "button": "Rivedi ed elimina",
       "note": "Il link scade tra {minutes} minuti e funziona una sola volta.",
       "footnote": "Se non l’hai richiesto tu, ignora questa email: il tuo account resta com’è. Valuta di cambiare la password, perché la richiesta proviene da una sessione con accesso effettuato."
+    },
+    "newDevice": {
+      "subject": "Nuovo accesso al tuo account {brand}",
+      "preheader": "È stato effettuato l’accesso al tuo account da un dispositivo mai usato prima.",
+      "heading": "Nuovo accesso da un altro dispositivo",
+      "body": "È appena stato effettuato l’accesso all’account {brand} {email} da un browser o dispositivo mai usato prima.",
+      "when": "Quando: {when}",
+      "device": "Dispositivo: {device}",
+      "deviceOn": "{browser} su {system}",
+      "unknownDevice": "Browser sconosciuto",
+      "ipAddress": "Indirizzo IP: {ip}",
+      "unknownIp": "sconosciuto",
+      "ifYou": "Se sei stato tu, non devi fare nulla.",
+      "button": "Non sono stato io",
+      "note": "Il pulsante funziona una sola volta entro {days} giorni. Ti disconnette ovunque e ti invia un link per scegliere una nuova password.",
+      "footnote": "Ricevi questa email quando il tuo account accede da un nuovo dispositivo. Non condividere mai la tua password o i codici di accesso.",
+      "location": "Luogo: {country}"
     }
   },
   "authErrors": {
@@ -3125,8 +3250,42 @@
     "emailNotVerified": "Verifica prima il tuo indirizzo email.",
     "invalidToken": "Questo link non è valido o è scaduto.",
     "publicOrganization": "I membri dell'organizzazione Public sono gestiti solo dagli amministratori della piattaforma.",
+    "emailDomainNotAllowed": "Qui non è possibile creare account con questo dominio email. Usa un altro indirizzo.",
+    "countryNotAllowed": "L’accesso dal tuo paese non è consentito qui.",
     "demoLocked": "Gli account demo mantengono password, email e metodi di accesso.",
     "demoReadOnly": "La console di amministrazione demo è di sola lettura.",
     "demoSignUpClosed": "La registrazione è chiusa in questa demo. Accedi con uno degli account di esempio."
+  },
+  "secureAccount": {
+    "title": "Proteggi il tuo account",
+    "description": "Qualcuno potrebbe aver effettuato l’accesso al tuo account. Conferma per escluderlo:",
+    "stepSignOut": "Vieni disconnesso da tutti i dispositivi, compreso questo.",
+    "stepApps": "Le app perdono l’accesso ottenuto tramite il tuo account finché non accedi di nuovo.",
+    "stepReset": "Ti inviamo un link per scegliere una nuova password.",
+    "confirm": "Disconnettimi ovunque e reimposta la password",
+    "toSignIn": "Vai all’accesso",
+    "doneTitle": "Controlla la posta in arrivo",
+    "doneBody": "Il tuo account è stato disconnesso ovunque. Apri l’email che ti abbiamo appena inviato per scegliere una nuova password. Se usi l’autenticazione a due fattori, verifica che la tua app di autenticazione e le passkey siano ancora tue.",
+    "errors": {
+      "invalid": "Questo link è scaduto o è già stato usato. Per sicurezza, reimposta la password dalla pagina di accesso.",
+      "failed": "Qualcosa è andato storto. Riprova."
+    }
+  },
+  "breachedPassword": {
+    "title": "Cambia la password",
+    "description": "La password con cui hai appena effettuato l’accesso compare in una violazione di dati pubblica, quindi altri potrebbero conoscerla. Scegline una nuova per continuare. Le altre sessioni verranno disconnesse.",
+    "doneTitle": "Password modificata",
+    "doneBody": "La nuova password è impostata e le altre sessioni sono state disconnesse.",
+    "continue": "Continua",
+    "toAccount": "Vai al tuo account"
+  },
+  "signInLink": {
+    "title": "Accedi",
+    "description": "Accedi come {email}",
+    "note": "Accederai su questo dispositivo e tornerai al punto da cui sei partito.",
+    "signIn": "Accedi",
+    "invalidTitle": "Questo link non funziona più",
+    "invalidBody": "È scaduto o è già stato usato. Richiedi un nuovo codice dalla pagina di accesso.",
+    "toSignIn": "Vai all’accesso"
   }
 }

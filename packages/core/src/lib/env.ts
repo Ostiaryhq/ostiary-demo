@@ -106,6 +106,17 @@ export const envSchema = z
      */
     IP_ADDRESS_HEADERS: optional(z.string()),
     /**
+     * Header holding the client's country (ISO 3166-1 alpha-2) set by a proxy clients cannot
+     * bypass, e.g. `cf-ipcountry` behind Cloudflare. On Vercel, `x-vercel-ip-country` is used
+     * without it. For the country policy (admin console, Security) and new-device emails.
+     */
+    COUNTRY_HEADER: optional(z.string()),
+    /**
+     * Path to a MaxMind GeoLite2 (or GeoIP2) Country database (.mmdb), looked up with the client
+     * IP when no country header gives one. Download it from maxmind.com (free licence key).
+     */
+    GEOIP_DATABASE: optional(z.string()),
+    /**
      * Comma-separated IPs or CIDR ranges of your own proxies. When set, the client IP is the
      * right-most address in `x-forwarded-for` that is not one of them. Unset (default), a
      * header with several addresses is not trusted at all.
@@ -122,6 +133,14 @@ export const envSchema = z
      * every domain. Off by default. See lib/security/email-aliases.ts.
      */
     EMAIL_DEDUP: optional(z.enum(["off", "gmail", "plus"])).transform((v) => v ?? "off"),
+    /**
+     * New passwords are checked against Have I Been Pwned (only the first five characters of
+     * their SHA-1 hash are sent) at sign-up, change, reset and when an admin sets one. "off"
+     * for a server that cannot reach api.pwnedpasswords.com: there, every such request would
+     * fail. Also checks the password again at each password sign-in, and asks for a new one if it
+     * has since turned up in a breach (that lookup never blocks a sign-in). On by default.
+     */
+    PASSWORD_BREACH_CHECK: optional(z.enum(["on", "off"])).transform((v) => v ?? "on"),
     /**
      * Days sign-in events (the activity charts, failed sign-ins) are kept before the cron route
      * deletes them. At least 30, the longest chart. Failed sign-ins lose the email or username

@@ -189,7 +189,9 @@
       "error": "无法使用该账户登录。请重试或改用其他方式。",
       "notLinked": "该账户尚未关联到 {name} 账户。请先用其他方式登录，再在安全设置中关联。",
       "noEmail": "该账户未提供电子邮件地址。请稍后重试，或使用其他方式登录。",
-      "signUpDisabled": "该地址尚无账户，且此登录方式无法创建账户。请使用其他方式登录。"
+      "signUpDisabled": "该地址尚无账户，且此登录方式无法创建账户。请使用其他方式登录。",
+      "createFailed": "无法通过此登录方式创建账户。你的邮箱地址可能不被允许：请尝试其他地址或用其他方式登录。",
+      "sessionRefused": "登录被拒绝。如果你认为这是错误，请联系管理员。"
     },
     "app": {
       "signIn": "登录以继续前往 <app>{name}</app>",
@@ -1938,7 +1940,10 @@
             "self_delete": "删除了自己的账户",
             "export_csv": "将用户导出为 CSV",
             "import": "导入了用户",
-            "remove_phone_number": "移除了自己的手机号"
+            "remove_phone_number": "移除了自己的手机号",
+            "new_device_sign_in": "在新设备上登录",
+            "secure_account": "保护了自己的账户（不是我）",
+            "password_breached": "密码出现在泄露数据中"
           },
           "oauth_client": {
             "create": "注册了 OAuth 客户端",
@@ -2033,7 +2038,10 @@
             "export_csv": "将审计日志导出为 CSV"
           },
           "security": {
-            "update_policy": "更改了会话与密码策略"
+            "update_policy": "更改了会话与密码策略",
+            "update_email_domains": "更改了允许的邮箱域名",
+            "update_countries": "修改了国家/地区",
+            "country_refused": "拒绝了来自某国家/地区的登录"
           }
         },
         "actorPlaceholder": "按操作者（邮箱）搜索…",
@@ -2110,7 +2118,74 @@
           "twoFactorEveryoneHint": "所有人登录应用时都必须使用身份验证器应用或通行密钥。管理员：REQUIRE_ADMIN_2FA。组织可以在其页面上要求成员启用。",
           "twoFactorGraceDays": "开启期限",
           "twoFactorGraceDaysHint": "未开启双重验证的人在每次登录应用时都会收到提示，并可在期限前继续。期限从开启此项或创建账户时开始计算。",
-          "noGrace": "无：立即要求"
+          "noGrace": "无：立即要求",
+          "newDeviceEmail": "新设备登录时发送邮件",
+          "newDeviceEmailHint": "当账户在从未使用过的浏览器上登录时，用户会收到一封邮件，其中有在所有地方退出并重置密码的按钮。通过组织 SSO 的登录不会发送邮件。"
+        },
+        "emailDomains": {
+          "title": "邮箱域名",
+          "description": "哪些邮箱地址可以创建账户。适用于所有注册方式和地址变更；现有账户继续可用。",
+          "edit": "编辑",
+          "mode": "谁可以注册",
+          "modes": {
+            "any": "任何邮箱地址",
+            "allow": "仅限这些域名",
+            "block": "除这些域名外的任何地址"
+          },
+          "modeHints": {
+            "any": "不限制域名。",
+            "allow": "适用于单个公司或学校使用的 Ostiary：其他地址无法创建账户。",
+            "block": "所列域名的地址无法创建账户。"
+          },
+          "allowed": "允许的域名",
+          "blocked": "屏蔽的域名",
+          "none": "无",
+          "domainsHint": "每行一个。域名也包括其子域名（acme.com 包括 eu.acme.com）。",
+          "blockDisposable": "屏蔽一次性邮箱地址",
+          "blockDisposableHint": "根据 Ostiary 自带的列表，拒绝约 9,000 个已知的一次性邮箱服务，例如 Mailinator。",
+          "on": "开",
+          "off": "关",
+          "dialogDescription": "管理员、SSO 和 SCIM 仍可使用任何地址创建账户。认证应用会在一分钟内生效。",
+          "save": "保存",
+          "cancel": "取消",
+          "saved": "邮箱域名已保存。认证应用会在一分钟内生效。",
+          "errors": {
+            "invalid": "请选择提供的选项之一。",
+            "invalidDomain": "其中一项不是域名，例如 example.com。",
+            "noDomains": "请至少填写一个域名。",
+            "save": "无法保存邮箱域名。"
+          }
+        },
+        "countries": {
+          "title": "国家/地区",
+          "description": "允许从哪些国家/地区登录和注册。平台管理员始终可以登录；国家/地区未知的请求会被允许。",
+          "notConfigured": "要启用此功能，请在两个应用中设置 COUNTRY_HEADER（代理设置的请求头，如 cf-ipcountry）或 GEOIP_DATABASE（MaxMind GeoLite2 Country 文件）。在 Vercel 上无需设置。",
+          "edit": "编辑",
+          "mode": "谁可以登录",
+          "modes": {
+            "any": "任何国家/地区",
+            "allow": "仅限这些国家/地区",
+            "block": "除这些以外的任何国家/地区"
+          },
+          "modeHints": {
+            "any": "不限制国家/地区。",
+            "allow": "来自其他国家/地区的登录和注册将被拒绝。",
+            "block": "来自所列国家/地区的登录和注册将被拒绝。"
+          },
+          "allowed": "允许的国家/地区",
+          "blocked": "屏蔽的国家/地区",
+          "none": "无",
+          "countriesHint": "两位字母国家代码（ISO 3166-1），用逗号或空格分隔：FR, DE, US。",
+          "dialogDescription": "管理员仍可从任何地方登录。认证应用会在一分钟内生效。",
+          "save": "保存",
+          "cancel": "取消",
+          "saved": "国家/地区已保存。认证应用会在一分钟内生效。",
+          "errors": {
+            "invalid": "请选择提供的选项之一。",
+            "invalidCountry": "某个条目不是两位字母国家代码，例如 FR。",
+            "noCountries": "请至少填写一个国家/地区。",
+            "save": "无法保存国家/地区。"
+          }
         }
       },
       "signingKeys": {
@@ -2382,6 +2457,7 @@
         "pageOf": "第 {page} / {pages} 页",
         "showing": "第 {from}-{to} 条，共 {total} 条"
       },
+      "passwordCompromised": "此密码出现在数据泄露中，请选择其他密码。",
       "demoReadOnly": "演示管理控制台为只读。"
     },
     "urlCheck": {
@@ -2422,7 +2498,8 @@
       "admin": "管理后台",
       "marketingHome": "关于",
       "signOut": "退出登录",
-      "data": "你的数据"
+      "data": "你的数据",
+      "activity": "最近活动"
     },
     "profile": {
       "title": "个人资料",
@@ -2808,6 +2885,34 @@
       "removeFailed": "无法移除号码。",
       "removed": "号码已移除。"
     },
+    "activity": {
+      "title": "最近活动",
+      "description": "过去 30 天内你账户的登录和安全变更。有不认识的记录？请退出该会话并修改密码。",
+      "empty": "过去 30 天内没有活动。",
+      "loadError": "无法加载你的活动。",
+      "more": "显示更多",
+      "signOut": "退出",
+      "signedOut": "会话已退出。",
+      "signOutError": "无法退出此会话。",
+      "current": "此浏览器",
+      "newDevice": "新设备",
+      "deviceOn": "{system} 上的 {browser}",
+      "unknownDevice": "未知浏览器",
+      "types": {
+        "sign_in": "登录",
+        "password_changed": "已修改密码",
+        "password_reset": "已重置密码",
+        "email_changed": "已修改邮箱地址",
+        "two_factor_enabled": "已开启双重验证",
+        "two_factor_disabled": "已关闭双重验证",
+        "passkey_added": "已添加通行密钥",
+        "passkey_removed": "已移除通行密钥",
+        "session_revoked": "已退出一个会话",
+        "sessions_revoked": "已退出其他会话",
+        "account_secured": "已在所有地方退出（不是我）",
+        "password_breached": "密码出现在泄露数据中"
+      }
+    },
     "demo": {
       "title": "演示账户",
       "userBody": "所有人都登录此账户。其密码、邮箱和登录方式无法更改，并会在每次更新时重置。",
@@ -3095,7 +3200,10 @@
       "heading": "你的登录验证码",
       "body": "在 {brand} 登录页面输入此验证码即可完成登录。",
       "note": "验证码将在 {minutes} 分钟后失效，且只能使用一次。",
-      "footnote": "没有请求验证码？请忽略此邮件：没有验证码，任何人都无法登录。切勿将验证码告诉任何人。"
+      "footnote": "没有请求验证码？请忽略此邮件：没有验证码，任何人都无法登录。切勿将验证码告诉任何人。",
+      "button": "登录 {brand}",
+      "linkBody": "或使用此按钮在此设备上登录。",
+      "noteWithLink": "验证码和按钮将在 {minutes} 分钟后失效，且只能使用一次。"
     },
     "deleteAccount": {
       "subject": "确认删除你的 {brand} 账户",
@@ -3106,6 +3214,23 @@
       "button": "查看并删除",
       "note": "此链接将在 {minutes} 分钟后失效，且只能使用一次。",
       "footnote": "如果这不是你本人的操作，请忽略此邮件：你的账户将保持不变。由于该请求来自一个已登录的会话，建议你修改密码。"
+    },
+    "newDevice": {
+      "subject": "你的 {brand} 账户有新的登录",
+      "preheader": "你的账户在一台从未使用过的设备上登录。",
+      "heading": "来自其他设备的新登录",
+      "body": "{brand} 账户 {email} 刚刚在一个从未使用过的浏览器或设备上登录。",
+      "when": "时间：{when}",
+      "device": "设备：{device}",
+      "deviceOn": "{system} 上的 {browser}",
+      "unknownDevice": "未知浏览器",
+      "ipAddress": "IP 地址：{ip}",
+      "unknownIp": "未知",
+      "ifYou": "如果是你本人，无需任何操作。",
+      "button": "不是我",
+      "note": "此按钮在 {days} 天内可使用一次。它会让你在所有地方退出登录，并通过邮件发送设置新密码的链接。",
+      "footnote": "当你的账户在新设备上登录时，你会收到这封邮件。切勿与任何人分享你的密码或登录码。",
+      "location": "位置：{country}"
     }
   },
   "authErrors": {
@@ -3125,8 +3250,42 @@
     "emailNotVerified": "请先验证您的邮箱地址。",
     "invalidToken": "此链接无效或已过期。",
     "publicOrganization": "Public 组织的成员仅由平台管理员管理。",
+    "emailDomainNotAllowed": "无法在此使用该邮箱域名创建账户。请使用其他地址。",
+    "countryNotAllowed": "此处不允许从你所在的国家/地区登录。",
     "demoLocked": "演示账户会保留其密码、邮箱和登录方式。",
     "demoReadOnly": "演示管理控制台为只读。",
     "demoSignUpClosed": "此演示已关闭注册。请使用其中一个示例账户登录。"
+  },
+  "secureAccount": {
+    "title": "保护你的账户",
+    "description": "可能有人登录了你的账户。确认后即可将其踢出：",
+    "stepSignOut": "你会在所有设备上退出登录，包括这台设备。",
+    "stepApps": "在你重新登录之前，应用将失去通过你的账户获得的访问权限。",
+    "stepReset": "我们会通过邮件发送设置新密码的链接。",
+    "confirm": "在所有地方退出并重置密码",
+    "toSignIn": "前往登录",
+    "doneTitle": "请查看收件箱",
+    "doneBody": "你的账户已在所有地方退出登录。打开我们刚发送的邮件来设置新密码。如果你使用双重验证，请确认你的身份验证器和通行密钥仍归你所有。",
+    "errors": {
+      "invalid": "此链接已过期或已被使用。为安全起见，请在登录页面重置密码。",
+      "failed": "出了点问题，请重试。"
+    }
+  },
+  "breachedPassword": {
+    "title": "请修改密码",
+    "description": "你刚才登录使用的密码出现在公开的数据泄露中，其他人可能知道它。请设置新密码以继续。你的其他会话将被退出。",
+    "doneTitle": "密码已修改",
+    "doneBody": "新密码已设置，其他会话已退出。",
+    "continue": "继续",
+    "toAccount": "前往你的账户"
+  },
+  "signInLink": {
+    "title": "登录",
+    "description": "以 {email} 登录",
+    "note": "你将在此设备上登录，并返回开始的位置。",
+    "signIn": "登录",
+    "invalidTitle": "此链接已失效",
+    "invalidBody": "它已过期或已被使用。请在登录页面重新获取验证码。",
+    "toSignIn": "前往登录"
   }
 }

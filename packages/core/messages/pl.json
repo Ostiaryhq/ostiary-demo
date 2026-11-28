@@ -189,7 +189,9 @@
       "error": "Nie udało się zalogować tym kontem. Spróbuj ponownie lub użyj innej metody.",
       "notLinked": "To konto nie jest jeszcze połączone z kontem {name}. Zaloguj się w inny sposób, a potem połącz je w ustawieniach bezpieczeństwa.",
       "noEmail": "To konto nie udostępniło adresu e-mail. Spróbuj później lub zaloguj się w inny sposób.",
-      "signUpDisabled": "Dla tego adresu nie ma jeszcze konta, a ta metoda logowania nie może go utworzyć. Zaloguj się w inny sposób."
+      "signUpDisabled": "Dla tego adresu nie ma jeszcze konta, a ta metoda logowania nie może go utworzyć. Zaloguj się w inny sposób.",
+      "createFailed": "Nie udało się utworzyć konta przy tym logowaniu. Twój adres e-mail może nie być tu dozwolony: spróbuj innego adresu lub zaloguj się inaczej.",
+      "sessionRefused": "Logowanie zostało odrzucone. Jeśli uważasz, że to błąd, skontaktuj się z administratorem."
     },
     "app": {
       "signIn": "Zaloguj się, aby przejść do <app>{name}</app>",
@@ -1938,7 +1940,10 @@
             "self_delete": "Użytkownik usunął własne konto",
             "export_csv": "Wyeksportowano użytkowników do CSV",
             "import": "Zaimportowano użytkowników",
-            "remove_phone_number": "Usunął(-ęła) swój numer telefonu"
+            "remove_phone_number": "Usunął(-ęła) swój numer telefonu",
+            "new_device_sign_in": "Zalogowano z nowego urządzenia",
+            "secure_account": "Zabezpieczył(a) konto (To nie ja)",
+            "password_breached": "Hasło znalezione w wycieku"
           },
           "oauth_client": {
             "create": "Zarejestrowano klienta OAuth",
@@ -2033,7 +2038,10 @@
             "export_csv": "Wyeksportowano dziennik audytu do CSV"
           },
           "security": {
-            "update_policy": "Zmieniono zasady sesji i haseł"
+            "update_policy": "Zmieniono zasady sesji i haseł",
+            "update_email_domains": "Zmieniono dozwolone domeny e-mail",
+            "update_countries": "Zmienił(a) kraje",
+            "country_refused": "Odrzucono logowanie z kraju"
           }
         },
         "actorPlaceholder": "Szukaj po wykonawcy (e-mail)…",
@@ -2110,7 +2118,74 @@
           "twoFactorEveryoneHint": "Wszyscy muszą logować się do aplikacji przez aplikację uwierzytelniającą lub klucz dostępu. Administratorzy: REQUIRE_ADMIN_2FA. Organizacje mogą tego wymagać od członków na swojej stronie.",
           "twoFactorGraceDays": "Czas na włączenie",
           "twoFactorGraceDaysHint": "Osoby bez dwóch składników są pytane przy każdym logowaniu do aplikacji i mogą kontynuować do tego czasu. Liczy się od włączenia tej opcji albo od utworzenia konta.",
-          "noGrace": "Brak: wymagane od razu"
+          "noGrace": "Brak: wymagane od razu",
+          "newDeviceEmail": "E-mail przy logowaniu z nowego urządzenia",
+          "newDeviceEmailHint": "Użytkownicy dostają e-mail, gdy ich konto loguje się z przeglądarki, której wcześniej nie używało, z przyciskiem do wylogowania wszędzie i zresetowania hasła. Logowania przez SSO organizacji nie wysyłają wiadomości."
+        },
+        "emailDomains": {
+          "title": "Domeny e-mail",
+          "description": "Które adresy e-mail mogą założyć konto. Dotyczy każdego sposobu rejestracji i zmian adresu; istniejące konta działają dalej.",
+          "edit": "Edytuj",
+          "mode": "Kto może się zarejestrować",
+          "modes": {
+            "any": "Dowolny adres e-mail",
+            "allow": "Tylko te domeny",
+            "block": "Dowolny adres oprócz tych domen"
+          },
+          "modeHints": {
+            "any": "Bez ograniczeń domeny.",
+            "allow": "Dla Ostiary używanego przez jedną firmę lub szkołę: inne adresy nie mogą założyć konta.",
+            "block": "Adresy z wymienionych domen nie mogą założyć konta."
+          },
+          "allowed": "Dozwolone domeny",
+          "blocked": "Zablokowane domeny",
+          "none": "Brak",
+          "domainsHint": "Jedna w wierszu. Domena obejmuje też swoje subdomeny (acme.com obejmuje eu.acme.com).",
+          "blockDisposable": "Blokuj jednorazowe adresy e-mail",
+          "blockDisposableHint": "Odrzuca około 9000 znanych usług jednorazowej poczty, takich jak Mailinator, na podstawie listy dołączonej do Ostiary.",
+          "on": "Wł.",
+          "off": "Wył.",
+          "dialogDescription": "Administratorzy, SSO i SCIM nadal mogą tworzyć konta z dowolnym adresem. Aplikacja logowania stosuje to w ciągu minuty.",
+          "save": "Zapisz",
+          "cancel": "Anuluj",
+          "saved": "Zapisano domeny e-mail. Aplikacja logowania stosuje je w ciągu minuty.",
+          "errors": {
+            "invalid": "Wybierz jedną z oferowanych opcji.",
+            "invalidDomain": "Jeden z wpisów nie jest nazwą domeny, taką jak example.com.",
+            "noDomains": "Podaj co najmniej jedną domenę.",
+            "save": "Nie udało się zapisać domen e-mail."
+          }
+        },
+        "countries": {
+          "title": "Kraje",
+          "description": "Z jakich krajów można się logować i rejestrować. Administratorzy platformy zawsze mogą się zalogować; żądanie z nieznanego kraju jest dozwolone.",
+          "notConfigured": "Aby to włączyć, ustaw w obu aplikacjach COUNTRY_HEADER (nagłówek ustawiany przez proxy, np. cf-ipcountry) lub GEOIP_DATABASE (plik MaxMind GeoLite2 Country). Na Vercel działa bez nich.",
+          "edit": "Edytuj",
+          "mode": "Kto może się logować",
+          "modes": {
+            "any": "Dowolny kraj",
+            "allow": "Tylko te kraje",
+            "block": "Dowolny kraj oprócz tych"
+          },
+          "modeHints": {
+            "any": "Brak ograniczeń co do kraju.",
+            "allow": "Logowania i rejestracje z innych krajów są odrzucane.",
+            "block": "Logowania i rejestracje z wymienionych krajów są odrzucane."
+          },
+          "allowed": "Dozwolone kraje",
+          "blocked": "Zablokowane kraje",
+          "none": "Brak",
+          "countriesHint": "Dwuliterowe kody krajów (ISO 3166-1), oddzielone przecinkami lub spacjami: FR, DE, US.",
+          "dialogDescription": "Administratorzy nadal mogą logować się z dowolnego miejsca. Aplikacja uwierzytelniania zastosuje to w ciągu minuty.",
+          "save": "Zapisz",
+          "cancel": "Anuluj",
+          "saved": "Kraje zapisane. Aplikacja uwierzytelniania zastosuje je w ciągu minuty.",
+          "errors": {
+            "invalid": "Wybierz jedną z dostępnych opcji.",
+            "invalidCountry": "Jeden z wpisów nie jest dwuliterowym kodem kraju, np. FR.",
+            "noCountries": "Podaj co najmniej jeden kraj.",
+            "save": "Nie udało się zapisać krajów."
+          }
         }
       },
       "signingKeys": {
@@ -2382,6 +2457,7 @@
         "pageOf": "Strona {page} / {pages}",
         "showing": "Wyświetlono {from}-{to} z {total}"
       },
+      "passwordCompromised": "To hasło pojawiło się w wycieku danych. Wybierz inne.",
       "demoReadOnly": "Demonstracyjna konsola administratora jest tylko do odczytu."
     },
     "urlCheck": {
@@ -2422,7 +2498,8 @@
       "admin": "Administracja",
       "marketingHome": "O usłudze",
       "signOut": "Wyloguj się",
-      "data": "Twoje dane"
+      "data": "Twoje dane",
+      "activity": "Ostatnia aktywność"
     },
     "profile": {
       "title": "Profil",
@@ -2808,6 +2885,34 @@
       "removeFailed": "Nie udało się usunąć numeru.",
       "removed": "Numer usunięty."
     },
+    "activity": {
+      "title": "Ostatnia aktywność",
+      "description": "Logowania i zmiany zabezpieczeń konta z ostatnich 30 dni. Coś wygląda obco? Wyloguj tę sesję i zmień hasło.",
+      "empty": "Brak aktywności w ostatnich 30 dniach.",
+      "loadError": "Nie udało się wczytać aktywności.",
+      "more": "Pokaż więcej",
+      "signOut": "Wyloguj",
+      "signedOut": "Sesja wylogowana.",
+      "signOutError": "Nie udało się wylogować tej sesji.",
+      "current": "Ta przeglądarka",
+      "newDevice": "Nowe urządzenie",
+      "deviceOn": "{browser} w systemie {system}",
+      "unknownDevice": "Nieznana przeglądarka",
+      "types": {
+        "sign_in": "Logowanie",
+        "password_changed": "Zmieniono hasło",
+        "password_reset": "Zresetowano hasło",
+        "email_changed": "Zmieniono adres e-mail",
+        "two_factor_enabled": "Włączono uwierzytelnianie dwuskładnikowe",
+        "two_factor_disabled": "Wyłączono uwierzytelnianie dwuskładnikowe",
+        "passkey_added": "Dodano klucz dostępu",
+        "passkey_removed": "Usunięto klucz dostępu",
+        "session_revoked": "Wylogowano sesję",
+        "sessions_revoked": "Wylogowano inne sesje",
+        "account_secured": "Wylogowano wszędzie (To nie ja)",
+        "password_breached": "Hasło znalezione w wycieku"
+      }
+    },
     "demo": {
       "title": "Konto demonstracyjne",
       "userBody": "Wszyscy logują się na to konto. Hasła, adresu e-mail i metod logowania nie można zmienić, a konto jest resetowane przy każdej aktualizacji.",
@@ -3095,7 +3200,10 @@
       "heading": "Twój kod logowania",
       "body": "Wpisz ten kod na stronie logowania {brand}, aby dokończyć logowanie.",
       "note": "Kod wygaśnie za {minutes} minut i działa tylko raz.",
-      "footnote": "Nie prosiłeś o kod? Zignoruj tę wiadomość: bez kodu nikt się nie zaloguje. Nigdy nikomu go nie udostępniaj."
+      "footnote": "Nie prosiłeś o kod? Zignoruj tę wiadomość: bez kodu nikt się nie zaloguje. Nigdy nikomu go nie udostępniaj.",
+      "button": "Zaloguj się do {brand}",
+      "linkBody": "Albo użyj tego przycisku, aby zalogować się na tym urządzeniu.",
+      "noteWithLink": "Kod i przycisk wygasają za {minutes} min i działają tylko raz."
     },
     "deleteAccount": {
       "subject": "Potwierdź usunięcie konta {brand}",
@@ -3106,6 +3214,23 @@
       "button": "Sprawdź i usuń",
       "note": "Link wygaśnie za {minutes} minut i działa tylko raz.",
       "footnote": "Jeśli to nie Ty, zignoruj tę wiadomość: Twoje konto pozostanie bez zmian. Rozważ zmianę hasła, ponieważ prośba została wysłana z zalogowanej sesji."
+    },
+    "newDevice": {
+      "subject": "Nowe logowanie na Twoje konto {brand}",
+      "preheader": "Na Twoje konto zalogowano się z urządzenia, którego wcześniej nie używało.",
+      "heading": "Nowe logowanie z innego urządzenia",
+      "body": "Na konto {brand} {email} właśnie zalogowano się z przeglądarki lub urządzenia, którego wcześniej nie używało.",
+      "when": "Kiedy: {when}",
+      "device": "Urządzenie: {device}",
+      "deviceOn": "{browser} w systemie {system}",
+      "unknownDevice": "Nieznana przeglądarka",
+      "ipAddress": "Adres IP: {ip}",
+      "unknownIp": "nieznany",
+      "ifYou": "Jeśli to Ty, nie musisz nic robić.",
+      "button": "To nie ja",
+      "note": "Przycisk działa raz przez {days} dni. Wylogowuje Cię wszędzie i wysyła link do ustawienia nowego hasła.",
+      "footnote": "Otrzymujesz tę wiadomość, gdy Twoje konto loguje się z nowego urządzenia. Nigdy nie udostępniaj hasła ani kodów logowania.",
+      "location": "Lokalizacja: {country}"
     }
   },
   "authErrors": {
@@ -3125,8 +3250,42 @@
     "emailNotVerified": "Najpierw zweryfikuj swój adres e-mail.",
     "invalidToken": "Ten link jest nieprawidłowy lub wygasł.",
     "publicOrganization": "Członkami organizacji Public zarządzają wyłącznie administratorzy platformy.",
+    "emailDomainNotAllowed": "Nie można tu utworzyć konta z tą domeną e-mail. Użyj innego adresu.",
+    "countryNotAllowed": "Logowanie z Twojego kraju nie jest tu dozwolone.",
     "demoLocked": "Konta demonstracyjne zachowują hasło, adres e-mail i metody logowania.",
     "demoReadOnly": "Demonstracyjna konsola administratora jest tylko do odczytu.",
     "demoSignUpClosed": "Rejestracja w tym demo jest zamknięta. Zaloguj się na jedno z przykładowych kont."
+  },
+  "secureAccount": {
+    "title": "Zabezpiecz swoje konto",
+    "description": "Ktoś mógł zalogować się na Twoje konto. Potwierdź, aby odciąć mu dostęp:",
+    "stepSignOut": "Zostaniesz wylogowany na wszystkich urządzeniach, także na tym.",
+    "stepApps": "Aplikacje tracą dostęp uzyskany przez Twoje konto, dopóki nie zalogujesz się ponownie.",
+    "stepReset": "Wyślemy Ci link do ustawienia nowego hasła.",
+    "confirm": "Wyloguj mnie wszędzie i zresetuj hasło",
+    "toSignIn": "Przejdź do logowania",
+    "doneTitle": "Sprawdź skrzynkę odbiorczą",
+    "doneBody": "Twoje konto zostało wszędzie wylogowane. Otwórz wiadomość, którą właśnie wysłaliśmy, aby ustawić nowe hasło. Jeśli korzystasz z uwierzytelniania dwuskładnikowego, sprawdź, czy aplikacja uwierzytelniająca i klucze dostępu nadal należą do Ciebie.",
+    "errors": {
+      "invalid": "Ten link wygasł lub został już użyty. Dla bezpieczeństwa zresetuj hasło na stronie logowania.",
+      "failed": "Coś poszło nie tak. Spróbuj ponownie."
+    }
+  },
+  "breachedPassword": {
+    "title": "Zmień hasło",
+    "description": "Hasło, którym właśnie się zalogowałeś, występuje w publicznym wycieku danych, więc inni mogą je znać. Wybierz nowe, aby kontynuować. Twoje pozostałe sesje zostaną wylogowane.",
+    "doneTitle": "Hasło zmienione",
+    "doneBody": "Nowe hasło jest ustawione, a pozostałe sesje zostały wylogowane.",
+    "continue": "Kontynuuj",
+    "toAccount": "Przejdź do konta"
+  },
+  "signInLink": {
+    "title": "Zaloguj się",
+    "description": "Zaloguj się jako {email}",
+    "note": "Zostaniesz zalogowany na tym urządzeniu i wrócisz tam, gdzie zacząłeś.",
+    "signIn": "Zaloguj się",
+    "invalidTitle": "Ten link już nie działa",
+    "invalidBody": "Wygasł lub został już użyty. Poproś o nowy kod na stronie logowania.",
+    "toSignIn": "Przejdź do logowania"
   }
 }

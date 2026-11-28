@@ -189,7 +189,9 @@
       "error": "Det gick inte att logga in med det kontot. Försök igen eller använd en annan metod.",
       "notLinked": "Det kontot är inte anslutet till något {name}-konto än. Logga in på ett annat sätt och anslut det sedan från dina säkerhetsinställningar.",
       "noEmail": "Kontot delade ingen e-postadress. Försök igen senare eller logga in på ett annat sätt.",
-      "signUpDisabled": "Det finns inget konto för den adressen än, och den här inloggningsmetoden kan inte skapa ett. Logga in på ett annat sätt."
+      "signUpDisabled": "Det finns inget konto för den adressen än, och den här inloggningsmetoden kan inte skapa ett. Logga in på ett annat sätt.",
+      "createFailed": "Det gick inte att skapa ett konto med den inloggningen. Din e-postadress kanske inte är tillåten här: prova en annan adress eller logga in på ett annat sätt.",
+      "sessionRefused": "Inloggningen nekades. Om du tror att det är fel, kontakta din administratör."
     },
     "app": {
       "signIn": "Logga in för att fortsätta till <app>{name}</app>",
@@ -1938,7 +1940,10 @@
             "self_delete": "Raderade sitt eget konto",
             "export_csv": "Exporterade användare till CSV",
             "import": "Importerade användare",
-            "remove_phone_number": "Tog bort sitt telefonnummer"
+            "remove_phone_number": "Tog bort sitt telefonnummer",
+            "new_device_sign_in": "Loggade in från en ny enhet",
+            "secure_account": "Skyddade sitt konto (Det var inte jag)",
+            "password_breached": "Lösenordet hittades i en dataläcka"
           },
           "oauth_client": {
             "create": "Registrerade OAuth-klient",
@@ -2033,7 +2038,10 @@
             "export_csv": "Exporterade granskningsloggen till CSV"
           },
           "security": {
-            "update_policy": "Ändrade policyn för sessioner och lösenord"
+            "update_policy": "Ändrade policyn för sessioner och lösenord",
+            "update_email_domains": "Ändrade tillåtna e-postdomäner",
+            "update_countries": "Ändrade länderna",
+            "country_refused": "Nekade en inloggning från ett land"
           }
         },
         "actorPlaceholder": "Sök på vem som agerade (e-post)…",
@@ -2110,7 +2118,74 @@
           "twoFactorEveryoneHint": "Alla måste använda en autentiseringsapp eller en nyckel för att logga in i appar. Administratörer: REQUIRE_ADMIN_2FA. Organisationer kan kräva det av sina medlemmar på sin sida.",
           "twoFactorGraceDays": "Tid att aktivera den",
           "twoFactorGraceDaysHint": "Den som saknar tvåfaktor tillfrågas vid varje appinloggning och kan fortsätta tills dess. Tiden börjar när du aktiverar detta, eller när kontot skapas.",
-          "noGrace": "Ingen: krävs direkt"
+          "noGrace": "Ingen: krävs direkt",
+          "newDeviceEmail": "Mejl vid inloggning från ny enhet",
+          "newDeviceEmailHint": "Personer får ett mejl när kontot loggar in från en webbläsare som det inte har använt tidigare, med en knapp för att logga ut överallt och återställa lösenordet. Inloggningar via en organisations SSO skickar inget mejl."
+        },
+        "emailDomains": {
+          "title": "E-postdomäner",
+          "description": "Vilka e-postadresser som kan skapa ett konto. Gäller alla sätt att registrera sig och adressbyten; befintliga konton fortsätter att fungera.",
+          "edit": "Redigera",
+          "mode": "Vem som kan registrera sig",
+          "modes": {
+            "any": "Alla e-postadresser",
+            "allow": "Endast dessa domäner",
+            "block": "Alla adresser utom dessa domäner"
+          },
+          "modeHints": {
+            "any": "Ingen begränsning av domänen.",
+            "allow": "För ett Ostiary som används av ett företag eller en skola: andra adresser kan inte skapa konto.",
+            "block": "Adresser på de angivna domänerna kan inte skapa konto."
+          },
+          "allowed": "Tillåtna domäner",
+          "blocked": "Blockerade domäner",
+          "none": "Inga",
+          "domainsHint": "En per rad. En domän omfattar även sina underdomäner (acme.com omfattar eu.acme.com).",
+          "blockDisposable": "Blockera engångsadresser",
+          "blockDisposableHint": "Nekar cirka 9 000 kända tjänster för engångs-e-post, som Mailinator, från en lista som följer med Ostiary.",
+          "on": "På",
+          "off": "Av",
+          "dialogDescription": "Administratörer, SSO och SCIM kan fortfarande skapa konton med vilken adress som helst. Auth-appen tillämpar detta inom en minut.",
+          "save": "Spara",
+          "cancel": "Avbryt",
+          "saved": "E-postdomänerna har sparats. Auth-appen tillämpar dem inom en minut.",
+          "errors": {
+            "invalid": "Välj ett av de erbjudna alternativen.",
+            "invalidDomain": "En av posterna är inte ett domännamn, som example.com.",
+            "noDomains": "Ange minst en domän.",
+            "save": "Det gick inte att spara e-postdomänerna."
+          }
+        },
+        "countries": {
+          "title": "Länder",
+          "description": "Från vilka länder man kan logga in och registrera sig. Plattformsadministratörer kan alltid logga in; en begäran från okänt land tillåts.",
+          "notConfigured": "Ange COUNTRY_HEADER (en rubrik som din proxy sätter, t.ex. cf-ipcountry) eller GEOIP_DATABASE (en MaxMind GeoLite2 Country-fil) i båda apparna för att aktivera. På Vercel fungerar det utan dem.",
+          "edit": "Redigera",
+          "mode": "Vem kan logga in",
+          "modes": {
+            "any": "Alla länder",
+            "allow": "Endast dessa länder",
+            "block": "Alla länder utom dessa"
+          },
+          "modeHints": {
+            "any": "Ingen begränsning per land.",
+            "allow": "Inloggningar och registreringar från andra länder nekas.",
+            "block": "Inloggningar och registreringar från de angivna länderna nekas."
+          },
+          "allowed": "Tillåtna länder",
+          "blocked": "Blockerade länder",
+          "none": "Inga",
+          "countriesHint": "Landskoder med två bokstäver (ISO 3166-1), åtskilda av kommatecken eller mellanslag: FR, DE, US.",
+          "dialogDescription": "Administratörer kan fortfarande logga in var som helst ifrån. Autentiseringsappen tillämpar detta inom en minut.",
+          "save": "Spara",
+          "cancel": "Avbryt",
+          "saved": "Länderna har sparats. Autentiseringsappen tillämpar dem inom en minut.",
+          "errors": {
+            "invalid": "Välj ett av alternativen.",
+            "invalidCountry": "En av posterna är inte en landskod med två bokstäver, som FR.",
+            "noCountries": "Ange minst ett land.",
+            "save": "Det gick inte att spara länderna."
+          }
         }
       },
       "signingKeys": {
@@ -2382,6 +2457,7 @@
         "pageOf": "Sida {page} / {pages}",
         "showing": "Visar {from}–{to} av {total}"
       },
+      "passwordCompromised": "Lösenordet har förekommit i ett dataläckage. Välj ett annat.",
       "demoReadOnly": "Demons administratörskonsol är skrivskyddad."
     },
     "urlCheck": {
@@ -2422,7 +2498,8 @@
       "admin": "Administration",
       "marketingHome": "Om",
       "signOut": "Logga ut",
-      "data": "Dina data"
+      "data": "Dina data",
+      "activity": "Senaste aktivitet"
     },
     "profile": {
       "title": "Profil",
@@ -2808,6 +2885,34 @@
       "removeFailed": "Det gick inte att ta bort numret.",
       "removed": "Numret togs bort."
     },
+    "activity": {
+      "title": "Senaste aktivitet",
+      "description": "Inloggningar och säkerhetsändringar på ditt konto de senaste 30 dagarna. Känner du inte igen något? Logga ut den sessionen och byt lösenord.",
+      "empty": "Ingen aktivitet de senaste 30 dagarna.",
+      "loadError": "Det gick inte att läsa in din aktivitet.",
+      "more": "Visa fler",
+      "signOut": "Logga ut",
+      "signedOut": "Sessionen loggades ut.",
+      "signOutError": "Det gick inte att logga ut sessionen.",
+      "current": "Den här webbläsaren",
+      "newDevice": "Ny enhet",
+      "deviceOn": "{browser} på {system}",
+      "unknownDevice": "Okänd webbläsare",
+      "types": {
+        "sign_in": "Inloggning",
+        "password_changed": "Lösenordet ändrat",
+        "password_reset": "Lösenordet återställt",
+        "email_changed": "E-postadressen ändrad",
+        "two_factor_enabled": "Tvåfaktorsautentisering aktiverad",
+        "two_factor_disabled": "Tvåfaktorsautentisering inaktiverad",
+        "passkey_added": "Nyckel tillagd",
+        "passkey_removed": "Nyckel borttagen",
+        "session_revoked": "En session utloggad",
+        "sessions_revoked": "Utloggad från andra sessioner",
+        "account_secured": "Utloggad överallt (Det var inte jag)",
+        "password_breached": "Lösenordet hittades i en dataläcka"
+      }
+    },
     "demo": {
       "title": "Demokonto",
       "userBody": "Alla loggar in på det här kontot. Lösenord, e-postadress och inloggningsmetoder kan inte ändras, och det återställs vid varje uppdatering.",
@@ -3095,7 +3200,10 @@
       "heading": "Din inloggningskod",
       "body": "Ange den här koden på inloggningssidan för {brand} för att slutföra inloggningen.",
       "note": "Koden går ut om {minutes} minuter och fungerar bara en gång.",
-      "footnote": "Har du inte begärt någon kod? Ignorera det här mejlet: ingen kan logga in utan koden. Dela den aldrig med någon."
+      "footnote": "Har du inte begärt någon kod? Ignorera det här mejlet: ingen kan logga in utan koden. Dela den aldrig med någon.",
+      "button": "Logga in på {brand}",
+      "linkBody": "Eller använd knappen för att logga in på den här enheten.",
+      "noteWithLink": "Koden och knappen går ut om {minutes} minuter och fungerar bara en gång."
     },
     "deleteAccount": {
       "subject": "Bekräfta raderingen av ditt {brand}-konto",
@@ -3106,6 +3214,23 @@
       "button": "Granska och radera",
       "note": "Länken går ut om {minutes} minuter och fungerar bara en gång.",
       "footnote": "Har du inte bett om det här? Ignorera det här mejlet: ditt konto förblir som det är. Överväg att byta lösenord, eftersom begäran kom från en inloggad session."
+    },
+    "newDevice": {
+      "subject": "Ny inloggning på ditt {brand}-konto",
+      "preheader": "Ditt konto loggades in från en enhet som det inte har använt tidigare.",
+      "heading": "Ny inloggning från en annan enhet",
+      "body": "{brand}-kontot {email} loggades just in från en webbläsare eller enhet som det inte har använt tidigare.",
+      "when": "När: {when}",
+      "device": "Enhet: {device}",
+      "deviceOn": "{browser} på {system}",
+      "unknownDevice": "Okänd webbläsare",
+      "ipAddress": "IP-adress: {ip}",
+      "unknownIp": "okänd",
+      "ifYou": "Om det var du behöver du inte göra något.",
+      "button": "Det var inte jag",
+      "note": "Knappen fungerar en gång inom {days} dagar. Den loggar ut dig överallt och mejlar dig en länk för att välja ett nytt lösenord.",
+      "footnote": "Du får det här mejlet när ditt konto loggar in från en ny enhet. Dela aldrig ditt lösenord eller dina inloggningskoder.",
+      "location": "Plats: {country}"
     }
   },
   "authErrors": {
@@ -3125,8 +3250,42 @@
     "emailNotVerified": "Verifiera din e-postadress först.",
     "invalidToken": "Länken är ogiltig eller har gått ut.",
     "publicOrganization": "Medlemmarna i organisationen Public hanteras bara av plattformens administratörer.",
+    "emailDomainNotAllowed": "Konton med den här e-postdomänen kan inte skapas här. Använd en annan adress.",
+    "countryNotAllowed": "Inloggning från ditt land är inte tillåten här.",
     "demoLocked": "Demokontona behåller sitt lösenord, sin e-postadress och sina inloggningsmetoder.",
     "demoReadOnly": "Demons administratörskonsol är skrivskyddad.",
     "demoSignUpClosed": "Registreringen är stängd i den här demon. Logga in med ett av exempelkontona."
+  },
+  "secureAccount": {
+    "title": "Skydda ditt konto",
+    "description": "Någon kan ha loggat in på ditt konto. Bekräfta för att stänga ute personen:",
+    "stepSignOut": "Du loggas ut på alla enheter, även den här.",
+    "stepApps": "Appar förlorar åtkomsten via ditt konto tills du loggar in igen.",
+    "stepReset": "Vi mejlar dig en länk för att välja ett nytt lösenord.",
+    "confirm": "Logga ut överallt och återställ mitt lösenord",
+    "toSignIn": "Till inloggningen",
+    "doneTitle": "Kolla din inkorg",
+    "doneBody": "Ditt konto loggades ut överallt. Öppna mejlet vi just skickade för att välja ett nytt lösenord. Om du använder tvåfaktorsautentisering, kontrollera att din autentiseringsapp och dina nycklar fortfarande är dina.",
+    "errors": {
+      "invalid": "Länken har gått ut eller har redan använts. Återställ för säkerhets skull lösenordet från inloggningssidan.",
+      "failed": "Något gick fel. Försök igen."
+    }
+  },
+  "breachedPassword": {
+    "title": "Byt lösenord",
+    "description": "Lösenordet du just loggade in med finns i en offentlig dataläcka, så andra kan känna till det. Välj ett nytt för att fortsätta. Dina andra sessioner loggas ut.",
+    "doneTitle": "Lösenordet har ändrats",
+    "doneBody": "Ditt nya lösenord är sparat och dina andra sessioner har loggats ut.",
+    "continue": "Fortsätt",
+    "toAccount": "Till ditt konto"
+  },
+  "signInLink": {
+    "title": "Logga in",
+    "description": "Logga in som {email}",
+    "note": "Du loggas in på den här enheten och kommer tillbaka dit du började.",
+    "signIn": "Logga in",
+    "invalidTitle": "Länken fungerar inte längre",
+    "invalidBody": "Den har gått ut eller har redan använts. Be om en ny kod på inloggningssidan.",
+    "toSignIn": "Till inloggningen"
   }
 }

@@ -189,7 +189,9 @@
       "error": "Inloggen met dat account is mislukt. Probeer het opnieuw of gebruik een andere methode.",
       "notLinked": "Dat account is nog niet gekoppeld aan een {name}-account. Log op een andere manier in en koppel het daarna via je beveiligingsinstellingen.",
       "noEmail": "Dat account heeft geen e-mailadres gedeeld. Probeer het later opnieuw of meld je op een andere manier aan.",
-      "signUpDisabled": "Er is nog geen account voor dat adres en met deze aanmeldmethode kan er geen worden aangemaakt. Meld je op een andere manier aan."
+      "signUpDisabled": "Er is nog geen account voor dat adres en met deze aanmeldmethode kan er geen worden aangemaakt. Meld je op een andere manier aan.",
+      "createFailed": "Er kon geen account worden aangemaakt met deze aanmelding. Je e-mailadres is hier mogelijk niet toegestaan: probeer een ander adres of meld je op een andere manier aan.",
+      "sessionRefused": "Aanmelden is geweigerd. Denk je dat dit een vergissing is, neem dan contact op met je beheerder."
     },
     "app": {
       "signIn": "Log in om door te gaan naar <app>{name}</app>",
@@ -1938,7 +1940,10 @@
             "self_delete": "Eigen account verwijderd",
             "export_csv": "Gebruikers geëxporteerd naar CSV",
             "import": "Gebruikers geïmporteerd",
-            "remove_phone_number": "Heeft het telefoonnummer verwijderd"
+            "remove_phone_number": "Heeft het telefoonnummer verwijderd",
+            "new_device_sign_in": "Aangemeld vanaf een nieuw apparaat",
+            "secure_account": "Heeft het account beveiligd (Dit was ik niet)",
+            "password_breached": "Wachtwoord gevonden in een datalek"
           },
           "oauth_client": {
             "create": "OAuth-client geregistreerd",
@@ -2033,7 +2038,10 @@
             "export_csv": "Auditlogboek geëxporteerd naar CSV"
           },
           "security": {
-            "update_policy": "Sessie- en wachtwoordbeleid gewijzigd"
+            "update_policy": "Sessie- en wachtwoordbeleid gewijzigd",
+            "update_email_domains": "Toegestane e-maildomeinen gewijzigd",
+            "update_countries": "Heeft de landen gewijzigd",
+            "country_refused": "Heeft een aanmelding uit een land geweigerd"
           }
         },
         "actorPlaceholder": "Zoeken op wie het deed (e-mail)…",
@@ -2110,7 +2118,74 @@
           "twoFactorEveryoneHint": "Iedereen moet een authenticator-app of passkey gebruiken om bij apps aan te melden. Beheerders: REQUIRE_ADMIN_2FA. Organisaties kunnen het op hun pagina van hun leden vereisen.",
           "twoFactorGraceDays": "Tijd om het aan te zetten",
           "twoFactorGraceDaysHint": "Wie het niet heeft, krijgt bij elke app-aanmelding de vraag en kan tot dan doorgaan. De termijn begint als je dit aanzet, of bij het aanmaken van het account.",
-          "noGrace": "Geen: meteen vereist"
+          "noGrace": "Geen: meteen vereist",
+          "newDeviceEmail": "E-mail bij aanmelding vanaf nieuw apparaat",
+          "newDeviceEmailHint": "Mensen krijgen een e-mail wanneer hun account aanmeldt vanaf een browser die het nog niet eerder gebruikte, met een knop om overal af te melden en het wachtwoord te herstellen. Aanmeldingen via de SSO van een organisatie sturen geen e-mail."
+        },
+        "emailDomains": {
+          "title": "E-maildomeinen",
+          "description": "Welke e-mailadressen een account kunnen aanmaken. Geldt voor elke manier van registreren en voor adreswijzigingen; bestaande accounts blijven werken.",
+          "edit": "Bewerken",
+          "mode": "Wie zich kan registreren",
+          "modes": {
+            "any": "Elk e-mailadres",
+            "allow": "Alleen deze domeinen",
+            "block": "Elk adres behalve deze domeinen"
+          },
+          "modeHints": {
+            "any": "Geen beperking op het domein.",
+            "allow": "Voor een Ostiary dat door één bedrijf of school wordt gebruikt: andere adressen kunnen geen account aanmaken.",
+            "block": "Adressen op de vermelde domeinen kunnen geen account aanmaken."
+          },
+          "allowed": "Toegestane domeinen",
+          "blocked": "Geblokkeerde domeinen",
+          "none": "Geen",
+          "domainsHint": "Eén per regel. Een domein omvat ook zijn subdomeinen (acme.com omvat eu.acme.com).",
+          "blockDisposable": "Wegwerp-e-mailadressen blokkeren",
+          "blockDisposableHint": "Weigert zo'n 9.000 bekende wegwerp-e-maildiensten, zoals Mailinator, uit een lijst die met Ostiary wordt meegeleverd.",
+          "on": "Aan",
+          "off": "Uit",
+          "dialogDescription": "Beheerders, SSO en SCIM kunnen nog steeds accounts met elk adres aanmaken. De auth-app past dit binnen een minuut toe.",
+          "save": "Opslaan",
+          "cancel": "Annuleren",
+          "saved": "E-maildomeinen opgeslagen. De auth-app past ze binnen een minuut toe.",
+          "errors": {
+            "invalid": "Kies een van de aangeboden opties.",
+            "invalidDomain": "Een van de items is geen domeinnaam, zoals example.com.",
+            "noDomains": "Geef minstens één domein op.",
+            "save": "De e-maildomeinen konden niet worden opgeslagen."
+          }
+        },
+        "countries": {
+          "title": "Landen",
+          "description": "Vanuit welke landen je kunt aanmelden en registreren. Platformbeheerders kunnen altijd aanmelden; een verzoek uit een onbekend land wordt toegestaan.",
+          "notConfigured": "Stel COUNTRY_HEADER (een header die je proxy zet, zoals cf-ipcountry) of GEOIP_DATABASE (een MaxMind GeoLite2 Country-bestand) in op beide apps om dit in te schakelen. Op Vercel werkt het zonder.",
+          "edit": "Bewerken",
+          "mode": "Wie kan aanmelden",
+          "modes": {
+            "any": "Elk land",
+            "allow": "Alleen deze landen",
+            "block": "Elk land behalve deze"
+          },
+          "modeHints": {
+            "any": "Geen beperking op land.",
+            "allow": "Aanmeldingen en registraties uit andere landen worden geweigerd.",
+            "block": "Aanmeldingen en registraties uit de opgegeven landen worden geweigerd."
+          },
+          "allowed": "Toegestane landen",
+          "blocked": "Geblokkeerde landen",
+          "none": "Geen",
+          "countriesHint": "Landcodes van twee letters (ISO 3166-1), gescheiden door komma’s of spaties: FR, DE, US.",
+          "dialogDescription": "Beheerders kunnen nog steeds overal vandaan aanmelden. De auth-app past dit binnen een minuut toe.",
+          "save": "Opslaan",
+          "cancel": "Annuleren",
+          "saved": "Landen opgeslagen. De auth-app past ze binnen een minuut toe.",
+          "errors": {
+            "invalid": "Kies een van de aangeboden opties.",
+            "invalidCountry": "Een van de items is geen landcode van twee letters, zoals FR.",
+            "noCountries": "Geef minstens één land op.",
+            "save": "De landen konden niet worden opgeslagen."
+          }
         }
       },
       "signingKeys": {
@@ -2382,6 +2457,7 @@
         "pageOf": "Pagina {page} / {pages}",
         "showing": "{from}-{to} van {total} weergegeven"
       },
+      "passwordCompromised": "Dit wachtwoord is in een datalek opgedoken. Kies een ander.",
       "demoReadOnly": "De demo-beheerconsole is alleen-lezen."
     },
     "urlCheck": {
@@ -2422,7 +2498,8 @@
       "admin": "Beheer",
       "marketingHome": "Over",
       "signOut": "Uitloggen",
-      "data": "Je gegevens"
+      "data": "Je gegevens",
+      "activity": "Recente activiteit"
     },
     "profile": {
       "title": "Profiel",
@@ -2808,6 +2885,34 @@
       "removeFailed": "Het nummer kon niet worden verwijderd.",
       "removed": "Nummer verwijderd."
     },
+    "activity": {
+      "title": "Recente activiteit",
+      "description": "Aanmeldingen en beveiligingswijzigingen van je account in de afgelopen 30 dagen. Herken je iets niet? Meld die sessie af en wijzig je wachtwoord.",
+      "empty": "Geen activiteit in de afgelopen 30 dagen.",
+      "loadError": "Je activiteit kon niet worden geladen.",
+      "more": "Meer tonen",
+      "signOut": "Afmelden",
+      "signedOut": "Sessie afgemeld.",
+      "signOutError": "Deze sessie kon niet worden afgemeld.",
+      "current": "Deze browser",
+      "newDevice": "Nieuw apparaat",
+      "deviceOn": "{browser} op {system}",
+      "unknownDevice": "Onbekende browser",
+      "types": {
+        "sign_in": "Aangemeld",
+        "password_changed": "Wachtwoord gewijzigd",
+        "password_reset": "Wachtwoord hersteld",
+        "email_changed": "E-mailadres gewijzigd",
+        "two_factor_enabled": "Tweestapsverificatie ingeschakeld",
+        "two_factor_disabled": "Tweestapsverificatie uitgeschakeld",
+        "passkey_added": "Passkey toegevoegd",
+        "passkey_removed": "Passkey verwijderd",
+        "session_revoked": "Een sessie afgemeld",
+        "sessions_revoked": "Afgemeld bij andere sessies",
+        "account_secured": "Overal afgemeld (Dit was ik niet)",
+        "password_breached": "Wachtwoord gevonden in een datalek"
+      }
+    },
     "demo": {
       "title": "Demo-account",
       "userBody": "Iedereen meldt zich aan bij dit account. Wachtwoord, e-mailadres en aanmeldmethoden kunnen niet worden gewijzigd, en het wordt bij elke update teruggezet.",
@@ -3095,7 +3200,10 @@
       "heading": "Je inlogcode",
       "body": "Voer deze code in op de inlogpagina van {brand} om het inloggen af te ronden.",
       "note": "De code verloopt over {minutes} minuten en werkt maar één keer.",
-      "footnote": "Geen code aangevraagd? Negeer deze e-mail: zonder de code kan niemand inloggen. Deel hem nooit met iemand."
+      "footnote": "Geen code aangevraagd? Negeer deze e-mail: zonder de code kan niemand inloggen. Deel hem nooit met iemand.",
+      "button": "Aanmelden bij {brand}",
+      "linkBody": "Of gebruik deze knop om op dit apparaat aan te melden.",
+      "noteWithLink": "De code en de knop verlopen over {minutes} minuten en werken maar één keer."
     },
     "deleteAccount": {
       "subject": "Bevestig het verwijderen van je {brand}-account",
@@ -3106,6 +3214,23 @@
       "button": "Bekijken en verwijderen",
       "note": "De link verloopt over {minutes} minuten en werkt maar één keer.",
       "footnote": "Heb je dit niet aangevraagd? Negeer dan deze e-mail: je account blijft zoals het is. Overweeg wel je wachtwoord te wijzigen, want het verzoek kwam vanuit een ingelogde sessie."
+    },
+    "newDevice": {
+      "subject": "Nieuwe aanmelding bij je {brand}-account",
+      "preheader": "Er is aangemeld bij je account vanaf een apparaat dat het nog niet eerder gebruikte.",
+      "heading": "Nieuwe aanmelding vanaf een ander apparaat",
+      "body": "Er is zojuist aangemeld bij het {brand}-account {email} vanaf een browser of apparaat dat het nog niet eerder gebruikte.",
+      "when": "Wanneer: {when}",
+      "device": "Apparaat: {device}",
+      "deviceOn": "{browser} op {system}",
+      "unknownDevice": "Onbekende browser",
+      "ipAddress": "IP-adres: {ip}",
+      "unknownIp": "onbekend",
+      "ifYou": "Was jij dit, dan hoef je niets te doen.",
+      "button": "Dit was ik niet",
+      "note": "De knop werkt één keer binnen {days} dagen. Hij meldt je overal af en mailt je een link om een nieuw wachtwoord te kiezen.",
+      "footnote": "Je krijgt deze e-mail wanneer je account aanmeldt vanaf een nieuw apparaat. Deel nooit je wachtwoord of aanmeldcodes.",
+      "location": "Locatie: {country}"
     }
   },
   "authErrors": {
@@ -3125,8 +3250,42 @@
     "emailNotVerified": "Bevestig eerst je e-mailadres.",
     "invalidToken": "Deze link is ongeldig of verlopen.",
     "publicOrganization": "De leden van de organisatie Public worden alleen door platformbeheerders beheerd.",
+    "emailDomainNotAllowed": "Met dit e-maildomein kan hier geen account worden aangemaakt. Gebruik een ander adres.",
+    "countryNotAllowed": "Aanmelden vanuit je land is hier niet toegestaan.",
     "demoLocked": "De demo-accounts behouden hun wachtwoord, e-mailadres en aanmeldmethoden.",
     "demoReadOnly": "De demo-beheerconsole is alleen-lezen.",
     "demoSignUpClosed": "Registreren is gesloten in deze demo. Meld je aan met een van de voorbeeldaccounts."
+  },
+  "secureAccount": {
+    "title": "Beveilig je account",
+    "description": "Mogelijk heeft iemand zich bij je account aangemeld. Bevestig om diegene buiten te sluiten:",
+    "stepSignOut": "Je wordt op elk apparaat afgemeld, ook op dit apparaat.",
+    "stepApps": "Apps verliezen de toegang via je account totdat je je opnieuw aanmeldt.",
+    "stepReset": "We mailen je een link om een nieuw wachtwoord te kiezen.",
+    "confirm": "Overal afmelden en mijn wachtwoord herstellen",
+    "toSignIn": "Naar aanmelden",
+    "doneTitle": "Controleer je inbox",
+    "doneBody": "Je account is overal afgemeld. Open de e-mail die we net hebben gestuurd om een nieuw wachtwoord te kiezen. Gebruik je tweestapsverificatie, controleer dan of je authenticator en passkeys nog van jou zijn.",
+    "errors": {
+      "invalid": "Deze link is verlopen of al gebruikt. Herstel voor de zekerheid je wachtwoord via de aanmeldpagina.",
+      "failed": "Er ging iets mis. Probeer het opnieuw."
+    }
+  },
+  "breachedPassword": {
+    "title": "Wijzig je wachtwoord",
+    "description": "Het wachtwoord waarmee je net hebt aangemeld staat in een openbaar datalek, dus anderen kunnen het kennen. Kies een nieuw wachtwoord om verder te gaan. Je andere sessies worden afgemeld.",
+    "doneTitle": "Wachtwoord gewijzigd",
+    "doneBody": "Je nieuwe wachtwoord is ingesteld en je andere sessies zijn afgemeld.",
+    "continue": "Doorgaan",
+    "toAccount": "Naar je account"
+  },
+  "signInLink": {
+    "title": "Aanmelden",
+    "description": "Aanmelden als {email}",
+    "note": "Je wordt op dit apparaat aangemeld en teruggebracht naar waar je begon.",
+    "signIn": "Aanmelden",
+    "invalidTitle": "Deze link werkt niet meer",
+    "invalidBody": "Hij is verlopen of al gebruikt. Vraag een nieuwe code aan op de aanmeldpagina.",
+    "toSignIn": "Naar aanmelden"
   }
 }

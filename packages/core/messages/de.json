@@ -189,7 +189,9 @@
       "error": "Anmeldung mit diesem Konto fehlgeschlagen. Versuchen Sie es erneut oder wählen Sie eine andere Methode.",
       "notLinked": "Dieses Konto ist noch nicht mit einem {name}-Konto verbunden. Melden Sie sich auf andere Weise an und verbinden Sie es dann in Ihren Sicherheitseinstellungen.",
       "noEmail": "Dieses Konto hat keine E-Mail-Adresse übermittelt. Versuche es später erneut oder melde dich anders an.",
-      "signUpDisabled": "Für diese Adresse gibt es noch kein Konto, und mit dieser Anmeldemethode kann keines erstellt werden. Melde dich auf andere Weise an."
+      "signUpDisabled": "Für diese Adresse gibt es noch kein Konto, und mit dieser Anmeldemethode kann keines erstellt werden. Melde dich auf andere Weise an.",
+      "createFailed": "Mit dieser Anmeldung konnte kein Konto erstellt werden. Deine E-Mail-Adresse ist hier möglicherweise nicht erlaubt: Versuche eine andere Adresse oder melde dich anders an.",
+      "sessionRefused": "Die Anmeldung wurde abgelehnt. Wenn Sie das für einen Fehler halten, wenden Sie sich an Ihren Administrator."
     },
     "app": {
       "signIn": "Melden Sie sich an, um zu <app>{name}</app> fortzufahren",
@@ -1938,7 +1940,10 @@
             "self_delete": "Eigenes Konto gelöscht",
             "export_csv": "Benutzer als CSV exportiert",
             "import": "Benutzer importiert",
-            "remove_phone_number": "Hat die Telefonnummer entfernt"
+            "remove_phone_number": "Hat die Telefonnummer entfernt",
+            "new_device_sign_in": "Von neuem Gerät angemeldet",
+            "secure_account": "Konto abgesichert (Das war ich nicht)",
+            "password_breached": "Passwort in einem Datenleck gefunden"
           },
           "oauth_client": {
             "create": "OAuth-Client registriert",
@@ -2033,7 +2038,10 @@
             "export_csv": "Audit-Log als CSV exportiert"
           },
           "security": {
-            "update_policy": "Sitzungs- und Passwortrichtlinie geändert"
+            "update_policy": "Sitzungs- und Passwortrichtlinie geändert",
+            "update_email_domains": "Erlaubte E-Mail-Domains geändert",
+            "update_countries": "Länder geändert",
+            "country_refused": "Anmeldung aus einem Land abgelehnt"
           }
         },
         "actorPlaceholder": "Nach Ausführendem suchen (E-Mail)…",
@@ -2110,7 +2118,74 @@
           "twoFactorEveryoneHint": "Alle müssen sich mit einer Authenticator-App oder einem Passkey bei Apps anmelden. Admins: REQUIRE_ADMIN_2FA. Organisationen können es auf ihrer Seite für ihre Mitglieder verlangen.",
           "twoFactorGraceDays": "Frist zum Einschalten",
           "twoFactorGraceDaysHint": "Wer keine zwei Faktoren hat, wird bei jeder App-Anmeldung gefragt und kann bis dahin weitermachen. Die Frist beginnt mit dem Einschalten oder mit der Kontoerstellung.",
-          "noGrace": "Keine: sofort erforderlich"
+          "noGrace": "Keine: sofort erforderlich",
+          "newDeviceEmail": "E-Mail bei Anmeldung von neuem Gerät",
+          "newDeviceEmailHint": "Personen erhalten eine E-Mail, wenn sich ihr Konto von einem noch nie verwendeten Browser anmeldet, mit einer Schaltfläche, um sich überall abzumelden und das Passwort zurückzusetzen. Anmeldungen über das SSO einer Organisation lösen keine E-Mail aus."
+        },
+        "emailDomains": {
+          "title": "E-Mail-Domains",
+          "description": "Welche E-Mail-Adressen ein Konto erstellen können. Gilt für jede Art der Registrierung und für Adressänderungen; bestehende Konten funktionieren weiter.",
+          "edit": "Bearbeiten",
+          "mode": "Wer sich registrieren kann",
+          "modes": {
+            "any": "Jede E-Mail-Adresse",
+            "allow": "Nur diese Domains",
+            "block": "Jede Adresse außer diesen Domains"
+          },
+          "modeHints": {
+            "any": "Keine Einschränkung der Domain.",
+            "allow": "Für ein Ostiary, das von einem Unternehmen oder einer Schule genutzt wird: Andere Adressen können kein Konto erstellen.",
+            "block": "Adressen der aufgeführten Domains können kein Konto erstellen."
+          },
+          "allowed": "Erlaubte Domains",
+          "blocked": "Gesperrte Domains",
+          "none": "Keine",
+          "domainsHint": "Eine pro Zeile. Eine Domain umfasst auch ihre Subdomains (acme.com umfasst eu.acme.com).",
+          "blockDisposable": "Wegwerf-E-Mail-Adressen sperren",
+          "blockDisposableHint": "Lehnt rund 9.000 bekannte Wegwerf-E-Mail-Dienste wie Mailinator ab, aus einer mit Ostiary gelieferten Liste.",
+          "on": "An",
+          "off": "Aus",
+          "dialogDescription": "Admins, SSO und SCIM können weiterhin Konten mit jeder Adresse erstellen. Die Auth-App übernimmt dies innerhalb einer Minute.",
+          "save": "Speichern",
+          "cancel": "Abbrechen",
+          "saved": "E-Mail-Domains gespeichert. Die Auth-App übernimmt sie innerhalb einer Minute.",
+          "errors": {
+            "invalid": "Wähle eine der angebotenen Optionen.",
+            "invalidDomain": "Einer der Einträge ist kein Domainname wie example.com.",
+            "noDomains": "Gib mindestens eine Domain an.",
+            "save": "Die E-Mail-Domains konnten nicht gespeichert werden."
+          }
+        },
+        "countries": {
+          "title": "Länder",
+          "description": "Aus welchen Ländern man sich anmelden und registrieren kann. Plattform-Admins können sich immer anmelden; eine Anfrage mit unbekanntem Land wird zugelassen.",
+          "notConfigured": "Setzen Sie COUNTRY_HEADER (ein Header Ihres Proxys, z. B. cf-ipcountry) oder GEOIP_DATABASE (eine MaxMind-GeoLite2-Country-Datei) in beiden Apps, um dies zu aktivieren. Auf Vercel funktioniert es ohne.",
+          "edit": "Bearbeiten",
+          "mode": "Wer sich anmelden kann",
+          "modes": {
+            "any": "Jedes Land",
+            "allow": "Nur diese Länder",
+            "block": "Jedes Land außer diesen"
+          },
+          "modeHints": {
+            "any": "Keine Einschränkung nach Land.",
+            "allow": "Anmeldungen und Registrierungen aus anderen Ländern werden abgelehnt.",
+            "block": "Anmeldungen und Registrierungen aus den aufgeführten Ländern werden abgelehnt."
+          },
+          "allowed": "Erlaubte Länder",
+          "blocked": "Gesperrte Länder",
+          "none": "Keine",
+          "countriesHint": "Zweistellige Ländercodes (ISO 3166-1), durch Kommas oder Leerzeichen getrennt: FR, DE, US.",
+          "dialogDescription": "Admins können sich weiterhin von überall anmelden. Die Auth-App übernimmt dies innerhalb einer Minute.",
+          "save": "Speichern",
+          "cancel": "Abbrechen",
+          "saved": "Länder gespeichert. Die Auth-App übernimmt sie innerhalb einer Minute.",
+          "errors": {
+            "invalid": "Wählen Sie eine der angebotenen Optionen.",
+            "invalidCountry": "Ein Eintrag ist kein zweistelliger Ländercode wie FR.",
+            "noCountries": "Geben Sie mindestens ein Land an.",
+            "save": "Die Länder konnten nicht gespeichert werden."
+          }
         }
       },
       "signingKeys": {
@@ -2382,6 +2457,7 @@
         "pageOf": "Seite {page} / {pages}",
         "showing": "{from}–{to} von {total}"
       },
+      "passwordCompromised": "Dieses Passwort ist in einem Datenleck aufgetaucht. Wähle ein anderes.",
       "demoReadOnly": "Die Demo-Admin-Konsole ist schreibgeschützt."
     },
     "urlCheck": {
@@ -2422,7 +2498,8 @@
       "admin": "Verwaltung",
       "marketingHome": "Über uns",
       "signOut": "Abmelden",
-      "data": "Ihre Daten"
+      "data": "Ihre Daten",
+      "activity": "Letzte Aktivität"
     },
     "profile": {
       "title": "Profil",
@@ -2808,6 +2885,34 @@
       "removeFailed": "Die Nummer konnte nicht entfernt werden.",
       "removed": "Nummer entfernt."
     },
+    "activity": {
+      "title": "Letzte Aktivität",
+      "description": "Anmeldungen und Sicherheitsänderungen an Ihrem Konto in den letzten 30 Tagen. Etwas kommt Ihnen unbekannt vor? Melden Sie diese Sitzung ab und ändern Sie Ihr Passwort.",
+      "empty": "Keine Aktivität in den letzten 30 Tagen.",
+      "loadError": "Ihre Aktivität konnte nicht geladen werden.",
+      "more": "Mehr anzeigen",
+      "signOut": "Abmelden",
+      "signedOut": "Sitzung abgemeldet.",
+      "signOutError": "Diese Sitzung konnte nicht abgemeldet werden.",
+      "current": "Dieser Browser",
+      "newDevice": "Neues Gerät",
+      "deviceOn": "{browser} unter {system}",
+      "unknownDevice": "Unbekannter Browser",
+      "types": {
+        "sign_in": "Angemeldet",
+        "password_changed": "Passwort geändert",
+        "password_reset": "Passwort zurückgesetzt",
+        "email_changed": "E-Mail-Adresse geändert",
+        "two_factor_enabled": "Zwei-Faktor-Authentifizierung aktiviert",
+        "two_factor_disabled": "Zwei-Faktor-Authentifizierung deaktiviert",
+        "passkey_added": "Passkey hinzugefügt",
+        "passkey_removed": "Passkey entfernt",
+        "session_revoked": "Eine Sitzung abgemeldet",
+        "sessions_revoked": "Von anderen Sitzungen abgemeldet",
+        "account_secured": "Überall abgemeldet (Das war ich nicht)",
+        "password_breached": "Passwort in einem Datenleck gefunden"
+      }
+    },
     "demo": {
       "title": "Demokonto",
       "userBody": "Alle melden sich bei diesem Konto an. Passwort, E-Mail-Adresse und Anmeldemethoden lassen sich nicht ändern, und es wird bei jedem Update zurückgesetzt.",
@@ -3095,7 +3200,10 @@
       "heading": "Ihr Anmeldecode",
       "body": "Geben Sie diesen Code auf der {brand}-Anmeldeseite ein, um die Anmeldung abzuschließen.",
       "note": "Der Code läuft in {minutes} Minuten ab und funktioniert nur einmal.",
-      "footnote": "Sie haben keinen Code angefordert? Ignorieren Sie diese E-Mail: Ohne den Code kann sich niemand anmelden. Geben Sie ihn niemals weiter."
+      "footnote": "Sie haben keinen Code angefordert? Ignorieren Sie diese E-Mail: Ohne den Code kann sich niemand anmelden. Geben Sie ihn niemals weiter.",
+      "button": "Bei {brand} anmelden",
+      "linkBody": "Oder melden Sie sich mit dieser Schaltfläche auf diesem Gerät an.",
+      "noteWithLink": "Code und Schaltfläche laufen in {minutes} Minuten ab und funktionieren nur einmal."
     },
     "deleteAccount": {
       "subject": "Bestätigen Sie die Löschung Ihres {brand}-Kontos",
@@ -3106,6 +3214,23 @@
       "button": "Prüfen und löschen",
       "note": "Der Link läuft in {minutes} Minuten ab und funktioniert nur einmal.",
       "footnote": "Wenn Sie das nicht angefordert haben, ignorieren Sie diese E-Mail: Ihr Konto bleibt unverändert. Ändern Sie am besten Ihr Passwort, da die Anfrage aus einer angemeldeten Sitzung kam."
+    },
+    "newDevice": {
+      "subject": "Neue Anmeldung bei Ihrem {brand}-Konto",
+      "preheader": "Ihr Konto wurde auf einem Gerät angemeldet, das es noch nie verwendet hat.",
+      "heading": "Neue Anmeldung von einem anderen Gerät",
+      "body": "Beim {brand}-Konto {email} hat gerade eine Anmeldung von einem Browser oder Gerät stattgefunden, das es noch nie verwendet hat.",
+      "when": "Wann: {when}",
+      "device": "Gerät: {device}",
+      "deviceOn": "{browser} unter {system}",
+      "unknownDevice": "Unbekannter Browser",
+      "ipAddress": "IP-Adresse: {ip}",
+      "unknownIp": "unbekannt",
+      "ifYou": "Wenn Sie das waren, müssen Sie nichts tun.",
+      "button": "Das war ich nicht",
+      "note": "Die Schaltfläche funktioniert einmal innerhalb von {days} Tagen. Sie meldet Sie überall ab und sendet Ihnen einen Link, um ein neues Passwort festzulegen.",
+      "footnote": "Sie erhalten diese E-Mail, wenn sich Ihr Konto auf einem neuen Gerät anmeldet. Geben Sie Ihr Passwort oder Anmeldecodes niemals weiter.",
+      "location": "Ort: {country}"
     }
   },
   "authErrors": {
@@ -3125,8 +3250,42 @@
     "emailNotVerified": "Bestätige zuerst deine E-Mail-Adresse.",
     "invalidToken": "Dieser Link ist ungültig oder abgelaufen.",
     "publicOrganization": "Die Mitglieder der Organisation Public werden nur von Plattform-Administratoren verwaltet.",
+    "emailDomainNotAllowed": "Mit dieser E-Mail-Domain kann hier kein Konto erstellt werden. Verwende eine andere Adresse.",
+    "countryNotAllowed": "Die Anmeldung aus Ihrem Land ist hier nicht erlaubt.",
     "demoLocked": "Die Demokonten behalten ihr Passwort, ihre E-Mail-Adresse und ihre Anmeldemethoden.",
     "demoReadOnly": "Die Demo-Admin-Konsole ist schreibgeschützt.",
     "demoSignUpClosed": "Die Registrierung ist in dieser Demo geschlossen. Melde dich mit einem der Beispielkonten an."
+  },
+  "secureAccount": {
+    "title": "Konto absichern",
+    "description": "Möglicherweise hat sich jemand bei Ihrem Konto angemeldet. Bestätigen Sie, um diese Person auszusperren:",
+    "stepSignOut": "Sie werden auf allen Geräten abgemeldet, auch auf diesem.",
+    "stepApps": "Apps verlieren den Zugriff über Ihr Konto, bis Sie sich wieder anmelden.",
+    "stepReset": "Wir senden Ihnen einen Link, um ein neues Passwort festzulegen.",
+    "confirm": "Überall abmelden und Passwort zurücksetzen",
+    "toSignIn": "Zur Anmeldung",
+    "doneTitle": "Prüfen Sie Ihr Postfach",
+    "doneBody": "Ihr Konto wurde überall abgemeldet. Öffnen Sie die soeben gesendete E-Mail, um ein neues Passwort festzulegen. Wenn Sie die Zwei-Faktor-Authentifizierung nutzen, prüfen Sie, ob Ihre Authenticator-App und Passkeys noch Ihnen gehören.",
+    "errors": {
+      "invalid": "Dieser Link ist abgelaufen oder wurde bereits verwendet. Setzen Sie Ihr Passwort sicherheitshalber über die Anmeldeseite zurück.",
+      "failed": "Etwas ist schiefgelaufen. Versuchen Sie es erneut."
+    }
+  },
+  "breachedPassword": {
+    "title": "Ändern Sie Ihr Passwort",
+    "description": "Das Passwort, mit dem Sie sich gerade angemeldet haben, taucht in einem öffentlichen Datenleck auf, andere könnten es also kennen. Wählen Sie ein neues, um fortzufahren. Ihre anderen Sitzungen werden abgemeldet.",
+    "doneTitle": "Passwort geändert",
+    "doneBody": "Ihr neues Passwort ist gesetzt und Ihre anderen Sitzungen wurden abgemeldet.",
+    "continue": "Weiter",
+    "toAccount": "Zu Ihrem Konto"
+  },
+  "signInLink": {
+    "title": "Anmelden",
+    "description": "Als {email} anmelden",
+    "note": "Sie werden auf diesem Gerät angemeldet und dorthin zurückgebracht, wo Sie begonnen haben.",
+    "signIn": "Anmelden",
+    "invalidTitle": "Dieser Link funktioniert nicht mehr",
+    "invalidBody": "Er ist abgelaufen oder wurde bereits verwendet. Fordern Sie auf der Anmeldeseite einen neuen Code an.",
+    "toSignIn": "Zur Anmeldung"
   }
 }

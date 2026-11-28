@@ -5,12 +5,15 @@ import { db } from "@ostiary/core/db/index";
 import { demoMode } from "@ostiary/core/lib/demo";
 import { resetDemo } from "@ostiary/core/lib/demo-reset";
 import { env } from "@ostiary/core/lib/env";
+import { purgeAccountEvents } from "@ostiary/core/lib/account-activity";
+import { purgeKnownDevices } from "@ostiary/core/lib/security/new-device";
 import { processDueDeliveries } from "@ostiary/core/lib/webhooks/outbox";
 
 /*
  * Daily housekeeping. Retries webhook deliveries that are due, then deletes deliveries older
- * than 30 days, and applies the sign-in event retention (lib/auth-events.ts). With DEMO_MODE,
- * also resets the demo (lib/demo-reset.ts).
+ * than 30 days, and applies the sign-in event retention (lib/auth-events.ts) and the known
+ * device retention (lib/security/new-device.ts). With DEMO_MODE, also resets the demo
+ * (lib/demo-reset.ts).
  * Called by Vercel Cron (apps/auth/vercel.json), which sends `Authorization: Bearer
  * $CRON_SECRET`; any other scheduler can call it the same way. Without CRON_SECRET it refuses.
  */
@@ -35,9 +38,11 @@ export async function GET(request: Request) {
   }
   const counts = await processDueDeliveries();
   const authEvents = await purgeAuthEvents();
+  const knownDevices = await purgeKnownDevices();
+  const accountEvents = await purgeAccountEvents();
   // DEMO_MODE: the nightly reset (lib/demo-reset.ts).
   const demo = demoMode() ? await resetDemoNow() : undefined;
-  return Response.json({ ...counts, authEvents, demo });
+  return Response.json({ ...counts, authEvents, knownDevices, accountEvents, demo });
 }
 
 async function resetDemoNow() {

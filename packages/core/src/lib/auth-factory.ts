@@ -1,4 +1,7 @@
-import { betterAuth, type BetterAuthOptions, type BetterAuthPlugin } from "better-auth";
+// Minimal mode: Ostiary talks to the database through the Drizzle adapter and migrates with
+// drizzle-kit, so Better Auth's Kysely layer (its built-in migrations) is never needed.
+import { betterAuth } from "better-auth/minimal";
+import type { BetterAuthOptions, BetterAuthPlugin } from "better-auth";
 import { APIError, createAuthMiddleware, getOAuthState, getSessionFromCtx } from "better-auth/api";
 import { tryGetCurrentAuthEndpointContext } from "@better-auth/core/context";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
@@ -18,6 +21,7 @@ import {
     jwt,
     type JwtOptions,
     lastLoginMethod,
+    magicLink,
     multiSession,
     oneTap,
     openAPI,
@@ -36,6 +40,7 @@ import { queueChangeEmailConfirmation } from "@ostiary/core/lib/email/queue-chan
 import { queuePasswordResetEmail } from "@ostiary/core/lib/email/queue-password-reset-email";
 import { queueVerificationEmail } from "@ostiary/core/lib/email/queue-verification-email";
 import { queueSignInCodeEmail } from "@ostiary/core/lib/email/queue-sign-in-code-email";
+import { createSignInLink, hashSignInLinkToken } from "@ostiary/core/lib/sign-in-link";
 import { SIGN_IN_CODE_LENGTH, SIGN_IN_CODE_MINUTES } from "@ostiary/core/lib/sign-in-code";
 import { emailLocale } from "@ostiary/core/lib/email/email-locale";
 import { captchaPluginOptions } from "@ostiary/core/lib/captcha";
@@ -55,6 +60,7 @@ import { PHONE_NUMBER_PATTERN, queueSms, smsConfigured } from "@ostiary/core/lib
 import { brand } from "@ostiary/core/lib/brand";
 import { getPasskeyWebAuthnOptions } from "@ostiary/core/lib/passkey-options";
 import { env } from "@ostiary/core/lib/env";
+import { betterAuthBackgroundTask } from "@ostiary/core/lib/background";
 import { e2eTestMode } from "@ostiary/core/lib/e2e-test-mode";
 import { ipAddressOptions, rateLimitOptions } from "@ostiary/core/lib/rate-limit";
 import { ENV_API_SCOPES, OIDC_SCOPES } from "@ostiary/core/lib/oauth-scopes";
@@ -114,6 +120,9 @@ import {
     externalSignInTwoFactor,
     passwordSignInEvents,
 } from "@ostiary/core/lib/auth-hooks/sign-in-plugins";
+import { accountActivityEvents } from "@ostiary/core/lib/auth-hooks/account-activity-hook";
+import { recordAccountEvent } from "@ostiary/core/lib/account-activity";
+import { clearPasswordBreach, passwordBreachPending, passwordBreachSignInCheck } from "@ostiary/core/lib/security/password-breach";
 
 export { RECENT_SIGN_IN_SECONDS };
 
@@ -171,6 +180,8 @@ const UNUSED_EMAIL_OTP_PATHS = [
     "/email-otp/reset-password",
     "/email-otp/request-email-change",
     "/email-otp/change-email",
+    // Sign-in links go out only inside the sign-in code email (sign-in-link.ts).
+    "/sign-in/magic-link",
 ];
 
 
@@ -355,12 +366,15 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
         // Only for clients that ask with prompt=select_account (e.g. a native app signing in
         // through the system browser, whose session may belong to someone else).
         selectAccount: { page: "/select-account", shouldRedirect: () => false },
-        // After sign-in, before consent: two-factor authentication required by the policy or an
-        // organization (two-factor-policy.ts). The page resumes with /oauth2/continue.
+        // After sign-in, before consent: a password found in a breach must be changed first
+        // (security/password-breach.ts; the page sends it on to /change-password), then
+        // two-factor authentication required by the policy or an organization
+        // (two-factor-policy.ts). The pages resume with /oauth2/continue.
         postLogin: {
             page: "/two-factor/required",
             consentReferenceId: () => undefined,
-            shouldRedirect: ({ user, isContinuation }) => shouldPromptForTwoFactor(user, isContinuation),
+            shouldRedirect: async ({ user, isContinuation }) =>
+                (await passwordBreachPending(user.id)) || shouldPromptForTwoFactor(user, isContinuation),
         },
         // Replaced from the database before each request, see syncProviderScopes.
         scopes: [...OIDC_SCOPES, ...ENV_API_SCOPES],
@@ -467,6 +481,8 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
         advanced: {
             // Client IP for rate limits and sessions: IP_ADDRESS_HEADERS and TRUSTED_PROXIES.
             ipAddress: ipAddressOptions(env),
+            // Better Auth's deferred work runs after the response (Next.js after()).
+            backgroundTasks: { handler: betterAuthBackgroundTask },
             ...(cookieDomain
                 ? { crossSubDomainCookies: { enabled: true, domain: cookieDomain } }
                 : {}),
@@ -560,6 +576,8 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
             // Whoever had the old password may also hold apps' refresh tokens: revoke those too.
             onPasswordReset: async ({ user }, request) => {
                 await revokeUserAccess(user, "password_reset", null, request ? clientIp(request.headers) : null);
+                await recordAccountEvent("password_reset", user.id, { headers: request?.headers });
+                await clearPasswordBreach(user.id);
             },
             sendResetPassword: async ({ user, url }) => {
                 queuePasswordResetEmail({ to: user.email, url });
@@ -595,8 +613,10 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
                 },
             }),
             username(),
-            // Skipped in end-to-end tests only (an external HTTP call), see lib/e2e-test-mode.ts.
-            haveIBeenPwned({ enabled: !e2eTestMode() }),
+            // Breached passwords refused at sign-up, change, reset and when an admin sets one (the
+            // plugin's default paths). Off with PASSWORD_BREACH_CHECK=off (no outbound access),
+            // and in end-to-end tests (an external HTTP call), see lib/e2e-test-mode.ts.
+            haveIBeenPwned({ enabled: env.PASSWORD_BREACH_CHECK !== "off" && !e2eTestMode() }),
             // Authenticator app (TOTP) and backup codes. The second step applies to every sign-in
             // except passkeys (already two factors): passwords, emailed codes (emailCodeTwoFactor),
             // social, One Tap, SSO and verification links (externalSignInTwoFactor). Must come before
@@ -605,6 +625,8 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
             emailCodeTwoFactor(twoFactorPlugin),
             externalSignInTwoFactor(twoFactorPlugin, baseURL),
             passwordSignInEvents,
+            accountActivityEvents,
+            passwordBreachSignInCheck(),
             adminEmailChangeUnverifies,
             // "Email me a sign-in code": a 6-digit code, typed on the sign-in page that asked for
             // it, so an OAuth sign-in carries on in that tab even when the email is read on a phone.
@@ -625,8 +647,18 @@ export function createAuth({ baseURL, trustedOrigins, cookieDomain }: AuthFactor
                 sendVerificationOTP: async ({ email, otp, type }, ctx) => {
                     if (type !== "sign-in") return;
                     const locale = emailLocale(ctx?.headers ?? ctx?.request?.headers);
-                    queueSignInCodeEmail({ to: email, code: otp, locale });
+                    // With a button that signs in on the device that opens it (sign-in-link.ts).
+                    const link = ctx ? await createSignInLink(ctx, email, locale) : undefined;
+                    queueSignInCodeEmail({ to: email, code: otp, locale, link });
                 },
+            }),
+            // Verifies the sign-in code email's link (/magic-link/verify): existing accounts only,
+            // the code's lifetime, one use. Its tokens are created by sendVerificationOTP above.
+            magicLink({
+                disableSignUp: true,
+                expiresIn: SIGN_IN_CODE_MINUTES * 60,
+                storeToken: { type: "custom-hasher", hash: hashSignInLinkToken },
+                sendMagicLink: async () => {},
             }),
             // Sign-in with a texted code, for accounts that verified a number (sms.ts, Twilio). Off
             // unless the TWILIO_* variables are set. No sign-up by phone: accounts start with an

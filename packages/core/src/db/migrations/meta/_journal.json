@@ -134,6 +134,27 @@
       "when": 1795563415550,
       "tag": "0018_user_phone_number",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1795818997880,
+      "tag": "0019_known_devices",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1795821981660,
+      "tag": "0020_account_events",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1795822474428,
+      "tag": "0021_password_breach",
+      "breakpoints": true
     }
   ]
 }

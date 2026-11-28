@@ -189,7 +189,9 @@
       "error": "Bu hesapla giriş yapılamadı. Tekrar deneyin veya başka bir yöntem kullanın.",
       "notLinked": "Bu hesap henüz bir {name} hesabına bağlı değil. Başka bir yolla giriş yapın, ardından güvenlik ayarlarınızdan bağlayın.",
       "noEmail": "Bu hesap bir e-posta adresi paylaşmadı. Daha sonra tekrar deneyin veya başka bir yolla giriş yapın.",
-      "signUpDisabled": "Bu adres için henüz bir hesap yok ve bu oturum açma yöntemi hesap oluşturamaz. Başka bir yolla oturum açın."
+      "signUpDisabled": "Bu adres için henüz bir hesap yok ve bu oturum açma yöntemi hesap oluşturamaz. Başka bir yolla oturum açın.",
+      "createFailed": "Bu oturum açmayla hesap oluşturulamadı. E-posta adresinize burada izin verilmiyor olabilir: başka bir adres deneyin veya başka bir yolla oturum açın.",
+      "sessionRefused": "Oturum açma reddedildi. Bunun bir hata olduğunu düşünüyorsanız yöneticinize başvurun."
     },
     "app": {
       "signIn": "<app>{name}</app> uygulamasına devam etmek için oturum açın",
@@ -1938,7 +1940,10 @@
             "self_delete": "Kendi hesabını sildi",
             "export_csv": "Kullanıcıları CSV olarak dışa aktardı",
             "import": "Kullanıcıları içe aktardı",
-            "remove_phone_number": "Telefon numarasını kaldırdı"
+            "remove_phone_number": "Telefon numarasını kaldırdı",
+            "new_device_sign_in": "Yeni bir cihazdan oturum açtı",
+            "secure_account": "Hesabını güvenceye aldı (Bu ben değildim)",
+            "password_breached": "Parola bir veri sızıntısında bulundu"
           },
           "oauth_client": {
             "create": "OAuth istemcisi kaydetti",
@@ -2033,7 +2038,10 @@
             "export_csv": "Denetim günlüğünü CSV olarak dışa aktardı"
           },
           "security": {
-            "update_policy": "Oturum ve parola ilkesi değiştirildi"
+            "update_policy": "Oturum ve parola ilkesi değiştirildi",
+            "update_email_domains": "İzin verilen e-posta alan adları değiştirildi",
+            "update_countries": "Ülkeleri değiştirdi",
+            "country_refused": "Bir ülkeden oturum açma reddedildi"
           }
         },
         "actorPlaceholder": "İşlemi yapana göre ara (e-posta)…",
@@ -2110,7 +2118,74 @@
           "twoFactorEveryoneHint": "Herkes uygulamalarda oturum açmak için bir doğrulama uygulaması veya geçiş anahtarı kullanmalıdır. Yöneticiler: REQUIRE_ADMIN_2FA. Kuruluşlar kendi sayfalarından üyeleri için zorunlu kılabilir.",
           "twoFactorGraceDays": "Açmak için süre",
           "twoFactorGraceDaysHint": "İki adımlı doğrulaması olmayanlara her uygulama oturum açışında sorulur ve o zamana kadar devam edebilirler. Süre bunu açtığınızda ya da hesap oluşturulduğunda başlar.",
-          "noGrace": "Yok: hemen gerekli"
+          "noGrace": "Yok: hemen gerekli",
+          "newDeviceEmail": "Yeni cihazdan oturum açılınca e-posta",
+          "newDeviceEmailHint": "Kişiler, hesaplarında daha önce kullanılmamış bir tarayıcıdan oturum açıldığında, her yerde oturumu kapatıp parolayı sıfırlamaya yarayan bir düğmeyle e-posta alır. Bir kuruluşun SSO'su üzerinden yapılan girişler e-posta göndermez."
+        },
+        "emailDomains": {
+          "title": "E-posta alan adları",
+          "description": "Hangi e-posta adreslerinin hesap oluşturabileceği. Tüm kayıt yöntemlerinde ve adres değişikliklerinde geçerlidir; mevcut hesaplar çalışmaya devam eder.",
+          "edit": "Düzenle",
+          "mode": "Kimler kaydolabilir",
+          "modes": {
+            "any": "Herhangi bir e-posta adresi",
+            "allow": "Yalnızca bu alan adları",
+            "block": "Bu alan adları dışındaki tüm adresler"
+          },
+          "modeHints": {
+            "any": "Alan adı kısıtlaması yok.",
+            "allow": "Tek bir şirket veya okulun kullandığı bir Ostiary için: diğer adresler hesap oluşturamaz.",
+            "block": "Listelenen alan adlarındaki adresler hesap oluşturamaz."
+          },
+          "allowed": "İzin verilen alan adları",
+          "blocked": "Engellenen alan adları",
+          "none": "Yok",
+          "domainsHint": "Her satıra bir tane. Bir alan adı alt alan adlarını da kapsar (acme.com, eu.acme.com'u kapsar).",
+          "blockDisposable": "Geçici e-posta adreslerini engelle",
+          "blockDisposableHint": "Ostiary ile gelen bir listeye göre Mailinator gibi bilinen yaklaşık 9.000 geçici e-posta hizmetini reddeder.",
+          "on": "Açık",
+          "off": "Kapalı",
+          "dialogDescription": "Yöneticiler, SSO ve SCIM yine de her adresle hesap oluşturabilir. Kimlik doğrulama uygulaması bunu bir dakika içinde uygular.",
+          "save": "Kaydet",
+          "cancel": "İptal",
+          "saved": "E-posta alan adları kaydedildi. Kimlik doğrulama uygulaması bunları bir dakika içinde uygular.",
+          "errors": {
+            "invalid": "Sunulan seçeneklerden birini seçin.",
+            "invalidDomain": "Girdilerden biri example.com gibi bir alan adı değil.",
+            "noDomains": "En az bir alan adı girin.",
+            "save": "E-posta alan adları kaydedilemedi."
+          }
+        },
+        "countries": {
+          "title": "Ülkeler",
+          "description": "Hangi ülkelerden oturum açılıp kaydolunabileceği. Platform yöneticileri her zaman oturum açabilir; ülkesi bilinmeyen bir isteğe izin verilir.",
+          "notConfigured": "Etkinleştirmek için iki uygulamada da COUNTRY_HEADER (proxy'nizin ayarladığı bir başlık, ör. cf-ipcountry) veya GEOIP_DATABASE (bir MaxMind GeoLite2 Country dosyası) ayarlayın. Vercel'de bunlar olmadan çalışır.",
+          "edit": "Düzenle",
+          "mode": "Kim oturum açabilir",
+          "modes": {
+            "any": "Herhangi bir ülke",
+            "allow": "Yalnızca bu ülkeler",
+            "block": "Bunlar dışındaki tüm ülkeler"
+          },
+          "modeHints": {
+            "any": "Ülkeye göre kısıtlama yok.",
+            "allow": "Diğer ülkelerden oturum açma ve kayıtlar reddedilir.",
+            "block": "Listelenen ülkelerden oturum açma ve kayıtlar reddedilir."
+          },
+          "allowed": "İzin verilen ülkeler",
+          "blocked": "Engellenen ülkeler",
+          "none": "Yok",
+          "countriesHint": "İki harfli ülke kodları (ISO 3166-1), virgül veya boşlukla ayrılmış: FR, DE, US.",
+          "dialogDescription": "Yöneticiler her yerden oturum açmaya devam edebilir. Kimlik doğrulama uygulaması bunu bir dakika içinde uygular.",
+          "save": "Kaydet",
+          "cancel": "İptal",
+          "saved": "Ülkeler kaydedildi. Kimlik doğrulama uygulaması bunları bir dakika içinde uygular.",
+          "errors": {
+            "invalid": "Sunulan seçeneklerden birini seçin.",
+            "invalidCountry": "Girdilerden biri FR gibi iki harfli bir ülke kodu değil.",
+            "noCountries": "En az bir ülke girin.",
+            "save": "Ülkeler kaydedilemedi."
+          }
         }
       },
       "signingKeys": {
@@ -2382,6 +2457,7 @@
         "pageOf": "Sayfa {page} / {pages}",
         "showing": "{total} kayıttan {from}-{to} arası gösteriliyor"
       },
+      "passwordCompromised": "Bu parola bir veri sızıntısında görüldü. Başka bir parola seçin.",
       "demoReadOnly": "Demo yönetim konsolu salt okunurdur."
     },
     "urlCheck": {
@@ -2422,7 +2498,8 @@
       "admin": "Yönetim",
       "marketingHome": "Hakkında",
       "signOut": "Çıkış yap",
-      "data": "Verileriniz"
+      "data": "Verileriniz",
+      "activity": "Son etkinlik"
     },
     "profile": {
       "title": "Profil",
@@ -2808,6 +2885,34 @@
       "removeFailed": "Numara kaldırılamadı.",
       "removed": "Numara kaldırıldı."
     },
+    "activity": {
+      "title": "Son etkinlik",
+      "description": "Son 30 gündeki oturum açmalar ve hesabınızın güvenlik değişiklikleri. Tanımadığınız bir şey mi var? O oturumu kapatın ve parolanızı değiştirin.",
+      "empty": "Son 30 günde etkinlik yok.",
+      "loadError": "Etkinliğiniz yüklenemedi.",
+      "more": "Daha fazla göster",
+      "signOut": "Oturumu kapat",
+      "signedOut": "Oturum kapatıldı.",
+      "signOutError": "Bu oturum kapatılamadı.",
+      "current": "Bu tarayıcı",
+      "newDevice": "Yeni cihaz",
+      "deviceOn": "{system} üzerinde {browser}",
+      "unknownDevice": "Bilinmeyen tarayıcı",
+      "types": {
+        "sign_in": "Oturum açıldı",
+        "password_changed": "Parola değiştirildi",
+        "password_reset": "Parola sıfırlandı",
+        "email_changed": "E-posta adresi değiştirildi",
+        "two_factor_enabled": "İki adımlı doğrulama açıldı",
+        "two_factor_disabled": "İki adımlı doğrulama kapatıldı",
+        "passkey_added": "Geçiş anahtarı eklendi",
+        "passkey_removed": "Geçiş anahtarı kaldırıldı",
+        "session_revoked": "Bir oturum kapatıldı",
+        "sessions_revoked": "Diğer oturumlar kapatıldı",
+        "account_secured": "Her yerde oturum kapatıldı (Bu ben değildim)",
+        "password_breached": "Parola bir veri sızıntısında bulundu"
+      }
+    },
     "demo": {
       "title": "Demo hesap",
       "userBody": "Herkes bu hesapla oturum açar. Parolası, e-posta adresi ve oturum açma yöntemleri değiştirilemez ve her güncellemede sıfırlanır.",
@@ -3095,7 +3200,10 @@
       "heading": "Giriş kodunuz",
       "body": "Girişi tamamlamak için bu kodu {brand} giriş sayfasına girin.",
       "note": "Kodun süresi {minutes} dakika içinde dolar ve yalnızca bir kez çalışır.",
-      "footnote": "Kod istemediniz mi? Bu e-postayı yok sayın: kod olmadan kimse giriş yapamaz. Kodu asla kimseyle paylaşmayın."
+      "footnote": "Kod istemediniz mi? Bu e-postayı yok sayın: kod olmadan kimse giriş yapamaz. Kodu asla kimseyle paylaşmayın.",
+      "button": "{brand} hesabında oturum aç",
+      "linkBody": "Ya da bu cihazda oturum açmak için bu düğmeyi kullanın.",
+      "noteWithLink": "Kod ve düğme {minutes} dakika içinde geçersiz olur ve yalnızca bir kez çalışır."
     },
     "deleteAccount": {
       "subject": "{brand} hesabınızın silinmesini onaylayın",
@@ -3106,6 +3214,23 @@
       "button": "İncele ve sil",
       "note": "Bağlantının süresi {minutes} dakika içinde dolar ve yalnızca bir kez çalışır.",
       "footnote": "Bunu siz istemediyseniz bu e-postayı yok sayın: hesabınız olduğu gibi kalır. İstek, giriş yapılmış bir oturumdan geldiği için parolanızı değiştirmeyi düşünün."
+    },
+    "newDevice": {
+      "subject": "{brand} hesabınızda yeni oturum açma",
+      "preheader": "Hesabınızda daha önce kullanılmamış bir cihazdan oturum açıldı.",
+      "heading": "Başka bir cihazdan yeni oturum açma",
+      "body": "{brand} hesabı {email} üzerinde az önce daha önce kullanılmamış bir tarayıcı veya cihazdan oturum açıldı.",
+      "when": "Ne zaman: {when}",
+      "device": "Cihaz: {device}",
+      "deviceOn": "{system} üzerinde {browser}",
+      "unknownDevice": "Bilinmeyen tarayıcı",
+      "ipAddress": "IP adresi: {ip}",
+      "unknownIp": "bilinmiyor",
+      "ifYou": "Bu sizseniz bir şey yapmanıza gerek yok.",
+      "button": "Bu ben değildim",
+      "note": "Düğme {days} gün içinde bir kez çalışır. Her yerde oturumunuzu kapatır ve yeni bir parola seçmeniz için size bir bağlantı gönderir.",
+      "footnote": "Hesabınızda yeni bir cihazdan oturum açıldığında bu e-postayı alırsınız. Parolanızı veya giriş kodlarınızı asla paylaşmayın.",
+      "location": "Konum: {country}"
     }
   },
   "authErrors": {
@@ -3125,8 +3250,42 @@
     "emailNotVerified": "Önce e-posta adresinizi doğrulayın.",
     "invalidToken": "Bu bağlantı geçersiz veya süresi dolmuş.",
     "publicOrganization": "Public kuruluşunun üyelerini yalnızca platform yöneticileri yönetir.",
+    "emailDomainNotAllowed": "Bu e-posta alan adıyla burada hesap oluşturulamaz. Başka bir adres kullanın.",
+    "countryNotAllowed": "Ülkenizden oturum açmaya burada izin verilmiyor.",
     "demoLocked": "Demo hesaplar parolalarını, e-posta adreslerini ve oturum açma yöntemlerini korur.",
     "demoReadOnly": "Demo yönetim konsolu salt okunurdur.",
     "demoSignUpClosed": "Bu demoda kayıt kapalı. Örnek hesaplardan biriyle oturum açın."
+  },
+  "secureAccount": {
+    "title": "Hesabınızı güvenceye alın",
+    "description": "Hesabınızda başka biri oturum açmış olabilir. Erişimini kesmek için onaylayın:",
+    "stepSignOut": "Bu cihaz dahil tüm cihazlarda oturumunuz kapatılır.",
+    "stepApps": "Uygulamalar, tekrar oturum açana kadar hesabınız üzerinden sahip oldukları erişimi kaybeder.",
+    "stepReset": "Yeni bir parola seçmeniz için size bir bağlantı göndeririz.",
+    "confirm": "Her yerde oturumu kapat ve parolamı sıfırla",
+    "toSignIn": "Oturum açmaya git",
+    "doneTitle": "Gelen kutunuzu kontrol edin",
+    "doneBody": "Hesabınızın tüm oturumları kapatıldı. Yeni bir parola seçmek için az önce gönderdiğimiz e-postayı açın. İki adımlı doğrulama kullanıyorsanız, kimlik doğrulama uygulamanızın ve geçiş anahtarlarınızın hâlâ size ait olduğunu kontrol edin.",
+    "errors": {
+      "invalid": "Bu bağlantının süresi dolmuş veya zaten kullanılmış. Güvenlik için parolanızı oturum açma sayfasından sıfırlayın.",
+      "failed": "Bir şeyler ters gitti. Tekrar deneyin."
+    }
+  },
+  "breachedPassword": {
+    "title": "Parolanızı değiştirin",
+    "description": "Az önce oturum açtığınız parola herkese açık bir veri sızıntısında yer alıyor, yani başkaları da biliyor olabilir. Devam etmek için yeni bir parola seçin. Diğer oturumlarınız kapatılacak.",
+    "doneTitle": "Parola değiştirildi",
+    "doneBody": "Yeni parolanız ayarlandı ve diğer oturumlarınız kapatıldı.",
+    "continue": "Devam et",
+    "toAccount": "Hesabınıza gidin"
+  },
+  "signInLink": {
+    "title": "Oturum aç",
+    "description": "{email} olarak oturum aç",
+    "note": "Bu cihazda oturum açılır ve başladığınız yere geri dönersiniz.",
+    "signIn": "Oturum aç",
+    "invalidTitle": "Bu bağlantı artık çalışmıyor",
+    "invalidBody": "Süresi dolmuş veya zaten kullanılmış. Oturum açma sayfasından yeni bir kod isteyin.",
+    "toSignIn": "Oturum açmaya git"
   }
 }

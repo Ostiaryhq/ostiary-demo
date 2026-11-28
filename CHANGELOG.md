@@ -8,6 +8,19 @@ All notable changes are documented here. The format follows
 
 ### Added
 
+- `PASSWORD_BREACH_CHECK=off` turns off the Have I Been Pwned check of new passwords, for a
+  server that cannot reach `api.pwnedpasswords.com`: there, every sign-up, password change,
+  reset and admin-set password failed with "Failed to check password". On by default; set the
+  same value on the auth app and the admin console. The console now says in the admin's
+  language when a password it sets appeared in a breach.
+- Email domain policy (admin console, **Security** > **Email domains**): who can create an
+  account, by email domain. Any address (the default), only listed domains (an Ostiary for one
+  company or school), or any address except listed domains, optionally also refusing about 9,000
+  known throwaway-email services (`disposable-email-domains-js`). A domain covers its subdomains.
+  It applies to every way people create an account themselves (password, social and custom
+  providers, One Tap, emailed or texted codes) and to email changes; accounts an admin, SSO or
+  SCIM creates are not checked, and existing accounts keep working. A refused sign-up gets
+  `EMAIL_DOMAIN_NOT_ALLOWED`, translated on the sign-up page.
 - Sign-in with a code sent by text message (Better Auth's `phone-number` plugin), through
   Twilio: set `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN` and `TWILIO_FROM`. People add and
   verify a phone number on their account page (a recent sign-in, like adding a passkey), then
@@ -111,6 +124,11 @@ All notable changes are documented here. The format follows
 
 ### Changed
 
+- Better Auth's deferred work (rate-limit cleanup, timing padding) runs after the response
+  through Next.js `after()` (`advanced.backgroundTasks`), so a request no longer waits for it
+  and Vercel keeps it running. Better Auth is loaded from `better-auth/minimal`: Ostiary uses the
+  Drizzle adapter and drizzle-kit, so the Kysely layer is left out (about 750 KB less server
+  JavaScript per app).
 - An app that sends the same refresh token again within 30 seconds gets the same tokens back.
   Before, the retry counted as a stolen-token replay and revoked the app's tokens, which broke
   MCP clients that retry after a dropped connection (`refreshTokenReuseInterval`, as in

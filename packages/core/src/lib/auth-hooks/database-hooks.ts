@@ -9,6 +9,7 @@ import { currentAuthPolicy, policySessionExpiry } from "@ostiary/core/lib/auth-p
 import { clientIp, recordAuthEvent } from "@ostiary/core/lib/auth-events";
 import { adminOnSignUp, adminOnVerification, fromIdentityProvider, parseAdminEmails } from "@ostiary/core/lib/admin/admin-emails";
 import { emailAliasTaken } from "@ostiary/core/lib/security/email-aliases";
+import { assertEmailDomainAllowed } from "@ostiary/core/lib/email-domain-policy";
 import { revokeUserAccess } from "@ostiary/core/lib/security/user-access-revocation";
 import { isExternalSignInPath } from "@ostiary/core/lib/security/external-sign-in";
 import { PUBLIC_ORGANIZATION_ID } from "@ostiary/core/lib/organization-public";
@@ -20,6 +21,12 @@ import { emitWebhookEvents } from "@ostiary/core/lib/webhooks/outbox";
 import { makeEvent, memberSnapshot } from "@ostiary/core/lib/webhooks/events";
 import { auditActor } from "@ostiary/core/lib/auth-hooks/audit-hook";
 import { TWO_STEP_SIGN_IN_PATHS } from "@ostiary/core/lib/auth-hooks/sign-in-plugins";
+import { noticeSignIn } from "@ostiary/core/lib/security/new-device";
+import { countryRefusal, refusedCountry } from "@ostiary/core/lib/country-policy";
+import { isPlatformAdmin } from "@ostiary/core/lib/admin/user-has-admin-role";
+import { runAfterResponse } from "@ostiary/core/lib/background";
+import { userUpdateEvents } from "@ostiary/core/lib/auth-hooks/account-activity-hook";
+import { recordAccountEvent, type AccountEventType } from "@ostiary/core/lib/account-activity";
 
 /** First-run setup: these addresses get the admin role once proven, see admin/admin-emails.ts. */
 const adminEmails = parseAdminEmails(env.ADMIN_EMAILS);
@@ -29,6 +36,12 @@ const adminEmails = parseAdminEmails(env.ADMIN_EMAILS);
  * and carried out once it is done. Keyed by account id. A plan whose delete failed is never
  * picked up: it is dropped after PLAN_TTL_MS so the map cannot grow.
  */
+/**
+ * Account history entries a user update stands for, worked out from its data before the update
+ * (the hook after it only sees the result) and written once it is done. Keyed by the request.
+ */
+const pendingUpdateEvents = new WeakMap<object, AccountEventType[]>();
+
 const pendingErasures = new Map<string, { plan: ErasurePlan; at: number }>();
 const PLAN_TTL_MS = 10 * 60_000;
 
@@ -82,6 +95,47 @@ function refuseDemoSignUp(path: string | undefined) {
     });
 }
 
+/**
+ * The email domain policy (email-domain-policy.ts), for accounts people create themselves.
+ * Accounts an admin, an SSO provider or SCIM creates, and server calls without a request,
+ * are not checked.
+ */
+async function refuseEmailDomain(email: string, path: string | undefined) {
+    if (!path || path.startsWith("/admin/") || fromIdentityProvider(path)) return;
+    await assertEmailDomainAllowed(email);
+}
+
+/**
+ * The country policy (country-policy.ts): a session started, or an account created, from a
+ * refused country. Admin endpoints (an admin creating an account, impersonation) and SCIM are
+ * not checked; a platform admin's own sign-in never is, so the console stays reachable.
+ */
+async function refuseCountry(
+    context: { path?: string; headers?: Headers } | null | undefined,
+    account: { id?: string; email?: string },
+) {
+    const path = context?.path;
+    if (!context?.headers || !path || path.startsWith("/admin/") || path.startsWith("/scim/")) return;
+    const country = await refusedCountry(context.headers);
+    if (!country) return;
+    if (account.id) {
+        const [found] = await db.select({ role: schema.user.role }).from(schema.user).where(eq(schema.user.id, account.id)).limit(1);
+        if (isPlatformAdmin(found?.role)) return;
+    }
+    // After the response: a sign-up runs in a transaction this refusal rolls back.
+    const ipAddress = clientIp(context.headers);
+    runAfterResponse("country refusal audit", () =>
+        recordAudit({
+            actor: null,
+            action: "security.country_refused",
+            target: account.id ? { type: "user", id: account.id, label: account.email } : undefined,
+            metadata: { country, path, ...(account.id ? {} : { signUp: account.email ?? null }) },
+            ipAddress,
+        }),
+    );
+    throw countryRefusal();
+}
+
 /** Better Auth's database hooks: admin promotion, the Public organization, bans, deletions and sign-in events. */
 export function databaseHooks() {
     return {
@@ -89,7 +143,9 @@ export function databaseHooks() {
             create: {
                 before: async (newUser, context) => {
                     refuseDemoSignUp(context?.path);
+                    await refuseEmailDomain(newUser.email, context?.path);
                     await refuseEmailAlias(newUser.email, context?.path);
+                    await refuseCountry(context, { email: newUser.email });
                     // Only with an address the provider verified, never through SSO or SCIM. A
                     // password sign-up is promoted when its address is verified (update hook).
                     if (!adminOnSignUp(newUser, context?.path, adminEmails)) return;
@@ -101,11 +157,20 @@ export function databaseHooks() {
                 },
             },
             update: {
+                before: async (data, context) => {
+                    const events = userUpdateEvents(data as Record<string, unknown>, context?.path);
+                    if (context && events.length) pendingUpdateEvents.set(context, events);
+                },
                 // A banned account loses its API keys (admin ban; a ban written elsewhere, such
                 // as SCIM deactivation, is also refused at verification). Deleting an account
                 // deletes its keys with it (foreign key).
                 after: async (updatedUser, context) => {
                     const ipAddress = context ? clientIp(context.headers) : null;
+                    const events = context ? pendingUpdateEvents.get(context) : undefined;
+                    if (context && events) {
+                        pendingUpdateEvents.delete(context);
+                        for (const type of events) await recordAccountEvent(type, updatedUser.id, { headers: context.headers });
+                    }
                     const role = (updatedUser as { role?: string | null }).role;
                     if (adminOnVerification({ ...updatedUser, role }, context?.path, adminEmails)) {
                         await promoteVerifiedAdmin(updatedUser, ipAddress);
@@ -137,7 +202,8 @@ export function databaseHooks() {
         },
         session: {
             create: {
-                before: async (sess) => {
+                before: async (sess, context) => {
+                    await refuseCountry(context, { id: sess.userId });
                     // A demo instance stores no IP address (lib/demo.ts): visitors share its accounts.
                     const ip = demoMode() ? { ipAddress: null } : {};
                     // The policy's session lifetime (Better Auth only reads its own at start-up).
@@ -158,6 +224,7 @@ export function databaseHooks() {
                     // Turning 2FA on or off replaces the current session: not a new sign-in.
                     if (ctx?.path.startsWith("/two-factor/") && ctx.context.session) return;
                     await recordAuthEvent("sign_in", createdSession.userId);
+                    await noticeSignIn(ctx, createdSession);
                 },
             },
         },

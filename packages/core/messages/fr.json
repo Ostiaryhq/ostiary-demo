@@ -189,7 +189,9 @@
       "error": "Connexion impossible avec ce compte. Réessayez ou utilisez une autre méthode.",
       "notLinked": "Ce compte n’est pas encore relié à un compte {name}. Connectez-vous autrement, puis reliez-le depuis vos paramètres de sécurité.",
       "noEmail": "Ce compte n'a pas communiqué d'adresse e-mail. Réessayez plus tard ou connectez-vous autrement.",
-      "signUpDisabled": "Aucun compte n'existe encore pour cette adresse, et ce moyen de connexion ne peut pas en créer. Connectez-vous autrement."
+      "signUpDisabled": "Aucun compte n'existe encore pour cette adresse, et ce moyen de connexion ne peut pas en créer. Connectez-vous autrement.",
+      "createFailed": "Impossible de créer un compte avec cette connexion. Votre adresse e-mail n'est peut-être pas autorisée ici : essayez une autre adresse ou connectez-vous autrement.",
+      "sessionRefused": "La connexion a été refusée. Si vous pensez qu’il s’agit d’une erreur, contactez votre administrateur."
     },
     "app": {
       "signIn": "Connectez-vous pour continuer vers <app>{name}</app>",
@@ -1938,7 +1940,10 @@
             "self_delete": "Compte supprimé par son titulaire",
             "export_csv": "Utilisateurs exportés en CSV",
             "import": "Utilisateurs importés",
-            "remove_phone_number": "A supprimé son numéro de téléphone"
+            "remove_phone_number": "A supprimé son numéro de téléphone",
+            "new_device_sign_in": "Connexion depuis un nouvel appareil",
+            "secure_account": "A sécurisé son compte (Ce n’était pas moi)",
+            "password_breached": "Mot de passe trouvé dans une fuite"
           },
           "oauth_client": {
             "create": "Client OAuth enregistré",
@@ -2033,7 +2038,10 @@
             "export_csv": "Journal d’audit exporté en CSV"
           },
           "security": {
-            "update_policy": "Politique de sessions et de mots de passe modifiée"
+            "update_policy": "Politique de sessions et de mots de passe modifiée",
+            "update_email_domains": "Domaines d'e-mail autorisés modifiés",
+            "update_countries": "A modifié les pays",
+            "country_refused": "A refusé une connexion depuis un pays"
           }
         },
         "actorPlaceholder": "Rechercher par auteur (e-mail)…",
@@ -2110,7 +2118,74 @@
           "twoFactorEveryoneHint": "Tout le monde doit utiliser une application d'authentification ou une clé d'accès pour se connecter aux applications. Admins : REQUIRE_ADMIN_2FA. Les organisations peuvent l'exiger de leurs membres depuis leur page.",
           "twoFactorGraceDays": "Délai pour l'activer",
           "twoFactorGraceDaysHint": "Les personnes sans deux facteurs sont invitées à chaque connexion à une application et peuvent continuer jusque-là. Le délai démarre quand vous activez ceci, ou à la création du compte.",
-          "noGrace": "Aucun : requis tout de suite"
+          "noGrace": "Aucun : requis tout de suite",
+          "newDeviceEmail": "E-mail lors d’une connexion depuis un nouvel appareil",
+          "newDeviceEmailHint": "Les personnes reçoivent un e-mail quand leur compte se connecte depuis un navigateur jamais utilisé, avec un bouton pour se déconnecter partout et réinitialiser le mot de passe. Les connexions via le SSO d’une organisation ne déclenchent pas d’e-mail."
+        },
+        "emailDomains": {
+          "title": "Domaines d'e-mail",
+          "description": "Quelles adresses e-mail peuvent créer un compte. S'applique à toutes les méthodes d'inscription et aux changements d'adresse ; les comptes existants continuent de fonctionner.",
+          "edit": "Modifier",
+          "mode": "Qui peut s'inscrire",
+          "modes": {
+            "any": "Toute adresse e-mail",
+            "allow": "Uniquement ces domaines",
+            "block": "Toute adresse sauf ces domaines"
+          },
+          "modeHints": {
+            "any": "Aucune restriction de domaine.",
+            "allow": "Pour un Ostiary utilisé par une seule entreprise ou école : les autres adresses ne peuvent pas créer de compte.",
+            "block": "Les adresses des domaines listés ne peuvent pas créer de compte."
+          },
+          "allowed": "Domaines autorisés",
+          "blocked": "Domaines bloqués",
+          "none": "Aucun",
+          "domainsHint": "Un par ligne. Un domaine couvre aussi ses sous-domaines (acme.com couvre eu.acme.com).",
+          "blockDisposable": "Bloquer les adresses e-mail jetables",
+          "blockDisposableHint": "Refuse environ 9 000 services d'e-mail jetable connus, comme Mailinator, d'après une liste fournie avec Ostiary.",
+          "on": "Activé",
+          "off": "Désactivé",
+          "dialogDescription": "Les admins, le SSO et SCIM peuvent toujours créer des comptes avec n'importe quelle adresse. L'application d'authentification l'applique en moins d'une minute.",
+          "save": "Enregistrer",
+          "cancel": "Annuler",
+          "saved": "Domaines d'e-mail enregistrés. L'application d'authentification les applique en moins d'une minute.",
+          "errors": {
+            "invalid": "Choisissez l'une des options proposées.",
+            "invalidDomain": "L'une des entrées n'est pas un nom de domaine, comme example.com.",
+            "noDomains": "Indiquez au moins un domaine.",
+            "save": "Impossible d'enregistrer les domaines d'e-mail."
+          }
+        },
+        "countries": {
+          "title": "Pays",
+          "description": "Les pays depuis lesquels on peut se connecter et créer un compte. Les admins de la plateforme peuvent toujours se connecter ; une requête dont le pays est inconnu est acceptée.",
+          "notConfigured": "Définissez COUNTRY_HEADER (un en-tête posé par votre proxy, comme cf-ipcountry) ou GEOIP_DATABASE (un fichier MaxMind GeoLite2 Country) sur les deux applications pour l’activer. Sur Vercel, cela fonctionne sans eux.",
+          "edit": "Modifier",
+          "mode": "Qui peut se connecter",
+          "modes": {
+            "any": "N’importe quel pays",
+            "allow": "Seulement ces pays",
+            "block": "Tous les pays sauf ceux-ci"
+          },
+          "modeHints": {
+            "any": "Aucune restriction de pays.",
+            "allow": "Les connexions et inscriptions depuis d’autres pays sont refusées.",
+            "block": "Les connexions et inscriptions depuis les pays listés sont refusées."
+          },
+          "allowed": "Pays autorisés",
+          "blocked": "Pays bloqués",
+          "none": "Aucun",
+          "countriesHint": "Codes pays à deux lettres (ISO 3166-1), séparés par des virgules ou des espaces : FR, DE, US.",
+          "dialogDescription": "Les admins peuvent toujours se connecter de partout. L’application d’authentification l’applique sous une minute.",
+          "save": "Enregistrer",
+          "cancel": "Annuler",
+          "saved": "Pays enregistrés. L’application d’authentification les applique sous une minute.",
+          "errors": {
+            "invalid": "Choisissez l’une des options proposées.",
+            "invalidCountry": "Une des entrées n’est pas un code pays à deux lettres, comme FR.",
+            "noCountries": "Indiquez au moins un pays.",
+            "save": "Impossible d’enregistrer les pays."
+          }
         }
       },
       "signingKeys": {
@@ -2382,6 +2457,7 @@
         "pageOf": "Page {page} / {pages}",
         "showing": "{from}-{to} sur {total}"
       },
+      "passwordCompromised": "Ce mot de passe figure dans une fuite de données. Choisissez-en un autre.",
       "demoReadOnly": "La console d'administration de démo est en lecture seule."
     },
     "urlCheck": {
@@ -2422,7 +2498,8 @@
       "admin": "Administration",
       "marketingHome": "À propos",
       "signOut": "Déconnexion",
-      "data": "Vos données"
+      "data": "Vos données",
+      "activity": "Activité récente"
     },
     "profile": {
       "title": "Profil",
@@ -2808,6 +2885,34 @@
       "removeFailed": "Impossible de supprimer le numéro.",
       "removed": "Numéro supprimé."
     },
+    "activity": {
+      "title": "Activité récente",
+      "description": "Connexions et changements de sécurité de votre compte au cours des 30 derniers jours. Quelque chose vous est inconnu ? Déconnectez cette session et changez votre mot de passe.",
+      "empty": "Aucune activité au cours des 30 derniers jours.",
+      "loadError": "Impossible de charger votre activité.",
+      "more": "Afficher plus",
+      "signOut": "Déconnecter",
+      "signedOut": "Session déconnectée.",
+      "signOutError": "Impossible de déconnecter cette session.",
+      "current": "Ce navigateur",
+      "newDevice": "Nouvel appareil",
+      "deviceOn": "{browser} sur {system}",
+      "unknownDevice": "Navigateur inconnu",
+      "types": {
+        "sign_in": "Connexion",
+        "password_changed": "Mot de passe modifié",
+        "password_reset": "Mot de passe réinitialisé",
+        "email_changed": "Adresse e-mail modifiée",
+        "two_factor_enabled": "Double authentification activée",
+        "two_factor_disabled": "Double authentification désactivée",
+        "passkey_added": "Clé d’accès ajoutée",
+        "passkey_removed": "Clé d’accès supprimée",
+        "session_revoked": "Une session déconnectée",
+        "sessions_revoked": "Déconnexion des autres sessions",
+        "account_secured": "Déconnexion partout (Ce n’était pas moi)",
+        "password_breached": "Mot de passe trouvé dans une fuite"
+      }
+    },
     "demo": {
       "title": "Compte de démo",
       "userBody": "Tout le monde se connecte à ce compte. Son mot de passe, son e-mail et ses méthodes de connexion ne peuvent pas être modifiés, et il est réinitialisé à chaque mise à jour.",
@@ -3095,7 +3200,10 @@
       "heading": "Votre code de connexion",
       "body": "Saisissez ce code sur la page de connexion {brand} pour terminer la connexion.",
       "note": "Le code expire dans {minutes} minutes et ne fonctionne qu’une fois.",
-      "footnote": "Vous n’avez pas demandé de code ? Ignorez cet e-mail : personne ne peut se connecter sans lui. Ne le communiquez jamais à personne."
+      "footnote": "Vous n’avez pas demandé de code ? Ignorez cet e-mail : personne ne peut se connecter sans lui. Ne le communiquez jamais à personne.",
+      "button": "Se connecter à {brand}",
+      "linkBody": "Ou utilisez ce bouton pour vous connecter sur cet appareil.",
+      "noteWithLink": "Le code et le bouton expirent dans {minutes} minutes et ne fonctionnent qu’une fois."
     },
     "deleteAccount": {
       "subject": "Confirmez la suppression de votre compte {brand}",
@@ -3106,6 +3214,23 @@
       "button": "Vérifier et supprimer",
       "note": "Le lien expire dans {minutes} minutes et ne fonctionne qu’une seule fois.",
       "footnote": "Si vous n’êtes pas à l’origine de cette demande, ignorez cet e-mail : votre compte reste inchangé. Pensez à changer votre mot de passe, car la demande provient d’une session connectée."
+    },
+    "newDevice": {
+      "subject": "Nouvelle connexion à votre compte {brand}",
+      "preheader": "Votre compte a été utilisé depuis un appareil inconnu.",
+      "heading": "Nouvelle connexion depuis un autre appareil",
+      "body": "Le compte {brand} {email} vient d’être utilisé pour se connecter depuis un navigateur ou un appareil qu’il n’avait jamais utilisé.",
+      "when": "Date : {when}",
+      "device": "Appareil : {device}",
+      "deviceOn": "{browser} sur {system}",
+      "unknownDevice": "Navigateur inconnu",
+      "ipAddress": "Adresse IP : {ip}",
+      "unknownIp": "inconnue",
+      "ifYou": "Si c’était vous, vous n’avez rien à faire.",
+      "button": "Ce n’était pas moi",
+      "note": "Le bouton fonctionne une fois pendant {days} jours. Il vous déconnecte partout et vous envoie un lien pour choisir un nouveau mot de passe.",
+      "footnote": "Vous recevez cet e-mail quand votre compte se connecte depuis un nouvel appareil. Ne communiquez jamais votre mot de passe ni vos codes de connexion.",
+      "location": "Lieu : {country}"
     }
   },
   "authErrors": {
@@ -3125,8 +3250,42 @@
     "emailNotVerified": "Vérifiez d'abord votre adresse e-mail.",
     "invalidToken": "Ce lien est invalide ou a expiré.",
     "publicOrganization": "Les membres de l'organisation Public sont gérés uniquement par les administrateurs de la plateforme.",
+    "emailDomainNotAllowed": "Impossible de créer un compte avec ce domaine d'e-mail ici. Utilisez une autre adresse.",
+    "countryNotAllowed": "La connexion depuis votre pays n’est pas autorisée ici.",
     "demoLocked": "Les comptes de démo gardent leur mot de passe, leur e-mail et leurs méthodes de connexion.",
     "demoReadOnly": "La console d'administration de démo est en lecture seule.",
     "demoSignUpClosed": "L'inscription est fermée sur cette démo. Connectez-vous avec l'un des comptes d'exemple."
+  },
+  "secureAccount": {
+    "title": "Sécurisez votre compte",
+    "description": "Quelqu’un s’est peut-être connecté à votre compte. Confirmez pour l’en exclure :",
+    "stepSignOut": "Vous êtes déconnecté sur tous les appareils, y compris celui-ci.",
+    "stepApps": "Les applications perdent l’accès obtenu via votre compte jusqu’à votre prochaine connexion.",
+    "stepReset": "Nous vous envoyons un lien pour choisir un nouveau mot de passe.",
+    "confirm": "Me déconnecter partout et réinitialiser mon mot de passe",
+    "toSignIn": "Aller à la connexion",
+    "doneTitle": "Consultez votre boîte de réception",
+    "doneBody": "Votre compte a été déconnecté partout. Ouvrez l’e-mail que nous venons d’envoyer pour choisir un nouveau mot de passe. Si vous utilisez la double authentification, vérifiez que votre application d’authentification et vos clés d’accès vous appartiennent toujours.",
+    "errors": {
+      "invalid": "Ce lien a expiré ou a déjà été utilisé. Par précaution, réinitialisez votre mot de passe depuis la page de connexion.",
+      "failed": "Une erreur s’est produite. Réessayez."
+    }
+  },
+  "breachedPassword": {
+    "title": "Changez votre mot de passe",
+    "description": "Le mot de passe avec lequel vous venez de vous connecter figure dans une fuite de données publique : d’autres peuvent le connaître. Choisissez-en un nouveau pour continuer. Vos autres sessions seront déconnectées.",
+    "doneTitle": "Mot de passe modifié",
+    "doneBody": "Votre nouveau mot de passe est enregistré et vos autres sessions ont été déconnectées.",
+    "continue": "Continuer",
+    "toAccount": "Aller à votre compte"
+  },
+  "signInLink": {
+    "title": "Connexion",
+    "description": "Se connecter en tant que {email}",
+    "note": "Vous serez connecté sur cet appareil et ramené là où vous avez commencé.",
+    "signIn": "Se connecter",
+    "invalidTitle": "Ce lien ne fonctionne plus",
+    "invalidBody": "Il a expiré ou a déjà été utilisé. Demandez un nouveau code sur la page de connexion.",
+    "toSignIn": "Aller à la connexion"
   }
 }

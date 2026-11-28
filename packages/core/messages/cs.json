@@ -189,7 +189,9 @@
       "error": "Tímto účtem se nepodařilo přihlásit. Zkuste to znovu nebo použijte jiný způsob.",
       "notLinked": "Tento účet zatím není propojen s účtem {name}. Přihlaste se jinak a pak ho propojte v nastavení zabezpečení.",
       "noEmail": "Tento účet nesdílel e-mailovou adresu. Zkuste to později nebo se přihlaste jinak.",
-      "signUpDisabled": "Pro tuto adresu zatím neexistuje účet a tímto způsobem přihlášení ho nelze vytvořit. Přihlaste se jinak."
+      "signUpDisabled": "Pro tuto adresu zatím neexistuje účet a tímto způsobem přihlášení ho nelze vytvořit. Přihlaste se jinak.",
+      "createFailed": "S tímto přihlášením se nepodařilo vytvořit účet. Vaše e-mailová adresa zde možná není povolena: zkuste jinou adresu nebo se přihlaste jinak.",
+      "sessionRefused": "Přihlášení bylo odmítnuto. Pokud si myslíte, že jde o chybu, kontaktujte správce."
     },
     "app": {
       "signIn": "Přihlaste se a pokračujte do <app>{name}</app>",
@@ -1938,7 +1940,10 @@
             "self_delete": "Smazání vlastního účtu",
             "export_csv": "Export uživatelů do CSV",
             "import": "Import uživatelů",
-            "remove_phone_number": "Odebral(a) své telefonní číslo"
+            "remove_phone_number": "Odebral(a) své telefonní číslo",
+            "new_device_sign_in": "Přihlášení z nového zařízení",
+            "secure_account": "Zabezpečil(a) svůj účet (Nebyl(a) jsem to já)",
+            "password_breached": "Heslo nalezeno v úniku dat"
           },
           "oauth_client": {
             "create": "Registrace klienta OAuth",
@@ -2033,7 +2038,10 @@
             "export_csv": "Export auditního protokolu do CSV"
           },
           "security": {
-            "update_policy": "Změněny zásady relací a hesel"
+            "update_policy": "Změněny zásady relací a hesel",
+            "update_email_domains": "Změněny povolené e-mailové domény",
+            "update_countries": "Změnil(a) země",
+            "country_refused": "Odmítnuto přihlášení ze země"
           }
         },
         "actorPlaceholder": "Hledat podle toho, kdo akci provedl (e-mail)…",
@@ -2110,7 +2118,74 @@
           "twoFactorEveryoneHint": "Všichni se musí do aplikací přihlašovat ověřovací aplikací nebo přístupovým klíčem. Správci: REQUIRE_ADMIN_2FA. Organizace to mohou vyžadovat od svých členů na své stránce.",
           "twoFactorGraceDays": "Lhůta na zapnutí",
           "twoFactorGraceDaysHint": "Kdo dvoufázové ověření nemá, dostane výzvu při každém přihlášení do aplikace a může do té doby pokračovat. Lhůta začíná zapnutím této volby, nebo vytvořením účtu.",
-          "noGrace": "Žádná: vyžadováno hned"
+          "noGrace": "Žádná: vyžadováno hned",
+          "newDeviceEmail": "E-mail při přihlášení z nového zařízení",
+          "newDeviceEmailHint": "Lidé dostanou e-mail, když se jejich účet přihlásí z prohlížeče, který dosud nepoužíval, s tlačítkem pro odhlášení všude a obnovení hesla. Přihlášení přes SSO organizace e-mail neposílají."
+        },
+        "emailDomains": {
+          "title": "E-mailové domény",
+          "description": "Které e-mailové adresy mohou vytvořit účet. Platí pro všechny způsoby registrace i pro změny adresy; stávající účty fungují dál.",
+          "edit": "Upravit",
+          "mode": "Kdo se může registrovat",
+          "modes": {
+            "any": "Jakákoli e-mailová adresa",
+            "allow": "Pouze tyto domény",
+            "block": "Jakákoli adresa kromě těchto domén"
+          },
+          "modeHints": {
+            "any": "Bez omezení domény.",
+            "allow": "Pro Ostiary používané jednou firmou nebo školou: ostatní adresy nemohou vytvořit účet.",
+            "block": "Adresy v uvedených doménách nemohou vytvořit účet."
+          },
+          "allowed": "Povolené domény",
+          "blocked": "Blokované domény",
+          "none": "Žádné",
+          "domainsHint": "Jedna na řádek. Doména zahrnuje i své subdomény (acme.com zahrnuje eu.acme.com).",
+          "blockDisposable": "Blokovat jednorázové e-mailové adresy",
+          "blockDisposableHint": "Odmítá přibližně 9 000 známých služeb jednorázového e-mailu, například Mailinator, podle seznamu dodávaného s Ostiary.",
+          "on": "Zapnuto",
+          "off": "Vypnuto",
+          "dialogDescription": "Administrátoři, SSO a SCIM mohou stále vytvářet účty s jakoukoli adresou. Přihlašovací aplikace to použije do minuty.",
+          "save": "Uložit",
+          "cancel": "Zrušit",
+          "saved": "E-mailové domény uloženy. Přihlašovací aplikace je použije do minuty.",
+          "errors": {
+            "invalid": "Vyberte jednu z nabízených možností.",
+            "invalidDomain": "Jedna z položek není název domény, například example.com.",
+            "noDomains": "Uveďte alespoň jednu doménu.",
+            "save": "E-mailové domény se nepodařilo uložit."
+          }
+        },
+        "countries": {
+          "title": "Země",
+          "description": "Ze kterých zemí se lze přihlásit a registrovat. Správci platformy se mohou přihlásit vždy; požadavek z neznámé země je povolen.",
+          "notConfigured": "Pro zapnutí nastavte v obou aplikacích COUNTRY_HEADER (hlavičku nastavovanou vaší proxy, např. cf-ipcountry) nebo GEOIP_DATABASE (soubor MaxMind GeoLite2 Country). Na Vercelu to funguje i bez nich.",
+          "edit": "Upravit",
+          "mode": "Kdo se může přihlásit",
+          "modes": {
+            "any": "Jakákoli země",
+            "allow": "Pouze tyto země",
+            "block": "Jakákoli země kromě těchto"
+          },
+          "modeHints": {
+            "any": "Bez omezení podle země.",
+            "allow": "Přihlášení a registrace z jiných zemí jsou odmítnuty.",
+            "block": "Přihlášení a registrace z uvedených zemí jsou odmítnuty."
+          },
+          "allowed": "Povolené země",
+          "blocked": "Blokované země",
+          "none": "Žádné",
+          "countriesHint": "Dvoupísmenné kódy zemí (ISO 3166-1) oddělené čárkami nebo mezerami: FR, DE, US.",
+          "dialogDescription": "Správci se mohou dál přihlašovat odkudkoli. Ověřovací aplikace to použije do minuty.",
+          "save": "Uložit",
+          "cancel": "Zrušit",
+          "saved": "Země uloženy. Ověřovací aplikace je použije do minuty.",
+          "errors": {
+            "invalid": "Vyberte jednu z nabízených možností.",
+            "invalidCountry": "Jedna z položek není dvoupísmenný kód země, například FR.",
+            "noCountries": "Uveďte alespoň jednu zemi.",
+            "save": "Země se nepodařilo uložit."
+          }
         }
       },
       "signingKeys": {
@@ -2382,6 +2457,7 @@
         "pageOf": "Stránka {page} / {pages}",
         "showing": "Zobrazeno {from}–{to} z {total}"
       },
+      "passwordCompromised": "Toto heslo se objevilo v úniku dat. Zvolte jiné.",
       "demoReadOnly": "Ukázková administrátorská konzole je jen pro čtení."
     },
     "urlCheck": {
@@ -2422,7 +2498,8 @@
       "admin": "Administrace",
       "marketingHome": "O službě",
       "signOut": "Odhlásit se",
-      "data": "Vaše data"
+      "data": "Vaše data",
+      "activity": "Nedávná aktivita"
     },
     "profile": {
       "title": "Profil",
@@ -2808,6 +2885,34 @@
       "removeFailed": "Číslo se nepodařilo odebrat.",
       "removed": "Číslo odebráno."
     },
+    "activity": {
+      "title": "Nedávná aktivita",
+      "description": "Přihlášení a změny zabezpečení účtu za posledních 30 dní. Něco nepoznáváte? Odhlaste tu relaci a změňte heslo.",
+      "empty": "Za posledních 30 dní žádná aktivita.",
+      "loadError": "Aktivitu se nepodařilo načíst.",
+      "more": "Zobrazit další",
+      "signOut": "Odhlásit",
+      "signedOut": "Relace odhlášena.",
+      "signOutError": "Tuto relaci se nepodařilo odhlásit.",
+      "current": "Tento prohlížeč",
+      "newDevice": "Nové zařízení",
+      "deviceOn": "{browser} v systému {system}",
+      "unknownDevice": "Neznámý prohlížeč",
+      "types": {
+        "sign_in": "Přihlášení",
+        "password_changed": "Heslo změněno",
+        "password_reset": "Heslo obnoveno",
+        "email_changed": "E-mailová adresa změněna",
+        "two_factor_enabled": "Dvoufázové ověření zapnuto",
+        "two_factor_disabled": "Dvoufázové ověření vypnuto",
+        "passkey_added": "Přístupový klíč přidán",
+        "passkey_removed": "Přístupový klíč odebrán",
+        "session_revoked": "Relace odhlášena",
+        "sessions_revoked": "Odhlášeno z ostatních relací",
+        "account_secured": "Odhlášeno všude (Nebyl(a) jsem to já)",
+        "password_breached": "Heslo nalezeno v úniku dat"
+      }
+    },
     "demo": {
       "title": "Ukázkový účet",
       "userBody": "K tomuto účtu se přihlašují všichni. Heslo, e-mail ani způsoby přihlášení nelze změnit a účet se obnovuje při každé aktualizaci.",
@@ -3095,7 +3200,10 @@
       "heading": "Váš přihlašovací kód",
       "body": "Zadejte tento kód na přihlašovací stránce {brand} a dokončete přihlášení.",
       "note": "Platnost kódu vyprší za {minutes} minut a lze ho použít jen jednou.",
-      "footnote": "Nežádali jste o kód? Tento e-mail ignorujte: bez kódu se nikdo nepřihlásí. Nikdy ho nikomu nesdělujte."
+      "footnote": "Nežádali jste o kód? Tento e-mail ignorujte: bez kódu se nikdo nepřihlásí. Nikdy ho nikomu nesdělujte.",
+      "button": "Přihlásit se do {brand}",
+      "linkBody": "Nebo se tímto tlačítkem přihlaste na tomto zařízení.",
+      "noteWithLink": "Kód i tlačítko vyprší za {minutes} min a fungují jen jednou."
     },
     "deleteAccount": {
       "subject": "Potvrďte smazání svého účtu {brand}",
@@ -3106,6 +3214,23 @@
       "button": "Zkontrolovat a smazat",
       "note": "Platnost odkazu vyprší za {minutes} minut a lze ho použít jen jednou.",
       "footnote": "Pokud jste o to nežádali, tento e-mail ignorujte: váš účet zůstane beze změny. Zvažte změnu hesla, protože žádost přišla z přihlášené relace."
+    },
+    "newDevice": {
+      "subject": "Nové přihlášení k vašemu účtu {brand}",
+      "preheader": "K vašemu účtu se někdo přihlásil ze zařízení, které dosud nepoužíval.",
+      "heading": "Nové přihlášení z jiného zařízení",
+      "body": "K účtu {brand} {email} se právě někdo přihlásil z prohlížeče nebo zařízení, které dosud nepoužíval.",
+      "when": "Kdy: {when}",
+      "device": "Zařízení: {device}",
+      "deviceOn": "{browser} v systému {system}",
+      "unknownDevice": "Neznámý prohlížeč",
+      "ipAddress": "IP adresa: {ip}",
+      "unknownIp": "neznámá",
+      "ifYou": "Pokud jste to byli vy, nemusíte nic dělat.",
+      "button": "Nebyl(a) jsem to já",
+      "note": "Tlačítko funguje jednou během {days} dnů. Odhlásí vás všude a pošle vám odkaz pro nastavení nového hesla.",
+      "footnote": "Tento e-mail dostáváte, když se váš účet přihlásí z nového zařízení. Nikdy nesdílejte své heslo ani přihlašovací kódy.",
+      "location": "Místo: {country}"
     }
   },
   "authErrors": {
@@ -3125,8 +3250,42 @@
     "emailNotVerified": "Nejprve ověřte svou e-mailovou adresu.",
     "invalidToken": "Tento odkaz je neplatný nebo vypršel.",
     "publicOrganization": "Členy organizace Public spravují pouze správci platformy.",
+    "emailDomainNotAllowed": "S touto e-mailovou doménou zde nelze vytvořit účet. Použijte jinou adresu.",
+    "countryNotAllowed": "Přihlášení z vaší země zde není povoleno.",
     "demoLocked": "Ukázkové účty si ponechávají heslo, e-mail i způsoby přihlášení.",
     "demoReadOnly": "Ukázková administrátorská konzole je jen pro čtení.",
     "demoSignUpClosed": "Registrace je v této ukázce uzavřená. Přihlaste se jedním z ukázkových účtů."
+  },
+  "secureAccount": {
+    "title": "Zabezpečte svůj účet",
+    "description": "Někdo se možná přihlásil k vašemu účtu. Potvrďte, abyste ho odstřihli:",
+    "stepSignOut": "Budete odhlášeni na všech zařízeních včetně tohoto.",
+    "stepApps": "Aplikace ztratí přístup získaný přes váš účet, dokud se znovu nepřihlásíte.",
+    "stepReset": "Pošleme vám odkaz pro nastavení nového hesla.",
+    "confirm": "Odhlásit mě všude a obnovit heslo",
+    "toSignIn": "Přejít na přihlášení",
+    "doneTitle": "Zkontrolujte svou schránku",
+    "doneBody": "Váš účet byl všude odhlášen. Otevřete e-mail, který jsme právě poslali, a nastavte nové heslo. Pokud používáte dvoufázové ověření, zkontrolujte, že ověřovací aplikace a přístupové klíče jsou stále vaše.",
+    "errors": {
+      "invalid": "Platnost odkazu vypršela nebo už byl použit. Pro jistotu si obnovte heslo na přihlašovací stránce.",
+      "failed": "Něco se pokazilo. Zkuste to znovu."
+    }
+  },
+  "breachedPassword": {
+    "title": "Změňte heslo",
+    "description": "Heslo, kterým jste se právě přihlásili, se objevilo ve veřejném úniku dat, takže ho mohou znát i jiní. Pro pokračování zvolte nové. Vaše ostatní relace budou odhlášeny.",
+    "doneTitle": "Heslo změněno",
+    "doneBody": "Nové heslo je nastaveno a ostatní relace byly odhlášeny.",
+    "continue": "Pokračovat",
+    "toAccount": "Přejít na účet"
+  },
+  "signInLink": {
+    "title": "Přihlásit se",
+    "description": "Přihlásit se jako {email}",
+    "note": "Budete přihlášeni na tomto zařízení a vrátíte se tam, kde jste začali.",
+    "signIn": "Přihlásit se",
+    "invalidTitle": "Tento odkaz už nefunguje",
+    "invalidBody": "Vypršel nebo už byl použit. Požádejte o nový kód na přihlašovací stránce.",
+    "toSignIn": "Přejít na přihlášení"
   }
 }

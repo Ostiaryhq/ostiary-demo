@@ -189,7 +189,9 @@
       "error": "Kunne ikke logge inn med den kontoen. Prøv igjen eller bruk en annen metode.",
       "notLinked": "Den kontoen er ikke koblet til en {name}-konto ennå. Logg inn på en annen måte, og koble den til fra sikkerhetsinnstillingene dine.",
       "noEmail": "Kontoen delte ingen e-postadresse. Prøv igjen senere, eller logg inn på en annen måte.",
-      "signUpDisabled": "Det finnes ingen konto for den adressen ennå, og denne innloggingsmetoden kan ikke opprette en. Logg inn på en annen måte."
+      "signUpDisabled": "Det finnes ingen konto for den adressen ennå, og denne innloggingsmetoden kan ikke opprette en. Logg inn på en annen måte.",
+      "createFailed": "Kunne ikke opprette en konto med den påloggingen. E-postadressen din er kanskje ikke tillatt her: prøv en annen adresse eller logg på en annen måte.",
+      "sessionRefused": "Påloggingen ble avvist. Hvis du tror det er en feil, kontakt administratoren din."
     },
     "app": {
       "signIn": "Logg inn for å fortsette til <app>{name}</app>",
@@ -1938,7 +1940,10 @@
             "self_delete": "Slettet sin egen konto",
             "export_csv": "Eksporterte brukere til CSV",
             "import": "Importerte brukere",
-            "remove_phone_number": "Fjernet telefonnummeret sitt"
+            "remove_phone_number": "Fjernet telefonnummeret sitt",
+            "new_device_sign_in": "Logget på fra en ny enhet",
+            "secure_account": "Sikret kontoen sin (Det var ikke meg)",
+            "password_breached": "Passord funnet i en datalekkasje"
           },
           "oauth_client": {
             "create": "Registrerte OAuth-klient",
@@ -2033,7 +2038,10 @@
             "export_csv": "Eksporterte revisjonsloggen til CSV"
           },
           "security": {
-            "update_policy": "Endret retningslinjene for økter og passord"
+            "update_policy": "Endret retningslinjene for økter og passord",
+            "update_email_domains": "Endret de tillatte e-postdomenene",
+            "update_countries": "Endret landene",
+            "country_refused": "Avviste en pålogging fra et land"
           }
         },
         "actorPlaceholder": "Søk etter hvem som handlet (e-post)…",
@@ -2110,7 +2118,74 @@
           "twoFactorEveryoneHint": "Alle må bruke en autentiseringsapp eller en tilgangsnøkkel for å logge på apper. Administratorer: REQUIRE_ADMIN_2FA. Organisasjoner kan kreve det av medlemmene på sin side.",
           "twoFactorGraceDays": "Frist for å slå den på",
           "twoFactorGraceDaysHint": "De som mangler tofaktor, blir spurt ved hver app-pålogging og kan fortsette til da. Fristen starter når du slår på dette, eller når kontoen opprettes.",
-          "noGrace": "Ingen: kreves med en gang"
+          "noGrace": "Ingen: kreves med en gang",
+          "newDeviceEmail": "E-post ved pålogging fra ny enhet",
+          "newDeviceEmailHint": "Folk får en e-post når kontoen logges på fra en nettleser den ikke har brukt før, med en knapp for å logge ut overalt og tilbakestille passordet. Pålogginger via en organisasjons SSO sender ingen e-post."
+        },
+        "emailDomains": {
+          "title": "E-postdomener",
+          "description": "Hvilke e-postadresser som kan opprette en konto. Gjelder alle måter å registrere seg på og adresseendringer; eksisterende kontoer fortsetter å virke.",
+          "edit": "Rediger",
+          "mode": "Hvem kan registrere seg",
+          "modes": {
+            "any": "Alle e-postadresser",
+            "allow": "Bare disse domenene",
+            "block": "Alle adresser unntatt disse domenene"
+          },
+          "modeHints": {
+            "any": "Ingen begrensning på domenet.",
+            "allow": "For et Ostiary som brukes av én bedrift eller skole: andre adresser kan ikke opprette konto.",
+            "block": "Adresser på de oppførte domenene kan ikke opprette konto."
+          },
+          "allowed": "Tillatte domener",
+          "blocked": "Blokkerte domener",
+          "none": "Ingen",
+          "domainsHint": "Én per linje. Et domene omfatter også underdomenene sine (acme.com omfatter eu.acme.com).",
+          "blockDisposable": "Blokker engangsadresser",
+          "blockDisposableHint": "Avviser rundt 9 000 kjente engangs-e-posttjenester, som Mailinator, fra en liste som følger med Ostiary.",
+          "on": "På",
+          "off": "Av",
+          "dialogDescription": "Administratorer, SSO og SCIM kan fortsatt opprette kontoer med hvilken som helst adresse. Auth-appen tar dette i bruk innen ett minutt.",
+          "save": "Lagre",
+          "cancel": "Avbryt",
+          "saved": "E-postdomenene er lagret. Auth-appen tar dem i bruk innen ett minutt.",
+          "errors": {
+            "invalid": "Velg ett av alternativene som tilbys.",
+            "invalidDomain": "En av oppføringene er ikke et domenenavn, som example.com.",
+            "noDomains": "Oppgi minst ett domene.",
+            "save": "Kunne ikke lagre e-postdomenene."
+          }
+        },
+        "countries": {
+          "title": "Land",
+          "description": "Fra hvilke land man kan logge på og registrere seg. Plattformadministratorer kan alltid logge på; en forespørsel fra ukjent land tillates.",
+          "notConfigured": "Angi COUNTRY_HEADER (en header proxyen din setter, f.eks. cf-ipcountry) eller GEOIP_DATABASE (en MaxMind GeoLite2 Country-fil) i begge appene for å slå det på. På Vercel fungerer det uten.",
+          "edit": "Rediger",
+          "mode": "Hvem kan logge på",
+          "modes": {
+            "any": "Alle land",
+            "allow": "Bare disse landene",
+            "block": "Alle land unntatt disse"
+          },
+          "modeHints": {
+            "any": "Ingen begrensning på land.",
+            "allow": "Pålogginger og registreringer fra andre land avvises.",
+            "block": "Pålogginger og registreringer fra de oppførte landene avvises."
+          },
+          "allowed": "Tillatte land",
+          "blocked": "Blokkerte land",
+          "none": "Ingen",
+          "countriesHint": "Landkoder på to bokstaver (ISO 3166-1), skilt med komma eller mellomrom: FR, DE, US.",
+          "dialogDescription": "Administratorer kan fortsatt logge på fra hvor som helst. Autentiseringsappen tar det i bruk innen ett minutt.",
+          "save": "Lagre",
+          "cancel": "Avbryt",
+          "saved": "Landene er lagret. Autentiseringsappen tar dem i bruk innen ett minutt.",
+          "errors": {
+            "invalid": "Velg ett av alternativene.",
+            "invalidCountry": "En av oppføringene er ikke en landkode på to bokstaver, som FR.",
+            "noCountries": "Oppgi minst ett land.",
+            "save": "Kunne ikke lagre landene."
+          }
         }
       },
       "signingKeys": {
@@ -2382,6 +2457,7 @@
         "pageOf": "Side {page} / {pages}",
         "showing": "Viser {from}–{to} av {total}"
       },
+      "passwordCompromised": "Passordet har dukket opp i en datalekkasje. Velg et annet.",
       "demoReadOnly": "Demoens administrasjonskonsoll er skrivebeskyttet."
     },
     "urlCheck": {
@@ -2422,7 +2498,8 @@
       "admin": "Administrasjon",
       "marketingHome": "Om",
       "signOut": "Logg ut",
-      "data": "Dataene dine"
+      "data": "Dataene dine",
+      "activity": "Nylig aktivitet"
     },
     "profile": {
       "title": "Profil",
@@ -2808,6 +2885,34 @@
       "removeFailed": "Kunne ikke fjerne nummeret.",
       "removed": "Nummeret er fjernet."
     },
+    "activity": {
+      "title": "Nylig aktivitet",
+      "description": "Pålogginger og sikkerhetsendringer på kontoen din de siste 30 dagene. Kjenner du ikke igjen noe? Logg ut den økten og bytt passord.",
+      "empty": "Ingen aktivitet de siste 30 dagene.",
+      "loadError": "Kunne ikke laste inn aktiviteten din.",
+      "more": "Vis flere",
+      "signOut": "Logg ut",
+      "signedOut": "Økten er logget ut.",
+      "signOutError": "Kunne ikke logge ut denne økten.",
+      "current": "Denne nettleseren",
+      "newDevice": "Ny enhet",
+      "deviceOn": "{browser} på {system}",
+      "unknownDevice": "Ukjent nettleser",
+      "types": {
+        "sign_in": "Logget på",
+        "password_changed": "Passord endret",
+        "password_reset": "Passord tilbakestilt",
+        "email_changed": "E-postadresse endret",
+        "two_factor_enabled": "Tofaktorautentisering slått på",
+        "two_factor_disabled": "Tofaktorautentisering slått av",
+        "passkey_added": "Tilgangsnøkkel lagt til",
+        "passkey_removed": "Tilgangsnøkkel fjernet",
+        "session_revoked": "En økt logget ut",
+        "sessions_revoked": "Logget ut av andre økter",
+        "account_secured": "Logget ut overalt (Det var ikke meg)",
+        "password_breached": "Passord funnet i en datalekkasje"
+      }
+    },
     "demo": {
       "title": "Demokonto",
       "userBody": "Alle logger på denne kontoen. Passord, e-postadresse og påloggingsmetoder kan ikke endres, og den tilbakestilles ved hver oppdatering.",
@@ -3095,7 +3200,10 @@
       "heading": "Innloggingskoden din",
       "body": "Skriv inn denne koden på innloggingssiden til {brand} for å fullføre innloggingen.",
       "note": "Koden utløper om {minutes} minutter og fungerer bare én gang.",
-      "footnote": "Har du ikke bedt om en kode? Se bort fra denne e-posten: ingen kan logge inn uten koden. Del den aldri med noen."
+      "footnote": "Har du ikke bedt om en kode? Se bort fra denne e-posten: ingen kan logge inn uten koden. Del den aldri med noen.",
+      "button": "Logg på {brand}",
+      "linkBody": "Eller bruk knappen for å logge på denne enheten.",
+      "noteWithLink": "Koden og knappen utløper om {minutes} minutter og fungerer bare én gang."
     },
     "deleteAccount": {
       "subject": "Bekreft slettingen av {brand}-kontoen din",
@@ -3106,6 +3214,23 @@
       "button": "Se gjennom og slett",
       "note": "Lenken utløper om {minutes} minutter og fungerer bare én gang.",
       "footnote": "Har du ikke bedt om dette? Se bort fra denne e-posten: kontoen din forblir som den er. Vurder å bytte passord, siden forespørselen kom fra en innlogget økt."
+    },
+    "newDevice": {
+      "subject": "Ny pålogging på {brand}-kontoen din",
+      "preheader": "Kontoen din ble logget på fra en enhet den ikke har brukt før.",
+      "heading": "Ny pålogging fra en annen enhet",
+      "body": "{brand}-kontoen {email} ble nettopp logget på fra en nettleser eller enhet den ikke har brukt før.",
+      "when": "Når: {when}",
+      "device": "Enhet: {device}",
+      "deviceOn": "{browser} på {system}",
+      "unknownDevice": "Ukjent nettleser",
+      "ipAddress": "IP-adresse: {ip}",
+      "unknownIp": "ukjent",
+      "ifYou": "Hvis det var deg, trenger du ikke gjøre noe.",
+      "button": "Det var ikke meg",
+      "note": "Knappen fungerer én gang innen {days} dager. Den logger deg ut overalt og sender deg en lenke for å velge et nytt passord.",
+      "footnote": "Du får denne e-posten når kontoen din logges på fra en ny enhet. Del aldri passordet eller påloggingskodene dine.",
+      "location": "Sted: {country}"
     }
   },
   "authErrors": {
@@ -3125,8 +3250,42 @@
     "emailNotVerified": "Bekreft e-postadressen din først.",
     "invalidToken": "Lenken er ugyldig eller utløpt.",
     "publicOrganization": "Medlemmene i organisasjonen Public administreres bare av plattformadministratorer.",
+    "emailDomainNotAllowed": "Kontoer med dette e-postdomenet kan ikke opprettes her. Bruk en annen adresse.",
+    "countryNotAllowed": "Pålogging fra landet ditt er ikke tillatt her.",
     "demoLocked": "Demokontoene beholder passordet, e-postadressen og påloggingsmetodene sine.",
     "demoReadOnly": "Demoens administrasjonskonsoll er skrivebeskyttet.",
     "demoSignUpClosed": "Registrering er stengt i denne demoen. Logg på med en av eksempelkontoene."
+  },
+  "secureAccount": {
+    "title": "Sikre kontoen din",
+    "description": "Noen kan ha logget på kontoen din. Bekreft for å stenge dem ute:",
+    "stepSignOut": "Du logges ut på alle enheter, også denne.",
+    "stepApps": "Apper mister tilgangen de hadde via kontoen din til du logger på igjen.",
+    "stepReset": "Vi sender deg en lenke for å velge et nytt passord.",
+    "confirm": "Logg ut overalt og tilbakestill passordet mitt",
+    "toSignIn": "Gå til pålogging",
+    "doneTitle": "Sjekk innboksen din",
+    "doneBody": "Kontoen din ble logget ut overalt. Åpne e-posten vi nettopp sendte for å velge et nytt passord. Hvis du bruker tofaktorautentisering, sjekk at autentiseringsappen og tilgangsnøklene dine fortsatt er dine.",
+    "errors": {
+      "invalid": "Denne lenken er utløpt eller allerede brukt. Tilbakestill passordet fra påloggingssiden for sikkerhets skyld.",
+      "failed": "Noe gikk galt. Prøv igjen."
+    }
+  },
+  "breachedPassword": {
+    "title": "Bytt passord",
+    "description": "Passordet du nettopp logget på med finnes i en offentlig datalekkasje, så andre kan kjenne det. Velg et nytt for å fortsette. De andre øktene dine blir logget ut.",
+    "doneTitle": "Passordet er endret",
+    "doneBody": "Det nye passordet er lagret, og de andre øktene dine er logget ut.",
+    "continue": "Fortsett",
+    "toAccount": "Gå til kontoen din"
+  },
+  "signInLink": {
+    "title": "Logg på",
+    "description": "Logg på som {email}",
+    "note": "Du blir logget på denne enheten og sendt tilbake dit du begynte.",
+    "signIn": "Logg på",
+    "invalidTitle": "Lenken fungerer ikke lenger",
+    "invalidBody": "Den er utløpt eller allerede brukt. Be om en ny kode på påloggingssiden.",
+    "toSignIn": "Gå til pålogging"
   }
 }

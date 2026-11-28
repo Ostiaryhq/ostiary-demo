@@ -45,6 +45,8 @@ const COMMON_CODES: Record<string, string> = {
   DEMO_ACCOUNT_LOCKED: "demoLocked",
   DEMO_READ_ONLY: "demoReadOnly",
   DEMO_SIGN_UP_CLOSED: "demoSignUpClosed",
+  EMAIL_DOMAIN_NOT_ALLOWED: "emailDomainNotAllowed",
+  COUNTRY_NOT_ALLOWED: "countryNotAllowed",
 };
 
 type Translate = (key: string) => string;

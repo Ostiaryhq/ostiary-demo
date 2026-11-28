@@ -189,7 +189,9 @@
       "error": "Could not sign in with that account. Try again or use another method.",
       "notLinked": "That account isn't connected to a {name} account yet. Sign in another way, then connect it from your security settings.",
       "noEmail": "That account didn't share an email address. Try again later or sign in another way.",
-      "signUpDisabled": "There's no account for that address yet, and this sign-in method can't create one. Sign in another way."
+      "signUpDisabled": "There's no account for that address yet, and this sign-in method can't create one. Sign in another way.",
+      "createFailed": "Could not create an account with that sign-in. Your email address may not be allowed here: try another address or sign in another way.",
+      "sessionRefused": "Signing in was refused. If you think this is a mistake, contact your administrator."
     },
     "app": {
       "signIn": "Sign in to continue to <app>{name}</app>",
@@ -1938,7 +1940,10 @@
             "self_delete": "Deleted their own account",
             "export_csv": "Exported users to CSV",
             "import": "Imported users",
-            "remove_phone_number": "Removed their phone number"
+            "remove_phone_number": "Removed their phone number",
+            "new_device_sign_in": "Signed in from a new device",
+            "secure_account": "Secured their account (This wasn't me)",
+            "password_breached": "Password found in a breach"
           },
           "oauth_client": {
             "create": "Registered OAuth client",
@@ -2033,7 +2038,10 @@
             "export_csv": "Exported audit log to CSV"
           },
           "security": {
-            "update_policy": "Changed the session and password policy"
+            "update_policy": "Changed the session and password policy",
+            "update_email_domains": "Changed the allowed email domains",
+            "update_countries": "Changed the countries",
+            "country_refused": "Refused a sign-in from a country"
           }
         },
         "actorPlaceholder": "Search by who acted (email)…",
@@ -2110,7 +2118,74 @@
           "twoFactorEveryoneHint": "Everyone must use an authenticator app or a passkey to sign in to apps. Admins: REQUIRE_ADMIN_2FA. Organizations can require it for their members on their page.",
           "twoFactorGraceDays": "Time to turn it on",
           "twoFactorGraceDaysHint": "People without two-factor authentication are asked at each app sign-in and can continue until then. It starts when you turn this on, or when the account is created.",
-          "noGrace": "None: required at once"
+          "noGrace": "None: required at once",
+          "newDeviceEmail": "Email on new-device sign-in",
+          "newDeviceEmailHint": "People get an email when their account signs in from a browser it hasn't used before, with a button to sign out everywhere and reset the password. Sign-ins through an organization's SSO are not emailed."
+        },
+        "emailDomains": {
+          "title": "Email domains",
+          "description": "Which email addresses can create an account. Applies to every way of signing up and to address changes; existing accounts keep working.",
+          "edit": "Edit",
+          "mode": "Who can sign up",
+          "modes": {
+            "any": "Any email address",
+            "allow": "Only these domains",
+            "block": "Any address except these domains"
+          },
+          "modeHints": {
+            "any": "No restriction on the domain.",
+            "allow": "For an Ostiary used by one company or school: other addresses can't create an account.",
+            "block": "Addresses at the listed domains can't create an account."
+          },
+          "allowed": "Allowed domains",
+          "blocked": "Blocked domains",
+          "none": "None",
+          "domainsHint": "One per line. A domain also covers its subdomains (acme.com covers eu.acme.com).",
+          "blockDisposable": "Block throwaway email addresses",
+          "blockDisposableHint": "Refuses about 9,000 known disposable-email services, such as Mailinator, from a list bundled with Ostiary.",
+          "on": "On",
+          "off": "Off",
+          "dialogDescription": "Admins, SSO and SCIM can still create accounts with any address. The auth app applies this within a minute.",
+          "save": "Save",
+          "cancel": "Cancel",
+          "saved": "Email domains saved. The auth app applies them within a minute.",
+          "errors": {
+            "invalid": "Choose one of the options offered.",
+            "invalidDomain": "One of the entries isn't a domain name, such as example.com.",
+            "noDomains": "List at least one domain.",
+            "save": "Could not save the email domains."
+          }
+        },
+        "countries": {
+          "title": "Countries",
+          "description": "Which countries people can sign in and sign up from. Platform admins can always sign in; a request whose country is unknown is allowed.",
+          "notConfigured": "Set COUNTRY_HEADER (a header your proxy sets, such as cf-ipcountry) or GEOIP_DATABASE (a MaxMind GeoLite2 Country file) on both apps to turn this on. On Vercel it works without them.",
+          "edit": "Edit",
+          "mode": "Who can sign in",
+          "modes": {
+            "any": "Any country",
+            "allow": "Only these countries",
+            "block": "Any country except these"
+          },
+          "modeHints": {
+            "any": "No restriction on the country.",
+            "allow": "Sign-ins and sign-ups from other countries are refused.",
+            "block": "Sign-ins and sign-ups from the listed countries are refused."
+          },
+          "allowed": "Allowed countries",
+          "blocked": "Blocked countries",
+          "none": "None",
+          "countriesHint": "Two-letter country codes (ISO 3166-1), separated by commas or spaces: FR, DE, US.",
+          "dialogDescription": "Admins can still sign in from anywhere. The auth app applies this within a minute.",
+          "save": "Save",
+          "cancel": "Cancel",
+          "saved": "Countries saved. The auth app applies them within a minute.",
+          "errors": {
+            "invalid": "Choose one of the options offered.",
+            "invalidCountry": "One of the entries isn't a two-letter country code, such as FR.",
+            "noCountries": "List at least one country.",
+            "save": "Could not save the countries."
+          }
         }
       },
       "signingKeys": {
@@ -2382,6 +2457,7 @@
         "pageOf": "Page {page} / {pages}",
         "showing": "Showing {from}-{to} of {total}"
       },
+      "passwordCompromised": "This password appeared in a data breach. Choose a different one.",
       "demoReadOnly": "The demo admin console is read-only."
     },
     "urlCheck": {
@@ -2422,7 +2498,8 @@
       "admin": "Admin",
       "marketingHome": "About",
       "signOut": "Sign out",
-      "data": "Your data"
+      "data": "Your data",
+      "activity": "Recent activity"
     },
     "profile": {
       "title": "Profile",
@@ -2808,6 +2885,34 @@
       "removeFailed": "Could not remove the phone number.",
       "removed": "Phone number removed."
     },
+    "activity": {
+      "title": "Recent activity",
+      "description": "Sign-ins and changes to your account's security over the last 30 days. Something you don't recognize? Sign out that session and change your password.",
+      "empty": "No activity in the last 30 days.",
+      "loadError": "Could not load your activity.",
+      "more": "Show more",
+      "signOut": "Sign out",
+      "signedOut": "Session signed out.",
+      "signOutError": "Could not sign out this session.",
+      "current": "This browser",
+      "newDevice": "New device",
+      "deviceOn": "{browser} on {system}",
+      "unknownDevice": "Unknown browser",
+      "types": {
+        "sign_in": "Signed in",
+        "password_changed": "Password changed",
+        "password_reset": "Password reset",
+        "email_changed": "Email address changed",
+        "two_factor_enabled": "Two-factor authentication turned on",
+        "two_factor_disabled": "Two-factor authentication turned off",
+        "passkey_added": "Passkey added",
+        "passkey_removed": "Passkey removed",
+        "session_revoked": "A session signed out",
+        "sessions_revoked": "Signed out of other sessions",
+        "account_secured": "Signed out everywhere (This wasn't me)",
+        "password_breached": "Password found in a breach"
+      }
+    },
     "demo": {
       "title": "Demo account",
       "userBody": "Everyone signs in to this account. Its password, email and sign-in methods can't be changed, and it is reset on every update.",
@@ -3095,7 +3200,10 @@
       "heading": "Your sign-in code",
       "body": "Enter this code on the {brand} sign-in page to finish signing in.",
       "note": "The code expires in {minutes} minutes and works only once.",
-      "footnote": "Didn't ask for a code? Ignore this email: no one can sign in without it. Never share it with anyone."
+      "footnote": "Didn't ask for a code? Ignore this email: no one can sign in without it. Never share it with anyone.",
+      "button": "Sign in to {brand}",
+      "linkBody": "Or use this button to sign in on this device.",
+      "noteWithLink": "The code and the button expire in {minutes} minutes and work only once."
     },
     "deleteAccount": {
       "subject": "Confirm the deletion of your {brand} account",
@@ -3106,6 +3214,23 @@
       "button": "Review and delete",
       "note": "The link expires in {minutes} minutes and works only once.",
       "footnote": "If you didn't ask for this, ignore this email: your account stays as it is. Consider changing your password, since the request came from a signed-in session."
+    },
+    "newDevice": {
+      "subject": "New sign-in to your {brand} account",
+      "preheader": "Your account was signed in to from a device it hasn't used before.",
+      "heading": "New sign-in from another device",
+      "body": "The {brand} account {email} was just signed in to from a browser or device it hasn't used before.",
+      "when": "When: {when}",
+      "device": "Device: {device}",
+      "deviceOn": "{browser} on {system}",
+      "unknownDevice": "Unknown browser",
+      "ipAddress": "IP address: {ip}",
+      "unknownIp": "unknown",
+      "ifYou": "If this was you, there's nothing to do.",
+      "button": "This wasn't me",
+      "note": "The button works once within {days} days. It signs you out everywhere and emails you a link to choose a new password.",
+      "footnote": "You get this email when your account signs in from a new device. Never share your password or sign-in codes.",
+      "location": "Location: {country}"
     }
   },
   "authErrors": {
@@ -3125,8 +3250,42 @@
     "emailNotVerified": "Verify your email address first.",
     "invalidToken": "This link is invalid or has expired.",
     "publicOrganization": "The Public organization's members are managed by platform admins only.",
+    "emailDomainNotAllowed": "Accounts with this email domain can't be created here. Use another address.",
+    "countryNotAllowed": "Signing in from your country is not allowed here.",
     "demoLocked": "The demo accounts keep their password, email and sign-in methods.",
     "demoReadOnly": "The demo admin console is read-only.",
     "demoSignUpClosed": "Sign-up is closed on this demo. Sign in with one of the example accounts."
+  },
+  "secureAccount": {
+    "title": "Secure your account",
+    "description": "Someone may have signed in to your account. Confirm to lock them out:",
+    "stepSignOut": "You are signed out on every device, including this one.",
+    "stepApps": "Apps lose the access they had through your account until you sign in again.",
+    "stepReset": "We email you a link to choose a new password.",
+    "confirm": "Sign out everywhere and reset my password",
+    "toSignIn": "Go to sign-in",
+    "doneTitle": "Check your inbox",
+    "doneBody": "Your account was signed out everywhere. Open the email we just sent to choose a new password. If you use two-factor authentication, check that your authenticator and passkeys are still yours.",
+    "errors": {
+      "invalid": "This link has expired or was already used. To be safe, reset your password from the sign-in page.",
+      "failed": "Something went wrong. Try again."
+    }
+  },
+  "breachedPassword": {
+    "title": "Change your password",
+    "description": "The password you just signed in with appears in a public data breach, so others may know it. Choose a new one to continue. Your other sessions will be signed out.",
+    "doneTitle": "Password changed",
+    "doneBody": "Your new password is set and your other sessions were signed out.",
+    "continue": "Continue",
+    "toAccount": "Go to your account"
+  },
+  "signInLink": {
+    "title": "Sign in",
+    "description": "Sign in as {email}",
+    "note": "You'll be signed in on this device and taken back to where you started.",
+    "signIn": "Sign in",
+    "invalidTitle": "This link no longer works",
+    "invalidBody": "It has expired or was already used. Ask for a new code on the sign-in page.",
+    "toSignIn": "Go to sign-in"
   }
 }
