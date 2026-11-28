@@ -10,6 +10,7 @@ import { clientIp } from "@ostiary/core/lib/auth-events";
 import { PASSWORD_SIGN_IN_PATHS } from "@ostiary/core/lib/auth-hooks/sign-in-plugins";
 import { type Bag, str } from "@ostiary/core/lib/auth-hooks/values";
 import { currentAuthPolicy } from "@ostiary/core/lib/auth-policy";
+import { demoMode } from "@ostiary/core/lib/demo";
 import { LOCKOUT_MINUTES } from "@ostiary/core/lib/auth-policy-options";
 import { RATE_LIMITED_CODE } from "@ostiary/core/lib/rate-limit-message";
 
@@ -90,7 +91,7 @@ export function isLockoutRefusal(value: unknown): boolean {
  * it in the account's history and the audit log.
  */
 export async function noticeFailedPassword(identifier: string | null, headers: Headers | null | undefined): Promise<void> {
-    if (!identifier) return;
+    if (!identifier || demoMode()) return;
     try {
         const { lockoutAttempts } = await currentAuthPolicy();
         if (lockoutAttempts <= 0) return;
@@ -116,6 +117,8 @@ export const signInLockout = {
             {
                 matcher: (ctx) => PASSWORD_SIGN_IN_PATHS.has(ctx.path ?? ""),
                 handler: createAuthMiddleware(async (ctx) => {
+                    // A demo instance: visitors share its example accounts, which anyone could lock (lib/demo.ts).
+                    if (demoMode()) return;
                     const identifier = signInIdentifier(ctx.body);
                     if (!identifier) return;
                     const { lockoutAttempts } = await currentAuthPolicy();

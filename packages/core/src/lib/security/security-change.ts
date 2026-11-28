@@ -5,6 +5,7 @@ import { user as userTable } from "@ostiary/core/db/schema";
 import { recordAccountEvent, type AccountEventType } from "@ostiary/core/lib/account-activity";
 import { clientIp } from "@ostiary/core/lib/auth-events";
 import { currentAuthPolicy } from "@ostiary/core/lib/auth-policy";
+import { demoMode } from "@ostiary/core/lib/demo";
 import { emailLocale } from "@ostiary/core/lib/email/email-locale";
 import { queueSecurityChangeEmail, SECURITY_CHANGES, type SecurityChange } from "@ostiary/core/lib/email/queue-security-change-email";
 import { env } from "@ostiary/core/lib/env";
@@ -32,6 +33,8 @@ export async function recordSecurityEvent(type: AccountEventType, userId: string
 }
 
 async function emailSecurityChange(change: SecurityChange, userId: string, headers: Headers | null): Promise<void> {
+    // A demo instance: visitors share its example accounts (lib/demo.ts).
+    if (demoMode()) return;
     try {
         if (!(await currentAuthPolicy()).securityChangeEmail) return;
         const [account] = await db
